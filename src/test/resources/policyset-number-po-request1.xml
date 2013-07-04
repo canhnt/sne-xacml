@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    SNE-XACML: A high performance XACML evaluation engine.
+
+    Copyright (C) 2013 Canh T. Ngo <canhnt@gmail.com>
+    System and Network Engineering Group, University of Amsterdam.
+    All rights reserved.
+
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Lesser General Public
+    License as published by the Free Software Foundation; either
+    version 3.0 of the License, or any later version.
+
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+    Lesser General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public
+    License along with this library; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+    MA 02110-1301 USA
+
+-->
+<Request xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17 http://docs.oasis-open.org/xacml/3.0/xacml-core-v3-schema-wd-17.xsd"
+	ReturnPolicyIdList="false" CombinedDecision="false">
+
+	<Attributes Category="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject">
+		<Attribute IncludeInResult="false"
+			AttributeId="http://authz-interop.org/AAA/xacml/attr/x1">
+			<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#double">1</AttributeValue>
+		</Attribute>
+
+	</Attributes>
+
+	<Attributes Category="urn:oasis:names:tc:xacml:3.0:attribute-category:resource">
+		<Attribute IncludeInResult="false"
+			AttributeId="http://authz-interop.org/AAA/xacml/attr/x2">
+			<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#double">4</AttributeValue>
+		</Attribute>
+
+	</Attributes>
+
+	<Attributes Category="urn:oasis:names:tc:xacml:3.0:attribute-category:action">
+		<Attribute IncludeInResult="false"
+			AttributeId="http://authz-interop.org/AAA/xacml/attr/x3">
+			<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#double">5</AttributeValue>
+		</Attribute>
+	</Attributes>
+
+</Request>

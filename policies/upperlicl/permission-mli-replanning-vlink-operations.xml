@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<Policy xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17" 
+		xmlns:xacml ="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17"  
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:schemaLocation="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17 http://docs.oasis-open.org/xacml/3.0/xacml-core-v3-schema-wd-17.xsd" 
+		xmlns:md="http:www.med.example.com/schemas/record.xsd" 
+		PolicyId="permission:mli:replanning:vlink-operations" Version="1.0" RuleCombiningAlgId="urn:oasis:names:tc:xacml:3.0:rule-combining-algorithm:permit-overrides">		
+	<Target/>
+
+	<Rule RuleId="http://geysers.eu/upperlicl/mli/replanning/vlink-operations" Effect="Permit">
+	    <Target>
+			<AnyOf>
+				<AllOf>
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">http://geysers.eu/upperlicl/resource/resource-type/VLink</AttributeValue>
+						<AttributeDesignator AttributeId="http://authz-interop.org/AAA/xacml/resource/resource-type" 
+											 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+					</Match>
+				</AllOf>				
+			</AnyOf>
+
+			<AnyOf>
+	            <!-- Add a network link: The VIO requests to add a new link between two devices on the VI -->
+				<AllOf>
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">MLI:ReplanningVI:Add-VLink</AttributeValue>
+						<AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" 
+											 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+					</Match>
+				</AllOf>
+				<!-- Modify IT node: The VIO requests to modify some of the characteristics of an IT node (+/- storage, +/- computing power) -->
+				<AllOf>
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">MLI:ReplanningVI:Modify-VLink</AttributeValue>
+						<AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" 
+											 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+					</Match>
+				</AllOf>
+	            <!-- Delete link: The VIO requests to delete a link from the VI. -->
+				<AllOf>
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">MLI:ReplanningVI:Delete-VLink</AttributeValue>
+						<AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" 
+											 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+					</Match>
+				</AllOf>	
+			</AnyOf>		       		     
+	    </Target>
+	</Rule>
+</Policy>
+

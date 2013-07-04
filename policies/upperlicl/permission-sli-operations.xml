@@ -1,0 +1,220 @@
+<?xml version="1.0"?>
+<Policy xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17" 
+		xmlns:xacml ="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17"  
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:schemaLocation="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17 http://docs.oasis-open.org/xacml/3.0/xacml-core-v3-schema-wd-17.xsd" 
+		xmlns:md="http:www.med.example.com/schemas/record.xsd" 
+		PolicyId="permission:sli:operations" Version="1.0" RuleCombiningAlgId="urn:oasis:names:tc:xacml:3.0:rule-combining-algorithm:permit-overrides">
+		
+	<Target/>
+
+	<Rule RuleId="http://geysers.eu/upperlicl/sli/VR-rules" Effect="Permit">
+	    <Target>
+			<AnyOf>
+				<AllOf>
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">http://geysers.eu/upperlicl/resource/resource-type/VR</AttributeValue>
+						<AttributeDesignator AttributeId="http://authz-interop.org/AAA/xacml/resource/resource-type" 
+											 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+					</Match>
+				</AllOf>
+			</AnyOf>
+			
+			<AnyOf>					
+				<AllOf>
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">SLI:Decommission-VR-IT</AttributeValue>
+						<AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" 
+											 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+					</Match>
+				</AllOf>
+				<AllOf>
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">SLI:Operate-VR</AttributeValue>
+						<AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" 
+											 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+					</Match>
+				</AllOf>
+				<AllOf>
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">SLI:Add-VirtualNetworkIf</AttributeValue>
+						<AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" 
+											 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+					</Match>
+				</AllOf>			
+				<AllOf>
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">SLI:Remove-VirtualNetworkIf</AttributeValue>
+						<AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" 
+											 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+					</Match>
+				</AllOf>			
+				<AllOf>
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">SLI:Create-StorageImage</AttributeValue>
+						<AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" 
+											 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+					</Match>
+				</AllOf>			
+				<AllOf>
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">SLI:Remove-StorageImage</AttributeValue>
+						<AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" 
+											 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+					</Match>
+				</AllOf>	
+			</AnyOf>
+	    </Target>
+	</Rule>	
+
+	<Rule RuleId="http://geysers.eu/upperlicl/sli/instantiate-vr-it" Effect="Permit">
+		<Target>
+			<AnyOf>
+				<AllOf>
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">http://geysers.eu/upperlicl/resource/resource-type/VR-RP</AttributeValue>
+						<AttributeDesignator AttributeId="http://authz-interop.org/AAA/xacml/resource/resource-type" 
+											 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+					</Match>
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">SLI:Instantiate-VR-IT</AttributeValue>
+						<AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" 
+											 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+					</Match>
+				</AllOf>				
+			</AnyOf>	
+		</Target>
+	</Rule>
+
+	<Rule RuleId="http://geysers.eu/upperlicl/sli/get-available-vr-pool-it" Effect="Permit">
+		<Target>
+			<AnyOf>
+				<AllOf>
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">http://geysers.eu/upperlicl/resource/resource-type/VR-RP-Info</AttributeValue>
+						<AttributeDesignator AttributeId="http://authz-interop.org/AAA/xacml/resource/resource-type" 
+											 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+					</Match>
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">SLI:Get-Available-VR-Pool-IT</AttributeValue>
+						<AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" 
+											 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+					</Match>
+				</AllOf>				
+			</AnyOf>	
+		</Target>
+	</Rule>	
+
+	<Rule RuleId="http://geysers.eu/upperlicl/sli/node-monitoring-actions" Effect="Permit">
+	    <Target>
+			<AnyOf>
+				<AllOf>
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">http://geysers.eu/upperlicl/resource/resource-type/VR-State-Info</AttributeValue>
+						<AttributeDesignator AttributeId="http://authz-interop.org/AAA/xacml/resource/resource-type" 
+											 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+					</Match>
+				</AllOf>			
+				<AllOf>
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">http://geysers.eu/upperlicl/resource/resource-type/VR-Power-Info</AttributeValue>
+						<AttributeDesignator AttributeId="http://authz-interop.org/AAA/xacml/resource/resource-type" 
+											 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+					</Match>
+				</AllOf>	
+				<AllOf>
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">http://geysers.eu/upperlicl/resource/resource-type/VR-Status-Info</AttributeValue>
+						<AttributeDesignator AttributeId="http://authz-interop.org/AAA/xacml/resource/resource-type" 
+											 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+					</Match>
+				</AllOf>		
+			</AnyOf>
+
+			<AnyOf>		         
+				<AllOf>
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">SLI:Monitor-VR-Info</AttributeValue>
+						<AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" 
+											 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+					</Match>
+				</AllOf>					
+			</AnyOf>
+
+	       		     
+	    </Target>
+	</Rule>
+
+	<Rule RuleId="http://geysers.eu/upperlicl/sli/node-monitoring-actions" Effect="Permit">
+	    <Target>
+			<AnyOf>
+				<AllOf>
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">http://geysers.eu/upperlicl/resource/resource-type/VR-State-Info</AttributeValue>
+						<AttributeDesignator AttributeId="http://authz-interop.org/AAA/xacml/resource/resource-type" 
+											 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+					</Match>
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">SLI:Monitor-VR-Info</AttributeValue>
+						<AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" 
+											 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+					</Match>
+				</AllOf>	
+						
+				<AllOf>
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">http://geysers.eu/upperlicl/resource/resource-type/VR-Power-Info</AttributeValue>
+						<AttributeDesignator AttributeId="http://authz-interop.org/AAA/xacml/resource/resource-type" 
+											 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+					</Match>
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">SLI:Monitor-VR-Info</AttributeValue>
+						<AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" 
+											 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+					</Match>
+				</AllOf>	
+				
+				<AllOf>
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">http://geysers.eu/upperlicl/resource/resource-type/VR-Status-Info</AttributeValue>
+						<AttributeDesignator AttributeId="http://authz-interop.org/AAA/xacml/resource/resource-type" 
+											 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+					</Match>
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">SLI:Monitor-VR-Info</AttributeValue>
+						<AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" 
+											 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+					</Match>
+				</AllOf>		
+
+				<AllOf>
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">http://geysers.eu/upperlicl/resource/resource-type/VR-Info</AttributeValue>
+						<AttributeDesignator AttributeId="http://authz-interop.org/AAA/xacml/resource/resource-type" 
+											 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+					</Match>
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">SLI:Subscribe-VR-Monitoring</AttributeValue>
+						<AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" 
+											 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+					</Match>
+				</AllOf>	
+
+				<AllOf>
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">http://geysers.eu/upperlicl/resource/resource-type/VR-Info</AttributeValue>
+						<AttributeDesignator AttributeId="http://authz-interop.org/AAA/xacml/resource/resource-type" 
+											 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+					</Match>
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">SLI:Unsubscribe-VR-Monitoring</AttributeValue>
+						<AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" 
+											 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+					</Match>
+				</AllOf>	
+
+			</AnyOf>
+	       		     
+	    </Target>
+	</Rule>
+</Policy>

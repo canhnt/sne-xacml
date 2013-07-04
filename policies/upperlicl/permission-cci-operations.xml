@@ -1,0 +1,69 @@
+<Policy xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17" 
+		xmlns:xacml ="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17"  
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:schemaLocation="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17 http://docs.oasis-open.org/xacml/3.0/xacml-core-v3-schema-wd-17.xsd" 
+		xmlns:md="http:www.med.example.com/schemas/record.xsd" 
+		PolicyId="permission:cci:operations" Version="1.0" RuleCombiningAlgId="urn:oasis:names:tc:xacml:3.0:rule-combining-algorithm:permit-overrides">
+		
+	<Target/>
+
+	<Rule RuleId="http://geysers.eu/upperlicl/cci/sync-request" Effect="Permit">
+		<Description>VIO-N is allowed to request synchronize information of virtual node at VIP (LICL)</Description>
+	    <Target>
+			<AnyOf>
+				<AllOf>
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">http://geysers.eu/upperlicl/resource/resource-type/VNode-Info</AttributeValue>
+						<AttributeDesignator AttributeId="http://authz-interop.org/AAA/xacml/resource/resource-type" 
+											 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+					</Match>
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">CCI:Sync-Request</AttributeValue>
+						<AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" 
+											 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+					</Match>						
+				</AllOf>			
+			</AnyOf>
+		</Target>
+	</Rule>	
+
+	<Rule RuleId="http://geysers.eu/upperlicl/cci/configure" Effect="Permit">
+		<Description>VIO-N is allowed to configure a cross-connection in the virtual node at VIP (LICL)</Description>
+	    <Target>
+			<AnyOf>
+				<AllOf>
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">http://geysers.eu/upperlicl/resource/resource-type/VNode</AttributeValue>
+						<AttributeDesignator AttributeId="http://authz-interop.org/AAA/xacml/resource/resource-type" 
+											 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+					</Match>
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">CCI:Configure</AttributeValue>
+						<AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" 
+											 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+					</Match>						
+				</AllOf>			
+			</AnyOf>
+		</Target>
+	</Rule>	
+	
+	<Rule RuleId="http://geysers.eu/upperlicl/cci/monitor" Effect="Permit">
+		<Description>VIO-N is allowed to get monitoring information from the virtual node at VIP (LICL)</Description>
+	    <Target>
+			<AnyOf>
+				<AllOf>
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">http://geysers.eu/upperlicl/resource/resource-type/VNode-Monitor-Info</AttributeValue>
+						<AttributeDesignator AttributeId="http://authz-interop.org/AAA/xacml/resource/resource-type" 
+											 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+					</Match>
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">CCI:Monitor</AttributeValue>
+						<AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" 
+											 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+					</Match>						
+				</AllOf>			
+			</AnyOf>
+		</Target>
+	</Rule>	
+</Policy>

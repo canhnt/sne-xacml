@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<Policy xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17" 
+		xmlns:xacml ="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17"  
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:schemaLocation="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17 http://docs.oasis-open.org/xacml/3.0/xacml-core-v3-schema-wd-17.xsd" 
+		xmlns:md="http:www.med.example.com/schemas/record.xsd" 
+		PolicyId="permission:mli:vi-operations" Version="1.0" RuleCombiningAlgId="urn:oasis:names:tc:xacml:3.0:rule-combining-algorithm:permit-overrides">		
+	<Target/>
+
+	<Rule RuleId="http://geysers.eu/upperlicl/mli/vi-operations" Effect="Permit">
+		<Target>
+			<AnyOf>
+				<AllOf>
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">http://geysers.eu/upperlicl/resource/resource-type/VI</AttributeValue>
+						<AttributeDesignator AttributeId="http://authz-interop.org/AAA/xacml/resource/resource-type" 
+											 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+					</Match>
+				</AllOf>				
+			</AnyOf>
+	
+			<AnyOf>
+		        <!--A VIO is allowed to request a VI. -->
+				<AllOf>
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">MLI:Request-VI</AttributeValue>
+						<AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" 
+											 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+					</Match>
+				</AllOf>
+
+				<AllOf>
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">MLI:Instantiate-VI</AttributeValue>
+						<AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" 
+											 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+					</Match>
+				</AllOf>
+		        <!-- A VIO is allowed to request the decommissioning of its VI -->
+				<AllOf>
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">MLI:Decommission-VI</AttributeValue>
+						<AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" 
+											 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+					</Match>
+				</AllOf>	
+		        <!-- Modify VI: The VIO requests to modify the timeline of a VI (+/- time reserved). -->		
+				<AllOf>
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">MLI:ReplanningVI:Modify-Time</AttributeValue>
+						<AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" 
+											 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+					</Match>
+				</AllOf>	
+			</AnyOf>
+		</Target>
+	</Rule>
+</Policy> <!-- End of MLI interface policy-->

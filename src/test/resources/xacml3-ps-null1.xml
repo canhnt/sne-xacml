@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    SNE-XACML: A high performance XACML evaluation engine.
+
+    Copyright (C) 2013 Canh T. Ngo <canhnt@gmail.com>
+    System and Network Engineering Group, University of Amsterdam.
+    All rights reserved.
+
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Lesser General Public
+    License as published by the Free Software Foundation; either
+    version 3.0 of the License, or any later version.
+
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+    Lesser General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public
+    License along with this library; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+    MA 02110-1301 USA
+
+-->
+<PolicySet xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17"
+	PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:first-applicable"
+	PolicySetId="RPSlist.0" Version="1.0">
+	<Target>
+		<AnyOf>
+			<AllOf>
+				<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+					<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">conference_rc</AttributeValue>
+					<AttributeDesignator AttributeId="resource-class"
+						Category="unknown" DataType="http://www.w3.org/2001/XMLSchema#string"
+						MustBePresent="false" />
+				</Match>
+			</AllOf>
+		</AnyOf>
+	</Target>
+	<PolicySet
+		PolicyCombiningAlgId="urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:first-applicable"
+		PolicySetId="RPSlist.0.0" Version="1.0">
+		<Target />
+		<Policy PolicyId="RPSlist.0.0.0"
+			RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:first-applicable"
+			Version="1.0">
+			<Target>
+				<AnyOf>
+					<AllOf>
+						<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+							<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">admin</AttributeValue>
+							<AttributeDesignator AttributeId="role"
+								Category="unknown" DataType="http://www.w3.org/2001/XMLSchema#string"
+								MustBePresent="false" />
+						</Match>
+					</AllOf>
+				</AnyOf>
+				<AnyOf>
+					<AllOf>
+						<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+							<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">read</AttributeValue>
+							<AttributeDesignator AttributeId="action-type"
+								Category="unknown" DataType="http://www.w3.org/2001/XMLSchema#string"
+								MustBePresent="false" />
+						</Match>
+					</AllOf>
+					<AllOf>
+						<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+							<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">write</AttributeValue>
+							<AttributeDesignator AttributeId="action-type"
+								Category="unknown" DataType="http://www.w3.org/2001/XMLSchema#string"
+								MustBePresent="false" />
+						</Match>
+					</AllOf>
+				</AnyOf>
+			</Target>
+			<Rule Effect="Permit" RuleId="RPSlist.0.0.0.r.1">
+				<Target />
+			</Rule>
+		</Policy>
+		<Policy PolicyId="RPSlist.0.0.3"
+			RuleCombiningAlgId="urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:first-applicable"
+			Version="1.0">
+			<Target />
+			<Rule Effect="Deny" RuleId="RPSlist.0.0.3.r.1">
+				<Target />
+			</Rule>
+		</Policy>
+	</PolicySet>
+</PolicySet>
