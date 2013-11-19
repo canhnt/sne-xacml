@@ -78,7 +78,9 @@ public class PolicyParser {
 	
 	private AbstractNode combineRuleMIDDs(List<AbstractNode> lstMIDDs,
 			CombiningAlgorithm rca) {
-		System.out.println("Combining policy " + this.policy.getPolicyId());
+//		System.out.println("Combining policy " + this.policy.getPolicyId());
+		logger.debug("Combining policy {}", this.policy.getPolicyId());
+		
 		MIDDCombiner combiner = new MIDDCombiner(rca);
 		
 		Iterator<AbstractNode> it = lstMIDDs.iterator();

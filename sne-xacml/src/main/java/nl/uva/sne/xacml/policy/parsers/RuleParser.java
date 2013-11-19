@@ -47,7 +47,8 @@ import oasis.names.tc.xacml._3_0.core.schema.wd_17.RuleType;
 import oasis.names.tc.xacml._3_0.core.schema.wd_17.TargetType;
 
 public class RuleParser {
-
+	private static final transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(RuleParser.class);
+	
 	private static nl.uva.sne.midd.DecisionType convertEffectType(EffectType effect) {
 		switch (effect) {
 		case PERMIT:
@@ -103,7 +104,9 @@ public class RuleParser {
 		if (attrMapper == null)
 			throw new IllegalArgumentException("AttributeMapper argument must not be null");
 		
-		System.out.println("Processing rule:" + rule.getRuleId());
+//		System.out.println("Processing rule:" + rule.getRuleId());
+		log.debug("Processing rule: {}", rule.getRuleId());
+		
 		this.rule = rule;
 		this.attrMapper = attrMapper;
 				
