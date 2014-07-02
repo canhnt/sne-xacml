@@ -1,6 +1,6 @@
 SNE-XACML
 =========
-A high performance XACML PDP Engine.
+A high performance XACML 3.0 PDP Engine.
 
 SNE-XACML engine applies Multi-data-type Interval Decision Diagram (MIDD) techniques to parse and transform OASIS XACML v3.0 policies into decision diagrams, which can substantially improve evaluation performance.
 
