@@ -1,7 +1,7 @@
 /**
  * SNE-XACML: A high performance XACML evaluation engine.
  *
- * Copyright (C) 2013 Canh T. Ngo <canhnt@gmail.com>
+ * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
  * System and Network Engineering Group, University of Amsterdam.
  * All rights reserved.
  *
@@ -23,6 +23,7 @@
 package nl.uva.sne.midd.builders;
 
 import nl.uva.sne.midd.IDDFactory;
+import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.edges.AbstractEdge;
 import nl.uva.sne.midd.interval.Interval;
 import nl.uva.sne.midd.nodes.AbstractNode;
@@ -45,7 +46,7 @@ public class ConjunctiveBuilder {
 	 * @return
 	 */
 	@SuppressWarnings("rawtypes")
-	public static AbstractNode join(AbstractNode midd1, AbstractNode midd2) {
+	public static AbstractNode join(AbstractNode midd1, AbstractNode midd2) throws MIDDException {
 		
 		if (midd1 == null || midd2 == null) { 
 //			throw new IllegalArgumentException("MIDD parameters must not be null");
@@ -93,7 +94,7 @@ public class ConjunctiveBuilder {
 					for(AbstractEdge<?> e : n1.getEdges()) {
 						AbstractNode child = join(e.getSubDiagram(), n2);
 						if (child != null) 
-							n.addChild(IDDFactory.createEdge(e), child);
+							n.addChild(IDDFactory.cloneEdge(e), child);
 //						else 
 //							throw new RuntimeException("Empty child");
 					}
@@ -115,7 +116,7 @@ public class ConjunctiveBuilder {
 	 * @return
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private static InternalNode<?> joinMIDDatSameLevel(InternalNode n1, InternalNode n2) {
+	private static InternalNode<?> joinMIDDatSameLevel(InternalNode n1, InternalNode n2) throws MIDDException {
 		if (n1.getID() != n2.getID())
 			throw new IllegalArgumentException("Both params should have the same variable level at their root");
 		
@@ -146,9 +147,13 @@ public class ConjunctiveBuilder {
 			
 			if (op1 != null && op2 != null) {
 				child = join(op1, op2);				
-			} else if (op1 == null || op2 == null){
-				child = (op1 == null) ? op2.clone() : op1.clone(); 
-			} else {
+			} else if (op1 != null || op2 != null){
+                try {
+                    child = (op1 == null) ? op2.clone() : op1.clone();
+                } catch (CloneNotSupportedException e) {
+                    e.printStackTrace();
+                }
+            } else {
 				throw new RuntimeException("Error joining two partitions, the output partition is incorrect");
 			}
 			

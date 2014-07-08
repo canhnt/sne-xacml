@@ -1,7 +1,7 @@
 /**
  * SNE-XACML: A high performance XACML evaluation engine.
  *
- * Copyright (C) 2013 Canh T. Ngo <canhnt@gmail.com>
+ * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
  * System and Network Engineering Group, University of Amsterdam.
  * All rights reserved.
  *
@@ -26,6 +26,7 @@ import static org.junit.Assert.*;
 
 import java.util.List;
 
+import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.interval.EndPoint;
 import nl.uva.sne.midd.interval.Interval;
 
@@ -33,19 +34,31 @@ import org.junit.Test;
 
 public class IntervalTest {
 
-	private static final Interval<Double> i1 = new Interval<Double>(1.0, 2.0);
-	
-	private static final Interval<Double> i2 = new Interval<Double>(1.0);
-	
-	private static final Interval<Double> i3 = new Interval<Double>(2.0);
-	
-	private static final Interval<Double> i4 = new Interval<Double>(1.0, 2.0, true, false);
-	
-	private static final Interval<Double> i5 = new Interval<Double>(1.0, 2.0, false, true);	
-				
+    private static Interval<Double> i1;
 
-	@Test
-	public void testContainsMethod() {
+    private static Interval<Double> i2;
+
+    private static Interval<Double> i3;
+	
+	private static Interval<Double> i4;
+
+    private static Interval<Double> i5;
+
+    static {
+        try {
+            i4 = new Interval<Double>(1.0, 2.0, true, false);
+            i5 = new Interval<Double>(1.0, 2.0, false, true);
+            i3 = new Interval<Double>(2.0);
+            i2 = new Interval<Double>(1.0);
+            i1 = new Interval<Double>(1.0, 2.0);
+        } catch (MIDDException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @Test
+	public void testContainsMethod() throws MIDDException {
 //		assertTrue((new Interval<Double>(1.0, 5.0)).isIntersect(new Interval<Double>(2.0, 4.0)));
 		
 		assertTrue((new Interval<Double>(1.0, 5.0, true, false)).contains(new Interval<Double>(1.0, 3.0)));
@@ -104,7 +117,7 @@ public class IntervalTest {
 //	}
 
 	@Test
-	public void testIncludeBound() {
+	public void testIncludeBound() throws MIDDException {
 		// (1,2) U [1] -> [1, 2)
 		Interval<Double> t1 = new Interval<Double>(i1);		
 		System.out.print(t1.toString() + " U " + i2.toString() + "->");
@@ -137,7 +150,7 @@ public class IntervalTest {
 	}
 
 	@Test
-	public void testComplement() {
+	public void testComplement() throws MIDDException {
 		Interval<Double> i1 = new Interval<Double>(1.0, 5.0, true, true);
 		
 		Interval<Double> targets[] = new Interval[] {
@@ -225,7 +238,7 @@ public class IntervalTest {
 	}
 	
 	@Test
-	public void testComplement2() {
+	public void testComplement2() throws MIDDException {
 		// (-inf, 3]
 		Interval<Double> i1 = new Interval<Double>(new EndPoint<Double>(true, false), 
 												   new EndPoint<Double>(3.0), false, false);
@@ -262,7 +275,7 @@ public class IntervalTest {
 	}
 	
 	@Test
-	public void testEquals(){
+	public void testEquals() throws MIDDException {
 		Interval<Double> i1 = new Interval<Double>(new EndPoint<Double>(true, false), 
 				   								   new EndPoint<Double>(3.0), false, false);
 		Interval<Double> i2 = new Interval<Double>(new EndPoint<Double>(true, false), 

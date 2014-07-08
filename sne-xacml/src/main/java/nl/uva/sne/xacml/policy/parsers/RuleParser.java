@@ -1,7 +1,7 @@
 /**
  * SNE-XACML: A high performance XACML evaluation engine.
  *
- * Copyright (C) 2013 Canh T. Ngo <canhnt@gmail.com>
+ * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
  * System and Network Engineering Group, University of Amsterdam.
  * All rights reserved.
  *
@@ -115,8 +115,12 @@ public class RuleParser {
 			this.preCondition = new ExternalNode();
 		else {
 //			this.preCondition = condition; // should be cloned
-			this.preCondition = condition.clone();
-		}
+            try {
+                this.preCondition = condition.clone();
+            } catch (CloneNotSupportedException e) {
+                e.printStackTrace();
+            }
+        }
 	}
 
 	private List<ObligationExpression> getObligationExpressions() {

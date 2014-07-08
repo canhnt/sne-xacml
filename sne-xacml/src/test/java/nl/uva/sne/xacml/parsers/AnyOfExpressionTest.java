@@ -1,7 +1,7 @@
 /**
  * SNE-XACML: A high performance XACML evaluation engine.
  *
- * Copyright (C) 2013 Canh T. Ngo <canhnt@gmail.com>
+ * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
  * System and Network Engineering Group, University of Amsterdam.
  * All rights reserved.
  *
@@ -82,11 +82,11 @@ public class AnyOfExpressionTest {
 						System.out.println("Variable '" + varId + "' has interval: " + mapIntervals.get(varId));
 					}
 					
-				} catch (XACMLParsingException e) {
+				} catch (XACMLParsingException | MIDDException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}	
-				System.out.println();
+				}
+                System.out.println();
 			}
 			System.out.println();
 		}

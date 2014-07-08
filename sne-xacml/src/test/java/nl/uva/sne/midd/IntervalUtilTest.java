@@ -1,7 +1,7 @@
 /**
  * SNE-XACML: A high performance XACML evaluation engine.
  *
- * Copyright (C) 2013 Canh T. Ngo <canhnt@gmail.com>
+ * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
  * System and Network Engineering Group, University of Amsterdam.
  * All rights reserved.
  *
@@ -33,7 +33,7 @@ import org.junit.Test;
 public class IntervalUtilTest {
 
 	@Test
-	public void testComplement() {
+	public void testComplement() throws MIDDException {
 		List<Interval<Double>> intervals = new ArrayList<Interval<Double>>();
 		
 		intervals.add(new Interval<Double>(3.0));
@@ -49,7 +49,7 @@ public class IntervalUtilTest {
 	}
 
 	@Test
-	public void testComplement2() {
+	public void testComplement2() throws MIDDException {
 		List<Interval> intervals = new ArrayList<Interval>();
 		
 		intervals.add(new Interval<Double>(2.0, 3.0, true, false));

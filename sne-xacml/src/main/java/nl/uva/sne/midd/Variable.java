@@ -1,7 +1,7 @@
 /**
  * SNE-XACML: A high performance XACML evaluation engine.
  *
- * Copyright (C) 2013 Canh T. Ngo <canhnt@gmail.com>
+ * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
  * System and Network Engineering Group, University of Amsterdam.
  * All rights reserved.
  *
@@ -34,6 +34,10 @@ package nl.uva.sne.midd;
  * @date: Sep 11, 2012
  */
 public class Variable<T extends Comparable<T>> implements Comparable<T> {
+    final int BEFORE = -1;
+    final int EQUAL = 0;
+    final int AFTER = 1;
+
 	public int id;
 	public T value;
 	
@@ -61,18 +65,22 @@ public class Variable<T extends Comparable<T>> implements Comparable<T> {
 	}
 
 	public Comparable<?> getValue() {
-		return value;
+        return value;
 	}
 
 	@Override
 	public int compareTo(T arg0) {
 		Variable<?> var = (Variable<?>)arg0;
-		if (id < var.id)
-			return -1;
-		else if (id == var.id)
-			return 0;
-		else if (id > var.id)
-			return 1;		
-		else return -2;
+		if (id < var.id) {
+            return BEFORE;
+        }
+		else if (id == var.id) {
+            return EQUAL;
+        }
+		else if (id > var.id) {
+            return AFTER;
+        }
+		else
+            throw new RuntimeException("Unknown comparison");
 	}	
 }

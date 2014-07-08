@@ -1,7 +1,7 @@
 /**
  * SNE-XACML: A high performance XACML evaluation engine.
  *
- * Copyright (C) 2013 Canh T. Ngo <canhnt@gmail.com>
+ * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
  * System and Network Engineering Group, University of Amsterdam.
  * All rights reserved.
  *
@@ -23,8 +23,10 @@
 package nl.uva.sne.midd.edges;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
+import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.interval.Interval;
 import nl.uva.sne.midd.nodes.AbstractNode;
 
@@ -41,7 +43,7 @@ public abstract class AbstractEdge<T extends Comparable<T>>{
 	/**
 	 * List of intervals for the current edge.
 	 */
-	protected List<Interval<T>> intervals;
+	private List<Interval<T>> intervals;
 	
 	/**
 	 * The sub-diagram of the function at the edge's endpoint
@@ -77,14 +79,12 @@ public abstract class AbstractEdge<T extends Comparable<T>>{
 		}		
 		return false;		
 	}
-	
-	@SuppressWarnings("rawtypes")
-	public List<Interval> getIntervals() {
-		List<Interval> lst = new ArrayList<Interval>();
-		for(Interval<?> e:this.intervals) {
-			lst.add(e);
-		}
-		return lst;
+
+    /**
+     * Return the immutable list of intervals
+     */
+	public List<Interval<T>> getIntervals() {
+        return Collections.unmodifiableList(this.intervals);
 	}
 	
 	public AbstractNode getSubDiagram() {
@@ -99,7 +99,7 @@ public abstract class AbstractEdge<T extends Comparable<T>>{
 	 * @param value
 	 * @return
 	 */
-	public boolean match(T value) {
+	public boolean match(T value) throws MIDDException {
 		for(Interval<T> interval: this.intervals) {
 			if (interval.hasValue(value))
 				return true;
@@ -109,7 +109,7 @@ public abstract class AbstractEdge<T extends Comparable<T>>{
 	
 	public void setChild(AbstractNode child) {
 		if (child == null)
-			throw new RuntimeException("Null child");
+			throw new IllegalArgumentException("child argument must not be null");
 		this.subDiagram = child;
 	}
 	

@@ -1,7 +1,7 @@
 /**
  * SNE-XACML: A high performance XACML evaluation engine.
  *
- * Copyright (C) 2013 Canh T. Ngo <canhnt@gmail.com>
+ * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
  * System and Network Engineering Group, University of Amsterdam.
  * All rights reserved.
  *
@@ -27,6 +27,12 @@
  */
 package nl.uva.sne.midd.interval;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
+import nl.uva.sne.midd.MIDDException;
+import nl.uva.sne.midd.utils.GenericUtil;
+
 /**
  * @author Canh Ngo (t.c.ngo@uva.nl)
  *
@@ -42,37 +48,30 @@ public class EndPoint<T extends Comparable<T>> implements Comparable<EndPoint<T>
 	private T value;
 
 	public EndPoint(boolean negativeInfinity, boolean positiveInfinity) {
-		if (!(negativeInfinity ^ positiveInfinity))
-			throw new IllegalArgumentException("Only -inf or +inf at a time");
+		if (!(negativeInfinity ^ positiveInfinity)) {
+            throw new IllegalArgumentException("Only -inf or +inf at a time");
+        }
 		
 		this.fPositiveInfinity = positiveInfinity;
 		this.fNegativeInfinity = negativeInfinity;
 		this.value = null;
 	}
 	
-	public EndPoint(T value) {
-//		 special processing for missing attribute
-//		if (value == null) {
-//			this.fNegativeInfinity = true;
-//			this.fPositiveInfinity = true;
-//			this.value = value;
-//		} else {
-			// normal attribute
-			this.fPositiveInfinity = false;
-			this.fNegativeInfinity = false;
-			this.value = value;			
-//		}
+	public EndPoint(T value) throws MIDDException {
+        this.fPositiveInfinity = false;
+        this.fNegativeInfinity = false;
+        this.value = GenericUtil.createCopy(value);
 	}
 	
-	public EndPoint(EndPoint<T> p) {
+	public EndPoint(EndPoint<T> p) throws MIDDException {
 		this.fNegativeInfinity = p.fNegativeInfinity;
 		this.fPositiveInfinity = p.fPositiveInfinity;
 		
-		// Should beware of deep cloning if T is an object type
-		this.value = p.value;
+		// Perform deep copy
+		this.value = GenericUtil.createCopy(p.value);
 	}
 
-	@Override
+    @Override
 	public int compareTo(EndPoint<T> o) {
 		if (this.fPositiveInfinity) {
 			return o.fPositiveInfinity ? 0 : 1;
@@ -93,26 +92,27 @@ public class EndPoint<T extends Comparable<T>> implements Comparable<EndPoint<T>
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
+		if (this == obj) {
+            return true;
+        }
+
 		if (!(obj instanceof EndPoint))
 			return false;
 		
 		EndPoint<T> other = (EndPoint<T>) obj;
-		
-		if (fNegativeInfinity != other.fNegativeInfinity)
-			return false;
-		if (fPositiveInfinity != other.fPositiveInfinity)
-			return false;
-		if (value == null) {
-			if (other.value != null)
-				return false;
-		} else if (!value.equals(other.value))
-			return false;
-		return true;
-	}
+
+        if ((fNegativeInfinity != other.fNegativeInfinity) || (fPositiveInfinity != other.fPositiveInfinity)) {
+            return false;
+        }
+        if (value == other.value) {
+            return true;
+        }
+
+        if (value != null) {
+            return value.equals(other.value);
+        }
+        return false;
+    }
 	
 	public boolean getNegativeInfinity() {
 		return this.fNegativeInfinity;
@@ -122,10 +122,10 @@ public class EndPoint<T extends Comparable<T>> implements Comparable<EndPoint<T>
 		return this.fPositiveInfinity;
 	}
 	
-	public T getValue() {
-		return this.value;
-	}
-	
+//	public T getValue() {
+//		return this.value;
+//	}
+//
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
@@ -151,21 +151,22 @@ public class EndPoint<T extends Comparable<T>> implements Comparable<EndPoint<T>
 		this.value = null;
 	}
 
-	public void setValue(T value) {
+	public void setValue(T value) throws MIDDException {
 		this.fPositiveInfinity = false;
 		this.fNegativeInfinity = false;
-		this.value = value;
+		this.value = GenericUtil.createCopy(value);
 	}
 
-	@Override
+    @SuppressWarnings("unchecked")
+    @Override
 	public String toString(){
 		return value.toString();
 	}
 
-	public Class<?> getType() {
-		
+	public Class<T> getType() {
+
 		if (this.value != null)
-			return value.getClass();
+			return (Class<T>) value.getClass();
 		else
 			return null;
 	}

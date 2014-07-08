@@ -1,7 +1,7 @@
 /**
  * SNE-XACML: A high performance XACML evaluation engine.
  *
- * Copyright (C) 2013 Canh T. Ngo <canhnt@gmail.com>
+ * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
  * System and Network Engineering Group, University of Amsterdam.
  * All rights reserved.
  *
@@ -46,13 +46,19 @@ import nl.uva.sne.midd.obligations.InternalNodeState;
  * @date: Sep 13, 2012
  */
 public class IDDFactory {
-	public static AbstractEdge<?> createEdge(AbstractEdge<?> e) {	
-		return createEdge(e.getIntervals(), e.getType());
+
+    @SuppressWarnings("unchecked")
+	public static AbstractEdge<?> cloneEdge(AbstractEdge<?> e) throws MIDDException {
+
+        final Class<?> type = e.getType();
+        List<? extends Interval> intervals = e.getIntervals();
+
+        return createEdge(intervals, type);
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static <E> AbstractEdge<?> createEdge(Interval interval, Class<E> type) {
-		if (type == Integer.class) {			
+	public static AbstractEdge<?> createEdge(Interval interval, Class<?> type) {
+		if (type == Integer.class) {
 			return new IntegerEdge(interval);			
 		} else if (type == Double.class) {
 			return new DoubleEdge(interval);			
@@ -68,15 +74,16 @@ public class IDDFactory {
 			return createEdge(interval, interval.getType());		
 	}
 
-	public static <E> AbstractEdge<?> createEdge(List<Interval> intervals, Class<E> type) {
+    @SuppressWarnings("unchecked")
+	public static AbstractEdge<?> createEdge(List<? extends Interval> intervals, Class<?> type) throws MIDDException {
 
 		if (type == Integer.class) {
 			List<Interval<Integer>> lst = new ArrayList<Interval<Integer>>(); 
-			for(Interval<?> i:intervals) {
+			for(Interval i:intervals) {
 				
-				lst.add(new Interval<Integer>((Interval<Integer>)i));
+				lst.add(new Interval<Integer>(i));
 			}
-			return new IntegerEdge(lst);			
+			return new IntegerEdge(lst);
 		} else if (type == Double.class) {
 			List<Interval<Double>> lst = new ArrayList<Interval<Double>>(); 
 			for(Interval<?> i:intervals) {

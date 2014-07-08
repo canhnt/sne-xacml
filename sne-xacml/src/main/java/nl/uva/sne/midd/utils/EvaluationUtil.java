@@ -1,7 +1,7 @@
 /**
  * SNE-XACML: A high performance XACML evaluation engine.
  *
- * Copyright (C) 2013 Canh T. Ngo <canhnt@gmail.com>
+ * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
  * System and Network Engineering Group, University of Amsterdam.
  * All rights reserved.
  *
@@ -32,6 +32,7 @@ import java.util.Map;
 import nl.uva.sne.midd.Decision;
 import nl.uva.sne.midd.DecisionType;
 import nl.uva.sne.midd.IDDFactory;
+import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.Variable;
 import nl.uva.sne.midd.edges.AbstractEdge;
 import nl.uva.sne.midd.nodes.AbstractNode;
@@ -82,8 +83,10 @@ public class EvaluationUtil {
 //				value unmatched, return NotAvailable result
 //				return new Decision(DecisionType.NotApplicable);
 				return currentInternalNode.buildDecision();
-			}			
-		}
+			} catch (MIDDException e) {
+                throw new RuntimeException(e);
+            }
+        }
 		if (currentNode == null)
 			throw new RuntimeException("Incorrect MIDD: leaf node must not be null");
 		

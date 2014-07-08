@@ -1,7 +1,7 @@
 /**
  * SNE-XACML: A high performance XACML evaluation engine.
  *
- * Copyright (C) 2013 Canh T. Ngo <canhnt@gmail.com>
+ * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
  * System and Network Engineering Group, University of Amsterdam.
  * All rights reserved.
  *
@@ -33,9 +33,13 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import nl.uva.sne.midd.Decision;
 import nl.uva.sne.midd.DecisionType;
 import nl.uva.sne.midd.IDDFactory;
+import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.edges.AbstractEdge;
 import nl.uva.sne.midd.interval.Interval;
 import nl.uva.sne.midd.obligations.InternalNodeState;
@@ -52,8 +56,9 @@ import nl.uva.sne.midd.obligations.InternalNodeState;
  * @version 
  * @date: Sep 14, 2012
  */
-public abstract class InternalNode <T extends Comparable<T>> extends AbstractNode{	
-	
+public abstract class InternalNode <T extends Comparable<T>> extends AbstractNode{
+    private static final Logger log = LoggerFactory.getLogger(InternalNode.class);
+
 	private List<AbstractEdge<T>> edges = new ArrayList<AbstractEdge<T>>();
 	
 	private InternalNodeState state;
@@ -76,7 +81,7 @@ public abstract class InternalNode <T extends Comparable<T>> extends AbstractNod
 	 * @param child
 	 */
 	@SuppressWarnings("unchecked")
-	public void addChild(AbstractEdge<?> edge, AbstractNode child) {
+	public void addChild(final AbstractEdge<?> edge, AbstractNode child) {
 		if (child == null || edge.getIntervals().size() == 0)
 			throw new RuntimeException("Cannot add null child or empty edge");
 		
@@ -93,15 +98,21 @@ public abstract class InternalNode <T extends Comparable<T>> extends AbstractNod
 	}
 
 	@Override
-	public AbstractNode clone() {
+	public AbstractNode clone() throws CloneNotSupportedException {
 		InternalNode<?> n = IDDFactory.createInternalNode(this.getID(), 
 				this.getState(),
 				this.getType());
 		
 		for (AbstractEdge<?> e: this.edges) {
 			AbstractNode child = e.getSubDiagram().clone();
-			AbstractEdge<?> cloneEdge = IDDFactory.createEdge(e);
-			n.addChild(cloneEdge, child);
+            AbstractEdge<?> cloneEdge = null;
+            try {
+                cloneEdge = IDDFactory.cloneEdge(e);
+            } catch (MIDDException ex) {
+                log.error("Clone node {} failed:", this.toString(), ex);
+                throw new CloneNotSupportedException("Clone node failed");
+            }
+            n.addChild(cloneEdge, child);
 		}
 		return n;
 	}
@@ -161,7 +172,7 @@ public abstract class InternalNode <T extends Comparable<T>> extends AbstractNod
 	 * @return
 	 * @throws UnmatchedException
 	 */
-	public AbstractEdge<T> match(T value) throws UnmatchedException {
+	public AbstractEdge<T> match(T value) throws UnmatchedException, MIDDException {
 		for(AbstractEdge<T> e:this.edges) {
 			if (e.match(value))
 				return e;

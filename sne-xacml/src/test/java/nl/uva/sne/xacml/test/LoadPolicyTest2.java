@@ -1,7 +1,7 @@
 /**
  * SNE-XACML: A high performance XACML evaluation engine.
  *
- * Copyright (C) 2013 Canh T. Ngo <canhnt@gmail.com>
+ * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
  * System and Network Engineering Group, University of Amsterdam.
  * All rights reserved.
  *
@@ -68,13 +68,13 @@ public class LoadPolicyTest2 {
 		print((new nl.uva.sne.xacml.profiles._2_0_.policy.ObjectFactory().createPolicySetTypePolicySet(ps1)), PolicySetType.class);
 	}
 
-	@Test
-	public void loadRequest() throws ParserConfigurationException, SAXException, IOException {
-		RequestType r = unmarshalRequestType(REQUEST_TYPE);
-		
-		print((new nl.uva.sne.xacml.profiles._2_0_.context.ObjectFactory()).createRequest(r), RequestType.class);
-
-	}
+//	@Test
+//	public void loadRequest() throws ParserConfigurationException, SAXException, IOException {
+//		RequestType r = unmarshalRequestType(REQUEST_TYPE);
+//
+//		print((new nl.uva.sne.xacml.profiles._2_0_.context.ObjectFactory()).createRequest(r), RequestType.class);
+//
+//	}
 	
 	private static <T> void print(JAXBElement<T> jaxbElement, Class<T> cls) {
 		JAXBContext jc;

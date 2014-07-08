@@ -26,7 +26,7 @@
 	
 	<groupId>nl.uva.sne</groupId>
 	<artifactId>sne-xacml</artifactId>
-	<version>0.0.2</version>
+	<version>0.0.3</version>
 	
 	<packaging>bundle</packaging>	
 	<name>SNE XACML Engine</name>
@@ -78,7 +78,6 @@
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.5</version>
-			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>javax.xml.bind</groupId>
@@ -132,9 +131,11 @@
 	                    <include>**/test/**</include>
 	                </includes>
 	                <excludes>
+                      <exclude>src/test/resources/**</exclude>
 	                    <exclude>target/**</exclude>
 	                    <exclude>.clover/**</exclude>
 	                    <exclude>src/main/java/oasis/**</exclude>
+                      <exclude>src/main/resources/schema/**.xsd</exclude>
 	                    <exclude>src/main/java/nl/uva/sne/xacml/profiles/_2_0_/**</exclude>
 	                </excludes>
 	                <useDefaultExcludes>true</useDefaultExcludes>

@@ -1,7 +1,7 @@
 /**
  * SNE-XACML: A high performance XACML evaluation engine.
  *
- * Copyright (C) 2013 Canh T. Ngo <canhnt@gmail.com>
+ * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
  * System and Network Engineering Group, University of Amsterdam.
  * All rights reserved.
  *
@@ -26,6 +26,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.interval.EndPoint;
 import nl.uva.sne.midd.interval.Interval;
 import nl.uva.sne.xacml.policy.parsers.util.DataTypeConverterUtil;
@@ -69,7 +70,7 @@ public class AllOfExpression {
 	}
 
 	private EndPoint getValue(AttributeValueType attributeValue)
-			throws XACMLParsingException {
+            throws XACMLParsingException, MIDDException {
 		List<Object> objects = attributeValue.getContent();
 		if (objects == null || objects.size() == 0)
 			throw new XACMLParsingException("Cannot extract attribute value");
@@ -82,7 +83,7 @@ public class AllOfExpression {
 		return new EndPoint(value);
 	}
 
-	public void parse(AllOfType allOf) throws XACMLParsingException {
+	public void parse(AllOfType allOf) throws XACMLParsingException, MIDDException {
 		List<MatchType> lstMatches = allOf.getMatch();
 
 		// Collect all intervals in the allOf expression and put to each attribute		

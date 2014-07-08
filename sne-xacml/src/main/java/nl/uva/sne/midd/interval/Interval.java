@@ -1,7 +1,7 @@
 /**
  * SNE-XACML: A high performance XACML evaluation engine.
  *
- * Copyright (C) 2013 Canh T. Ngo <canhnt@gmail.com>
+ * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
  * System and Network Engineering Group, University of Amsterdam.
  * All rights reserved.
  *
@@ -60,31 +60,33 @@ public class Interval <T extends Comparable<T>> {
 		this.lowerBoundClosed = this.upperBoundClosed = true;
 	}
 	
-	public Interval(EndPoint<T> lowerBound, EndPoint<T> upperBound) {		
+	public Interval(EndPoint<T> lowerBound, EndPoint<T> upperBound) throws MIDDException {
 		this(lowerBound, upperBound, false, false);
 	}
-	public Interval(EndPoint<T> lowerBound, EndPoint<T> upperBound, boolean isLowerBoundClosed, boolean isUpperBoundClosed) {
-		this.lowerBound = new EndPoint<T>(lowerBound);
+
+    @SuppressWarnings("unchecked")
+	public Interval(EndPoint<T> lowerBound, EndPoint<T> upperBound, boolean isLowerBoundClosed, boolean isUpperBoundClosed) throws MIDDException {
+		this.lowerBound = new EndPoint(lowerBound);
 		this.lowerBoundClosed = isLowerBoundClosed;
 		
-		this.upperBound = new EndPoint<T>(upperBound);
+		this.upperBound = new EndPoint(upperBound);
 		this.upperBoundClosed = isUpperBoundClosed;
 	}
 	
-	public Interval(Interval<T> interval) {
+	public Interval(Interval<T> interval) throws MIDDException {
 		this(interval.lowerBound, interval.upperBound, interval.lowerBoundClosed, interval.upperBoundClosed);
 	}
 	
-	public Interval(T bound) {
+	public Interval(T bound) throws MIDDException {
 		this.lowerBound = this.upperBound = new EndPoint<T>(bound);
 		this.lowerBoundClosed = this.upperBoundClosed = true;
 	}
 	
-	public Interval(T lowerBound, T upperBound) {
+	public Interval(T lowerBound, T upperBound) throws MIDDException {
 		this(lowerBound, upperBound, false, false);
 	}
 	
-	public Interval(T lowerBound, T upperBound, boolean isLowerBoundClosed, boolean isUpperBoundClosed){
+	public Interval(T lowerBound, T upperBound, boolean isLowerBoundClosed, boolean isUpperBoundClosed) throws MIDDException {
 		this.lowerBound = new EndPoint<T>(lowerBound);
 		this.upperBound = new EndPoint<T>(upperBound);
 		
@@ -98,7 +100,7 @@ public class Interval <T extends Comparable<T>> {
 	 * @param op
 	 * @return
 	 */
-	public List<Interval<T>> complement(Interval<T> op) {
+	public List<Interval<T>> complement(Interval<T> op) throws MIDDException {
 		
 		if (this.lowerBound.compareTo(op.upperBound) >= 0 ||
 			this.upperBound.compareTo(op.lowerBound) <= 0) {
@@ -237,7 +239,7 @@ public class Interval <T extends Comparable<T>> {
 	 * @param value
 	 * @return
 	 */
-	public boolean hasValue(T value) {
+	public boolean hasValue(T value) throws MIDDException {
 		
 		//special processing when missing attribute
 		if (value == null) {
@@ -367,7 +369,7 @@ public class Interval <T extends Comparable<T>> {
 //		return lowBoundEqual && upBoundEqual;
 //	}
 
-	public void setLowerBound(T value) {
+	public void setLowerBound(T value) throws MIDDException {
 		this.lowerBound = new EndPoint<T>(value);
 	}
 	
@@ -389,7 +391,7 @@ public class Interval <T extends Comparable<T>> {
 		this.upperBound = upperBound;
 	}
 	
-	public void setUpperBound(T upperBound) {
+	public void setUpperBound(T upperBound) throws MIDDException {
 		this.upperBound = new EndPoint<T>(upperBound);	
 	}
 
@@ -456,7 +458,7 @@ public class Interval <T extends Comparable<T>> {
 		
 	}
 
-	public Class<?> getType() throws MIDDException {
+	public Class<T> getType() throws MIDDException {
 		
 		if (this.lowerBound.getType() != null)
 			return this.lowerBound.getType();
@@ -464,6 +466,6 @@ public class Interval <T extends Comparable<T>> {
 		if (this.upperBound.getType() != null)
 			return this.upperBound.getType();
 		
-		throw new MIDDException("Unsupport (-inf, +inf) interval");
+		throw new MIDDException("Unsupported (-inf, +inf) interval");
 	}	
 }

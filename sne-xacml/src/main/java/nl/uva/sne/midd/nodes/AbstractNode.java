@@ -1,7 +1,7 @@
 /**
  * SNE-XACML: A high performance XACML evaluation engine.
  *
- * Copyright (C) 2013 Canh T. Ngo <canhnt@gmail.com>
+ * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
  * System and Network Engineering Group, University of Amsterdam.
  * All rights reserved.
  *
@@ -29,6 +29,8 @@ package nl.uva.sne.midd.nodes;
 
 import java.io.OutputStream;
 
+import nl.uva.sne.midd.MIDDException;
+
 /**
  * @author Canh Ngo (t.c.ngo@uva.nl)
  *
@@ -44,7 +46,7 @@ public abstract class AbstractNode {
 	}
 
 	@Override
-	public abstract AbstractNode clone();		
+	public abstract AbstractNode clone() throws CloneNotSupportedException;
 	
 	public int getID(){
 		return id;

@@ -1,7 +1,7 @@
 /**
  * SNE-XACML: A high performance XACML evaluation engine.
  *
- * Copyright (C) 2013 Canh T. Ngo <canhnt@gmail.com>
+ * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
  * System and Network Engineering Group, University of Amsterdam.
  * All rights reserved.
  *
@@ -72,12 +72,16 @@ public class PolicyParser {
 			this.preCondition = new ExternalNode();
 		else {
 //			this.preCondition = condition;
-			this.preCondition = condition.clone();
-		}
+            try {
+                this.preCondition = condition.clone();
+            } catch (CloneNotSupportedException e) {
+                e.printStackTrace();
+            }
+        }
 	}
 	
 	private AbstractNode combineRuleMIDDs(List<AbstractNode> lstMIDDs,
-			CombiningAlgorithm rca) {
+			CombiningAlgorithm rca) throws MIDDException {
 //		System.out.println("Combining policy " + this.policy.getPolicyId());
 		logger.debug("Combining policy {}", this.policy.getPolicyId());
 		

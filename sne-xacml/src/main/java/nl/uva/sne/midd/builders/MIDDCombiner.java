@@ -1,7 +1,7 @@
 /**
  * SNE-XACML: A high performance XACML evaluation engine.
  *
- * Copyright (C) 2013 Canh T. Ngo <canhnt@gmail.com>
+ * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
  * System and Network Engineering Group, University of Amsterdam.
  * All rights reserved.
  *
@@ -32,6 +32,7 @@ import java.util.List;
 
 import nl.uva.sne.midd.DecisionType;
 import nl.uva.sne.midd.IDDFactory;
+import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.algorithms.CombiningAlgorithm;
 import nl.uva.sne.midd.edges.AbstractEdge;
 import nl.uva.sne.midd.interval.Interval;
@@ -132,7 +133,7 @@ public class MIDDCombiner {
 	 * @param midd2
 	 * @return
 	 */
-	public AbstractNode combine(AbstractNode midd1, AbstractNode midd2) {
+	public AbstractNode combine(AbstractNode midd1, AbstractNode midd2) throws MIDDException {
 				
 		if (midd1 instanceof ExternalNode3) {
 			if (midd2 instanceof ExternalNode3)
@@ -169,7 +170,7 @@ public class MIDDCombiner {
 						for(AbstractEdge<?> e : n1.getEdges()) {
 							AbstractNode child = combine(e.getSubDiagram(), n2);
 							if (child != null)
-								n.addChild(IDDFactory.createEdge(e), child);
+								n.addChild(IDDFactory.cloneEdge(e), child);
 							else
 //								throw new RuntimeException("empty child");
 								System.err.println("empty child");
@@ -187,7 +188,7 @@ public class MIDDCombiner {
 						for(AbstractEdge<?> e : n2.getEdges()) {
 							AbstractNode child = combine(n1, e.getSubDiagram());
 							if (child != null)
-								n.addChild(IDDFactory.createEdge(e), child);
+								n.addChild(IDDFactory.cloneEdge(e), child);
 						}
 						// Create a new edge containing the complement of n2 children intervals, connecting n with n1
 						List<Interval> complementIntervals = IntervalUtil.complement(n2.getIntervals());
@@ -263,7 +264,7 @@ public class MIDDCombiner {
 	 * @return
 	 */
 	@SuppressWarnings("rawtypes")
-	private AbstractNode combineIDD(ExternalNode3 n1, InternalNode<?> n2) {
+	private AbstractNode combineIDD(ExternalNode3 n1, InternalNode<?> n2) throws MIDDException {
 
 		
 		List<Interval> intervals = n2.getIntervals();
@@ -291,7 +292,7 @@ public class MIDDCombiner {
 						
 		for(AbstractEdge<?> e : n2.getEdges()) {
 			AbstractNode child = combine(n1, e.getSubDiagram());
-			n.addChild(IDDFactory.createEdge(e), child);
+			n.addChild(IDDFactory.cloneEdge(e), child);
 		}
 //		linkWithNullEdge(n, n1);	// it means that traversing to n1 may not need a predicate of attr at n2
 		
@@ -356,7 +357,7 @@ public class MIDDCombiner {
 	 */
 	@SuppressWarnings("rawtypes")
 	private AbstractNode combineIDD(InternalNode<?> n1,
-			ExternalNode3 n2) {
+			ExternalNode3 n2) throws MIDDException {
 		// Algorithm:
 		// set of intervals: n1.intervals U (*\{n1.intervals})
 		// 	- with (i : n1.intervals), n.children[i] = n1.children[i], n.intervals[i] = n1.interval[i]
@@ -385,7 +386,7 @@ public class MIDDCombiner {
 			AbstractNode child = combine(e.getSubDiagram(), n2);
 			if (child == null)
 				throw new RuntimeException("Empty child");
-			n.addChild(IDDFactory.createEdge(e), child);
+			n.addChild(IDDFactory.cloneEdge(e), child);
 		}
 		
 //		linkWithNullEdge(n, n2);
@@ -408,7 +409,7 @@ public class MIDDCombiner {
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private InternalNode<?> combineIDDSameLevel(InternalNode n1,
-			InternalNode n2) {
+			InternalNode n2) throws MIDDException {
 		if (n1.getID() != n2.getID())
 			throw new IllegalArgumentException("Both params should have the same variable level at their root");
 		
@@ -436,9 +437,13 @@ public class MIDDCombiner {
 			AbstractNode child = null;
 			if (op1 != null && op2 != null) {
 				child = combine(op1, op2);				
-			} else if (op1 == null || op2 == null){
-				child = (op1 == null) ? op2.clone() : op1.clone(); 
-			} else {
+			} else if (op1 != null || op2 != null){
+                try {
+                    child = (op1 == null) ? op2.clone() : op1.clone();
+                } catch (CloneNotSupportedException e) {
+                    e.printStackTrace();
+                }
+            } else {
 				throw new RuntimeException("Error merging two partitions, " +
 						"the output partition has an item not belong to both previous ones");
 			}

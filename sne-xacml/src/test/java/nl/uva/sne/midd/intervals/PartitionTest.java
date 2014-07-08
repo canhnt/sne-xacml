@@ -1,7 +1,7 @@
 /**
  * SNE-XACML: A high performance XACML evaluation engine.
  *
- * Copyright (C) 2013 Canh T. Ngo <canhnt@gmail.com>
+ * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
  * System and Network Engineering Group, University of Amsterdam.
  * All rights reserved.
  *
@@ -28,6 +28,7 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
+import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.interval.EndPoint;
 import nl.uva.sne.midd.interval.Interval;
 import nl.uva.sne.midd.partition.Partition;
@@ -43,7 +44,7 @@ public class PartitionTest {
 	 * {[1.0,2.0),(5.0,7.0)} U {[1.0,1.0],[2.0,3.0),(6.0,8.0)} -> 
 	 * {[1.0,1.0],(1.0,2.0),[2.0,3.0),(5.0,6.0],(6.0,7.0),[7.0,8.0)}
 	 */
-	public void testCombinePartition(){
+	public void testCombinePartition() throws MIDDException {
 		
 		List<Interval<Double>> listP1 = new ArrayList<Interval<Double>>();
 		listP1.add(new Interval<Double>(1.0, 2.0, true, false));
@@ -96,7 +97,7 @@ public class PartitionTest {
 	 * {[1.0,2.0],[3.0,4.0]} U {[1.0,1.0],[2.0,3.0],[4.0,4.0]} -> 
 	 * {[1.0,1.0],(1.0,2.0),[2.0,2.0],(2.0,3.0),[3.0,3.0],(3.0,4.0),[4.0,4.0]}
 	 */
-	public void testCombinePartition2() {
+	public void testCombinePartition2() throws MIDDException {
 		List<Interval<Double>> listP1 = new ArrayList<Interval<Double>>();
 		listP1.add(new Interval<Double>(1.0, 2.0, true, true));
 		listP1.add(new Interval<Double>(3.0, 4.0, true, true));		
@@ -134,7 +135,7 @@ public class PartitionTest {
 	/**
 	 * {[3.0,4.0],[1.0,2.0]} U {[4.0,4.0]} -> {[1.0,2.0],[3.0,4.0),[4.0,4.0]}
 	 */
-	public void testCombinePartition3() {
+	public void testCombinePartition3() throws MIDDException {
 		List<Interval<Double>> listP1 = new ArrayList<Interval<Double>>();
 		listP1.add(new Interval<Double>(3.0, 4.0, true, true));
 		listP1.add(new Interval<Double>(1.0, 2.0, true, true));		
@@ -155,7 +156,7 @@ public class PartitionTest {
 	 * {(-inf,1.0],(3.0,4.0],[6.0,8.0)} U {(-2.0,2.0),[4.0,5.5],(8.0,10.0]} -> 
 	 * {(-inf,-2.0],(-2.0,1.0],(1.0,2.0),(3.0,4.0),[4.0,4.0],(4.0,5.5],[6.0,8.0),(8.0,10.0]}
 	 */
-	public void testCombinePartition4() {
+	public void testCombinePartition4() throws MIDDException {
 		List<Interval<Double>> listP1 = new ArrayList<Interval<Double>>();
 		listP1.add(new Interval<Double>(new EndPoint<Double>(true, false), new EndPoint<Double>(1.0), false, true));	// (-inf, 1]
 		listP1.add(new Interval<Double>(3.0, 4.0, false, true));

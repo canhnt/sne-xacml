@@ -20,23 +20,35 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301 USA
  */
-package nl.uva.sne.midd.algorithms;
+package nl.uva.sne.midd.utils;
 
-import static org.junit.Assert.*;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 
-import nl.uva.sne.midd.DecisionType;
+import nl.uva.sne.midd.MIDDException;
 
-import org.junit.Test;
+/**
+ * @author cngo
+ * @version $Id$
+ * @since 2014-07-04
+ */
+public class GenericUtil {
 
-public class FirstApplicableAlgTest extends FirstApplicableAlg {
+    @SuppressWarnings("unchecked")
+    public static <T extends Comparable<T>> T createCopy(final T value) throws MIDDException {
+        if (value == null) {
+            return null;
+        }
 
-	@Test
-	public void test() {
-		FirstApplicableAlg alg = new FirstApplicableAlg();
-		
-		assertTrue(alg.combine(DecisionType.Indeterminate, DecisionType.Permit) == DecisionType.Indeterminate);
-		assertTrue(alg.combine(DecisionType.NotApplicable, DecisionType.Permit) == DecisionType.Permit);
-		assertTrue(alg.combine(DecisionType.NotApplicable, DecisionType.Indeterminate) == DecisionType.Indeterminate);
-	}
-
+        Class<?> clazz = value.getClass();
+        Constructor<?> copyConstructor = null;
+        try {
+            copyConstructor = clazz.getConstructor(clazz);
+            return (T) copyConstructor.newInstance(value);
+        } catch (NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
+//            throw new MIDDException("Error copying generic type", e);
+            // use shallow copy
+            return value;
+        }
+    }
 }

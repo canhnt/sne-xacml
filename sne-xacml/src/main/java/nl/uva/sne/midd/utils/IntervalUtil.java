@@ -1,7 +1,7 @@
 /**
  * SNE-XACML: A high performance XACML evaluation engine.
  *
- * Copyright (C) 2013 Canh T. Ngo <canhnt@gmail.com>
+ * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
  * System and Network Engineering Group, University of Amsterdam.
  * All rights reserved.
  *
@@ -34,6 +34,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.Stack;
 
+import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.edges.AbstractEdge;
 import nl.uva.sne.midd.interval.EndPoint;
 import nl.uva.sne.midd.interval.Interval;
@@ -56,7 +57,7 @@ public class IntervalUtil {
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static List<Interval> complement(
-			List<Interval> intervals) {
+			List<Interval> intervals) throws MIDDException {
 		
 		Interval w = new Interval(new EndPoint(true, false), new EndPoint(false, true));
 		List<Interval> op1 = new ArrayList<Interval>();

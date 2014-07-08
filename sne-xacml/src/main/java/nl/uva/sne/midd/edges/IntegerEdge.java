@@ -1,7 +1,7 @@
 /**
  * SNE-XACML: A high performance XACML evaluation engine.
  *
- * Copyright (C) 2013 Canh T. Ngo <canhnt@gmail.com>
+ * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
  * System and Network Engineering Group, University of Amsterdam.
  * All rights reserved.
  *
@@ -29,6 +29,7 @@ package nl.uva.sne.midd.edges;
 
 import java.util.List;
 
+import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.interval.Interval;
 
 /**
@@ -39,11 +40,11 @@ import nl.uva.sne.midd.interval.Interval;
  */
 public class IntegerEdge extends AbstractEdge<Integer> {
 
-	public IntegerEdge(Interval<Integer> interval) {		
+	public IntegerEdge(final Interval<Integer> interval) {
 		super(interval);
 	}
-	
-	public IntegerEdge(List<Interval<Integer>> intervals) {
+
+	public IntegerEdge(final List<Interval<Integer>> intervals) {
 		super(intervals);
 	}
 

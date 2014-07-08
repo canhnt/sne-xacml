@@ -1,7 +1,7 @@
 /**
  * SNE-XACML: A high performance XACML evaluation engine.
  *
- * Copyright (C) 2013 Canh T. Ngo <canhnt@gmail.com>
+ * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
  * System and Network Engineering Group, University of Amsterdam.
  * All rights reserved.
  *
@@ -24,6 +24,7 @@ package nl.uva.sne.midd.intervals;
 
 import static org.junit.Assert.*;
 
+import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.interval.EndPoint;
 
 import org.junit.Test;
@@ -31,7 +32,7 @@ import org.junit.Test;
 public class EndPointTest {
 
 	@Test
-	public void testCompareTo() {
+	public void testCompareTo() throws MIDDException {
 		EndPoint<Integer> pi1 = new EndPoint<Integer>(10);
 		EndPoint<Integer> pi2 = new EndPoint<Integer>(false, true);
 		EndPoint<Integer> pi3 = new EndPoint<Integer>(true, false);
@@ -49,7 +50,7 @@ public class EndPointTest {
 	}
 	
 	@Test
-	public void testEquals() {
+	public void testEquals() throws MIDDException {
 		EndPoint<Integer> pi1 = new EndPoint<Integer>(10);
 		assertTrue(pi1.equals(new EndPoint<Integer>(10)));
 		

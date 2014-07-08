@@ -1,7 +1,7 @@
 /**
  * SNE-XACML: A high performance XACML evaluation engine.
  *
- * Copyright (C) 2013 Canh T. Ngo <canhnt@gmail.com>
+ * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
  * System and Network Engineering Group, University of Amsterdam.
  * All rights reserved.
  *
@@ -33,6 +33,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.interval.EndPoint;
 import nl.uva.sne.midd.interval.Interval;
 
@@ -59,7 +60,7 @@ public class PartitionBuilder {
 	 * @param p2
 	 * @return
 	 */
-	public static <T extends Comparable<T>> Partition<T> union(Partition<T> p1, Partition<T> p2) {
+	public static <T extends Comparable<T>> Partition<T> union(Partition<T> p1, Partition<T> p2) throws MIDDException {
 		
 		if (p1.size() == 0)
 			return p2;
@@ -150,7 +151,7 @@ public class PartitionBuilder {
 	 * @param p2
 	 * @return
 	 */
-	public static <T extends Comparable<T>> Partition<T> intersect(Partition<T> p1, Partition<T> p2) {
+	public static <T extends Comparable<T>> Partition<T> intersect(Partition<T> p1, Partition<T> p2) throws MIDDException {
 		
 		if (p1.size() == 0 || p2.size() == 0) {
 			return new Partition<T>();
@@ -205,7 +206,7 @@ public class PartitionBuilder {
 	 * @param p2
 	 * @return
 	 */
-	private static <T extends Comparable<T>> List<Interval<T>> combine(Partition<T> p1, Partition<T> p2) {
+	private static <T extends Comparable<T>> List<Interval<T>> combine(Partition<T> p1, Partition<T> p2) throws MIDDException {
 		
 		Set<EndPoint<T>> boundSet = new HashSet<EndPoint<T>>();
 		
