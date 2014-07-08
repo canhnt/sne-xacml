@@ -29,49 +29,47 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
 import javax.xml.parsers.ParserConfigurationException;
 
-
-import nl.uva.sne.xacml.profiles._2_0_.policy.*;
-
 import org.junit.Test;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
+
+import nl.uva.sne.xacml.profiles._2_0_.policy.ObjectFactory;
+import nl.uva.sne.xacml.profiles._2_0_.policy.PolicySetType;
+import nl.uva.sne.xacml.profiles._2_0_.policy.PolicyType;
 
 
 public class SavePolicyTest {
 
-	private static final String POLICY_FILE = "policies/policyset-demo.xml";
+    private static final String POLICY_FILE = "policies/policyset-demo.xml";
 
-	@Test
-	public void savePolicy() throws ParserConfigurationException, SAXException, IOException {
-		ObjectFactory of = new ObjectFactory();		
-		
-		PolicyType p1 = of.createPolicyType();
-		p1.setPolicyId("policy01");
-		p1.setRuleCombiningAlgId("urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:deny-overrides");		
-		
-		PolicySetType ps1 = of.createPolicySetType();
-		ps1.getPolicySetOrPolicyOrPolicySetIdReference().add(p1);
-		ps1.setPolicyCombiningAlgId("urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:permit-overrides");
-		
-		write(of.createPolicySetTypePolicySet(ps1));
-	}
+    @Test
+    public void savePolicy() throws ParserConfigurationException, SAXException, IOException {
+        ObjectFactory of = new ObjectFactory();
 
-	private void write(JAXBElement<PolicySetType> jaxbElement) {
+        PolicyType p1 = of.createPolicyType();
+        p1.setPolicyId("policy01");
+        p1.setRuleCombiningAlgId("urn:oasis:names:tc:xacml:1.0:rule-combining-algorithm:deny-overrides");
+
+        PolicySetType ps1 = of.createPolicySetType();
+        ps1.getPolicySetOrPolicyOrPolicySetIdReference().add(p1);
+        ps1.setPolicyCombiningAlgId("urn:oasis:names:tc:xacml:1.0:policy-combining-algorithm:permit-overrides");
+
+        write(of.createPolicySetTypePolicySet(ps1));
+    }
+
+    private void write(JAXBElement<PolicySetType> jaxbElement) {
         try {
-			JAXBContext jc = JAXBContext.newInstance(PolicySetType.class, PolicyType.class);
-			Marshaller m = jc.createMarshaller();
-			m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+            JAXBContext jc = JAXBContext.newInstance(PolicySetType.class, PolicyType.class);
+            Marshaller m = jc.createMarshaller();
+            m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
-			m.marshal(jaxbElement, System.out);
-			
-		} catch (JAXBException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-	}
+            m.marshal(jaxbElement, System.out);
+
+        } catch (JAXBException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+    }
 }

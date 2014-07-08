@@ -26,22 +26,22 @@ import oasis.names.tc.xacml._3_0.core.schema.wd_17.DecisionType;
 
 public class DecisionConverterUtil {
 
-	public static DecisionType convertMIDDDecision(nl.uva.sne.midd.DecisionType decision) {
-		switch(decision) {
-		case Deny:
-			return DecisionType.DENY;
-		case Permit:
-			return DecisionType.PERMIT;
-		case Indeterminate:
-		case Indeterminate_P:
-		case Indeterminate_D:
-		case Indeterminate_DP:
-			return DecisionType.INDETERMINATE;
-		case NotApplicable:
-			return DecisionType.NOT_APPLICABLE;
-		default:
-			throw new IllegalArgumentException("Unknow decision value:" + decision);
-		}		
-	}
+    public static DecisionType convertMIDDDecision(nl.uva.sne.midd.DecisionType decision) {
+        switch (decision) {
+            case Deny:
+                return DecisionType.DENY;
+            case Permit:
+                return DecisionType.PERMIT;
+            case Indeterminate:
+            case Indeterminate_P:
+            case Indeterminate_D:
+            case Indeterminate_DP:
+                return DecisionType.INDETERMINATE;
+            case NotApplicable:
+                return DecisionType.NOT_APPLICABLE;
+            default:
+                throw new IllegalArgumentException("Unknow decision value:" + decision);
+        }
+    }
 
 }

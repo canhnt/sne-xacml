@@ -31,32 +31,30 @@ import nl.uva.sne.midd.DecisionType;
 
 /**
  * @author Canh Ngo (t.c.ngo@uva.nl)
- *
- * @version 
  * @date: Sep 20, 2012
  */
 public class ObligationExpression {
-	public DecisionType fulFillOn;
-	
-	public Obligation obligation;
-	
-	public ObligationExpression(DecisionType fulFillOn, Obligation obligation){
-		this.fulFillOn = fulFillOn;
-		this.obligation = obligation;
-	}
-	
-	public Obligation getObligation() {
-		return obligation;
-	}
-	
-	public boolean isFulfilled(DecisionType effect) {
-		return this.fulFillOn == effect;
-	}
-	
-	@Override
-	public String toString() {
-		StringBuffer buf = new StringBuffer();
-		buf.append("[" + this.obligation.toString() + "]");
-		return buf.toString();
-	}
+    public DecisionType fulFillOn;
+
+    public Obligation obligation;
+
+    public ObligationExpression(DecisionType fulFillOn, Obligation obligation) {
+        this.fulFillOn = fulFillOn;
+        this.obligation = obligation;
+    }
+
+    public Obligation getObligation() {
+        return obligation;
+    }
+
+    public boolean isFulfilled(DecisionType effect) {
+        return this.fulFillOn == effect;
+    }
+
+    @Override
+    public String toString() {
+        StringBuffer buf = new StringBuffer();
+        buf.append("[" + this.obligation.toString() + "]");
+        return buf.toString();
+    }
 }

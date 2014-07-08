@@ -28,17 +28,17 @@ import nl.uva.sne.midd.interval.Interval;
 
 public class BooleanEdge extends AbstractEdge<Boolean> {
 
-	public BooleanEdge(Interval<Boolean> interval) {
-		super(interval);
-	}
+    public BooleanEdge(Interval<Boolean> interval) {
+        super(interval);
+    }
 
-	public BooleanEdge(List<Interval<Boolean>> intervals) {
-		super(intervals);
-	}
+    public BooleanEdge(List<Interval<Boolean>> intervals) {
+        super(intervals);
+    }
 
-	@Override
-	public Class<Boolean> getType() {
-		return Boolean.class;
-	}
+    @Override
+    public Class<Boolean> getType() {
+        return Boolean.class;
+    }
 
 }

@@ -17,9 +17,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for CombinerParameterType complex type.
- * 
+ * <p/>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p/>
  * <pre>
  * &lt;complexType name="CombinerParameterType">
  *   &lt;complexContent>
@@ -32,12 +32,10 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CombinerParameterType", propOrder = {
-    "attributeValue"
+        "attributeValue"
 })
 public class CombinerParameterType {
 
@@ -48,11 +46,8 @@ public class CombinerParameterType {
 
     /**
      * Gets the value of the attributeValue property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link AttributeValueType }
-     *     
+     *
+     * @return possible object is {@link AttributeValueType }
      */
     public AttributeValueType getAttributeValue() {
         return attributeValue;
@@ -60,11 +55,8 @@ public class CombinerParameterType {
 
     /**
      * Gets the value of the parameterName property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is {@link String }
      */
     public String getParameterName() {
         return parameterName;
@@ -72,11 +64,8 @@ public class CombinerParameterType {
 
     /**
      * Sets the value of the attributeValue property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link AttributeValueType }
-     *     
+     *
+     * @param value allowed object is {@link AttributeValueType }
      */
     public void setAttributeValue(AttributeValueType value) {
         this.attributeValue = value;
@@ -84,11 +73,8 @@ public class CombinerParameterType {
 
     /**
      * Sets the value of the parameterName property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is {@link String }
      */
     public void setParameterName(String value) {
         this.parameterName = value;

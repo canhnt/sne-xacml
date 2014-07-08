@@ -27,19 +27,19 @@ import nl.uva.sne.midd.obligations.InternalNodeState;
 
 public class BooleanNode extends InternalNode<Boolean> {
 
-	public BooleanNode(int id, DecisionType state) {
-		super(id, state);
-		// TODO Auto-generated constructor stub
-	}
-	
-	public BooleanNode(int id, InternalNodeState state) {
-		super(id, state);
-	}
-		
+    public BooleanNode(int id, DecisionType state) {
+        super(id, state);
+        // TODO Auto-generated constructor stub
+    }
 
-	@Override
-	public Class<?> getType() {
-		return Boolean.class;
-	}
+    public BooleanNode(int id, InternalNodeState state) {
+        super(id, state);
+    }
+
+
+    @Override
+    public Class<?> getType() {
+        return Boolean.class;
+    }
 
 }

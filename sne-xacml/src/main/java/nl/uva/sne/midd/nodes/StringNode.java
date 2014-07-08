@@ -32,37 +32,35 @@ import nl.uva.sne.midd.obligations.InternalNodeState;
 
 /**
  * @author Canh Ngo (t.c.ngo@uva.nl)
- *
- * @version 
  * @date: Sep 20, 2012
  */
 public class StringNode extends InternalNode<String> {
 
-	/**
-	 * @param id
-	 * @param state
-	 */
-	public StringNode(int id, DecisionType state) {
-		super(id, state);
-		// TODO Auto-generated constructor stub
-	}
+    /**
+     * @param id
+     * @param state
+     */
+    public StringNode(int id, DecisionType state) {
+        super(id, state);
+        // TODO Auto-generated constructor stub
+    }
 
-	/**
-	 * @param id
-	 * @param state
-	 */
-	public StringNode(int id, InternalNodeState state) {
-		super(id, state);
-		// TODO Auto-generated constructor stub
-	}
+    /**
+     * @param id
+     * @param state
+     */
+    public StringNode(int id, InternalNodeState state) {
+        super(id, state);
+        // TODO Auto-generated constructor stub
+    }
 
-	/* (non-Javadoc)
-	 * @see nl.uva.sne.midd.InternalNode#getType()
-	 */
-	@Override
-	public Class<?> getType() {
-		// TODO Auto-generated method stub
-		return String.class;
-	}
+    /* (non-Javadoc)
+     * @see nl.uva.sne.midd.InternalNode#getType()
+     */
+    @Override
+    public Class<?> getType() {
+        // TODO Auto-generated method stub
+        return String.class;
+    }
 
 }

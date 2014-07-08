@@ -15,9 +15,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for EffectType.
- * 
+ * <p/>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * <p>
+ * <p/>
  * <pre>
  * &lt;simpleType name="EffectType">
  *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
@@ -26,7 +26,6 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/restriction>
  * &lt;/simpleType>
  * </pre>
- * 
  */
 @XmlType(name = "EffectType")
 @XmlEnum
@@ -36,8 +35,9 @@ public enum EffectType {
     DENY("Deny"),
     @XmlEnumValue("Permit")
     PERMIT("Permit");
+
     public static EffectType fromValue(String v) {
-        for (EffectType c: EffectType.values()) {
+        for (EffectType c : EffectType.values()) {
             if (c.value.equals(v)) {
                 return c;
             }

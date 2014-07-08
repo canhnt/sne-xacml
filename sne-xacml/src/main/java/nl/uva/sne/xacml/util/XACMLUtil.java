@@ -35,159 +35,159 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
+
 import oasis.names.tc.xacml._3_0.core.schema.wd_17.ObjectFactory;
 import oasis.names.tc.xacml._3_0.core.schema.wd_17.PolicySetType;
 import oasis.names.tc.xacml._3_0.core.schema.wd_17.PolicyType;
 import oasis.names.tc.xacml._3_0.core.schema.wd_17.RequestType;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.xml.sax.SAXException;
-
 /**
  * @author canhnt
- *
  */
 public class XACMLUtil {
 
-	public static PolicySetType unmarshalPolicySetType(InputStream istream)
-			throws ParserConfigurationException, SAXException, IOException {
-		Document doc = readXML(istream);
-		Element xmlDom = doc.getDocumentElement();
+    public static PolicySetType unmarshalPolicySetType(InputStream istream)
+            throws ParserConfigurationException, SAXException, IOException {
+        Document doc = readXML(istream);
+        Element xmlDom = doc.getDocumentElement();
 
-		PolicySetType policyset = unmarshalPolicySetType(xmlDom);
-		if (policyset != null && policyset.getPolicySetId() != null)
-			return policyset;
-		
-		return null;
-	}
+        PolicySetType policyset = unmarshalPolicySetType(xmlDom);
+        if (policyset != null && policyset.getPolicySetId() != null) {
+            return policyset;
+        }
 
-	public static PolicySetType unmarshalPolicySetType(String policysetFile)
-			throws ParserConfigurationException, SAXException, IOException {
-		Document doc = readXML(policysetFile);
-		Element xmlDom = doc.getDocumentElement();
+        return null;
+    }
 
-		return unmarshalPolicySetType(xmlDom);
-	}
+    public static PolicySetType unmarshalPolicySetType(String policysetFile)
+            throws ParserConfigurationException, SAXException, IOException {
+        Document doc = readXML(policysetFile);
+        Element xmlDom = doc.getDocumentElement();
 
-	/**
-	 * 
-	 * @param domRequest
-	 * @return
-	 */
-	private static PolicySetType unmarshalPolicySetType(Element dom) {
-		return unmarshall(PolicySetType.class, dom);
-	}
+        return unmarshalPolicySetType(xmlDom);
+    }
 
-	private static <T> T unmarshall(Class<T> cls, Element dom) {
+    /**
+     * @param domRequest
+     * @return
+     */
+    private static PolicySetType unmarshalPolicySetType(Element dom) {
+        return unmarshall(PolicySetType.class, dom);
+    }
 
-		try {
-			JAXBContext jc = JAXBContext.newInstance(cls);
-			Unmarshaller unmarshaller = jc.createUnmarshaller();
+    private static <T> T unmarshall(Class<T> cls, Element dom) {
 
-			JAXBElement<T> jaxbObject = unmarshaller.unmarshal(dom, cls);
+        try {
+            JAXBContext jc = JAXBContext.newInstance(cls);
+            Unmarshaller unmarshaller = jc.createUnmarshaller();
 
-			return jaxbObject.getValue();
-		} catch (JAXBException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-	}
+            JAXBElement<T> jaxbObject = unmarshaller.unmarshal(dom, cls);
 
-	public static Document readXML(InputStream istream)
-			throws ParserConfigurationException, SAXException, IOException {
-		javax.xml.parsers.DocumentBuilderFactory dbf = javax.xml.parsers.DocumentBuilderFactory
-				.newInstance();
-		dbf.setNamespaceAware(true);
+            return jaxbObject.getValue();
+        } catch (JAXBException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return null;
+    }
 
-		javax.xml.parsers.DocumentBuilder db = dbf.newDocumentBuilder();
+    public static Document readXML(InputStream istream)
+            throws ParserConfigurationException, SAXException, IOException {
+        javax.xml.parsers.DocumentBuilderFactory dbf = javax.xml.parsers.DocumentBuilderFactory
+                .newInstance();
+        dbf.setNamespaceAware(true);
 
-		org.w3c.dom.Document doc = db.parse(istream);
+        javax.xml.parsers.DocumentBuilder db = dbf.newDocumentBuilder();
 
-		return doc;
-	}
+        org.w3c.dom.Document doc = db.parse(istream);
 
-	public static Document readXML(String xmlFile)
-			throws ParserConfigurationException, SAXException, IOException {
-		javax.xml.parsers.DocumentBuilderFactory dbf = javax.xml.parsers.DocumentBuilderFactory
-				.newInstance();
-		dbf.setNamespaceAware(true);
+        return doc;
+    }
 
-		javax.xml.parsers.DocumentBuilder db = dbf.newDocumentBuilder();
+    public static Document readXML(String xmlFile)
+            throws ParserConfigurationException, SAXException, IOException {
+        javax.xml.parsers.DocumentBuilderFactory dbf = javax.xml.parsers.DocumentBuilderFactory
+                .newInstance();
+        dbf.setNamespaceAware(true);
 
-		org.w3c.dom.Document doc = db.parse(new FileInputStream(xmlFile));
+        javax.xml.parsers.DocumentBuilder db = dbf.newDocumentBuilder();
 
-		return doc;
-	}
+        org.w3c.dom.Document doc = db.parse(new FileInputStream(xmlFile));
 
-	
-	public static RequestType unmarshalRequestType(InputStream istream)
-			throws ParserConfigurationException, SAXException, IOException {
-		Document doc = readXML(istream);
-		Element xmlDom = doc.getDocumentElement();
+        return doc;
+    }
 
-		return unmarshalRequestType(xmlDom);
-	}
 
-	public static RequestType unmarshalRequestType(Element xmlDom) {
-		return unmarshall(RequestType.class, xmlDom);
-	}
+    public static RequestType unmarshalRequestType(InputStream istream)
+            throws ParserConfigurationException, SAXException, IOException {
+        Document doc = readXML(istream);
+        Element xmlDom = doc.getDocumentElement();
 
-	public static PolicyType unmarshalPolicyType(InputStream istream)
-			throws ParserConfigurationException, SAXException, IOException {
-		Document doc = readXML(istream);
-		Element xmlDom = doc.getDocumentElement();
+        return unmarshalRequestType(xmlDom);
+    }
 
-		return unmarshalPolicyType(xmlDom);
-	}
+    public static RequestType unmarshalRequestType(Element xmlDom) {
+        return unmarshall(RequestType.class, xmlDom);
+    }
 
-	public static PolicyType unmarshalPolicyType(String policyFile)
-			throws ParserConfigurationException, SAXException, IOException {
-		Document doc = readXML(policyFile);
-		Element xmlDom = doc.getDocumentElement();
+    public static PolicyType unmarshalPolicyType(InputStream istream)
+            throws ParserConfigurationException, SAXException, IOException {
+        Document doc = readXML(istream);
+        Element xmlDom = doc.getDocumentElement();
 
-		PolicyType policy = unmarshalPolicyType(xmlDom);
-		if (policy != null && policy.getPolicyId() != null)
-			return policy;
-		
-		return null;
-	}
+        return unmarshalPolicyType(xmlDom);
+    }
 
-	private static PolicyType unmarshalPolicyType(Element xmlDom) {
-		return unmarshall(PolicyType.class, xmlDom);
-	}
+    public static PolicyType unmarshalPolicyType(String policyFile)
+            throws ParserConfigurationException, SAXException, IOException {
+        Document doc = readXML(policyFile);
+        Element xmlDom = doc.getDocumentElement();
 
-	public static RequestType unmarshalRequestType(String xmlFile)
-			throws ParserConfigurationException, SAXException, IOException {
-		Document doc = readXML(xmlFile);
-		Element xmlDom = doc.getDocumentElement();
+        PolicyType policy = unmarshalPolicyType(xmlDom);
+        if (policy != null && policy.getPolicyId() != null) {
+            return policy;
+        }
 
-		return unmarshalRequestType(xmlDom);
-	}
+        return null;
+    }
 
-	public static <T> void print(JAXBElement<T> jaxbElement, Class<T> cls,
-			OutputStream os) {
-		JAXBContext jc;
-		try {
-			jc = JAXBContext.newInstance(cls);
-			Marshaller m = jc.createMarshaller();
-			m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+    private static PolicyType unmarshalPolicyType(Element xmlDom) {
+        return unmarshall(PolicyType.class, xmlDom);
+    }
 
-			m.marshal(jaxbElement, os);
-		} catch (JAXBException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
-	public static String print(RequestType request) {
-		
-		OutputStream os = new ByteArrayOutputStream();
-				
-		print((new ObjectFactory()).createRequest(request), 
-				oasis.names.tc.xacml._3_0.core.schema.wd_17.RequestType.class, os);
-		
-		return os.toString();
-	}
+    public static RequestType unmarshalRequestType(String xmlFile)
+            throws ParserConfigurationException, SAXException, IOException {
+        Document doc = readXML(xmlFile);
+        Element xmlDom = doc.getDocumentElement();
+
+        return unmarshalRequestType(xmlDom);
+    }
+
+    public static <T> void print(JAXBElement<T> jaxbElement, Class<T> cls,
+                                 OutputStream os) {
+        JAXBContext jc;
+        try {
+            jc = JAXBContext.newInstance(cls);
+            Marshaller m = jc.createMarshaller();
+            m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+
+            m.marshal(jaxbElement, os);
+        } catch (JAXBException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    public static String print(RequestType request) {
+
+        OutputStream os = new ByteArrayOutputStream();
+
+        print((new ObjectFactory()).createRequest(request),
+                oasis.names.tc.xacml._3_0.core.schema.wd_17.RequestType.class, os);
+
+        return os.toString();
+    }
 }

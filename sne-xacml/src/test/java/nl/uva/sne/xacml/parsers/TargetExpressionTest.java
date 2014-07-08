@@ -22,83 +22,76 @@
  */
 package nl.uva.sne.xacml.parsers;
 
-import static org.junit.Assert.*;
-
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import javax.xml.parsers.ParserConfigurationException;
-
-import nl.uva.sne.midd.MIDDException;
-import nl.uva.sne.midd.interval.Interval;
-import nl.uva.sne.midd.nodes.AbstractNode;
-import nl.uva.sne.xacml.AttributeMapper;
-import nl.uva.sne.xacml.policy.parsers.AllOfExpression;
-import nl.uva.sne.xacml.policy.parsers.AnyOfExpression;
-import nl.uva.sne.xacml.policy.parsers.MIDDParsingException;
-import nl.uva.sne.xacml.policy.parsers.TargetExpression;
-import nl.uva.sne.xacml.policy.parsers.XACMLParsingException;
-import nl.uva.sne.xacml.util.XACMLUtil;
-import oasis.names.tc.xacml._3_0.core.schema.wd_17.AllOfType;
-import oasis.names.tc.xacml._3_0.core.schema.wd_17.AnyOfType;
-import oasis.names.tc.xacml._3_0.core.schema.wd_17.PolicyType;
-import oasis.names.tc.xacml._3_0.core.schema.wd_17.RuleType;
-import oasis.names.tc.xacml._3_0.core.schema.wd_17.TargetType;
 
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
+import nl.uva.sne.midd.MIDDException;
+import nl.uva.sne.midd.nodes.AbstractNode;
+import nl.uva.sne.xacml.AttributeMapper;
+import nl.uva.sne.xacml.policy.parsers.MIDDParsingException;
+import nl.uva.sne.xacml.policy.parsers.TargetExpression;
+import nl.uva.sne.xacml.policy.parsers.XACMLParsingException;
+import nl.uva.sne.xacml.util.XACMLUtil;
+import oasis.names.tc.xacml._3_0.core.schema.wd_17.PolicyType;
+import oasis.names.tc.xacml._3_0.core.schema.wd_17.RuleType;
+import oasis.names.tc.xacml._3_0.core.schema.wd_17.TargetType;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 public class TargetExpressionTest {
 
-//	private static final String SAMPLE_POLICY_FILE = "src/test/resources/xacml3-AnyOf.xml";
-	private static final String SAMPLE_POLICY_FILE = "src/test/resources/xacml3-policyset-suppliers.xml";	
+    //	private static final String SAMPLE_POLICY_FILE = "src/test/resources/xacml3-AnyOf.xml";
+    private static final String SAMPLE_POLICY_FILE = "src/test/resources/xacml3-policyset-suppliers.xml";
 
 
-	private TargetType readTarget() throws ParserConfigurationException,
-			SAXException, IOException, FileNotFoundException {
-		PolicyType p1 = XACMLUtil.unmarshalPolicyType(new FileInputStream(SAMPLE_POLICY_FILE));
-		List<Object> objs = p1.getCombinerParametersOrRuleCombinerParametersOrVariableDefinition();
-		
-		assertNotNull(objs);
-		assertTrue(objs.size() > 1);
-		assertTrue(objs.get(0) instanceof RuleType);
-		
-		RuleType r1 = (RuleType) objs.get(0);
-		
-		TargetType target = r1.getTarget();
-		return target;
-	}
-	
-	@Test
-	public void testParsingTarget() throws FileNotFoundException, ParserConfigurationException, SAXException, IOException{
-		TargetType target = readTarget();
-		assertNotNull(target);
-		assertNotNull(target.getAnyOf());
-		assertTrue(target.getAnyOf().size() > 0);
-		
-		AttributeMapper attrMapper = new AttributeMapper();
-		TargetExpression te = new TargetExpression(attrMapper);
-		te.addAll(target.getAnyOf());
-		
-		AbstractNode root;
-		try {
-			root = te.parse();
-			root.print(System.out);
-		} catch (XACMLParsingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (MIDDParsingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (MIDDException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		
-	}
+    private TargetType readTarget() throws ParserConfigurationException,
+            SAXException, IOException, FileNotFoundException {
+        PolicyType p1 = XACMLUtil.unmarshalPolicyType(new FileInputStream(SAMPLE_POLICY_FILE));
+        List<Object> objs = p1.getCombinerParametersOrRuleCombinerParametersOrVariableDefinition();
+
+        assertNotNull(objs);
+        assertTrue(objs.size() > 1);
+        assertTrue(objs.get(0) instanceof RuleType);
+
+        RuleType r1 = (RuleType) objs.get(0);
+
+        TargetType target = r1.getTarget();
+        return target;
+    }
+
+    @Test
+    public void testParsingTarget() throws FileNotFoundException, ParserConfigurationException, SAXException, IOException {
+        TargetType target = readTarget();
+        assertNotNull(target);
+        assertNotNull(target.getAnyOf());
+        assertTrue(target.getAnyOf().size() > 0);
+
+        AttributeMapper attrMapper = new AttributeMapper();
+        TargetExpression te = new TargetExpression(attrMapper);
+        te.addAll(target.getAnyOf());
+
+        AbstractNode root;
+        try {
+            root = te.parse();
+            root.print(System.out);
+        } catch (XACMLParsingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (MIDDParsingException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (MIDDException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+
+    }
 }

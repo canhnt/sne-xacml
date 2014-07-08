@@ -17,26 +17,24 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for SubjectAttributeDesignatorType complex type.
- * 
+ * <p/>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p/>
  * <pre>
  * &lt;complexType name="SubjectAttributeDesignatorType">
  *   &lt;complexContent>
  *     &lt;extension base="{urn:oasis:names:tc:xacml:2.0:policy:schema:os}AttributeDesignatorType">
- *       &lt;attribute name="SubjectCategory" type="{http://www.w3.org/2001/XMLSchema}anyURI" default="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject" />
+ *       &lt;attribute name="SubjectCategory" type="{http://www.w3.org/2001/XMLSchema}anyURI"
+ * default="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject" />
  *     &lt;/extension>
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "SubjectAttributeDesignatorType")
 public class SubjectAttributeDesignatorType
-    extends AttributeDesignatorType
-{
+        extends AttributeDesignatorType {
 
     @XmlAttribute(name = "SubjectCategory")
     @XmlSchemaType(name = "anyURI")
@@ -44,11 +42,8 @@ public class SubjectAttributeDesignatorType
 
     /**
      * Gets the value of the subjectCategory property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is {@link String }
      */
     public String getSubjectCategory() {
         if (subjectCategory == null) {
@@ -60,11 +55,8 @@ public class SubjectAttributeDesignatorType
 
     /**
      * Sets the value of the subjectCategory property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is {@link String }
      */
     public void setSubjectCategory(String value) {
         this.subjectCategory = value;

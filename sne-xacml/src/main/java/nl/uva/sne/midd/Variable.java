@@ -29,8 +29,6 @@ package nl.uva.sne.midd;
 
 /**
  * @author Canh Ngo (t.c.ngo@uva.nl)
- *
- * @version 
  * @date: Sep 11, 2012
  */
 public class Variable<T extends Comparable<T>> implements Comparable<T> {
@@ -38,49 +36,48 @@ public class Variable<T extends Comparable<T>> implements Comparable<T> {
     final int EQUAL = 0;
     final int AFTER = 1;
 
-	public int id;
-	public T value;
-	
-	public Class<?> type;
-	
-	public Variable(int id, T value) {
-		this.id = id;
-		this.value = value;
-	}
-	
-	public Variable(int id, T value, Class<?> type) {
-		this(id, value);
-		this.type = type;
-	}
-	
-	public int getID() {
-		return id;
-	}
+    public int id;
+    public T value;
 
-	public Class<?> getType() {
-		if (value != null)
-			return value.getClass();
-		else
-			return type;
-	}
+    public Class<?> type;
 
-	public Comparable<?> getValue() {
+    public Variable(int id, T value) {
+        this.id = id;
+        this.value = value;
+    }
+
+    public Variable(int id, T value, Class<?> type) {
+        this(id, value);
+        this.type = type;
+    }
+
+    public int getID() {
+        return id;
+    }
+
+    public Class<?> getType() {
+        if (value != null) {
+            return value.getClass();
+        } else {
+            return type;
+        }
+    }
+
+    public Comparable<?> getValue() {
         return value;
-	}
+    }
 
-	@Override
-	public int compareTo(T arg0) {
-		Variable<?> var = (Variable<?>)arg0;
-		if (id < var.id) {
+    @Override
+    public int compareTo(T arg0) {
+        Variable<?> var = (Variable<?>) arg0;
+        if (id < var.id) {
             return BEFORE;
-        }
-		else if (id == var.id) {
+        } else if (id == var.id) {
             return EQUAL;
-        }
-		else if (id > var.id) {
+        } else if (id > var.id) {
             return AFTER;
-        }
-		else
+        } else {
             throw new RuntimeException("Unknown comparison");
-	}	
+        }
+    }
 }

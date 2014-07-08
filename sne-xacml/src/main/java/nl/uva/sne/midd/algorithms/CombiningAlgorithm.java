@@ -31,17 +31,15 @@ import nl.uva.sne.midd.DecisionType;
 
 /**
  * @author Canh Ngo (t.c.ngo@uva.nl)
- *
- * @version 
  * @date: Sep 20, 2012
  */
 public interface CombiningAlgorithm {
-	/**
-	 * Combining two DecisionType values following a specific algorithm.
-	 * 
-	 * @param op1
-	 * @param op2
-	 * @return
-	 */
-	DecisionType combine(DecisionType op1, DecisionType op2);
+    /**
+     * Combining two DecisionType values following a specific algorithm.
+     *
+     * @param op1
+     * @param op2
+     * @return
+     */
+    DecisionType combine(DecisionType op1, DecisionType op2);
 }

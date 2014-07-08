@@ -34,44 +34,43 @@ import nl.uva.sne.midd.obligations.Obligation;
 
 /**
  * @author Canh Ngo (t.c.ngo@uva.nl)
- *
  * @since: Sep 20, 2012
  */
 public class Decision {
-	private DecisionType decision;
-	private List<Obligation> obligations;
-	
-	public Decision(DecisionType decision) {
-		this.decision = decision;
-		obligations = new ArrayList<Obligation>();
-	}
-	
-	public Decision(DecisionType decision, List<Obligation> obligations) {
-		this.decision = decision;
-		this.obligations = new ArrayList<Obligation>();
-		this.obligations.addAll(obligations);
-	}
-	
-	public DecisionType getDecision() {
-		return this.decision;
-	}
-	
-	public List<Obligation> getObligations() {
-		return this.obligations;
-	}
-	
-	@Override
-	public String toString() {
-		StringBuffer buf = new StringBuffer();
-		buf.append(decision);
-		if (obligations != null && obligations.size() > 0) {
-			buf.append(",{");
-			for(Obligation o:obligations) {
-				buf.append(o + ",");
-			}
-			buf.deleteCharAt(buf.length()-1);
-			buf.append("}");
-		}
-		return buf.toString();
-	}
+    private DecisionType decision;
+    private List<Obligation> obligations;
+
+    public Decision(DecisionType decision) {
+        this.decision = decision;
+        obligations = new ArrayList<Obligation>();
+    }
+
+    public Decision(DecisionType decision, List<Obligation> obligations) {
+        this.decision = decision;
+        this.obligations = new ArrayList<Obligation>();
+        this.obligations.addAll(obligations);
+    }
+
+    public DecisionType getDecision() {
+        return this.decision;
+    }
+
+    public List<Obligation> getObligations() {
+        return this.obligations;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder buf = new StringBuilder();
+        buf.append(decision);
+        if (obligations != null && obligations.size() > 0) {
+            buf.append(",{");
+            for (Obligation o : obligations) {
+                buf.append(o).append(",");
+            }
+            buf.deleteCharAt(buf.length() - 1);
+            buf.append("}");
+        }
+        return buf.toString();
+    }
 }

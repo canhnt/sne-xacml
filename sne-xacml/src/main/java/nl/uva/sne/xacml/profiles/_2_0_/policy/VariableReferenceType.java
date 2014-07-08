@@ -16,9 +16,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for VariableReferenceType complex type.
- * 
+ * <p/>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p/>
  * <pre>
  * &lt;complexType name="VariableReferenceType">
  *   &lt;complexContent>
@@ -28,25 +28,19 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "VariableReferenceType")
 public class VariableReferenceType
-    extends ExpressionType
-{
+        extends ExpressionType {
 
     @XmlAttribute(name = "VariableId", required = true)
     protected String variableId;
 
     /**
      * Gets the value of the variableId property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is {@link String }
      */
     public String getVariableId() {
         return variableId;
@@ -54,11 +48,8 @@ public class VariableReferenceType
 
     /**
      * Sets the value of the variableId property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is {@link String }
      */
     public void setVariableId(String value) {
         this.variableId = value;

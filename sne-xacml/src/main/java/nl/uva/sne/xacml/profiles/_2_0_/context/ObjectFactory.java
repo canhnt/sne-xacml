@@ -15,18 +15,11 @@ import javax.xml.namespace.QName;
 
 
 /**
- * This object contains factory methods for each 
- * Java content interface and Java element interface 
- * generated in the oasis.names.tc.xacml._2_0.context.schema.os package. 
- * <p>An ObjectFactory allows you to programatically 
- * construct new instances of the Java representation 
- * for XML content. The Java representation of XML 
- * content can consist of schema derived interfaces 
- * and classes representing the binding of schema 
- * type definitions, element declarations and model 
- * groups.  Factory methods for each of these are 
- * provided in this class.
- * 
+ * This object contains factory methods for each Java content interface and Java element interface generated in the
+ * oasis.names.tc.xacml._2_0.context.schema.os package. <p>An ObjectFactory allows you to programatically construct new
+ * instances of the Java representation for XML content. The Java representation of XML content can consist of schema
+ * derived interfaces and classes representing the binding of schema type definitions, element declarations and model
+ * groups.  Factory methods for each of these are provided in this class.
  */
 @XmlRegistry
 public class ObjectFactory {
@@ -49,15 +42,14 @@ public class ObjectFactory {
     private final static QName _Subject_QNAME = new QName("urn:oasis:names:tc:xacml:2.0:context:schema:os", "Subject");
 
     /**
-     * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: oasis.names.tc.xacml._2_0.context.schema.os
-     * 
+     * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package:
+     * oasis.names.tc.xacml._2_0.context.schema.os
      */
     public ObjectFactory() {
     }
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link ActionType }{@code >}}
-     * 
      */
     @XmlElementDecl(namespace = "urn:oasis:names:tc:xacml:2.0:context:schema:os", name = "Action")
     public JAXBElement<ActionType> createAction(ActionType value) {
@@ -66,7 +58,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link ActionType }
-     * 
      */
     public ActionType createActionType() {
         return new ActionType();
@@ -74,7 +65,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link AttributeType }{@code >}}
-     * 
      */
     @XmlElementDecl(namespace = "urn:oasis:names:tc:xacml:2.0:context:schema:os", name = "Attribute")
     public JAXBElement<AttributeType> createAttribute(AttributeType value) {
@@ -83,7 +73,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link AttributeType }
-     * 
      */
     public AttributeType createAttributeType() {
         return new AttributeType();
@@ -91,7 +80,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link AttributeValueType }{@code >}}
-     * 
      */
     @XmlElementDecl(namespace = "urn:oasis:names:tc:xacml:2.0:context:schema:os", name = "AttributeValue")
     public JAXBElement<AttributeValueType> createAttributeValue(AttributeValueType value) {
@@ -100,7 +88,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link AttributeValueType }
-     * 
      */
     public AttributeValueType createAttributeValueType() {
         return new AttributeValueType();
@@ -108,7 +95,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link DecisionType }{@code >}}
-     * 
      */
     @XmlElementDecl(namespace = "urn:oasis:names:tc:xacml:2.0:context:schema:os", name = "Decision")
     public JAXBElement<DecisionType> createDecision(DecisionType value) {
@@ -117,7 +103,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link EnvironmentType }{@code >}}
-     * 
      */
     @XmlElementDecl(namespace = "urn:oasis:names:tc:xacml:2.0:context:schema:os", name = "Environment")
     public JAXBElement<EnvironmentType> createEnvironment(EnvironmentType value) {
@@ -126,7 +111,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link EnvironmentType }
-     * 
      */
     public EnvironmentType createEnvironmentType() {
         return new EnvironmentType();
@@ -134,7 +118,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link MissingAttributeDetailType }{@code >}}
-     * 
      */
     @XmlElementDecl(namespace = "urn:oasis:names:tc:xacml:2.0:context:schema:os", name = "MissingAttributeDetail")
     public JAXBElement<MissingAttributeDetailType> createMissingAttributeDetail(MissingAttributeDetailType value) {
@@ -143,7 +126,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link MissingAttributeDetailType }
-     * 
      */
     public MissingAttributeDetailType createMissingAttributeDetailType() {
         return new MissingAttributeDetailType();
@@ -151,7 +133,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link RequestType }{@code >}}
-     * 
      */
     @XmlElementDecl(namespace = "urn:oasis:names:tc:xacml:2.0:context:schema:os", name = "Request")
     public JAXBElement<RequestType> createRequest(RequestType value) {
@@ -160,7 +141,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link RequestType }
-     * 
      */
     public RequestType createRequestType() {
         return new RequestType();
@@ -168,7 +148,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link ResourceType }{@code >}}
-     * 
      */
     @XmlElementDecl(namespace = "urn:oasis:names:tc:xacml:2.0:context:schema:os", name = "Resource")
     public JAXBElement<ResourceType> createResource(ResourceType value) {
@@ -177,7 +156,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link ResourceContentType }{@code >}}
-     * 
      */
     @XmlElementDecl(namespace = "urn:oasis:names:tc:xacml:2.0:context:schema:os", name = "ResourceContent")
     public JAXBElement<ResourceContentType> createResourceContent(ResourceContentType value) {
@@ -186,7 +164,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link ResourceContentType }
-     * 
      */
     public ResourceContentType createResourceContentType() {
         return new ResourceContentType();
@@ -194,7 +171,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link ResourceType }
-     * 
      */
     public ResourceType createResourceType() {
         return new ResourceType();
@@ -202,7 +178,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link ResponseType }{@code >}}
-     * 
      */
     @XmlElementDecl(namespace = "urn:oasis:names:tc:xacml:2.0:context:schema:os", name = "Response")
     public JAXBElement<ResponseType> createResponse(ResponseType value) {
@@ -211,7 +186,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link ResponseType }
-     * 
      */
     public ResponseType createResponseType() {
         return new ResponseType();
@@ -219,7 +193,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link ResultType }{@code >}}
-     * 
      */
     @XmlElementDecl(namespace = "urn:oasis:names:tc:xacml:2.0:context:schema:os", name = "Result")
     public JAXBElement<ResultType> createResult(ResultType value) {
@@ -228,7 +201,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link ResultType }
-     * 
      */
     public ResultType createResultType() {
         return new ResultType();
@@ -236,7 +208,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link StatusType }{@code >}}
-     * 
      */
     @XmlElementDecl(namespace = "urn:oasis:names:tc:xacml:2.0:context:schema:os", name = "Status")
     public JAXBElement<StatusType> createStatus(StatusType value) {
@@ -245,7 +216,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link StatusCodeType }{@code >}}
-     * 
      */
     @XmlElementDecl(namespace = "urn:oasis:names:tc:xacml:2.0:context:schema:os", name = "StatusCode")
     public JAXBElement<StatusCodeType> createStatusCode(StatusCodeType value) {
@@ -254,7 +224,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link StatusCodeType }
-     * 
      */
     public StatusCodeType createStatusCodeType() {
         return new StatusCodeType();
@@ -262,7 +231,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link StatusDetailType }{@code >}}
-     * 
      */
     @XmlElementDecl(namespace = "urn:oasis:names:tc:xacml:2.0:context:schema:os", name = "StatusDetail")
     public JAXBElement<StatusDetailType> createStatusDetail(StatusDetailType value) {
@@ -271,7 +239,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link StatusDetailType }
-     * 
      */
     public StatusDetailType createStatusDetailType() {
         return new StatusDetailType();
@@ -279,7 +246,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
-     * 
      */
     @XmlElementDecl(namespace = "urn:oasis:names:tc:xacml:2.0:context:schema:os", name = "StatusMessage")
     public JAXBElement<String> createStatusMessage(String value) {
@@ -288,7 +254,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link StatusType }
-     * 
      */
     public StatusType createStatusType() {
         return new StatusType();
@@ -296,7 +261,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link JAXBElement }{@code <}{@link SubjectType }{@code >}}
-     * 
      */
     @XmlElementDecl(namespace = "urn:oasis:names:tc:xacml:2.0:context:schema:os", name = "Subject")
     public JAXBElement<SubjectType> createSubject(SubjectType value) {
@@ -305,7 +269,6 @@ public class ObjectFactory {
 
     /**
      * Create an instance of {@link SubjectType }
-     * 
      */
     public SubjectType createSubjectType() {
         return new SubjectType();

@@ -24,56 +24,52 @@ package nl.uva.sne.xacml;
 
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
 import javax.xml.parsers.ParserConfigurationException;
+
+import org.junit.Test;
+import org.xml.sax.SAXException;
 
 import nl.uva.sne.xacml.util.XACMLUtil;
 import oasis.names.tc.xacml._3_0.core.schema.wd_17.PolicySetType;
 import oasis.names.tc.xacml._3_0.core.schema.wd_17.PolicyType;
 
-import org.junit.Test;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.xml.sax.SAXException;
-
 
 public class LoadPolicyTest {
 
-	private static final String POLICY_FILE = "policies/xacml3-mli-interface.xml";
-	
-	private static final String POLICYSET_TYPE = "src/test/resources/xacml3-policyset-sli.xml";
+    private static final String POLICY_FILE = "policies/xacml3-mli-interface.xml";
 
-	@Test
-	public void loadPolicy() throws ParserConfigurationException, SAXException, IOException {
-		PolicyType policy1 = XACMLUtil.unmarshalPolicyType(POLICY_FILE);
-		
-		print((new oasis.names.tc.xacml._3_0.core.schema.wd_17.ObjectFactory().createPolicy(policy1)), PolicyType.class);
-	}
+    private static final String POLICYSET_TYPE = "src/test/resources/xacml3-policyset-sli.xml";
 
-	@Test
-	public void loadPolicyset() throws ParserConfigurationException, SAXException, IOException {
-		PolicySetType ps = XACMLUtil.unmarshalPolicySetType(POLICYSET_TYPE);
-		
-		print((new oasis.names.tc.xacml._3_0.core.schema.wd_17.ObjectFactory().createPolicySet(ps)), PolicySetType.class);
-	}
-	
-	private static <T> void print(JAXBElement<T> jaxbElement, Class<T> cls) {
-		JAXBContext jc;
-		try {
-			jc = JAXBContext.newInstance(cls);
-			Marshaller m = jc.createMarshaller();
-			m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+    @Test
+    public void loadPolicy() throws ParserConfigurationException, SAXException, IOException {
+        PolicyType policy1 = XACMLUtil.unmarshalPolicyType(POLICY_FILE);
 
-			m.marshal(jaxbElement, System.out);
-		} catch (JAXBException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}	
+        print((new oasis.names.tc.xacml._3_0.core.schema.wd_17.ObjectFactory().createPolicy(policy1)), PolicyType.class);
+    }
+
+    @Test
+    public void loadPolicyset() throws ParserConfigurationException, SAXException, IOException {
+        PolicySetType ps = XACMLUtil.unmarshalPolicySetType(POLICYSET_TYPE);
+
+        print((new oasis.names.tc.xacml._3_0.core.schema.wd_17.ObjectFactory().createPolicySet(ps)), PolicySetType.class);
+    }
+
+    private static <T> void print(JAXBElement<T> jaxbElement, Class<T> cls) {
+        JAXBContext jc;
+        try {
+            jc = JAXBContext.newInstance(cls);
+            Marshaller m = jc.createMarshaller();
+            m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+
+            m.marshal(jaxbElement, System.out);
+        } catch (JAXBException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
 }

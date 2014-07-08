@@ -29,30 +29,26 @@ package nl.uva.sne.midd.nodes;
 
 import java.io.OutputStream;
 
-import nl.uva.sne.midd.MIDDException;
-
 /**
  * @author Canh Ngo (t.c.ngo@uva.nl)
- *
- * @version 
  * @date: Sep 11, 2012
  */
 public abstract class AbstractNode {
 
-	private int id;
-	
-	public AbstractNode(int id) {
-		this.id = id;
-	}
+    private int id;
 
-	@Override
-	public abstract AbstractNode clone() throws CloneNotSupportedException;
-	
-	public int getID(){
-		return id;
-	}
-		
-	public abstract Class<?> getType();
+    public AbstractNode(int id) {
+        this.id = id;
+    }
 
-	public abstract void print(OutputStream os);
+    @Override
+    public abstract AbstractNode clone() throws CloneNotSupportedException;
+
+    public int getID() {
+        return id;
+    }
+
+    public abstract Class<?> getType();
+
+    public abstract void print(OutputStream os);
 }

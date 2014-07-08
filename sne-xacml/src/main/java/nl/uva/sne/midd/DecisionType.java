@@ -23,11 +23,11 @@
 package nl.uva.sne.midd;
 
 public enum DecisionType {
-	Deny,
-	Indeterminate,
-	Indeterminate_D,
-	Indeterminate_DP,
-	Indeterminate_P,
-	NotApplicable,
-	Permit
+    Deny,
+    Indeterminate,
+    Indeterminate_D,
+    Indeterminate_DP,
+    Indeterminate_P,
+    NotApplicable,
+    Permit
 }

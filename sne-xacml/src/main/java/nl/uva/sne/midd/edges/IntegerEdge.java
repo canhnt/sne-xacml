@@ -29,27 +29,24 @@ package nl.uva.sne.midd.edges;
 
 import java.util.List;
 
-import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.interval.Interval;
 
 /**
  * @author Canh Ngo (t.c.ngo@uva.nl)
- *
- * @version 
  * @date: Sep 12, 2012
  */
 public class IntegerEdge extends AbstractEdge<Integer> {
 
-	public IntegerEdge(final Interval<Integer> interval) {
-		super(interval);
-	}
+    public IntegerEdge(final Interval<Integer> interval) {
+        super(interval);
+    }
 
-	public IntegerEdge(final List<Interval<Integer>> intervals) {
-		super(intervals);
-	}
+    public IntegerEdge(final List<Interval<Integer>> intervals) {
+        super(intervals);
+    }
 
-	@Override
-	public Class<Integer> getType() {
-		return Integer.class;
-	}
+    @Override
+    public Class<Integer> getType() {
+        return Integer.class;
+    }
 }

@@ -22,21 +22,20 @@
  */
 package nl.uva.sne.midd.algorithms;
 
-import static org.junit.Assert.*;
+import org.junit.Test;
 
 import nl.uva.sne.midd.DecisionType;
-
-import org.junit.Test;
+import static org.junit.Assert.assertTrue;
 
 public class FirstApplicableAlgTest extends FirstApplicableAlg {
 
-	@Test
-	public void test() {
-		FirstApplicableAlg alg = new FirstApplicableAlg();
-		
-		assertTrue(alg.combine(DecisionType.Indeterminate, DecisionType.Permit) == DecisionType.Indeterminate);
-		assertTrue(alg.combine(DecisionType.NotApplicable, DecisionType.Permit) == DecisionType.Permit);
-		assertTrue(alg.combine(DecisionType.NotApplicable, DecisionType.Indeterminate) == DecisionType.Indeterminate);
-	}
+    @Test
+    public void test() {
+        FirstApplicableAlg alg = new FirstApplicableAlg();
+
+        assertTrue(alg.combine(DecisionType.Indeterminate, DecisionType.Permit) == DecisionType.Indeterminate);
+        assertTrue(alg.combine(DecisionType.NotApplicable, DecisionType.Permit) == DecisionType.Permit);
+        assertTrue(alg.combine(DecisionType.NotApplicable, DecisionType.Indeterminate) == DecisionType.Indeterminate);
+    }
 
 }

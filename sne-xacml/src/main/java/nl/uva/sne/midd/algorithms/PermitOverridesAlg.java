@@ -31,44 +31,48 @@ import nl.uva.sne.midd.DecisionType;
 
 /**
  * @author Canh Ngo (t.c.ngo@uva.nl)
- *
- * @version 
  * @date: Sep 20, 2012
  */
 public class PermitOverridesAlg implements
-		CombiningAlgorithm {
+        CombiningAlgorithm {
 
-	/* (non-Javadoc)
-	 * @see nl.uva.sne.midd.algorithms.CombiningAlgorithmInterface#combine(nl.uva.sne.midd.DecisionType, nl.uva.sne.midd.DecisionType)
-	 */
-	@Override
-	public DecisionType combine(DecisionType op1, DecisionType op2) {
-		if (op1 == DecisionType.Permit || op2 == DecisionType.Permit)
-			return DecisionType.Permit;
-		
-		if ((op1 == DecisionType.Indeterminate_DP) || (op2 == DecisionType.Indeterminate_DP)) 
-			return DecisionType.Indeterminate_DP;
-		
-		if (op1 == DecisionType.Indeterminate_P) {
-			if (op2 == DecisionType.Deny || op2 == DecisionType.Indeterminate_D)
-				return DecisionType.Indeterminate_DP;
-			else 
-				return DecisionType.Indeterminate_P;			
-		}
-		
-		if (op2 == DecisionType.Indeterminate_P) {
-			if (op1 == DecisionType.Deny || op1 == DecisionType.Indeterminate_D)
-				return DecisionType.Indeterminate_DP;
-			else 
-				return DecisionType.Indeterminate_P;			
-		}
-		
-		if (op1 == DecisionType.Deny || op2 == DecisionType.Deny)
-			return DecisionType.Deny;
-		
-		if (op1 == DecisionType.Indeterminate_D || op2 == DecisionType.Indeterminate_D)
-			return DecisionType.Indeterminate_D;
-		
-		return DecisionType.NotApplicable;
-	}
+    /* (non-Javadoc)
+     * @see nl.uva.sne.midd.algorithms.CombiningAlgorithmInterface#combine(nl.uva.sne.midd.DecisionType, nl.uva.sne.midd.DecisionType)
+     */
+    @Override
+    public DecisionType combine(DecisionType op1, DecisionType op2) {
+        if (op1 == DecisionType.Permit || op2 == DecisionType.Permit) {
+            return DecisionType.Permit;
+        }
+
+        if ((op1 == DecisionType.Indeterminate_DP) || (op2 == DecisionType.Indeterminate_DP)) {
+            return DecisionType.Indeterminate_DP;
+        }
+
+        if (op1 == DecisionType.Indeterminate_P) {
+            if (op2 == DecisionType.Deny || op2 == DecisionType.Indeterminate_D) {
+                return DecisionType.Indeterminate_DP;
+            } else {
+                return DecisionType.Indeterminate_P;
+            }
+        }
+
+        if (op2 == DecisionType.Indeterminate_P) {
+            if (op1 == DecisionType.Deny || op1 == DecisionType.Indeterminate_D) {
+                return DecisionType.Indeterminate_DP;
+            } else {
+                return DecisionType.Indeterminate_P;
+            }
+        }
+
+        if (op1 == DecisionType.Deny || op2 == DecisionType.Deny) {
+            return DecisionType.Deny;
+        }
+
+        if (op1 == DecisionType.Indeterminate_D || op2 == DecisionType.Indeterminate_D) {
+            return DecisionType.Indeterminate_D;
+        }
+
+        return DecisionType.NotApplicable;
+    }
 }

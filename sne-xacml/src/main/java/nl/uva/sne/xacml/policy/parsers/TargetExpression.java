@@ -35,74 +35,77 @@ import oasis.names.tc.xacml._3_0.core.schema.wd_17.AnyOfType;
 
 /**
  * TargetExpression: contains list of AnyOf expression combined by conjunctive operator
- * 
- * @author Canh Ngo (t.c.ngo@uva.nl)
  *
- * @version 
+ * @author Canh Ngo (t.c.ngo@uva.nl)
  * @date: Sep 27, 2012
  */
 public class TargetExpression {
-	
-	private List<AnyOfType> lstAnyOf;
-	
-	private AttributeMapper attrMapper = null;;
-		
-	public TargetExpression(AttributeMapper attrMapper) {
-		if (attrMapper == null)
-			throw new IllegalArgumentException("AttributeMapper argument must not be null");
-		
-		this.lstAnyOf = new ArrayList<AnyOfType>();
-		this.attrMapper = attrMapper;
-	}
-		
-	public TargetExpression(List<AnyOfType> lstAnyOf, AttributeMapper attrMapper) {
+
+    private List<AnyOfType> lstAnyOf;
+
+    private AttributeMapper attrMapper = null;
+    ;
+
+    public TargetExpression(AttributeMapper attrMapper) {
+        if (attrMapper == null) {
+            throw new IllegalArgumentException("AttributeMapper argument must not be null");
+        }
+
+        this.lstAnyOf = new ArrayList<AnyOfType>();
+        this.attrMapper = attrMapper;
+    }
+
+    public TargetExpression(List<AnyOfType> lstAnyOf, AttributeMapper attrMapper) {
 //		if (lstAnyOf == null || lstAnyOf.size() == 0)
 //			throw new IllegalArgumentException("lstAnyOf argument must not be null or empty");
-		if (attrMapper == null)
-			throw new IllegalArgumentException("AttributeMapper argument must not be null");
+        if (attrMapper == null) {
+            throw new IllegalArgumentException("AttributeMapper argument must not be null");
+        }
 
-		if (lstAnyOf != null && lstAnyOf.size() > 0) {
-			this.lstAnyOf = new ArrayList<AnyOfType>(lstAnyOf);
-		} else
-			this.lstAnyOf = null;
-		
-		this.attrMapper = attrMapper;
-	}
-	
-	public void add(AnyOfType anyOf) {
-		lstAnyOf.add(anyOf);
-	}
-	
-	public void addAll(List<AnyOfType> lstAnyOf) {
-		this.lstAnyOf.addAll(lstAnyOf);
-	}
-	
-	public AttributeMapper getAttributeMapper() {
-		return this.attrMapper;
-	}
-	
-	public AbstractNode parse() throws XACMLParsingException, MIDDParsingException, MIDDException {
-		
-		if (lstAnyOf == null || lstAnyOf.size() == 0)
-			return new ExternalNode();	// return a true-value external node if there's no AnyOf expression.
-		
-		AbstractNode root = null;
-		
-		Iterator<AnyOfType> itAnyOf = lstAnyOf.iterator();
-		
-		while (itAnyOf.hasNext()) {
-			AnyOfType currentAnyOfExp = itAnyOf.next();
-			AnyOfExpression aoe = new AnyOfExpression(currentAnyOfExp, attrMapper);
-			
-			AbstractNode currentMIDD = aoe.parse();
-			
-			if (root != null) {
-				// Conjunctive join current AnyOf expressions 
-				root = ConjunctiveBuilder.join(root, currentMIDD);
-			} else {
-				root = currentMIDD;
-			}
-		}
-		return root;
-	}
+        if (lstAnyOf != null && lstAnyOf.size() > 0) {
+            this.lstAnyOf = new ArrayList<AnyOfType>(lstAnyOf);
+        } else {
+            this.lstAnyOf = null;
+        }
+
+        this.attrMapper = attrMapper;
+    }
+
+    public void add(AnyOfType anyOf) {
+        lstAnyOf.add(anyOf);
+    }
+
+    public void addAll(List<AnyOfType> lstAnyOf) {
+        this.lstAnyOf.addAll(lstAnyOf);
+    }
+
+    public AttributeMapper getAttributeMapper() {
+        return this.attrMapper;
+    }
+
+    public AbstractNode parse() throws XACMLParsingException, MIDDParsingException, MIDDException {
+
+        if (lstAnyOf == null || lstAnyOf.size() == 0) {
+            return new ExternalNode();    // return a true-value external node if there's no AnyOf expression.
+        }
+
+        AbstractNode root = null;
+
+        Iterator<AnyOfType> itAnyOf = lstAnyOf.iterator();
+
+        while (itAnyOf.hasNext()) {
+            AnyOfType currentAnyOfExp = itAnyOf.next();
+            AnyOfExpression aoe = new AnyOfExpression(currentAnyOfExp, attrMapper);
+
+            AbstractNode currentMIDD = aoe.parse();
+
+            if (root != null) {
+                // Conjunctive join current AnyOf expressions
+                root = ConjunctiveBuilder.join(root, currentMIDD);
+            } else {
+                root = currentMIDD;
+            }
+        }
+        return root;
+    }
 }

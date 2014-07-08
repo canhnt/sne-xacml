@@ -36,47 +36,47 @@ import nl.uva.sne.xacml.ExternalNode3;
 /**
  * @author Canh Ngo (t.c.ngo@uva.nl)
  *
- * @version 
+ * @version
  * @date: Sep 20, 2012
  */
 
 /**
  * Class represents returned information when evaluation has indeterminate state at a node
  */
-public class InternalNodeState{
-	
-	private ExternalNode3 state;
-		
-	public InternalNodeState(DecisionType state) {
-		this.state = new ExternalNode3(state);
-	}
-	
-	public InternalNodeState(DecisionType stateIN, List<ObligationExpression> oes) {
-		this.state = new ExternalNode3(stateIN, oes);
-	}
+public class InternalNodeState {
+
+    private ExternalNode3 state;
+
+    public InternalNodeState(DecisionType state) {
+        this.state = new ExternalNode3(state);
+    }
+
+    public InternalNodeState(DecisionType stateIN, List<ObligationExpression> oes) {
+        this.state = new ExternalNode3(stateIN, oes);
+    }
 
 
-	public InternalNodeState(ExternalNode3 n) {
-		this.state = new ExternalNode3(n);
-	}
+    public InternalNodeState(ExternalNode3 n) {
+        this.state = new ExternalNode3(n);
+    }
 
-	public InternalNodeState(InternalNodeState state) {
-		this.state  = new ExternalNode3(state.state);
-	}
+    public InternalNodeState(InternalNodeState state) {
+        this.state = new ExternalNode3(state.state);
+    }
 
-	public Decision buildDecision() {
-		return state.buildDecision();
-	}
-	
-	public ExternalNode3 getExternalNode() {
-		return state;
-	}
-	
-	public List<ObligationExpression> getObligationExpressions() {		
-		return state.getObligationExpressions();					
-	}
+    public Decision buildDecision() {
+        return state.buildDecision();
+    }
 
-	public DecisionType getStateIN() {
-		return state.getDecision();
-	}
+    public ExternalNode3 getExternalNode() {
+        return state;
+    }
+
+    public List<ObligationExpression> getObligationExpressions() {
+        return state.getObligationExpressions();
+    }
+
+    public DecisionType getStateIN() {
+        return state.getDecision();
+    }
 }

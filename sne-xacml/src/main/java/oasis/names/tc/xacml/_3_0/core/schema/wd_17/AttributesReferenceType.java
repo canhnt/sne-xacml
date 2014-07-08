@@ -18,9 +18,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for AttributesReferenceType complex type.
- * 
+ * <p/>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p/>
  * <pre>
  * &lt;complexType name="AttributesReferenceType">
  *   &lt;complexContent>
@@ -30,8 +30,6 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "AttributesReferenceType")
@@ -44,11 +42,8 @@ public class AttributesReferenceType {
 
     /**
      * Gets the value of the referenceId property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Object }
-     *     
+     *
+     * @return possible object is {@link Object }
      */
     public Object getReferenceId() {
         return referenceId;
@@ -56,11 +51,8 @@ public class AttributesReferenceType {
 
     /**
      * Sets the value of the referenceId property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Object }
-     *     
+     *
+     * @param value allowed object is {@link Object }
      */
     public void setReferenceId(Object value) {
         this.referenceId = value;

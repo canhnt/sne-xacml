@@ -24,13 +24,13 @@ package nl.uva.sne.xacml.policy.parsers;
 
 public class XACMLParsingException extends Exception {
 
-	public XACMLParsingException(String string) {
-		super(string);
-	}
+    public XACMLParsingException(String string) {
+        super(string);
+    }
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 5708385001868203249L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 5708385001868203249L;
 
 }

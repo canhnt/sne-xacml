@@ -10,6 +10,7 @@ package nl.uva.sne.xacml.profiles._2_0_.policy;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -21,9 +22,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for PolicyType complex type.
- * 
+ * <p/>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p/>
  * <pre>
  * &lt;complexType name="PolicyType">
  *   &lt;complexContent>
@@ -42,33 +43,32 @@ import javax.xml.bind.annotation.XmlType;
  *         &lt;element ref="{urn:oasis:names:tc:xacml:2.0:policy:schema:os}Obligations" minOccurs="0"/>
  *       &lt;/sequence>
  *       &lt;attribute name="PolicyId" use="required" type="{http://www.w3.org/2001/XMLSchema}anyURI" />
- *       &lt;attribute name="Version" type="{urn:oasis:names:tc:xacml:2.0:policy:schema:os}VersionType" default="1.0" />
+ *       &lt;attribute name="Version" type="{urn:oasis:names:tc:xacml:2.0:policy:schema:os}VersionType" default="1.0"
+ * />
  *       &lt;attribute name="RuleCombiningAlgId" use="required" type="{http://www.w3.org/2001/XMLSchema}anyURI" />
  *     &lt;/restriction>
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "PolicyType", propOrder = {
-    "description",
-    "policyDefaults",
-    "combinerParameters",
-    "target",
-    "combinerParametersOrRuleCombinerParametersOrVariableDefinition",
-    "obligations"
+        "description",
+        "policyDefaults",
+        "combinerParameters",
+        "target",
+        "combinerParametersOrRuleCombinerParametersOrVariableDefinition",
+        "obligations"
 })
 public class PolicyType {
 
     @XmlElement(name = "CombinerParameters")
     protected CombinerParametersType combinerParameters;
     @XmlElements({
-        @XmlElement(name = "CombinerParameters", type = CombinerParametersType.class),
-        @XmlElement(name = "RuleCombinerParameters", type = RuleCombinerParametersType.class),
-        @XmlElement(name = "VariableDefinition", type = VariableDefinitionType.class),
-        @XmlElement(name = "Rule", type = RuleType.class)
+            @XmlElement(name = "CombinerParameters", type = CombinerParametersType.class),
+            @XmlElement(name = "RuleCombinerParameters", type = RuleCombinerParametersType.class),
+            @XmlElement(name = "VariableDefinition", type = VariableDefinitionType.class),
+            @XmlElement(name = "Rule", type = RuleType.class)
     })
     protected List<Object> combinerParametersOrRuleCombinerParametersOrVariableDefinition;
     @XmlElement(name = "Description")
@@ -90,11 +90,8 @@ public class PolicyType {
 
     /**
      * Gets the value of the combinerParameters property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link CombinerParametersType }
-     *     
+     *
+     * @return possible object is {@link CombinerParametersType }
      */
     public CombinerParametersType getCombinerParameters() {
         return combinerParameters;
@@ -102,28 +99,22 @@ public class PolicyType {
 
     /**
      * Gets the value of the combinerParametersOrRuleCombinerParametersOrVariableDefinition property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the combinerParametersOrRuleCombinerParametersOrVariableDefinition property.
-     * 
-     * <p>
+     * <p/>
+     * <p/>
+     * This accessor method returns a reference to the live list, not a snapshot. Therefore any modification you make to
+     * the returned list will be present inside the JAXB object. This is why there is not a <CODE>set</CODE> method for
+     * the combinerParametersOrRuleCombinerParametersOrVariableDefinition property.
+     * <p/>
+     * <p/>
      * For example, to add a new item, do as follows:
      * <pre>
      *    getCombinerParametersOrRuleCombinerParametersOrVariableDefinition().add(newItem);
      * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link CombinerParametersType }
-     * {@link RuleCombinerParametersType }
-     * {@link VariableDefinitionType }
-     * {@link RuleType }
-     * 
-     * 
+     * <p/>
+     * <p/>
+     * <p/>
+     * Objects of the following type(s) are allowed in the list {@link CombinerParametersType } {@link
+     * RuleCombinerParametersType } {@link VariableDefinitionType } {@link RuleType }
      */
     public List<Object> getCombinerParametersOrRuleCombinerParametersOrVariableDefinition() {
         if (combinerParametersOrRuleCombinerParametersOrVariableDefinition == null) {
@@ -134,11 +125,8 @@ public class PolicyType {
 
     /**
      * Gets the value of the description property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is {@link String }
      */
     public String getDescription() {
         return description;
@@ -146,11 +134,8 @@ public class PolicyType {
 
     /**
      * Gets the value of the obligations property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link ObligationsType }
-     *     
+     *
+     * @return possible object is {@link ObligationsType }
      */
     public ObligationsType getObligations() {
         return obligations;
@@ -158,11 +143,8 @@ public class PolicyType {
 
     /**
      * Gets the value of the policyDefaults property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link DefaultsType }
-     *     
+     *
+     * @return possible object is {@link DefaultsType }
      */
     public DefaultsType getPolicyDefaults() {
         return policyDefaults;
@@ -170,11 +152,8 @@ public class PolicyType {
 
     /**
      * Gets the value of the policyId property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is {@link String }
      */
     public String getPolicyId() {
         return policyId;
@@ -182,11 +161,8 @@ public class PolicyType {
 
     /**
      * Gets the value of the ruleCombiningAlgId property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is {@link String }
      */
     public String getRuleCombiningAlgId() {
         return ruleCombiningAlgId;
@@ -194,11 +170,8 @@ public class PolicyType {
 
     /**
      * Gets the value of the target property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link TargetType }
-     *     
+     *
+     * @return possible object is {@link TargetType }
      */
     public TargetType getTarget() {
         return target;
@@ -206,11 +179,8 @@ public class PolicyType {
 
     /**
      * Gets the value of the version property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is {@link String }
      */
     public String getVersion() {
         if (version == null) {
@@ -222,11 +192,8 @@ public class PolicyType {
 
     /**
      * Sets the value of the combinerParameters property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link CombinerParametersType }
-     *     
+     *
+     * @param value allowed object is {@link CombinerParametersType }
      */
     public void setCombinerParameters(CombinerParametersType value) {
         this.combinerParameters = value;
@@ -234,11 +201,8 @@ public class PolicyType {
 
     /**
      * Sets the value of the description property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is {@link String }
      */
     public void setDescription(String value) {
         this.description = value;
@@ -246,11 +210,8 @@ public class PolicyType {
 
     /**
      * Sets the value of the obligations property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link ObligationsType }
-     *     
+     *
+     * @param value allowed object is {@link ObligationsType }
      */
     public void setObligations(ObligationsType value) {
         this.obligations = value;
@@ -258,11 +219,8 @@ public class PolicyType {
 
     /**
      * Sets the value of the policyDefaults property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link DefaultsType }
-     *     
+     *
+     * @param value allowed object is {@link DefaultsType }
      */
     public void setPolicyDefaults(DefaultsType value) {
         this.policyDefaults = value;
@@ -270,11 +228,8 @@ public class PolicyType {
 
     /**
      * Sets the value of the policyId property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is {@link String }
      */
     public void setPolicyId(String value) {
         this.policyId = value;
@@ -282,11 +237,8 @@ public class PolicyType {
 
     /**
      * Sets the value of the ruleCombiningAlgId property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is {@link String }
      */
     public void setRuleCombiningAlgId(String value) {
         this.ruleCombiningAlgId = value;
@@ -294,11 +246,8 @@ public class PolicyType {
 
     /**
      * Sets the value of the target property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link TargetType }
-     *     
+     *
+     * @param value allowed object is {@link TargetType }
      */
     public void setTarget(TargetType value) {
         this.target = value;
@@ -306,11 +255,8 @@ public class PolicyType {
 
     /**
      * Sets the value of the version property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is {@link String }
      */
     public void setVersion(String value) {
         this.version = value;

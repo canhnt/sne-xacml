@@ -26,13 +26,13 @@ import nl.uva.sne.midd.MIDDException;
 
 public class MIDDParsingException extends MIDDException {
 
-	public MIDDParsingException(String string) {
-		super(string);
-	}
+    public MIDDParsingException(String string) {
+        super(string);
+    }
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 5282038744403047245L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 5282038744403047245L;
 
 }

@@ -24,14 +24,14 @@ package nl.uva.sne.midd;
 
 public class MIDDException extends Exception {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -3180555551853079935L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = -3180555551853079935L;
 
-	public MIDDException(final String string) {
-		super(string);
-	}
+    public MIDDException(final String string) {
+        super(string);
+    }
 
     public MIDDException(final String s, final ReflectiveOperationException e) {
         super(s, e);

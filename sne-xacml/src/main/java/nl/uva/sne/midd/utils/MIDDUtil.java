@@ -32,26 +32,27 @@ import nl.uva.sne.midd.nodes.AbstractNode;
 import nl.uva.sne.midd.nodes.InternalNode;
 
 public class MIDDUtil {
-	public static int countNodes(InternalNode midd) {
-		Stack<InternalNode> stackNodes = new Stack<InternalNode>();
-		
-		stackNodes.push(midd);
-		
-		Set<AbstractNode> nodes = new HashSet<AbstractNode>(); 
-		
-		while (!stackNodes.empty()) {			
-			InternalNode n = stackNodes.pop();
-			nodes.add(n);
-			// search for all children of the poped internal node
-			Iterator<AbstractEdge> it = n.getEdges().iterator();
-			while (it.hasNext()) {				
-				AbstractEdge edge = it.next();
-				AbstractNode child = edge.getSubDiagram();
-				nodes.add(child);
-				if (child instanceof InternalNode) 
-					stackNodes.push((InternalNode) child);								
-			}
-		}
-		return nodes.size();
-	}
+    public static int countNodes(InternalNode midd) {
+        Stack<InternalNode> stackNodes = new Stack<InternalNode>();
+
+        stackNodes.push(midd);
+
+        Set<AbstractNode> nodes = new HashSet<AbstractNode>();
+
+        while (!stackNodes.empty()) {
+            InternalNode n = stackNodes.pop();
+            nodes.add(n);
+            // search for all children of the poped internal node
+            Iterator<AbstractEdge> it = n.getEdges().iterator();
+            while (it.hasNext()) {
+                AbstractEdge edge = it.next();
+                AbstractNode child = edge.getSubDiagram();
+                nodes.add(child);
+                if (child instanceof InternalNode) {
+                    stackNodes.push((InternalNode) child);
+                }
+            }
+        }
+        return nodes.size();
+    }
 }

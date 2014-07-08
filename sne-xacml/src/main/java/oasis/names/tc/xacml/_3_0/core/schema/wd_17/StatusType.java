@@ -16,9 +16,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for StatusType complex type.
- * 
+ * <p/>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p/>
  * <pre>
  * &lt;complexType name="StatusType">
  *   &lt;complexContent>
@@ -32,14 +32,12 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "StatusType", propOrder = {
-    "statusCode",
-    "statusMessage",
-    "statusDetail"
+        "statusCode",
+        "statusMessage",
+        "statusDetail"
 })
 public class StatusType {
 
@@ -52,11 +50,8 @@ public class StatusType {
 
     /**
      * Gets the value of the statusCode property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link StatusCodeType }
-     *     
+     *
+     * @return possible object is {@link StatusCodeType }
      */
     public StatusCodeType getStatusCode() {
         return statusCode;
@@ -64,11 +59,8 @@ public class StatusType {
 
     /**
      * Gets the value of the statusDetail property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link StatusDetailType }
-     *     
+     *
+     * @return possible object is {@link StatusDetailType }
      */
     public StatusDetailType getStatusDetail() {
         return statusDetail;
@@ -76,11 +68,8 @@ public class StatusType {
 
     /**
      * Gets the value of the statusMessage property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is {@link String }
      */
     public String getStatusMessage() {
         return statusMessage;
@@ -88,11 +77,8 @@ public class StatusType {
 
     /**
      * Sets the value of the statusCode property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link StatusCodeType }
-     *     
+     *
+     * @param value allowed object is {@link StatusCodeType }
      */
     public void setStatusCode(StatusCodeType value) {
         this.statusCode = value;
@@ -100,11 +86,8 @@ public class StatusType {
 
     /**
      * Sets the value of the statusDetail property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link StatusDetailType }
-     *     
+     *
+     * @param value allowed object is {@link StatusDetailType }
      */
     public void setStatusDetail(StatusDetailType value) {
         this.statusDetail = value;
@@ -112,11 +95,8 @@ public class StatusType {
 
     /**
      * Sets the value of the statusMessage property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is {@link String }
      */
     public void setStatusMessage(String value) {
         this.statusMessage = value;

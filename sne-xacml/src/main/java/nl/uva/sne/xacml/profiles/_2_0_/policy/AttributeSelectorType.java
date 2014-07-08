@@ -17,9 +17,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for AttributeSelectorType complex type.
- * 
+ * <p/>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p/>
  * <pre>
  * &lt;complexType name="AttributeSelectorType">
  *   &lt;complexContent>
@@ -31,14 +31,11 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "AttributeSelectorType")
 public class AttributeSelectorType
-    extends ExpressionType
-{
+        extends ExpressionType {
 
     @XmlAttribute(name = "DataType", required = true)
     @XmlSchemaType(name = "anyURI")
@@ -50,11 +47,8 @@ public class AttributeSelectorType
 
     /**
      * Gets the value of the dataType property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is {@link String }
      */
     public String getDataType() {
         return dataType;
@@ -62,11 +56,8 @@ public class AttributeSelectorType
 
     /**
      * Gets the value of the requestContextPath property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is {@link String }
      */
     public String getRequestContextPath() {
         return requestContextPath;
@@ -74,11 +65,8 @@ public class AttributeSelectorType
 
     /**
      * Gets the value of the mustBePresent property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link Boolean }
-     *     
+     *
+     * @return possible object is {@link Boolean }
      */
     public boolean isMustBePresent() {
         if (mustBePresent == null) {
@@ -90,11 +78,8 @@ public class AttributeSelectorType
 
     /**
      * Sets the value of the dataType property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is {@link String }
      */
     public void setDataType(String value) {
         this.dataType = value;
@@ -102,11 +87,8 @@ public class AttributeSelectorType
 
     /**
      * Sets the value of the mustBePresent property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Boolean }
-     *     
+     *
+     * @param value allowed object is {@link Boolean }
      */
     public void setMustBePresent(Boolean value) {
         this.mustBePresent = value;
@@ -114,11 +96,8 @@ public class AttributeSelectorType
 
     /**
      * Sets the value of the requestContextPath property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is {@link String }
      */
     public void setRequestContextPath(String value) {
         this.requestContextPath = value;

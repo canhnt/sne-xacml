@@ -17,9 +17,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for PolicyCombinerParametersType complex type.
- * 
+ * <p/>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p/>
  * <pre>
  * &lt;complexType name="PolicyCombinerParametersType">
  *   &lt;complexContent>
@@ -29,14 +29,11 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "PolicyCombinerParametersType")
 public class PolicyCombinerParametersType
-    extends CombinerParametersType
-{
+        extends CombinerParametersType {
 
     @XmlAttribute(name = "PolicyIdRef", required = true)
     @XmlSchemaType(name = "anyURI")
@@ -44,11 +41,8 @@ public class PolicyCombinerParametersType
 
     /**
      * Gets the value of the policyIdRef property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is {@link String }
      */
     public String getPolicyIdRef() {
         return policyIdRef;
@@ -56,11 +50,8 @@ public class PolicyCombinerParametersType
 
     /**
      * Sets the value of the policyIdRef property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is {@link String }
      */
     public void setPolicyIdRef(String value) {
         this.policyIdRef = value;

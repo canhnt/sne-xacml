@@ -5,5 +5,4 @@
 // Generated on: 2012.06.01 at 04:14:23 PM CEST 
 //
 
-@javax.xml.bind.annotation.XmlSchema(namespace = "urn:oasis:names:tc:xacml:2.0:context:schema:os", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED)
-package nl.uva.sne.xacml.profiles._2_0_.context;
+@javax.xml.bind.annotation.XmlSchema(namespace = "urn:oasis:names:tc:xacml:2.0:context:schema:os", elementFormDefault = javax.xml.bind.annotation.XmlNsForm.QUALIFIED) package nl.uva.sne.xacml.profiles._2_0_.context;

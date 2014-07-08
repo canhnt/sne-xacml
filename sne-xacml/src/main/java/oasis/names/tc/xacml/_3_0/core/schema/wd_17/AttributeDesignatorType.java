@@ -17,9 +17,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for AttributeDesignatorType complex type.
- * 
+ * <p/>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p/>
  * <pre>
  * &lt;complexType name="AttributeDesignatorType">
  *   &lt;complexContent>
@@ -33,14 +33,11 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "AttributeDesignatorType")
 public class AttributeDesignatorType
-    extends ExpressionType
-{
+        extends ExpressionType {
 
     @XmlAttribute(name = "AttributeId", required = true)
     @XmlSchemaType(name = "anyURI")
@@ -58,11 +55,8 @@ public class AttributeDesignatorType
 
     /**
      * Gets the value of the attributeId property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is {@link String }
      */
     public String getAttributeId() {
         return attributeId;
@@ -70,11 +64,8 @@ public class AttributeDesignatorType
 
     /**
      * Gets the value of the category property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is {@link String }
      */
     public String getCategory() {
         return category;
@@ -82,11 +73,8 @@ public class AttributeDesignatorType
 
     /**
      * Gets the value of the dataType property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is {@link String }
      */
     public String getDataType() {
         return dataType;
@@ -94,11 +82,8 @@ public class AttributeDesignatorType
 
     /**
      * Gets the value of the issuer property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is {@link String }
      */
     public String getIssuer() {
         return issuer;
@@ -106,7 +91,6 @@ public class AttributeDesignatorType
 
     /**
      * Gets the value of the mustBePresent property.
-     * 
      */
     public boolean isMustBePresent() {
         return mustBePresent;
@@ -114,11 +98,8 @@ public class AttributeDesignatorType
 
     /**
      * Sets the value of the attributeId property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is {@link String }
      */
     public void setAttributeId(String value) {
         this.attributeId = value;
@@ -126,11 +107,8 @@ public class AttributeDesignatorType
 
     /**
      * Sets the value of the category property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is {@link String }
      */
     public void setCategory(String value) {
         this.category = value;
@@ -138,11 +116,8 @@ public class AttributeDesignatorType
 
     /**
      * Sets the value of the dataType property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is {@link String }
      */
     public void setDataType(String value) {
         this.dataType = value;
@@ -150,11 +125,8 @@ public class AttributeDesignatorType
 
     /**
      * Sets the value of the issuer property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is {@link String }
      */
     public void setIssuer(String value) {
         this.issuer = value;
@@ -162,7 +134,6 @@ public class AttributeDesignatorType
 
     /**
      * Sets the value of the mustBePresent property.
-     * 
      */
     public void setMustBePresent(boolean value) {
         this.mustBePresent = value;

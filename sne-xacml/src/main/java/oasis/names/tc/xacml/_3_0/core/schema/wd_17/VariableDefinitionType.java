@@ -18,9 +18,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for VariableDefinitionType complex type.
- * 
+ * <p/>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p/>
  * <pre>
  * &lt;complexType name="VariableDefinitionType">
  *   &lt;complexContent>
@@ -33,12 +33,10 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "VariableDefinitionType", propOrder = {
-    "expression"
+        "expression"
 })
 public class VariableDefinitionType {
 
@@ -49,17 +47,12 @@ public class VariableDefinitionType {
 
     /**
      * Gets the value of the expression property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link JAXBElement }{@code <}{@link FunctionType }{@code >}
-     *     {@link JAXBElement }{@code <}{@link VariableReferenceType }{@code >}
-     *     {@link JAXBElement }{@code <}{@link AttributeDesignatorType }{@code >}
-     *     {@link JAXBElement }{@code <}{@link AttributeSelectorType }{@code >}
-     *     {@link JAXBElement }{@code <}{@link ApplyType }{@code >}
-     *     {@link JAXBElement }{@code <}{@link ExpressionType }{@code >}
-     *     {@link JAXBElement }{@code <}{@link AttributeValueType }{@code >}
-     *     
+     *
+     * @return possible object is {@link JAXBElement }{@code <}{@link FunctionType }{@code >} {@link JAXBElement }{@code
+     * <}{@link VariableReferenceType }{@code >} {@link JAXBElement }{@code <}{@link AttributeDesignatorType }{@code >}
+     * {@link JAXBElement }{@code <}{@link AttributeSelectorType }{@code >} {@link JAXBElement }{@code <}{@link
+     * ApplyType }{@code >} {@link JAXBElement }{@code <}{@link ExpressionType }{@code >} {@link JAXBElement }{@code
+     * <}{@link AttributeValueType }{@code >}
      */
     public JAXBElement<?> getExpression() {
         return expression;
@@ -67,11 +60,8 @@ public class VariableDefinitionType {
 
     /**
      * Gets the value of the variableId property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is {@link String }
      */
     public String getVariableId() {
         return variableId;
@@ -79,17 +69,12 @@ public class VariableDefinitionType {
 
     /**
      * Sets the value of the expression property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link JAXBElement }{@code <}{@link FunctionType }{@code >}
-     *     {@link JAXBElement }{@code <}{@link VariableReferenceType }{@code >}
-     *     {@link JAXBElement }{@code <}{@link AttributeDesignatorType }{@code >}
-     *     {@link JAXBElement }{@code <}{@link AttributeSelectorType }{@code >}
-     *     {@link JAXBElement }{@code <}{@link ApplyType }{@code >}
-     *     {@link JAXBElement }{@code <}{@link ExpressionType }{@code >}
-     *     {@link JAXBElement }{@code <}{@link AttributeValueType }{@code >}
-     *     
+     *
+     * @param value allowed object is {@link JAXBElement }{@code <}{@link FunctionType }{@code >} {@link JAXBElement
+     *              }{@code <}{@link VariableReferenceType }{@code >} {@link JAXBElement }{@code <}{@link
+     *              AttributeDesignatorType }{@code >} {@link JAXBElement }{@code <}{@link AttributeSelectorType }{@code
+     *              >} {@link JAXBElement }{@code <}{@link ApplyType }{@code >} {@link JAXBElement }{@code <}{@link
+     *              ExpressionType }{@code >} {@link JAXBElement }{@code <}{@link AttributeValueType }{@code >}
      */
     public void setExpression(JAXBElement<?> value) {
         this.expression = value;
@@ -97,11 +82,8 @@ public class VariableDefinitionType {
 
     /**
      * Sets the value of the variableId property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is {@link String }
      */
     public void setVariableId(String value) {
         this.variableId = value;

@@ -23,10 +23,10 @@
 package nl.uva.sne.midd.algorithms;
 
 public enum CombiningAlgType {
-	DenyOverride,
-	DenyUnlessPermit,
-	FirstApplicable,
-	OnlyOneApplicable,
-	PermitOverride,
-	PermitUnlessDeny
+    DenyOverride,
+    DenyUnlessPermit,
+    FirstApplicable,
+    OnlyOneApplicable,
+    PermitOverride,
+    PermitUnlessDeny
 }

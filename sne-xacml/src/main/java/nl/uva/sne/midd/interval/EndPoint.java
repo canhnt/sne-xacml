@@ -27,79 +27,76 @@
  */
 package nl.uva.sne.midd.interval;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-
 import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.utils.GenericUtil;
 
 /**
  * @author Canh Ngo (t.c.ngo@uva.nl)
- *
- * @version 
  * @date: Sep 17, 2012
  */
 public class EndPoint<T extends Comparable<T>> implements Comparable<EndPoint<T>> {
-	
-	private boolean fNegativeInfinity;
-	
-	private boolean fPositiveInfinity;
-	
-	private T value;
 
-	public EndPoint(boolean negativeInfinity, boolean positiveInfinity) {
-		if (!(negativeInfinity ^ positiveInfinity)) {
+    private boolean fNegativeInfinity;
+
+    private boolean fPositiveInfinity;
+
+    private T value;
+
+    public EndPoint(boolean negativeInfinity, boolean positiveInfinity) {
+        if (!(negativeInfinity ^ positiveInfinity)) {
             throw new IllegalArgumentException("Only -inf or +inf at a time");
         }
-		
-		this.fPositiveInfinity = positiveInfinity;
-		this.fNegativeInfinity = negativeInfinity;
-		this.value = null;
-	}
-	
-	public EndPoint(T value) throws MIDDException {
+
+        this.fPositiveInfinity = positiveInfinity;
+        this.fNegativeInfinity = negativeInfinity;
+        this.value = null;
+    }
+
+    public EndPoint(T value) throws MIDDException {
         this.fPositiveInfinity = false;
         this.fNegativeInfinity = false;
         this.value = GenericUtil.createCopy(value);
-	}
-	
-	public EndPoint(EndPoint<T> p) throws MIDDException {
-		this.fNegativeInfinity = p.fNegativeInfinity;
-		this.fPositiveInfinity = p.fPositiveInfinity;
-		
-		// Perform deep copy
-		this.value = GenericUtil.createCopy(p.value);
-	}
+    }
+
+    public EndPoint(EndPoint<T> p) throws MIDDException {
+        this.fNegativeInfinity = p.fNegativeInfinity;
+        this.fPositiveInfinity = p.fPositiveInfinity;
+
+        // Perform deep copy
+        this.value = GenericUtil.createCopy(p.value);
+    }
 
     @Override
-	public int compareTo(EndPoint<T> o) {
-		if (this.fPositiveInfinity) {
-			return o.fPositiveInfinity ? 0 : 1;
-		} else if (this.fNegativeInfinity) {
-			return o.fNegativeInfinity ? 0 : -1;
-		} else {
-			if (o.fPositiveInfinity)
-				return -1;
-			else if (o.fNegativeInfinity)
-				return 1;
-			else
-				return this.value.compareTo(o.value);
-		}
-	}
-	
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj) {
+    public int compareTo(EndPoint<T> o) {
+        if (this.fPositiveInfinity) {
+            return o.fPositiveInfinity ? 0 : 1;
+        } else if (this.fNegativeInfinity) {
+            return o.fNegativeInfinity ? 0 : -1;
+        } else {
+            if (o.fPositiveInfinity) {
+                return -1;
+            } else if (o.fNegativeInfinity) {
+                return 1;
+            } else {
+                return this.value.compareTo(o.value);
+            }
+        }
+    }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
             return true;
         }
 
-		if (!(obj instanceof EndPoint))
-			return false;
-		
-		EndPoint<T> other = (EndPoint<T>) obj;
+        if (!(obj instanceof EndPoint)) {
+            return false;
+        }
+
+        EndPoint<T> other = (EndPoint<T>) obj;
 
         if ((fNegativeInfinity != other.fNegativeInfinity) || (fPositiveInfinity != other.fPositiveInfinity)) {
             return false;
@@ -113,63 +110,64 @@ public class EndPoint<T extends Comparable<T>> implements Comparable<EndPoint<T>
         }
         return false;
     }
-	
-	public boolean getNegativeInfinity() {
-		return this.fNegativeInfinity;
-	}
-	
-	public boolean getPositiveInfinity() {
-		return this.fPositiveInfinity;
-	}
-	
-//	public T getValue() {
+
+    public boolean getNegativeInfinity() {
+        return this.fNegativeInfinity;
+    }
+
+    public boolean getPositiveInfinity() {
+        return this.fPositiveInfinity;
+    }
+
+    //	public T getValue() {
 //		return this.value;
 //	}
 //
-	/* (non-Javadoc)
+    /* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + (fNegativeInfinity ? 1231 : 1237);
-		result = prime * result + (fPositiveInfinity ? 1231 : 1237);
-		result = prime * result + ((value == null) ? 0 : value.hashCode());
-		return result;
-	}
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + (fNegativeInfinity ? 1231 : 1237);
+        result = prime * result + (fPositiveInfinity ? 1231 : 1237);
+        result = prime * result + ((value == null) ? 0 : value.hashCode());
+        return result;
+    }
 
-	public void setNegativeInfinity(boolean b){
-		this.fPositiveInfinity = false;
-		this.fNegativeInfinity = b;
-		this.value = null;
-	}
-	
-	public void setPositiveInfinity(boolean b){
-		this.fPositiveInfinity = b;
-		this.fNegativeInfinity = false;
-		this.value = null;
-	}
+    public void setNegativeInfinity(boolean b) {
+        this.fPositiveInfinity = false;
+        this.fNegativeInfinity = b;
+        this.value = null;
+    }
 
-	public void setValue(T value) throws MIDDException {
-		this.fPositiveInfinity = false;
-		this.fNegativeInfinity = false;
-		this.value = GenericUtil.createCopy(value);
-	}
+    public void setPositiveInfinity(boolean b) {
+        this.fPositiveInfinity = b;
+        this.fNegativeInfinity = false;
+        this.value = null;
+    }
+
+    public void setValue(T value) throws MIDDException {
+        this.fPositiveInfinity = false;
+        this.fNegativeInfinity = false;
+        this.value = GenericUtil.createCopy(value);
+    }
 
     @SuppressWarnings("unchecked")
     @Override
-	public String toString(){
-		return value.toString();
-	}
+    public String toString() {
+        return value.toString();
+    }
 
-	public Class<T> getType() {
+    public Class<T> getType() {
 
-		if (this.value != null)
-			return (Class<T>) value.getClass();
-		else
-			return null;
-	}
+        if (this.value != null) {
+            return (Class<T>) value.getClass();
+        } else {
+            return null;
+        }
+    }
 
 //	@Override
 //	public boolean equals(Object v) {
@@ -196,6 +194,6 @@ public class EndPoint<T extends Comparable<T>> implements Comparable<EndPoint<T>
 //		else 
 //			throw new RuntimeException("Undetermined EndPoint value");
 //	}
-	
-	
+
+
 }

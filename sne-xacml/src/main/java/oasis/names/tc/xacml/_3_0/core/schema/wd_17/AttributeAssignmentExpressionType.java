@@ -19,9 +19,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for AttributeAssignmentExpressionType complex type.
- * 
+ * <p/>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p/>
  * <pre>
  * &lt;complexType name="AttributeAssignmentExpressionType">
  *   &lt;complexContent>
@@ -36,12 +36,10 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "AttributeAssignmentExpressionType", propOrder = {
-    "expression"
+        "expression"
 })
 public class AttributeAssignmentExpressionType {
 
@@ -58,11 +56,8 @@ public class AttributeAssignmentExpressionType {
 
     /**
      * Gets the value of the attributeId property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is {@link String }
      */
     public String getAttributeId() {
         return attributeId;
@@ -70,11 +65,8 @@ public class AttributeAssignmentExpressionType {
 
     /**
      * Gets the value of the category property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is {@link String }
      */
     public String getCategory() {
         return category;
@@ -82,17 +74,12 @@ public class AttributeAssignmentExpressionType {
 
     /**
      * Gets the value of the expression property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link JAXBElement }{@code <}{@link FunctionType }{@code >}
-     *     {@link JAXBElement }{@code <}{@link VariableReferenceType }{@code >}
-     *     {@link JAXBElement }{@code <}{@link AttributeDesignatorType }{@code >}
-     *     {@link JAXBElement }{@code <}{@link AttributeSelectorType }{@code >}
-     *     {@link JAXBElement }{@code <}{@link ApplyType }{@code >}
-     *     {@link JAXBElement }{@code <}{@link ExpressionType }{@code >}
-     *     {@link JAXBElement }{@code <}{@link AttributeValueType }{@code >}
-     *     
+     *
+     * @return possible object is {@link JAXBElement }{@code <}{@link FunctionType }{@code >} {@link JAXBElement }{@code
+     * <}{@link VariableReferenceType }{@code >} {@link JAXBElement }{@code <}{@link AttributeDesignatorType }{@code >}
+     * {@link JAXBElement }{@code <}{@link AttributeSelectorType }{@code >} {@link JAXBElement }{@code <}{@link
+     * ApplyType }{@code >} {@link JAXBElement }{@code <}{@link ExpressionType }{@code >} {@link JAXBElement }{@code
+     * <}{@link AttributeValueType }{@code >}
      */
     public JAXBElement<?> getExpression() {
         return expression;
@@ -100,11 +87,8 @@ public class AttributeAssignmentExpressionType {
 
     /**
      * Gets the value of the issuer property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is {@link String }
      */
     public String getIssuer() {
         return issuer;
@@ -112,11 +96,8 @@ public class AttributeAssignmentExpressionType {
 
     /**
      * Sets the value of the attributeId property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is {@link String }
      */
     public void setAttributeId(String value) {
         this.attributeId = value;
@@ -124,11 +105,8 @@ public class AttributeAssignmentExpressionType {
 
     /**
      * Sets the value of the category property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is {@link String }
      */
     public void setCategory(String value) {
         this.category = value;
@@ -136,17 +114,12 @@ public class AttributeAssignmentExpressionType {
 
     /**
      * Sets the value of the expression property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link JAXBElement }{@code <}{@link FunctionType }{@code >}
-     *     {@link JAXBElement }{@code <}{@link VariableReferenceType }{@code >}
-     *     {@link JAXBElement }{@code <}{@link AttributeDesignatorType }{@code >}
-     *     {@link JAXBElement }{@code <}{@link AttributeSelectorType }{@code >}
-     *     {@link JAXBElement }{@code <}{@link ApplyType }{@code >}
-     *     {@link JAXBElement }{@code <}{@link ExpressionType }{@code >}
-     *     {@link JAXBElement }{@code <}{@link AttributeValueType }{@code >}
-     *     
+     *
+     * @param value allowed object is {@link JAXBElement }{@code <}{@link FunctionType }{@code >} {@link JAXBElement
+     *              }{@code <}{@link VariableReferenceType }{@code >} {@link JAXBElement }{@code <}{@link
+     *              AttributeDesignatorType }{@code >} {@link JAXBElement }{@code <}{@link AttributeSelectorType }{@code
+     *              >} {@link JAXBElement }{@code <}{@link ApplyType }{@code >} {@link JAXBElement }{@code <}{@link
+     *              ExpressionType }{@code >} {@link JAXBElement }{@code <}{@link AttributeValueType }{@code >}
      */
     public void setExpression(JAXBElement<?> value) {
         this.expression = value;
@@ -154,11 +127,8 @@ public class AttributeAssignmentExpressionType {
 
     /**
      * Sets the value of the issuer property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is {@link String }
      */
     public void setIssuer(String value) {
         this.issuer = value;

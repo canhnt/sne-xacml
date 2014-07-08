@@ -26,21 +26,23 @@ import nl.uva.sne.midd.DecisionType;
 
 public class FirstApplicableAlg implements CombiningAlgorithm {
 
-	@Override
-	public DecisionType combine(DecisionType op1, DecisionType op2) {
-		if (op1 != DecisionType.NotApplicable)
-			return op1;
-		
-		if (op2 != DecisionType.NotApplicable)
-			return op2;
-		
-		return DecisionType.NotApplicable;
-	}
+    @Override
+    public DecisionType combine(DecisionType op1, DecisionType op2) {
+        if (op1 != DecisionType.NotApplicable) {
+            return op1;
+        }
+
+        if (op2 != DecisionType.NotApplicable) {
+            return op2;
+        }
+
+        return DecisionType.NotApplicable;
+    }
 
 //	@Override
 //	public DecisionType combine(DecisionType op1, DecisionType op2) {
 //		if (op1 == DecisionType.NotApplicable || 
 //			op1 == DecisionType.Indeterminate || )
 //	}
-	
+
 }

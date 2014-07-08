@@ -28,19 +28,19 @@ import nl.uva.sne.midd.obligations.InternalNodeState;
 
 public class DurationNode extends InternalNode<XMLDuration> {
 
-	public DurationNode(int id, DecisionType state) {
-		super(id, state);
-		// TODO Auto-generated constructor stub
-	}
+    public DurationNode(int id, DecisionType state) {
+        super(id, state);
+        // TODO Auto-generated constructor stub
+    }
 
-	public DurationNode(int id, InternalNodeState state) {
-		super(id, state);
-		// TODO Auto-generated constructor stub
-	}
+    public DurationNode(int id, InternalNodeState state) {
+        super(id, state);
+        // TODO Auto-generated constructor stub
+    }
 
-	@Override
-	public Class<?> getType() {
-		return XMLDuration.class;
-	}
+    @Override
+    public Class<?> getType() {
+        return XMLDuration.class;
+    }
 
 }

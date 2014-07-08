@@ -27,8 +27,8 @@ import org.junit.Test;
 public class NodeTest {
 
 
-	@Test
-	public void buildTree() {
+    @Test
+    public void buildTree() {
 //		IntegerNode root = new IntegerNode(0);
 //						
 //		StringNode n10 = new StringNode(1);
@@ -42,14 +42,13 @@ public class NodeTest {
 //		n10.addChild(new String[]{"AMS", "BCN"}, TerminalNode.TerminalNodeTrue);
 //		n11.addChild(new String[]{"AMS","BCN","PAR"}, TerminalNode.TerminalNodeTrue);
 //		n12.addChild(new String[]{"BCN","PAR"}, TerminalNode.TerminalNodeTrue);
-	}
-	
-	/**
-	 * (x1 in {Bob, Carol})^(x2 = report1)^(x3 in {read, write}) v 
-	 * (x1=Dave) ^((x2=report2)v((x2=report1)^(x3=read)))
-	 */
-	@Test
-	public void testSimpleIDD(){
+    }
+
+    /**
+     * (x1 in {Bob, Carol})^(x2 = report1)^(x3 in {read, write}) v (x1=Dave) ^((x2=report2)v((x2=report1)^(x3=read)))
+     */
+    @Test
+    public void testSimpleIDD() {
 //		StringNode root = new StringNode(0);
 //		
 //		StringNode n10 = new StringNode(1);
@@ -68,5 +67,5 @@ public class NodeTest {
 //		
 //		n20.addChild(new String[]{"read", "write"}, TerminalNode.TerminalNodeTrue);
 //		n21.addChild("read", TerminalNode.TerminalNodeTrue);		
-	}
+    }
 }

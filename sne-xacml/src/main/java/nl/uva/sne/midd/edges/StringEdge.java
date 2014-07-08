@@ -33,42 +33,40 @@ import nl.uva.sne.midd.interval.Interval;
 
 /**
  * @author Canh Ngo (t.c.ngo@uva.nl)
- *
- * @version 
  * @date: Sep 20, 2012
  */
 public class StringEdge extends AbstractEdge<String> {
 
-	/**
-	 * 
-	 */
+    /**
+     *
+     */
 //	public StringEdge() {
 //		// TODO Auto-generated constructor stub
 //	}
 
-	/**
-	 * @param interval
-	 */
-	public StringEdge(Interval<String> interval) {
-		super(interval);
-		// TODO Auto-generated constructor stub
-	}
+    /**
+     * @param interval
+     */
+    public StringEdge(Interval<String> interval) {
+        super(interval);
+        // TODO Auto-generated constructor stub
+    }
 
-	/**
-	 * @param intervals
-	 */
-	public StringEdge(List<Interval<String>> intervals) {
-		super(intervals);
-		// TODO Auto-generated constructor stub
-	}
+    /**
+     * @param intervals
+     */
+    public StringEdge(List<Interval<String>> intervals) {
+        super(intervals);
+        // TODO Auto-generated constructor stub
+    }
 
-	/* (non-Javadoc)
-	 * @see nl.uva.sne.midd.AbstractEdge#getType()
-	 */
-	@Override
-	public Class<String> getType() {
-		// TODO Auto-generated method stub
-		return String.class;
-	}
+    /* (non-Javadoc)
+     * @see nl.uva.sne.midd.AbstractEdge#getType()
+     */
+    @Override
+    public Class<String> getType() {
+        // TODO Auto-generated method stub
+        return String.class;
+    }
 
 }

@@ -26,13 +26,13 @@ import javax.xml.datatype.Duration;
 
 public abstract class XMLDuration extends Duration implements Comparable<XMLDuration> {
 
-	public XMLDuration() {
-		// TODO Auto-generated constructor stub
-	}
+    public XMLDuration() {
+        // TODO Auto-generated constructor stub
+    }
 
-	@Override
-	public int compareTo(XMLDuration o) {
-		return this.compare(o);
-	}
+    @Override
+    public int compareTo(XMLDuration o) {
+        return this.compare(o);
+    }
 
 }

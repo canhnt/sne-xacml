@@ -41,92 +41,93 @@ import nl.uva.sne.midd.obligations.InternalNodeState;
 
 /**
  * @author Canh Ngo (t.c.ngo@uva.nl)
- *
- * @version 
  * @date: Sep 13, 2012
  */
 public class IDDFactory {
 
     @SuppressWarnings("unchecked")
-	public static AbstractEdge<?> cloneEdge(AbstractEdge<?> e) throws MIDDException {
+    public static AbstractEdge<?> cloneEdge(AbstractEdge<?> e) throws MIDDException {
 
         final Class<?> type = e.getType();
         List<? extends Interval> intervals = e.getIntervals();
 
         return createEdge(intervals, type);
-	}
-	
-	@SuppressWarnings("unchecked")
-	public static AbstractEdge<?> createEdge(Interval interval, Class<?> type) {
-		if (type == Integer.class) {
-			return new IntegerEdge(interval);			
-		} else if (type == Double.class) {
-			return new DoubleEdge(interval);			
-		} else if (type == String.class) {
-			return new StringEdge(interval);
-		} else if (type == AnyURI.class) {
-			return new AnyURIEdge(interval);
-		} else			
-			throw new UnsupportedOperationException("Unsupported data type to create createEdge" + type.getName());
-	}
-	
-	public static AbstractEdge<?> createEdge(Interval<?> interval) throws MIDDException  {
-			return createEdge(interval, interval.getType());		
-	}
+    }
 
     @SuppressWarnings("unchecked")
-	public static AbstractEdge<?> createEdge(List<? extends Interval> intervals, Class<?> type) throws MIDDException {
+    public static AbstractEdge<?> createEdge(Interval interval, Class<?> type) {
+        if (type == Integer.class) {
+            return new IntegerEdge(interval);
+        } else if (type == Double.class) {
+            return new DoubleEdge(interval);
+        } else if (type == String.class) {
+            return new StringEdge(interval);
+        } else if (type == AnyURI.class) {
+            return new AnyURIEdge(interval);
+        } else {
+            throw new UnsupportedOperationException("Unsupported data type to create createEdge" + type.getName());
+        }
+    }
 
-		if (type == Integer.class) {
-			List<Interval<Integer>> lst = new ArrayList<Interval<Integer>>(); 
-			for(Interval i:intervals) {
-				
-				lst.add(new Interval<Integer>(i));
-			}
-			return new IntegerEdge(lst);
-		} else if (type == Double.class) {
-			List<Interval<Double>> lst = new ArrayList<Interval<Double>>(); 
-			for(Interval<?> i:intervals) {
-				lst.add(new Interval<Double>((Interval<Double>)i));
-			}
-			return new DoubleEdge(lst);
-		} else if (type == String.class) {
-			List<Interval<String>> lst = new ArrayList<Interval<String>>(); 
-			for(Interval<?> i:intervals) {
-				lst.add(new Interval<String>((Interval<String>)i));
-			}
-			return new StringEdge(lst);
-		} else if (type == AnyURI.class) {
-			List<Interval<AnyURI>> lst = new ArrayList<Interval<AnyURI>>();
-			for(Interval<?> i:intervals) {
-				lst.add(new Interval<AnyURI>((Interval<AnyURI>)i));
-			}
-			return new AnyURIEdge(lst);
-		} else
-			throw new UnsupportedOperationException("Unsupported data type to create createEdge" + type.getName());
-		
-	}
+    public static AbstractEdge<?> createEdge(Interval<?> interval) throws MIDDException {
+        return createEdge(interval, interval.getType());
+    }
 
-	public static InternalNode<?> createInternalNode(int id, InternalNodeState state, Class<?> type) {
-		
-		if (type == Integer.class) {
-			return new IntegerNode(id, state);			
-		} else if (type == Double.class) {
-			return new DoubleNode(id, state);
-		} else if(type == String.class){
-			return new StringNode(id, state);
-		} else if (type == AnyURI.class) {
-			return new AnyURINode(id, state);
-		} else
-			throw new UnsupportedOperationException("Unsupported data type to create InternalNode" + type.getName());
-	}
+    @SuppressWarnings("unchecked")
+    public static AbstractEdge<?> createEdge(List<? extends Interval> intervals, Class<?> type) throws MIDDException {
 
-	public static InternalNode<?> createInternalNode(InternalNode<?> n1,
-			Class<?> type) {				
-		return createInternalNode(n1.getID(), n1.getState(), type);
-	}
+        if (type == Integer.class) {
+            List<Interval<Integer>> lst = new ArrayList<Interval<Integer>>();
+            for (Interval i : intervals) {
 
-	public static <T extends Comparable<T>> Variable<?> createVariable(int id, T value, Class<T> type) {
-		return new Variable<T>(id, value, type);
-	}
+                lst.add(new Interval<Integer>(i));
+            }
+            return new IntegerEdge(lst);
+        } else if (type == Double.class) {
+            List<Interval<Double>> lst = new ArrayList<Interval<Double>>();
+            for (Interval<?> i : intervals) {
+                lst.add(new Interval<Double>((Interval<Double>) i));
+            }
+            return new DoubleEdge(lst);
+        } else if (type == String.class) {
+            List<Interval<String>> lst = new ArrayList<Interval<String>>();
+            for (Interval<?> i : intervals) {
+                lst.add(new Interval<String>((Interval<String>) i));
+            }
+            return new StringEdge(lst);
+        } else if (type == AnyURI.class) {
+            List<Interval<AnyURI>> lst = new ArrayList<Interval<AnyURI>>();
+            for (Interval<?> i : intervals) {
+                lst.add(new Interval<AnyURI>((Interval<AnyURI>) i));
+            }
+            return new AnyURIEdge(lst);
+        } else {
+            throw new UnsupportedOperationException("Unsupported data type to create createEdge" + type.getName());
+        }
+
+    }
+
+    public static InternalNode<?> createInternalNode(int id, InternalNodeState state, Class<?> type) {
+
+        if (type == Integer.class) {
+            return new IntegerNode(id, state);
+        } else if (type == Double.class) {
+            return new DoubleNode(id, state);
+        } else if (type == String.class) {
+            return new StringNode(id, state);
+        } else if (type == AnyURI.class) {
+            return new AnyURINode(id, state);
+        } else {
+            throw new UnsupportedOperationException("Unsupported data type to create InternalNode" + type.getName());
+        }
+    }
+
+    public static InternalNode<?> createInternalNode(InternalNode<?> n1,
+                                                     Class<?> type) {
+        return createInternalNode(n1.getID(), n1.getState(), type);
+    }
+
+    public static <T extends Comparable<T>> Variable<?> createVariable(int id, T value, Class<T> type) {
+        return new Variable<T>(id, value, type);
+    }
 }

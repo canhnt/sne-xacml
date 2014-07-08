@@ -31,21 +31,20 @@ import nl.uva.sne.midd.DecisionType;
 
 /**
  * @author Canh Ngo (t.c.ngo@uva.nl)
- *
- * @version 
  * @date: Sep 20, 2012
  */
 public class PermitUnlessDenyAlg implements CombiningAlgorithm {
 
-	/* (non-Javadoc)
-	 * @see nl.uva.sne.midd.algorithms.CombiningAlgorithm#combine(nl.uva.sne.midd.DecisionType, nl.uva.sne.midd.DecisionType)
-	 */
-	@Override
-	public DecisionType combine(DecisionType op1, DecisionType op2) {
-		if (op1 == DecisionType.Deny || op2 == DecisionType.Deny)
-			return DecisionType.Deny;
-		else
-			return DecisionType.Permit;
-	}
+    /* (non-Javadoc)
+     * @see nl.uva.sne.midd.algorithms.CombiningAlgorithm#combine(nl.uva.sne.midd.DecisionType, nl.uva.sne.midd.DecisionType)
+     */
+    @Override
+    public DecisionType combine(DecisionType op1, DecisionType op2) {
+        if (op1 == DecisionType.Deny || op2 == DecisionType.Deny) {
+            return DecisionType.Deny;
+        } else {
+            return DecisionType.Permit;
+        }
+    }
 
 }

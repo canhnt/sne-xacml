@@ -29,17 +29,17 @@ import nl.uva.sne.midd.interval.Interval;
 
 public class AnyURIEdge extends AbstractEdge<AnyURI> {
 
-	public AnyURIEdge(Interval<AnyURI> interval) {
-		super(interval);
-	}
-	
-	public AnyURIEdge(List<Interval<AnyURI>> intervals) {
-		super(intervals);
-	}
-	
-	@Override
-	public Class<AnyURI> getType() {
-		return AnyURI.class;
-	}
+    public AnyURIEdge(Interval<AnyURI> interval) {
+        super(interval);
+    }
+
+    public AnyURIEdge(List<Interval<AnyURI>> intervals) {
+        super(intervals);
+    }
+
+    @Override
+    public Class<AnyURI> getType() {
+        return AnyURI.class;
+    }
 
 }

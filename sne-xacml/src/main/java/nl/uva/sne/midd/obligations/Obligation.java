@@ -29,19 +29,17 @@ package nl.uva.sne.midd.obligations;
 
 /**
  * @author Canh Ngo (t.c.ngo@uva.nl)
- *
- * @version 
  * @date: Sep 20, 2012
  */
 public class Obligation {
-	private String obligationId;
-	
-	public Obligation(String id) {
-		obligationId = id;
-	}
-	
-	@Override
-	public String toString(){
-		return this.obligationId;
-	}
+    private String obligationId;
+
+    public Obligation(String id) {
+        obligationId = id;
+    }
+
+    @Override
+    public String toString() {
+        return this.obligationId;
+    }
 }

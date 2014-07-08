@@ -32,23 +32,21 @@ import nl.uva.sne.midd.obligations.InternalNodeState;
 
 /**
  * @author Canh Ngo (t.c.ngo@uva.nl)
- *
- * @version 
  * @date: Aug 12, 2012
  */
 public class DoubleNode extends InternalNode<Double> {
 
-	public DoubleNode(int id, DecisionType state) {
-		super(id, state);
-		// TODO Auto-generated constructor stub
-	}
-	
-	public DoubleNode(int id, InternalNodeState state) {
-		super(id, state);
-	}
-	
-	@Override
-	public Class<Double> getType(){
-		return Double.class;
-	}
+    public DoubleNode(int id, DecisionType state) {
+        super(id, state);
+        // TODO Auto-generated constructor stub
+    }
+
+    public DoubleNode(int id, InternalNodeState state) {
+        super(id, state);
+    }
+
+    @Override
+    public Class<Double> getType() {
+        return Double.class;
+    }
 }

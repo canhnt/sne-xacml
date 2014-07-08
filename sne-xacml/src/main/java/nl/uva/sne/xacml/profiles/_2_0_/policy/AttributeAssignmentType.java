@@ -17,9 +17,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for AttributeAssignmentType complex type.
- * 
+ * <p/>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p/>
  * <pre>
  * &lt;complexType name="AttributeAssignmentType">
  *   &lt;complexContent>
@@ -30,14 +30,11 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "AttributeAssignmentType")
 public class AttributeAssignmentType
-    extends AttributeValueType
-{
+        extends AttributeValueType {
 
     @XmlAttribute(name = "AttributeId", required = true)
     @XmlSchemaType(name = "anyURI")
@@ -45,11 +42,8 @@ public class AttributeAssignmentType
 
     /**
      * Gets the value of the attributeId property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is {@link String }
      */
     public String getAttributeId() {
         return attributeId;
@@ -57,11 +51,8 @@ public class AttributeAssignmentType
 
     /**
      * Sets the value of the attributeId property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is {@link String }
      */
     public void setAttributeId(String value) {
         this.attributeId = value;

@@ -23,21 +23,21 @@
 package nl.uva.sne.midd.datatype;
 
 public class AnyURI implements Comparable<AnyURI> {
-	
-	protected String uri;
 
-	public AnyURI(String uri) {
-		this.uri = uri;
-		this.uri.replaceAll(" ", "%20");
-	}
-	
-	@Override
-	public String toString() {
-		return uri;
-	}
+    protected String uri;
 
-	@Override
-	public int compareTo(AnyURI arg0) {
-		return uri.compareTo(arg0.uri);
-	}
+    public AnyURI(String uri) {
+        this.uri = uri;
+        this.uri.replaceAll(" ", "%20");
+    }
+
+    @Override
+    public String toString() {
+        return uri;
+    }
+
+    @Override
+    public int compareTo(AnyURI arg0) {
+        return uri.compareTo(arg0.uri);
+    }
 }

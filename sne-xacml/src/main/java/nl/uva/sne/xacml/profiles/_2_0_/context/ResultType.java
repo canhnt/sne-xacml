@@ -19,9 +19,9 @@ import nl.uva.sne.xacml.profiles._2_0_.policy.ObligationsType;
 
 /**
  * <p>Java class for ResultType complex type.
- * 
+ * <p/>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p/>
  * <pre>
  * &lt;complexType name="ResultType">
  *   &lt;complexContent>
@@ -36,14 +36,12 @@ import nl.uva.sne.xacml.profiles._2_0_.policy.ObligationsType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ResultType", propOrder = {
-    "decision",
-    "status",
-    "obligations"
+        "decision",
+        "status",
+        "obligations"
 })
 public class ResultType {
 
@@ -58,11 +56,8 @@ public class ResultType {
 
     /**
      * Gets the value of the decision property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link DecisionType }
-     *     
+     *
+     * @return possible object is {@link DecisionType }
      */
     public DecisionType getDecision() {
         return decision;
@@ -70,11 +65,8 @@ public class ResultType {
 
     /**
      * Gets the value of the obligations property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link ObligationsType }
-     *     
+     *
+     * @return possible object is {@link ObligationsType }
      */
     public ObligationsType getObligations() {
         return obligations;
@@ -82,11 +74,8 @@ public class ResultType {
 
     /**
      * Gets the value of the resourceId property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is {@link String }
      */
     public String getResourceId() {
         return resourceId;
@@ -94,11 +83,8 @@ public class ResultType {
 
     /**
      * Gets the value of the status property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link StatusType }
-     *     
+     *
+     * @return possible object is {@link StatusType }
      */
     public StatusType getStatus() {
         return status;
@@ -106,11 +92,8 @@ public class ResultType {
 
     /**
      * Sets the value of the decision property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link DecisionType }
-     *     
+     *
+     * @param value allowed object is {@link DecisionType }
      */
     public void setDecision(DecisionType value) {
         this.decision = value;
@@ -118,11 +101,8 @@ public class ResultType {
 
     /**
      * Sets the value of the obligations property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link ObligationsType }
-     *     
+     *
+     * @param value allowed object is {@link ObligationsType }
      */
     public void setObligations(ObligationsType value) {
         this.obligations = value;
@@ -130,11 +110,8 @@ public class ResultType {
 
     /**
      * Sets the value of the resourceId property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is {@link String }
      */
     public void setResourceId(String value) {
         this.resourceId = value;
@@ -142,11 +119,8 @@ public class ResultType {
 
     /**
      * Sets the value of the status property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link StatusType }
-     *     
+     *
+     * @param value allowed object is {@link StatusType }
      */
     public void setStatus(StatusType value) {
         this.status = value;

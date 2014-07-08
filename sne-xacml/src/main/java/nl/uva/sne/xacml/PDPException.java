@@ -24,13 +24,13 @@ package nl.uva.sne.xacml;
 
 public class PDPException extends RuntimeException {
 
-	public PDPException(String string) {
-		super(string);
-	}
+    public PDPException(String string) {
+        super(string);
+    }
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -753468369118036246L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = -753468369118036246L;
 
 }

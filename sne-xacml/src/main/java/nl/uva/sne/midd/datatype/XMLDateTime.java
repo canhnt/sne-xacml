@@ -24,14 +24,14 @@ package nl.uva.sne.midd.datatype;
 
 import javax.xml.datatype.XMLGregorianCalendar;
 
-public abstract class XMLDateTime extends XMLGregorianCalendar implements Comparable<XMLDateTime>{
+public abstract class XMLDateTime extends XMLGregorianCalendar implements Comparable<XMLDateTime> {
 
-	public XMLDateTime() {
-		// TODO Auto-generated constructor stub
-	}
+    public XMLDateTime() {
+        // TODO Auto-generated constructor stub
+    }
 
-	@Override
-	public int compareTo(XMLDateTime o) {
-		return this.compare(o);
-	}
+    @Override
+    public int compareTo(XMLDateTime o) {
+        return this.compare(o);
+    }
 }

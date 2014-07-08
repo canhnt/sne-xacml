@@ -24,13 +24,13 @@ package nl.uva.sne.midd.nodes;
 
 public class UnmatchedException extends Exception {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 5435302738929296790L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 5435302738929296790L;
 
-	public UnmatchedException(String string) {
-		super(string);
-	}
+    public UnmatchedException(String string) {
+        super(string);
+    }
 
 }

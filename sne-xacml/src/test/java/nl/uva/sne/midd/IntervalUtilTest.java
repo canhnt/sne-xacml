@@ -25,40 +25,40 @@ package nl.uva.sne.midd;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Test;
+
 import nl.uva.sne.midd.interval.Interval;
 import nl.uva.sne.midd.utils.IntervalUtil;
 
-import org.junit.Test;
-
 public class IntervalUtilTest {
 
-	@Test
-	public void testComplement() throws MIDDException {
-		List<Interval<Double>> intervals = new ArrayList<Interval<Double>>();
-		
-		intervals.add(new Interval<Double>(3.0));
-		intervals.add(new Interval<Double>(1.0, 2.0, true, true));
-		intervals.add(new Interval<Double>(3.0, 4.0, true, true));
-		
-		
-		for(Interval<Double> i:intervals) {
-			List<Interval> lst = new ArrayList<Interval>();
-			lst.add(i);
-			System.out.println("Complement of: " + i + " -> " + IntervalUtil.complement(lst));			
-		}						
-	}
+    @Test
+    public void testComplement() throws MIDDException {
+        List<Interval<Double>> intervals = new ArrayList<Interval<Double>>();
 
-	@Test
-	public void testComplement2() throws MIDDException {
-		List<Interval> intervals = new ArrayList<Interval>();
-		
-		intervals.add(new Interval<Double>(2.0, 3.0, true, false));
-		intervals.add(new Interval<Double>(4.0, 6.0, true, true));
-		
-		System.out.print("Complement of ");
-		for(Interval<Double> i:intervals) {
-			System.out.print(i);
-		}
-		System.out.println(" -> " + IntervalUtil.complement(intervals));							
-	}
+        intervals.add(new Interval<Double>(3.0));
+        intervals.add(new Interval<Double>(1.0, 2.0, true, true));
+        intervals.add(new Interval<Double>(3.0, 4.0, true, true));
+
+
+        for (Interval<Double> i : intervals) {
+            List<Interval> lst = new ArrayList<Interval>();
+            lst.add(i);
+            System.out.println("Complement of: " + i + " -> " + IntervalUtil.complement(lst));
+        }
+    }
+
+    @Test
+    public void testComplement2() throws MIDDException {
+        List<Interval> intervals = new ArrayList<Interval>();
+
+        intervals.add(new Interval<Double>(2.0, 3.0, true, false));
+        intervals.add(new Interval<Double>(4.0, 6.0, true, true));
+
+        System.out.print("Complement of ");
+        for (Interval<Double> i : intervals) {
+            System.out.print(i);
+        }
+        System.out.println(" -> " + IntervalUtil.complement(intervals));
+    }
 }

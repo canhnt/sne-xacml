@@ -27,17 +27,17 @@ import java.util.Map;
 
 import nl.uva.sne.xacml.policy.finder.PolicyFinder;
 
-public class PolicyFinderImpl implements PolicyFinder{
+public class PolicyFinderImpl implements PolicyFinder {
 
-	private Map<String, Object> policies;
-	
-	public PolicyFinderImpl(Map<String, Object> policies){
-		this.policies = new HashMap<String, Object>(policies);
-	}
-	
-	@Override
-	public Object lookup(String id) {
-		return policies.get(id);
-	}
-	
+    private Map<String, Object> policies;
+
+    public PolicyFinderImpl(Map<String, Object> policies) {
+        this.policies = new HashMap<String, Object>(policies);
+    }
+
+    @Override
+    public Object lookup(String id) {
+        return policies.get(id);
+    }
+
 }

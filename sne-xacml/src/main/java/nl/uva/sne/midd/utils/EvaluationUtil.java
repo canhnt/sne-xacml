@@ -30,7 +30,6 @@ package nl.uva.sne.midd.utils;
 import java.util.Map;
 
 import nl.uva.sne.midd.Decision;
-import nl.uva.sne.midd.DecisionType;
 import nl.uva.sne.midd.IDDFactory;
 import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.Variable;
@@ -42,54 +41,53 @@ import nl.uva.sne.xacml.ExternalNode3;
 
 /**
  * @author Canh Ngo (t.c.ngo@uva.nl)
- *
- * @version 
  * @date: Sep 11, 2012
  */
 public class EvaluationUtil {
-	/**
-	 * Evaluate a map of attributes (from id to variable) against a multitype interval decision diagram (MIDD). 
-	 * 
-	 * @param midd The DAG which has its root is the first attribute (x0)
-	 * @param variables Vector of attributes, starting from x0. If there's missing any attribute, its value is null.
-	 * @return The external node that holds effect value and obligations (optional).
-	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public static Decision eval(InternalNode<?> midd, Map<Integer, Variable<?>> variables) {
-		AbstractNode currentNode = midd;
-		
-		while (currentNode instanceof InternalNode) {
-			InternalNode currentInternalNode = (InternalNode)currentNode;
-			
-			Variable<?> currentVar = null;
-			// attribute not found: 
-			if (!variables.containsKey(currentInternalNode.getID())) {
-				// create a null variable
-				currentVar = IDDFactory.createVariable(currentInternalNode.getID(), null, currentInternalNode.getType());
+    /**
+     * Evaluate a map of attributes (from id to variable) against a multitype interval decision diagram (MIDD).
+     *
+     * @param midd      The DAG which has its root is the first attribute (x0)
+     * @param variables Vector of attributes, starting from x0. If there's missing any attribute, its value is null.
+     * @return The external node that holds effect value and obligations (optional).
+     */
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    public static Decision eval(InternalNode<?> midd, Map<Integer, Variable<?>> variables) {
+        AbstractNode currentNode = midd;
+
+        while (currentNode instanceof InternalNode) {
+            InternalNode currentInternalNode = (InternalNode) currentNode;
+
+            Variable<?> currentVar = null;
+            // attribute not found:
+            if (!variables.containsKey(currentInternalNode.getID())) {
+                // create a null variable
+                currentVar = IDDFactory.createVariable(currentInternalNode.getID(), null, currentInternalNode.getType());
 //				return currentInternalNode.buildDecision();
-			}
-			else				
-				currentVar = variables.get(currentInternalNode.getID());
-			
-			if (currentVar.getType() != currentInternalNode.getType()) {
-				throw new RuntimeException("Error evaluation, either tree or values have error: same attribute with different variable identifiers");
-			}
-			
-			try {
-				AbstractEdge<?> e = currentInternalNode.match(currentVar.getValue());		
-				currentNode = e.getSubDiagram();				
-			} catch (UnmatchedException ex) {			
+            } else {
+                currentVar = variables.get(currentInternalNode.getID());
+            }
+
+            if (currentVar.getType() != currentInternalNode.getType()) {
+                throw new RuntimeException("Error evaluation, either tree or values have error: same attribute with different variable identifiers");
+            }
+
+            try {
+                AbstractEdge<?> e = currentInternalNode.match(currentVar.getValue());
+                currentNode = e.getSubDiagram();
+            } catch (UnmatchedException ex) {
 //				System.out.println(ex.getMessage() + ": variable-id=" + currentVar.getID());
 //				value unmatched, return NotAvailable result
 //				return new Decision(DecisionType.NotApplicable);
-				return currentInternalNode.buildDecision();
-			} catch (MIDDException e) {
+                return currentInternalNode.buildDecision();
+            } catch (MIDDException e) {
                 throw new RuntimeException(e);
             }
         }
-		if (currentNode == null)
-			throw new RuntimeException("Incorrect MIDD: leaf node must not be null");
-		
-		return ((ExternalNode3)currentNode).buildDecision();
-	}
+        if (currentNode == null) {
+            throw new RuntimeException("Incorrect MIDD: leaf node must not be null");
+        }
+
+        return ((ExternalNode3) currentNode).buildDecision();
+    }
 }

@@ -15,9 +15,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for DecisionType.
- * 
+ * <p/>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * <p>
+ * <p/>
  * <pre>
  * &lt;simpleType name="DecisionType">
  *   &lt;restriction base="{http://www.w3.org/2001/XMLSchema}string">
@@ -28,7 +28,6 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/restriction>
  * &lt;/simpleType>
  * </pre>
- * 
  */
 @XmlType(name = "DecisionType")
 @XmlEnum
@@ -42,8 +41,9 @@ public enum DecisionType {
     NOT_APPLICABLE("NotApplicable"),
     @XmlEnumValue("Permit")
     PERMIT("Permit");
+
     public static DecisionType fromValue(String v) {
-        for (DecisionType c: DecisionType.values()) {
+        for (DecisionType c : DecisionType.values()) {
             if (c.value.equals(v)) {
                 return c;
             }

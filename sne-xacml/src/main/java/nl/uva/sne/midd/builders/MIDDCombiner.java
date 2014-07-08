@@ -48,31 +48,30 @@ import nl.uva.sne.xacml.ExternalNode3;
 /**
  * @author Canh Ngo (t.c.ngo@uva.nl)
  *
- * @version 
+ * @version
  * @date: Sep 11, 2012
  */
 
 /**
  * Combine MIDDs using XACML 3.0 combining algorithms.
- * 
- * @author canhnt
  *
+ * @author canhnt
  */
 public class MIDDCombiner {
-	
-	private CombiningAlgorithm algo;
-	
-	public MIDDCombiner(CombiningAlgorithm algorithm) {
-		this.algo = algorithm;
-	}
-	
-	/**
-	 * Combine two MIDD DAG using PCA algorithm.
-	 * 
-	 * @param midd1
-	 * @param midd2
-	 * @return
-	 */
+
+    private CombiningAlgorithm algo;
+
+    public MIDDCombiner(CombiningAlgorithm algorithm) {
+        this.algo = algorithm;
+    }
+
+    /**
+     * Combine two MIDD DAG using PCA algorithm.
+     *
+     * @param midd1
+     * @param midd2
+     * @return
+     */
 //	public AbstractNode combine(AbstractNode midd1, AbstractNode midd2) {
 //	
 //		// find the MIDD with high-order, if MIDD1 has higher, swap to MIDD2
@@ -121,87 +120,89 @@ public class MIDDCombiner {
 //			}	
 //		}			
 //	}
-	
-	//
-	
-	/**
-	 * Combine two MIDD DAG using PCA algorithm.
-	 * testing version 2012.11.02: this version is to support ordered 
-	 * combining algorithms(e.g. first-applicable)
-	 *   
-	 * @param midd1
-	 * @param midd2
-	 * @return
-	 */
-	public AbstractNode combine(AbstractNode midd1, AbstractNode midd2) throws MIDDException {
-				
-		if (midd1 instanceof ExternalNode3) {
-			if (midd2 instanceof ExternalNode3)
-				return combineExternalNodes((ExternalNode3)midd1, (ExternalNode3)midd2); 			// combine two external nodes
-			else {
-				ExternalNode3 n1 = (ExternalNode3)midd1; 
-				InternalNode<?> n2 = (InternalNode<?>)midd2;
-				return combineIDD(n1, n2); // combine an external node n1 with an internal node n2
-			}
-		} else {
-			InternalNode<?> n1 = (InternalNode<?>) midd1;
-			
-			if (midd2 instanceof ExternalNode3) {								
-				// combine an internal node (midd1) with an external node (midd2)			
-				ExternalNode3 n2 = (ExternalNode3) midd2;
-				return combineIDD(n1, n2);	 // combine an internal node n1 with an external node2											
-			} else {
-				// both are internal nodes, combine two internal nodes here				
-				InternalNode<?> n2 = (InternalNode<?>) midd2;
-				
-				if (n1.getID() == n2.getID())
-					return combineIDDSameLevel(n1, n2);
-				else {					
-					//Algorithm: find a node with lower order, e.g: n1
-					// - Create a node clone from n1 -> n
-					// - combine n2 with all children of n1 -> children[1..k], add them to children of n
-					
-					InternalNode<?> n = null;
-					if (n1.getID() < n2.getID()) {
-						
-						// Clone n1
-						n = IDDFactory.createInternalNode(n1, n1.getType());
-						
-						for(AbstractEdge<?> e : n1.getEdges()) {
-							AbstractNode child = combine(e.getSubDiagram(), n2);
-							if (child != null)
-								n.addChild(IDDFactory.cloneEdge(e), child);
-							else
+
+    //
+
+    /**
+     * Combine two MIDD DAG using PCA algorithm. testing version 2012.11.02: this version is to support ordered
+     * combining algorithms(e.g. first-applicable)
+     *
+     * @param midd1
+     * @param midd2
+     * @return
+     */
+    public AbstractNode combine(AbstractNode midd1, AbstractNode midd2) throws MIDDException {
+
+        if (midd1 instanceof ExternalNode3) {
+            if (midd2 instanceof ExternalNode3) {
+                return combineExternalNodes((ExternalNode3) midd1, (ExternalNode3) midd2);            // combine two external nodes
+            } else {
+                ExternalNode3 n1 = (ExternalNode3) midd1;
+                InternalNode<?> n2 = (InternalNode<?>) midd2;
+                return combineIDD(n1, n2); // combine an external node n1 with an internal node n2
+            }
+        } else {
+            InternalNode<?> n1 = (InternalNode<?>) midd1;
+
+            if (midd2 instanceof ExternalNode3) {
+                // combine an internal node (midd1) with an external node (midd2)
+                ExternalNode3 n2 = (ExternalNode3) midd2;
+                return combineIDD(n1, n2);     // combine an internal node n1 with an external node2
+            } else {
+                // both are internal nodes, combine two internal nodes here
+                InternalNode<?> n2 = (InternalNode<?>) midd2;
+
+                if (n1.getID() == n2.getID()) {
+                    return combineIDDSameLevel(n1, n2);
+                } else {
+                    //Algorithm: find a node with lower order, e.g: n1
+                    // - Create a node clone from n1 -> n
+                    // - combine n2 with all children of n1 -> children[1..k], add them to children of n
+
+                    InternalNode<?> n = null;
+                    if (n1.getID() < n2.getID()) {
+
+                        // Clone n1
+                        n = IDDFactory.createInternalNode(n1, n1.getType());
+
+                        for (AbstractEdge<?> e : n1.getEdges()) {
+                            AbstractNode child = combine(e.getSubDiagram(), n2);
+                            if (child != null) {
+                                n.addChild(IDDFactory.cloneEdge(e), child);
+                            } else
 //								throw new RuntimeException("empty child");
-								System.err.println("empty child");
-						}
-						
-						// Create a new edge containing the complement of n1 children intervals, connecting n with n2  
-						List<Interval> complementIntervals = IntervalUtil.complement(n1.getIntervals());
-						if (complementIntervals.size() > 0) {
-							AbstractEdge<?> edge = IDDFactory.createEdge(complementIntervals, n1.getType());		
-							n.addChild(edge, n2);
-						}
-						
-					} else { // n2 has lower id than n1, do in other way.
-						n = IDDFactory.createInternalNode(n2, n2.getType());
-						for(AbstractEdge<?> e : n2.getEdges()) {
-							AbstractNode child = combine(n1, e.getSubDiagram());
-							if (child != null)
-								n.addChild(IDDFactory.cloneEdge(e), child);
-						}
-						// Create a new edge containing the complement of n2 children intervals, connecting n with n1
-						List<Interval> complementIntervals = IntervalUtil.complement(n2.getIntervals());
-						if (complementIntervals.size() > 0) {
-							AbstractEdge<?> edge = IDDFactory.createEdge(complementIntervals, n2.getType());		
-							n.addChild(edge, n1);
-						}												
-					}
+                            {
+                                System.err.println("empty child");
+                            }
+                        }
+
+                        // Create a new edge containing the complement of n1 children intervals, connecting n with n2
+                        List<Interval> complementIntervals = IntervalUtil.complement(n1.getIntervals());
+                        if (complementIntervals.size() > 0) {
+                            AbstractEdge<?> edge = IDDFactory.createEdge(complementIntervals, n1.getType());
+                            n.addChild(edge, n2);
+                        }
+
+                    } else { // n2 has lower id than n1, do in other way.
+                        n = IDDFactory.createInternalNode(n2, n2.getType());
+                        for (AbstractEdge<?> e : n2.getEdges()) {
+                            AbstractNode child = combine(n1, e.getSubDiagram());
+                            if (child != null) {
+                                n.addChild(IDDFactory.cloneEdge(e), child);
+                            }
+                        }
+                        // Create a new edge containing the complement of n2 children intervals, connecting n with n1
+                        List<Interval> complementIntervals = IntervalUtil.complement(n2.getIntervals());
+                        if (complementIntervals.size() > 0) {
+                            AbstractEdge<?> edge = IDDFactory.createEdge(complementIntervals, n2.getType());
+                            n.addChild(edge, n1);
+                        }
+                    }
 //
-					// New implementation: 2012.11.12 - Previous code cannot process following cases: 
-					// - When lower-order variable may not existed in the request X, then n1 (lower-var) is not applicable (missing attribute)					
-					// but n2 maybe applicable
-					
+                    // New implementation: 2012.11.12 - Previous code cannot process following cases:
+                    // - When lower-order variable may not existed in the request X, then n1 (lower-var) is not applicable (missing attribute)
+                    // but n2 maybe applicable
+
 //					InternalNode<?> n = null;
 //					if (n1.getID() < n2.getID()) {
 //						
@@ -225,15 +226,16 @@ public class MIDDCombiner {
 //						// add a 'null-edge' from n to n1								
 //						linkWithNullEdge(n, n1);
 //					}
-					if (n.getEdges().size() > 0)
-						return n;
-					else
-						return null;
-				}
-			}	
-		}			
-	}
-	
+                    if (n.getEdges().size() > 0) {
+                        return n;
+                    } else {
+                        return null;
+                    }
+                }
+            }
+        }
+    }
+
 //	private void linkWithNullEdge(InternalNode<?> n, AbstractNode newNode) {
 //		NullEdge nullEdge = n.getNullEdge();
 //		if (nullEdge == null) // no null-edge found, create one
@@ -245,244 +247,250 @@ public class MIDDCombiner {
 //		}		
 //	}
 
-	// 2012.11.02
-	/**
-	 * Combine two MIDDs: an external node with an internal node.
-	 *
-	 * 	 Algorithm:
-	 * set of intervals: n2.intervals U (*\{n2.intervals})
-	 * - with i = *\{n2.intervals}, n.children[0] = n1, n.intervals[0] = *\{n1.intervals} 	
-	 * - with (i : n2.intervals), n.children[i] = n2.children[i], n.intervals[i] = n1.interval[i]
-	 * 
-	 * 2012.11.13 - Modified: predicate of the internal node n1 to only external node n2 is 'null-edge' 
-	 *  - n.intervals[i+1] = Null; n.children[i+1] = n2;
-	 * 
-	 * The output MIDD is the DAG rooted at n, has |n2.intervals| + 1 children
-	 * 
-	 * @param n1
-	 * @param n2
-	 * @return
-	 */
-	@SuppressWarnings("rawtypes")
-	private AbstractNode combineIDD(ExternalNode3 n1, InternalNode<?> n2) throws MIDDException {
+    // 2012.11.02
 
-		
-		List<Interval> intervals = n2.getIntervals();
-		List<Interval> complementIntervals = IntervalUtil.complement(intervals);		
+    /**
+     * Combine two MIDDs: an external node with an internal node.
+     * <p/>
+     * Algorithm: set of intervals: n2.intervals U (*\{n2.intervals}) - with i = *\{n2.intervals}, n.children[0] = n1,
+     * n.intervals[0] = *\{n1.intervals} - with (i : n2.intervals), n.children[i] = n2.children[i], n.intervals[i] =
+     * n1.interval[i]
+     * <p/>
+     * 2012.11.13 - Modified: predicate of the internal node n1 to only external node n2 is 'null-edge' -
+     * n.intervals[i+1] = Null; n.children[i+1] = n2;
+     * <p/>
+     * The output MIDD is the DAG rooted at n, has |n2.intervals| + 1 children
+     *
+     * @param n1
+     * @param n2
+     * @return
+     */
+    @SuppressWarnings("rawtypes")
+    private AbstractNode combineIDD(ExternalNode3 n1, InternalNode<?> n2) throws MIDDException {
 
-		// clone new node from n2
-		
+
+        List<Interval> intervals = n2.getIntervals();
+        List<Interval> complementIntervals = IntervalUtil.complement(intervals);
+
+        // clone new node from n2
+
 //		IndeterminateState newINState = new IndeterminateState(algo.combine(
 //																	n1.getIndeterminateState().getStateIN(), 
 //																	n2.getDecision()));		
 //		// add all OEs from two nodes
 //		newINState.getObligationExpressions().addAll(n1.getIndeterminateState().getObligationExpressions());
 //		newINState.getObligationExpressions().addAll(n2.getObligationExpressions());	
-		
-		InternalNodeState newINState = combineInternalNodeStates(n2.getState(), n1);
-				
-		InternalNode<?> n = IDDFactory.createInternalNode(n2.getID(), newINState, n2.getType());
-		
-		if (complementIntervals.size() > 0) {
-			AbstractEdge<?> edge = IDDFactory.createEdge(complementIntervals, n2.getType());
-			if (edge.getIntervals().size() == 0)
-				throw new RuntimeException("Empty edge");
-			n.addChild(edge, n1);
-		}
-						
-		for(AbstractEdge<?> e : n2.getEdges()) {
-			AbstractNode child = combine(n1, e.getSubDiagram());
-			n.addChild(IDDFactory.cloneEdge(e), child);
-		}
+
+        InternalNodeState newINState = combineInternalNodeStates(n2.getState(), n1);
+
+        InternalNode<?> n = IDDFactory.createInternalNode(n2.getID(), newINState, n2.getType());
+
+        if (complementIntervals.size() > 0) {
+            AbstractEdge<?> edge = IDDFactory.createEdge(complementIntervals, n2.getType());
+            if (edge.getIntervals().size() == 0) {
+                throw new RuntimeException("Empty edge");
+            }
+            n.addChild(edge, n1);
+        }
+
+        for (AbstractEdge<?> e : n2.getEdges()) {
+            AbstractNode child = combine(n1, e.getSubDiagram());
+            n.addChild(IDDFactory.cloneEdge(e), child);
+        }
 //		linkWithNullEdge(n, n1);	// it means that traversing to n1 may not need a predicate of attr at n2
-		
-		return n;
-	}
 
-	/**
-	 * Combine two external nodes following the algorithm in this.algo
-	 * 
-	 * @param midd1
-	 * @param midd2
-	 * @return
-	 */
-	private ExternalNode3 combineExternalNodes(ExternalNode3 n1, ExternalNode3 n2) {
-		if (n1 == null || n2 == null)
-			throw new IllegalArgumentException("Input nodes must not be null");
-		
-		DecisionType combinedDecision = algo.combine(n1.getDecision(), n2.getDecision());
-		ExternalNode3 n = new ExternalNode3(combinedDecision);
-		
-		// only accept OE that match with combined decision.
-		
-		List<ObligationExpression> oes1 = getFulfilledObligationExpressions(n1.getObligationExpressions(), combinedDecision);
-		List<ObligationExpression> oes2 = getFulfilledObligationExpressions(n2.getObligationExpressions(), combinedDecision);
-				
-		n.getObligationExpressions().addAll(oes1);
-		n.getObligationExpressions().addAll(oes2);
-		
-		return n;
-	}
+        return n;
+    }
 
-	/**
-	 * Return OE in the list that are fulfilled the indicated decision.
-	 * 
-	 * @param oes
-	 * @param decision
-	 * @return
-	 */
-	private List<ObligationExpression> getFulfilledObligationExpressions(
-			List<ObligationExpression> oes,
-			DecisionType decision) {
-		
-		List<ObligationExpression> fulfilledOEs = new ArrayList<ObligationExpression>();
-		
-		if (oes != null && oes.size() > 0) {
-			for(ObligationExpression oe : oes) {
-				if (oe.isFulfilled(decision))
-					fulfilledOEs.add(oe);
-			}			
-		}
-		return fulfilledOEs;
-	}
+    /**
+     * Combine two external nodes following the algorithm in this.algo
+     *
+     * @param midd1
+     * @param midd2
+     * @return
+     */
+    private ExternalNode3 combineExternalNodes(ExternalNode3 n1, ExternalNode3 n2) {
+        if (n1 == null || n2 == null) {
+            throw new IllegalArgumentException("Input nodes must not be null");
+        }
 
-	/**
-	 * Combine a MIDD with internal node at root with an external node.
-	 * 
-	 * 2012.11.13 - revision: do not use complement for connecting from n1 to n2, use null-edge is more sensible.
-	 * 
-	 * @param n1
-	 * @param n2
-	 * @return
-	 */
-	@SuppressWarnings("rawtypes")
-	private AbstractNode combineIDD(InternalNode<?> n1,
-			ExternalNode3 n2) throws MIDDException {
-		// Algorithm:
-		// set of intervals: n1.intervals U (*\{n1.intervals})
-		// 	- with (i : n1.intervals), n.children[i] = n1.children[i], n.intervals[i] = n1.interval[i]
-		// 	- with i = *\{n1.intervals}, n.children[i+1] = n2, n.intervals[i+1] = *\{n1.intervals}
-		// the output MIDD is the DAG rooted at n, has |n1.intervals| + 1 children
-		// return n
-		
-		
-		List<Interval> intervals = n1.getIntervals();
-		List<Interval> complementIntervals = IntervalUtil.complement(intervals);		
+        DecisionType combinedDecision = algo.combine(n1.getDecision(), n2.getDecision());
+        ExternalNode3 n = new ExternalNode3(combinedDecision);
 
-		// clone new node from n1
-		
+        // only accept OE that match with combined decision.
+
+        List<ObligationExpression> oes1 = getFulfilledObligationExpressions(n1.getObligationExpressions(), combinedDecision);
+        List<ObligationExpression> oes2 = getFulfilledObligationExpressions(n2.getObligationExpressions(), combinedDecision);
+
+        n.getObligationExpressions().addAll(oes1);
+        n.getObligationExpressions().addAll(oes2);
+
+        return n;
+    }
+
+    /**
+     * Return OE in the list that are fulfilled the indicated decision.
+     *
+     * @param oes
+     * @param decision
+     * @return
+     */
+    private List<ObligationExpression> getFulfilledObligationExpressions(
+            List<ObligationExpression> oes,
+            DecisionType decision) {
+
+        List<ObligationExpression> fulfilledOEs = new ArrayList<ObligationExpression>();
+
+        if (oes != null && oes.size() > 0) {
+            for (ObligationExpression oe : oes) {
+                if (oe.isFulfilled(decision)) {
+                    fulfilledOEs.add(oe);
+                }
+            }
+        }
+        return fulfilledOEs;
+    }
+
+    /**
+     * Combine a MIDD with internal node at root with an external node.
+     * <p/>
+     * 2012.11.13 - revision: do not use complement for connecting from n1 to n2, use null-edge is more sensible.
+     *
+     * @param n1
+     * @param n2
+     * @return
+     */
+    @SuppressWarnings("rawtypes")
+    private AbstractNode combineIDD(InternalNode<?> n1,
+                                    ExternalNode3 n2) throws MIDDException {
+        // Algorithm:
+        // set of intervals: n1.intervals U (*\{n1.intervals})
+        // 	- with (i : n1.intervals), n.children[i] = n1.children[i], n.intervals[i] = n1.interval[i]
+        // 	- with i = *\{n1.intervals}, n.children[i+1] = n2, n.intervals[i+1] = *\{n1.intervals}
+        // the output MIDD is the DAG rooted at n, has |n1.intervals| + 1 children
+        // return n
+
+
+        List<Interval> intervals = n1.getIntervals();
+        List<Interval> complementIntervals = IntervalUtil.complement(intervals);
+
+        // clone new node from n1
+
 //		IndeterminateState newINState = new IndeterminateState(algo.combine(
 //																	n1.getIndeterminateState().getStateIN(), 
 //																	n2.getDecision()));		
 //		// add all OEs from two nodes
 //		newINState.getObligationExpressions().addAll(n1.getIndeterminateState().getObligationExpressions());
 //		newINState.getObligationExpressions().addAll(n2.getObligationExpressions());	
-		
-		InternalNodeState newINState = combineInternalNodeStates(n1.getState(), n2);
-				
-		InternalNode<?> n = IDDFactory.createInternalNode(n1.getID(), newINState, n1.getType());
-		
-		for(AbstractEdge<?> e : n1.getEdges()) {
-			AbstractNode child = combine(e.getSubDiagram(), n2);
-			if (child == null)
-				throw new RuntimeException("Empty child");
-			n.addChild(IDDFactory.cloneEdge(e), child);
-		}
-		
-//		linkWithNullEdge(n, n2);
-		// if the complement of the partition is not empty, add a new edge pointing to external node 
-		if (complementIntervals.size() > 0) {
-			AbstractEdge<?> edge = IDDFactory.createEdge(complementIntervals, n1.getType());
-			n.addChild(edge, n2);	
-		}
-		// else, ignore the external node, because its value has been integrated into node n's INState.
-		
-		return n;
-	}
 
-	/**
-	 * Combine two MIDD with same level of attribute at their roots
-	 * 
-	 * @param n1
-	 * @param n2
-	 * @return
-	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private InternalNode<?> combineIDDSameLevel(InternalNode n1,
-			InternalNode n2) throws MIDDException {
-		if (n1.getID() != n2.getID())
-			throw new IllegalArgumentException("Both params should have the same variable level at their root");
-		
-		if (n1.getType() != n2.getType()) {
-			throw new IllegalArgumentException("Both IDD roots should have the same data type");
-		}
-		
-		Partition p1 = PartitionBuilder.createPartition(n1.getIntervals());		
-		Partition p2 = PartitionBuilder.createPartition(n2.getIntervals());
-		
-		Partition<?> p = PartitionBuilder.union(p1, p2);
-		if (p.size() == 0) {
+        InternalNodeState newINState = combineInternalNodeStates(n1.getState(), n2);
+
+        InternalNode<?> n = IDDFactory.createInternalNode(n1.getID(), newINState, n1.getType());
+
+        for (AbstractEdge<?> e : n1.getEdges()) {
+            AbstractNode child = combine(e.getSubDiagram(), n2);
+            if (child == null) {
+                throw new RuntimeException("Empty child");
+            }
+            n.addChild(IDDFactory.cloneEdge(e), child);
+        }
+
+//		linkWithNullEdge(n, n2);
+        // if the complement of the partition is not empty, add a new edge pointing to external node
+        if (complementIntervals.size() > 0) {
+            AbstractEdge<?> edge = IDDFactory.createEdge(complementIntervals, n1.getType());
+            n.addChild(edge, n2);
+        }
+        // else, ignore the external node, because its value has been integrated into node n's INState.
+
+        return n;
+    }
+
+    /**
+     * Combine two MIDD with same level of attribute at their roots
+     *
+     * @param n1
+     * @param n2
+     * @return
+     */
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    private InternalNode<?> combineIDDSameLevel(InternalNode n1,
+                                                InternalNode n2) throws MIDDException {
+        if (n1.getID() != n2.getID()) {
+            throw new IllegalArgumentException("Both params should have the same variable level at their root");
+        }
+
+        if (n1.getType() != n2.getType()) {
+            throw new IllegalArgumentException("Both IDD roots should have the same data type");
+        }
+
+        Partition p1 = PartitionBuilder.createPartition(n1.getIntervals());
+        Partition p2 = PartitionBuilder.createPartition(n2.getIntervals());
+
+        Partition<?> p = PartitionBuilder.union(p1, p2);
+        if (p.size() == 0) {
 //			throw new RuntimeException("Empty unioned partition");
-			System.err.println("Empty unioned partition");
-			return null;			
-		}
-						
-		InternalNodeState newState = combineIndeterminateStates(n1.getState(), n2.getState());
-		
-		InternalNode<?> n = IDDFactory.createInternalNode(n1.getID(), newState, n1.getType());
-		
-		for (Interval<?> interval : p.getIntervals()) {
-			AbstractNode op1 = n1.getChild(interval);
-			AbstractNode op2 = n2.getChild(interval);
-			AbstractNode child = null;
-			if (op1 != null && op2 != null) {
-				child = combine(op1, op2);				
-			} else if (op1 != null || op2 != null){
+            System.err.println("Empty unioned partition");
+            return null;
+        }
+
+        InternalNodeState newState = combineIndeterminateStates(n1.getState(), n2.getState());
+
+        InternalNode<?> n = IDDFactory.createInternalNode(n1.getID(), newState, n1.getType());
+
+        for (Interval<?> interval : p.getIntervals()) {
+            AbstractNode op1 = n1.getChild(interval);
+            AbstractNode op2 = n2.getChild(interval);
+            AbstractNode child = null;
+            if (op1 != null && op2 != null) {
+                child = combine(op1, op2);
+            } else if (op1 != null || op2 != null) {
                 try {
                     child = (op1 == null) ? op2.clone() : op1.clone();
                 } catch (CloneNotSupportedException e) {
                     e.printStackTrace();
                 }
             } else {
-				throw new RuntimeException("Error merging two partitions, " +
-						"the output partition has an item not belong to both previous ones");
-			}
-			
-			if (child != null) {
-				AbstractEdge<?> edge = IDDFactory.createEdge(interval, n.getType());
-				if (edge.getIntervals().size() == 0)
-					throw new RuntimeException("Empty edge");
-				n.addChild(edge, child);
-			}
-		}
-		  
-		return n;
-	}
+                throw new RuntimeException("Error merging two partitions, " +
+                        "the output partition has an item not belong to both previous ones");
+            }
 
-	/**
-	 * Combine an indeterminate state of an internal node with an external node 
-	 * which use indicated combining algorithm.
-	 * 
-	 * @param inState
-	 * @param externalNode
-	 * @return
-	 */
-	private InternalNodeState combineInternalNodeStates(InternalNodeState inState, ExternalNode3 externalNode) {
-		
-		ExternalNode3 n1 = inState.getExternalNode();
-		
-		ExternalNode3 n = combineExternalNodes(n1, externalNode);
-		
-		return new InternalNodeState(n);
-	}
+            if (child != null) {
+                AbstractEdge<?> edge = IDDFactory.createEdge(interval, n.getType());
+                if (edge.getIntervals().size() == 0) {
+                    throw new RuntimeException("Empty edge");
+                }
+                n.addChild(edge, child);
+            }
+        }
 
-	private InternalNodeState combineIndeterminateStates(InternalNodeState state1, InternalNodeState state2) {
-		
-		ExternalNode3 e1 = state1.getExternalNode();
-		ExternalNode3 e2 = state2.getExternalNode();
-		
-		ExternalNode3 e = this.combineExternalNodes(e1, e2);
-		
-		return new InternalNodeState(e);
-	}
+        return n;
+    }
+
+    /**
+     * Combine an indeterminate state of an internal node with an external node which use indicated combining
+     * algorithm.
+     *
+     * @param inState
+     * @param externalNode
+     * @return
+     */
+    private InternalNodeState combineInternalNodeStates(InternalNodeState inState, ExternalNode3 externalNode) {
+
+        ExternalNode3 n1 = inState.getExternalNode();
+
+        ExternalNode3 n = combineExternalNodes(n1, externalNode);
+
+        return new InternalNodeState(n);
+    }
+
+    private InternalNodeState combineIndeterminateStates(InternalNodeState state1, InternalNodeState state2) {
+
+        ExternalNode3 e1 = state1.getExternalNode();
+        ExternalNode3 e2 = state2.getExternalNode();
+
+        ExternalNode3 e = this.combineExternalNodes(e1, e2);
+
+        return new InternalNodeState(e);
+    }
 }

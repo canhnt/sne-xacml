@@ -32,39 +32,44 @@ import oasis.names.tc.xacml._3_0.core.schema.wd_17.AttributeType;
 import oasis.names.tc.xacml._3_0.core.schema.wd_17.AttributeValueType;
 
 public class AttributeConverter {
-	
-	private AttributeMapper attrMapper = null;
 
-	public AttributeConverter(AttributeMapper attrMapper) {
-		if (attrMapper == null)
-			throw new IllegalArgumentException("Argument AttributeMapper must not be null");
-		
-		this.attrMapper = attrMapper;
-	}
-	
-	public Variable convert(AttributeType attr) throws MIDDParsingException, XACMLParsingException {
-		if (attr == null)
-			throw new IllegalArgumentException("Argument AttributeType must not be null");
-		
-		// Obtain or add new variable id in the attribute mapper.
-		int varId;
-		if (!attrMapper.hasVariableId(attr.getAttributeId())) { 
-			varId = attrMapper.addAttribute(attr.getAttributeId());
-		} else
-			varId = this.attrMapper.getVariableId(attr.getAttributeId());
-		
-		List<AttributeValueType> lstValues = attr.getAttributeValue();
-		if (lstValues == null || lstValues.size() == 0)
-			throw new XACMLParsingException("Empty value in the attribute:" + attr.getAttributeId());
-		
-		AttributeValueType attrValue = lstValues.get(0); 
-		if (attrValue == null || attrValue.getContent() ==  null || attrValue.getContent().size() == 0)
-			throw new XACMLParsingException("Empty value in the attribute:" + attr.getAttributeId());		
-				
-		String strValue = (String) attrValue.getContent().get(0);
-		Comparable value = DataTypeConverterUtil.convert(strValue, attrValue.getDataType());
-				
-		return new Variable(varId, value);
-	}
+    private AttributeMapper attrMapper = null;
+
+    public AttributeConverter(AttributeMapper attrMapper) {
+        if (attrMapper == null) {
+            throw new IllegalArgumentException("Argument AttributeMapper must not be null");
+        }
+
+        this.attrMapper = attrMapper;
+    }
+
+    public Variable convert(AttributeType attr) throws MIDDParsingException, XACMLParsingException {
+        if (attr == null) {
+            throw new IllegalArgumentException("Argument AttributeType must not be null");
+        }
+
+        // Obtain or add new variable id in the attribute mapper.
+        int varId;
+        if (!attrMapper.hasVariableId(attr.getAttributeId())) {
+            varId = attrMapper.addAttribute(attr.getAttributeId());
+        } else {
+            varId = this.attrMapper.getVariableId(attr.getAttributeId());
+        }
+
+        List<AttributeValueType> lstValues = attr.getAttributeValue();
+        if (lstValues == null || lstValues.size() == 0) {
+            throw new XACMLParsingException("Empty value in the attribute:" + attr.getAttributeId());
+        }
+
+        AttributeValueType attrValue = lstValues.get(0);
+        if (attrValue == null || attrValue.getContent() == null || attrValue.getContent().size() == 0) {
+            throw new XACMLParsingException("Empty value in the attribute:" + attr.getAttributeId());
+        }
+
+        String strValue = (String) attrValue.getContent().get(0);
+        Comparable value = DataTypeConverterUtil.convert(strValue, attrValue.getDataType());
+
+        return new Variable(varId, value);
+    }
 
 }

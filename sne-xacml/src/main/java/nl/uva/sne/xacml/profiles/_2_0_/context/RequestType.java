@@ -10,6 +10,7 @@ package nl.uva.sne.xacml.profiles._2_0_.context;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -18,9 +19,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for RequestType complex type.
- * 
+ * <p/>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p/>
  * <pre>
  * &lt;complexType name="RequestType">
  *   &lt;complexContent>
@@ -35,15 +36,13 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RequestType", propOrder = {
-    "subject",
-    "resource",
-    "action",
-    "environment"
+        "subject",
+        "resource",
+        "action",
+        "environment"
 })
 public class RequestType {
 
@@ -58,11 +57,8 @@ public class RequestType {
 
     /**
      * Gets the value of the action property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link ActionType }
-     *     
+     *
+     * @return possible object is {@link ActionType }
      */
     public ActionType getAction() {
         return action;
@@ -70,11 +66,8 @@ public class RequestType {
 
     /**
      * Gets the value of the environment property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link EnvironmentType }
-     *     
+     *
+     * @return possible object is {@link EnvironmentType }
      */
     public EnvironmentType getEnvironment() {
         return environment;
@@ -82,25 +75,21 @@ public class RequestType {
 
     /**
      * Gets the value of the resource property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the resource property.
-     * 
-     * <p>
+     * <p/>
+     * <p/>
+     * This accessor method returns a reference to the live list, not a snapshot. Therefore any modification you make to
+     * the returned list will be present inside the JAXB object. This is why there is not a <CODE>set</CODE> method for
+     * the resource property.
+     * <p/>
+     * <p/>
      * For example, to add a new item, do as follows:
      * <pre>
      *    getResource().add(newItem);
      * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link ResourceType }
-     * 
-     * 
+     * <p/>
+     * <p/>
+     * <p/>
+     * Objects of the following type(s) are allowed in the list {@link ResourceType }
      */
     public List<ResourceType> getResource() {
         if (resource == null) {
@@ -111,25 +100,21 @@ public class RequestType {
 
     /**
      * Gets the value of the subject property.
-     * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the subject property.
-     * 
-     * <p>
+     * <p/>
+     * <p/>
+     * This accessor method returns a reference to the live list, not a snapshot. Therefore any modification you make to
+     * the returned list will be present inside the JAXB object. This is why there is not a <CODE>set</CODE> method for
+     * the subject property.
+     * <p/>
+     * <p/>
      * For example, to add a new item, do as follows:
      * <pre>
      *    getSubject().add(newItem);
      * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link SubjectType }
-     * 
-     * 
+     * <p/>
+     * <p/>
+     * <p/>
+     * Objects of the following type(s) are allowed in the list {@link SubjectType }
      */
     public List<SubjectType> getSubject() {
         if (subject == null) {
@@ -140,11 +125,8 @@ public class RequestType {
 
     /**
      * Sets the value of the action property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link ActionType }
-     *     
+     *
+     * @param value allowed object is {@link ActionType }
      */
     public void setAction(ActionType value) {
         this.action = value;
@@ -152,11 +134,8 @@ public class RequestType {
 
     /**
      * Sets the value of the environment property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link EnvironmentType }
-     *     
+     *
+     * @param value allowed object is {@link EnvironmentType }
      */
     public void setEnvironment(EnvironmentType value) {
         this.environment = value;

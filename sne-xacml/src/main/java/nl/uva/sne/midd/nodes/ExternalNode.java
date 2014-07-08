@@ -27,32 +27,31 @@ import java.io.PrintStream;
 
 /**
  * A true-value external node.
- * 
- * @author canhnt
  *
+ * @author canhnt
  */
 public class ExternalNode extends AbstractNode {
 
-	public static final int EXTERNAL_NODE_ID = -1;
+    public static final int EXTERNAL_NODE_ID = -1;
 
-	public ExternalNode() {
-		super(EXTERNAL_NODE_ID);
-	}	
+    public ExternalNode() {
+        super(EXTERNAL_NODE_ID);
+    }
 
-	@Override
-	public AbstractNode clone() {
-		return new ExternalNode();
-	}
+    @Override
+    public AbstractNode clone() {
+        return new ExternalNode();
+    }
 
-	@Override
-	public Class<?> getType() {
-		return Boolean.class;
-	}
+    @Override
+    public Class<?> getType() {
+        return Boolean.class;
+    }
 
-	@Override
-	public void print(OutputStream os) {
-		PrintStream ps = new PrintStream(os);
-		ps.println("TrueNode\n");		
-	}
-	
+    @Override
+    public void print(OutputStream os) {
+        PrintStream ps = new PrintStream(os);
+        ps.println("TrueNode\n");
+    }
+
 }

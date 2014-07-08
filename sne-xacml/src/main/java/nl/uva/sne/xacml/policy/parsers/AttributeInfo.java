@@ -22,23 +22,22 @@
  */
 package nl.uva.sne.xacml.policy.parsers;
 
-import nl.uva.sne.midd.interval.EndPoint;
 import nl.uva.sne.midd.interval.Interval;
 
-public class AttributeInfo {	
-	public boolean isMustBePresent;
-	public Interval interval;
-	
-	public AttributeInfo(boolean isMustBePresent, Interval interval) {
-		this.isMustBePresent = isMustBePresent;
-		this.interval = interval;
-	}
+public class AttributeInfo {
+    public boolean isMustBePresent;
+    public Interval interval;
 
-	public Interval getInterval() {
-		return interval;
-	}
+    public AttributeInfo(boolean isMustBePresent, Interval interval) {
+        this.isMustBePresent = isMustBePresent;
+        this.interval = interval;
+    }
 
-	public void setInterval(Interval i) {
-		this.interval = i;		
-	}
+    public Interval getInterval() {
+        return interval;
+    }
+
+    public void setInterval(Interval i) {
+        this.interval = i;
+    }
 }

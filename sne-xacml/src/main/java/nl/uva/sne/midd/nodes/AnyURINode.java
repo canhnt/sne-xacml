@@ -28,17 +28,17 @@ import nl.uva.sne.midd.obligations.InternalNodeState;
 
 public class AnyURINode extends InternalNode<AnyURI> {
 
-	public AnyURINode(int id, DecisionType state) {
-		super(id, state);
-	}
+    public AnyURINode(int id, DecisionType state) {
+        super(id, state);
+    }
 
-	public AnyURINode(int id, InternalNodeState state) {
-		super(id, state);		
-	}
+    public AnyURINode(int id, InternalNodeState state) {
+        super(id, state);
+    }
 
-	@Override
-	public Class<?> getType() {
-		return AnyURI.class;
-	}
+    @Override
+    public Class<?> getType() {
+        return AnyURI.class;
+    }
 
 }

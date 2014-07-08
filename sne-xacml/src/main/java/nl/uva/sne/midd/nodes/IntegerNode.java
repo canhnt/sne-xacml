@@ -28,37 +28,33 @@
 package nl.uva.sne.midd.nodes;
 
 import nl.uva.sne.midd.DecisionType;
-import nl.uva.sne.midd.edges.IntegerEdge;
-import nl.uva.sne.midd.interval.Interval;
 import nl.uva.sne.midd.obligations.InternalNodeState;
 
 /**
  * @author Canh Ngo (t.c.ngo@uva.nl)
- *
- * @version 
  * @date: Aug 12, 2012
  */
 public class IntegerNode extends InternalNode<Integer> {
 
-	public IntegerNode(int id, DecisionType state) {
-		super(id, state);
-	}
-	
-	public IntegerNode(int id, InternalNodeState state) {
-		super(id, state);
-		// TODO Auto-generated constructor stub
-	}
+    public IntegerNode(int id, DecisionType state) {
+        super(id, state);
+    }
+
+    public IntegerNode(int id, InternalNodeState state) {
+        super(id, state);
+        // TODO Auto-generated constructor stub
+    }
 
 //	public void addChild(Interval<Integer> interval, InternalNode<?> child) {		
 //		IntegerEdge edge = new IntegerEdge(interval);
 //			
 //		super.addChild(edge, child);
 //	}
-	
-	@Override
-	public Class<Integer> getType(){
-		return Integer.class;
-	}
+
+    @Override
+    public Class<Integer> getType() {
+        return Integer.class;
+    }
 
 
 }

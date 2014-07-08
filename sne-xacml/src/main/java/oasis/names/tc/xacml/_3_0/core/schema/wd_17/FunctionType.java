@@ -17,9 +17,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for FunctionType complex type.
- * 
+ * <p/>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p/>
  * <pre>
  * &lt;complexType name="FunctionType">
  *   &lt;complexContent>
@@ -29,14 +29,11 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "FunctionType")
 public class FunctionType
-    extends ExpressionType
-{
+        extends ExpressionType {
 
     @XmlAttribute(name = "FunctionId", required = true)
     @XmlSchemaType(name = "anyURI")
@@ -44,11 +41,8 @@ public class FunctionType
 
     /**
      * Gets the value of the functionId property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
+     *
+     * @return possible object is {@link String }
      */
     public String getFunctionId() {
         return functionId;
@@ -56,11 +50,8 @@ public class FunctionType
 
     /**
      * Sets the value of the functionId property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     *
+     * @param value allowed object is {@link String }
      */
     public void setFunctionId(String value) {
         this.functionId = value;

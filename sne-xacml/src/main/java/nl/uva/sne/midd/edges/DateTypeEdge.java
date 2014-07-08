@@ -29,17 +29,17 @@ import nl.uva.sne.midd.interval.Interval;
 
 public class DateTypeEdge extends AbstractEdge<XMLDateTime> {
 
-	public DateTypeEdge(Interval<XMLDateTime> interval) {
-		super(interval);
-	}
+    public DateTypeEdge(Interval<XMLDateTime> interval) {
+        super(interval);
+    }
 
-	public DateTypeEdge(List<Interval<XMLDateTime>> intervals) {
-		super(intervals);
-	}
+    public DateTypeEdge(List<Interval<XMLDateTime>> intervals) {
+        super(intervals);
+    }
 
-	@Override
-	public Class<XMLDateTime> getType() {
-		return XMLDateTime.class;
-	}
+    @Override
+    public Class<XMLDateTime> getType() {
+        return XMLDateTime.class;
+    }
 
 }

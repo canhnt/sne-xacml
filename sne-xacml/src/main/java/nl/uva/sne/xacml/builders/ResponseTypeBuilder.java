@@ -28,7 +28,6 @@ import org.slf4j.LoggerFactory;
 import nl.uva.sne.midd.Decision;
 import nl.uva.sne.midd.DecisionType;
 import nl.uva.sne.midd.obligations.Obligation;
-import nl.uva.sne.xacml.PDP;
 import nl.uva.sne.xacml.policy.parsers.util.DecisionConverterUtil;
 import oasis.names.tc.xacml._3_0.core.schema.wd_17.ObjectFactory;
 import oasis.names.tc.xacml._3_0.core.schema.wd_17.ObligationType;
@@ -39,83 +38,83 @@ import oasis.names.tc.xacml._3_0.core.schema.wd_17.StatusCodeType;
 import oasis.names.tc.xacml._3_0.core.schema.wd_17.StatusType;
 
 public class ResponseTypeBuilder {
-	private static final Logger logger = LoggerFactory.getLogger(ResponseTypeBuilder.class);
+    private static final Logger logger = LoggerFactory.getLogger(ResponseTypeBuilder.class);
 
-	private static final String STATUS_CODE_OK = "urn:oasis:names:tc:xacml:1.0:status:ok";
-	
-	private static final String STATUS_CODE_MISSING_ATTRIBUTE = "urn:oasis:names:tc:xacml:1.0:status:missing-attribute";
-	
-	private static final String STATUS_CODE_SYNTAX_ERROR = "urn:oasis:names:tc:xacml:1.0:status:syntax-error";
-	
-	private static final String STATUS_CODE_PROCESSING_ERROR = "urn:oasis:names:tc:xacml:1.0:status:processing-error";
+    private static final String STATUS_CODE_OK = "urn:oasis:names:tc:xacml:1.0:status:ok";
 
-	private boolean fXACMLParsingError;
+    private static final String STATUS_CODE_MISSING_ATTRIBUTE = "urn:oasis:names:tc:xacml:1.0:status:missing-attribute";
 
-	private boolean fProcessingError;
-		
-	public ResponseTypeBuilder(boolean xacmlParsingError,
-			boolean processiongError) {
-		this.fXACMLParsingError = xacmlParsingError;
-		this.fProcessingError = processiongError;
-	}
+    private static final String STATUS_CODE_SYNTAX_ERROR = "urn:oasis:names:tc:xacml:1.0:status:syntax-error";
 
+    private static final String STATUS_CODE_PROCESSING_ERROR = "urn:oasis:names:tc:xacml:1.0:status:processing-error";
 
-	public ResponseType create(Decision middDecision) {
-		if (middDecision == null)
-			return null;
-		ResponseType response = (new ObjectFactory()).createResponseType();
-		
-		// Create obligations object
-		ObligationsType obligations = (new ObjectFactory()).createObligationsType();
-		if (middDecision.getObligations() != null)
-			for (Obligation middObl : middDecision.getObligations()) {
-				ObligationType o = (new ObjectFactory()).createObligationType();
-				o.setObligationId(middObl.toString());
-				obligations.getObligation().add(o);
-			}
-		
-		// Create status code object
-		StatusCodeType statusCode = (new ObjectFactory()).createStatusCodeType();		
-		statusCode.setValue(getStatusCode(middDecision.getDecision()));			
-		StatusType status =  (new ObjectFactory()).createStatusType();
-		status.setStatusCode(statusCode);
-		
-		// Create result object
-		ResultType result = (new ObjectFactory()).createResultType();		
-		result.setDecision(DecisionConverterUtil.convertMIDDDecision(middDecision.getDecision()));
-		result.setObligations(obligations);
-		result.setStatus(status);
-		
-		response.getResult().add(result);
-		return response;
-	}
+    private boolean fXACMLParsingError;
+
+    private boolean fProcessingError;
+
+    public ResponseTypeBuilder(boolean xacmlParsingError,
+                               boolean processiongError) {
+        this.fXACMLParsingError = xacmlParsingError;
+        this.fProcessingError = processiongError;
+    }
 
 
-	/**
-	 * Dummy convert
-	 * @param decision
-	 * @return
-	 */
-	private String getStatusCode(DecisionType decision) {
-		if (fXACMLParsingError)
-			return STATUS_CODE_SYNTAX_ERROR;
+    public ResponseType create(Decision middDecision) {
+        if (middDecision == null) {
+            return null;
+        }
+        ResponseType response = (new ObjectFactory()).createResponseType();
 
-		else if (fProcessingError)
-			return STATUS_CODE_PROCESSING_ERROR;
-		
-		else if (decision == DecisionType.Deny || 
-			decision == DecisionType.Permit)
-			return STATUS_CODE_OK;
-		
-		else if (decision == DecisionType.Indeterminate || 
-				  decision == DecisionType.Indeterminate_D || 
-				  decision == DecisionType.Indeterminate_P ||
-				  decision == DecisionType.Indeterminate_DP)
-			return STATUS_CODE_MISSING_ATTRIBUTE;		
-		else {
-			logger.debug("Unknown status code decision");
-			return STATUS_CODE_PROCESSING_ERROR; 
-		}
-	}
+        // Create obligations object
+        ObligationsType obligations = (new ObjectFactory()).createObligationsType();
+        if (middDecision.getObligations() != null) {
+            for (Obligation middObl : middDecision.getObligations()) {
+                ObligationType o = (new ObjectFactory()).createObligationType();
+                o.setObligationId(middObl.toString());
+                obligations.getObligation().add(o);
+            }
+        }
+
+        // Create status code object
+        StatusCodeType statusCode = (new ObjectFactory()).createStatusCodeType();
+        statusCode.setValue(getStatusCode(middDecision.getDecision()));
+        StatusType status = (new ObjectFactory()).createStatusType();
+        status.setStatusCode(statusCode);
+
+        // Create result object
+        ResultType result = (new ObjectFactory()).createResultType();
+        result.setDecision(DecisionConverterUtil.convertMIDDDecision(middDecision.getDecision()));
+        result.setObligations(obligations);
+        result.setStatus(status);
+
+        response.getResult().add(result);
+        return response;
+    }
+
+
+    /**
+     * Dummy convert
+     *
+     * @param decision
+     * @return
+     */
+    private String getStatusCode(DecisionType decision) {
+        if (fXACMLParsingError) {
+            return STATUS_CODE_SYNTAX_ERROR;
+        } else if (fProcessingError) {
+            return STATUS_CODE_PROCESSING_ERROR;
+        } else if (decision == DecisionType.Deny ||
+                decision == DecisionType.Permit) {
+            return STATUS_CODE_OK;
+        } else if (decision == DecisionType.Indeterminate ||
+                decision == DecisionType.Indeterminate_D ||
+                decision == DecisionType.Indeterminate_P ||
+                decision == DecisionType.Indeterminate_DP) {
+            return STATUS_CODE_MISSING_ATTRIBUTE;
+        } else {
+            logger.debug("Unknown status code decision");
+            return STATUS_CODE_PROCESSING_ERROR;
+        }
+    }
 
 }

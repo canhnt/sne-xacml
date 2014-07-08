@@ -21,7 +21,7 @@
  * MA 02110-1301 USA
  */
 /**
- * 
+ *
  */
 package nl.uva.sne.xacml.policy;
 
@@ -32,79 +32,73 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import nl.uva.sne.xacml.PDPException;
 import nl.uva.sne.xacml.policy.finder.PolicyFinder;
 import nl.uva.sne.xacml.policy.finder.impl.PolicyFinderImpl;
-import nl.uva.sne.xacml.policy.parsers.PolicySetParser;
-import nl.uva.sne.xacml.policy.parsers.util.CombiningAlgConverterUtil;
-
-import oasis.names.tc.xacml._3_0.core.schema.wd_17.ObjectFactory;
-import oasis.names.tc.xacml._3_0.core.schema.wd_17.PolicyType;
 import oasis.names.tc.xacml._3_0.core.schema.wd_17.PolicySetType;
+import oasis.names.tc.xacml._3_0.core.schema.wd_17.PolicyType;
 
 /**
  * @author canhnt
- *
  */
 public class PolicyRepository {
-	private static final Logger logger = LoggerFactory.getLogger(PolicyRepository.class);
-	
-	/**
-	 * Collection of referenced-based policies/policysets
-	 */
-	protected Map<String, Object> policyRepo;
+    private static final Logger logger = LoggerFactory.getLogger(PolicyRepository.class);
 
-	private PolicySetType rootPolicySet;
-	
+    /**
+     * Collection of referenced-based policies/policysets
+     */
+    protected Map<String, Object> policyRepo;
 
-	public PolicyRepository() {
-		policyRepo = new HashMap<String, Object>();
-	}
-	
-	public void setContextPolicy(PolicySetType policySet) {
-		rootPolicySet = policySet;
-	}
-	
-	public void setContextPolicies(String combiningAlgId, List<?> ctxPolicies) {
-		// create a root policyset of the repository from combiningAlgId and policies children.
-		PolicySetBuilder builder = new PolicySetBuilder(combiningAlgId, ctxPolicies); 
-		rootPolicySet = builder.create();
-		
-		// add context policies to the repository
-		addPolicies(ctxPolicies);
-	}
-	
-	public PolicySetType getRootPolicySet() {
-		return this.rootPolicySet;
-	}
-	
-	public void addPolicies(List<?> policies){
-		
-		for(Object o : policies) {
-			if (o instanceof PolicySetType) {
-				PolicySetType ps = (PolicySetType)o;
-				String id = ps.getPolicySetId();
-				if (policyRepo.containsKey(id)) {
-					logger.error("PolicySet " + id + " has exisited!");
-				}
-				
-				policyRepo.put(id, ps);
-			} else if (o instanceof PolicyType) {
-				PolicyType p = (PolicyType)o;
-				String id = p.getPolicyId();
-				if (policyRepo.containsKey(id)) {
-					logger.error("Policy " + id + " has exisited!");
-				}
+    private PolicySetType rootPolicySet;
 
-				policyRepo.put(id, p);
-			} else {
-				throw new RuntimeException("Illegal policy type");
-			}
-		}
-	}
-	
-	public PolicyFinder createPolicyFinder(){
-		PolicyFinder finder = new PolicyFinderImpl(this.policyRepo);
-		return finder;
-	}
+
+    public PolicyRepository() {
+        policyRepo = new HashMap<String, Object>();
+    }
+
+    public void setContextPolicy(PolicySetType policySet) {
+        rootPolicySet = policySet;
+    }
+
+    public void setContextPolicies(String combiningAlgId, List<?> ctxPolicies) {
+        // create a root policyset of the repository from combiningAlgId and policies children.
+        PolicySetBuilder builder = new PolicySetBuilder(combiningAlgId, ctxPolicies);
+        rootPolicySet = builder.create();
+
+        // add context policies to the repository
+        addPolicies(ctxPolicies);
+    }
+
+    public PolicySetType getRootPolicySet() {
+        return this.rootPolicySet;
+    }
+
+    public void addPolicies(List<?> policies) {
+
+        for (Object o : policies) {
+            if (o instanceof PolicySetType) {
+                PolicySetType ps = (PolicySetType) o;
+                String id = ps.getPolicySetId();
+                if (policyRepo.containsKey(id)) {
+                    logger.error("PolicySet " + id + " has exisited!");
+                }
+
+                policyRepo.put(id, ps);
+            } else if (o instanceof PolicyType) {
+                PolicyType p = (PolicyType) o;
+                String id = p.getPolicyId();
+                if (policyRepo.containsKey(id)) {
+                    logger.error("Policy " + id + " has exisited!");
+                }
+
+                policyRepo.put(id, p);
+            } else {
+                throw new RuntimeException("Illegal policy type");
+            }
+        }
+    }
+
+    public PolicyFinder createPolicyFinder() {
+        PolicyFinder finder = new PolicyFinderImpl(this.policyRepo);
+        return finder;
+    }
 }

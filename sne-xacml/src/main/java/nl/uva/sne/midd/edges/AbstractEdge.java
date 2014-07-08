@@ -32,96 +32,96 @@ import nl.uva.sne.midd.nodes.AbstractNode;
 
 /**
  * An out-going edge from a node
- * 
- * @author Canh Ngo (t.c.ngo@uva.nl)
  *
- * @version 
+ * @author Canh Ngo (t.c.ngo@uva.nl)
  * @date: Aug 9, 2012
  */
-public abstract class AbstractEdge<T extends Comparable<T>>{
-	
-	/**
-	 * List of intervals for the current edge.
-	 */
-	private List<Interval<T>> intervals;
-	
-	/**
-	 * The sub-diagram of the function at the edge's endpoint
-	 */
-	private AbstractNode subDiagram;
+public abstract class AbstractEdge<T extends Comparable<T>> {
 
-	private AbstractEdge() {
-		this.intervals = new ArrayList<Interval<T>>();
-	}
-	
-	public AbstractEdge(Interval<T> interval) {
-		this();
-		this.intervals.add(interval);
-	}
-	
-	public AbstractEdge(List<Interval<T>> intervals) {
-		this();
-		this.intervals.addAll(intervals);
-	}
-	
-	public void addInterval(Interval<T> interval) {
-		this.intervals.add(interval);
-	}
-	
-	public void addInterval(List<Interval<T>> intervals) {
-		this.intervals.addAll(intervals);
-	}
-	
-	public boolean containsInterval(Interval<T> interval) {
-		for(Interval<T> item:intervals) {
-			if (item.contains(interval))
-				return true;				
-		}		
-		return false;		
-	}
+    /**
+     * List of intervals for the current edge.
+     */
+    private List<Interval<T>> intervals;
+
+    /**
+     * The sub-diagram of the function at the edge's endpoint
+     */
+    private AbstractNode subDiagram;
+
+    private AbstractEdge() {
+        this.intervals = new ArrayList<Interval<T>>();
+    }
+
+    public AbstractEdge(Interval<T> interval) {
+        this();
+        this.intervals.add(interval);
+    }
+
+    public AbstractEdge(List<Interval<T>> intervals) {
+        this();
+        this.intervals.addAll(intervals);
+    }
+
+    public void addInterval(Interval<T> interval) {
+        this.intervals.add(interval);
+    }
+
+    public void addInterval(List<Interval<T>> intervals) {
+        this.intervals.addAll(intervals);
+    }
+
+    public boolean containsInterval(Interval<T> interval) {
+        for (Interval<T> item : intervals) {
+            if (item.contains(interval)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     /**
      * Return the immutable list of intervals
      */
-	public List<Interval<T>> getIntervals() {
+    public List<Interval<T>> getIntervals() {
         return Collections.unmodifiableList(this.intervals);
-	}
-	
-	public AbstractNode getSubDiagram() {
-		return this.subDiagram;
-	}
-	
-	public abstract Class<T> getType();
-	
-	/**
-	 * Check if the value is matched with the edge's intervals
-	 * 
-	 * @param value
-	 * @return
-	 */
-	public boolean match(T value) throws MIDDException {
-		for(Interval<T> interval: this.intervals) {
-			if (interval.hasValue(value))
-				return true;
-		}
-		return false;
-	}
-	
-	public void setChild(AbstractNode child) {
-		if (child == null)
-			throw new IllegalArgumentException("child argument must not be null");
-		this.subDiagram = child;
-	}
-	
-	@Override
-	public String toString(){
-		StringBuffer buffer = new StringBuffer();
-		buffer.append("{");
-		for(Interval i : this.intervals) {
-			buffer.append(i.toString());
-		}
-		buffer.append("}");
-		return buffer.toString();
-	}
+    }
+
+    public AbstractNode getSubDiagram() {
+        return this.subDiagram;
+    }
+
+    public abstract Class<T> getType();
+
+    /**
+     * Check if the value is matched with the edge's intervals
+     *
+     * @param value
+     * @return
+     */
+    public boolean match(T value) throws MIDDException {
+        for (Interval<T> interval : this.intervals) {
+            if (interval.hasValue(value)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void setChild(AbstractNode child) {
+        if (child == null) {
+            throw new IllegalArgumentException("child argument must not be null");
+        }
+        this.subDiagram = child;
+    }
+
+    @Override
+    public String toString() {
+        StringBuffer buffer = new StringBuffer();
+        buffer.append("{");
+        for (Interval i : this.intervals) {
+            buffer.append(i.toString());
+        }
+        buffer.append("}");
+        return buffer.toString();
+    }
 }
-	

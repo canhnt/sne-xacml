@@ -21,14 +21,13 @@
  * MA 02110-1301 USA
  */
 /**
- * 
+ *
  */
 package nl.uva.sne.xacml.policy.finder;
 
 /**
  * @author canhnt
- *
  */
 public interface PolicyFinder {
-	Object lookup(String id);	
+    Object lookup(String id);
 }

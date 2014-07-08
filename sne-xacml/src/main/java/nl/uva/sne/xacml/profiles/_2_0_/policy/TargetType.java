@@ -16,9 +16,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * <p>Java class for TargetType complex type.
- * 
+ * <p/>
  * <p>The following schema fragment specifies the expected content contained within this class.
- * 
+ * <p/>
  * <pre>
  * &lt;complexType name="TargetType">
  *   &lt;complexContent>
@@ -33,15 +33,13 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "TargetType", propOrder = {
-    "subjects",
-    "resources",
-    "actions",
-    "environments"
+        "subjects",
+        "resources",
+        "actions",
+        "environments"
 })
 public class TargetType {
 
@@ -56,11 +54,8 @@ public class TargetType {
 
     /**
      * Gets the value of the actions property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link ActionsType }
-     *     
+     *
+     * @return possible object is {@link ActionsType }
      */
     public ActionsType getActions() {
         return actions;
@@ -68,11 +63,8 @@ public class TargetType {
 
     /**
      * Gets the value of the environments property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link EnvironmentsType }
-     *     
+     *
+     * @return possible object is {@link EnvironmentsType }
      */
     public EnvironmentsType getEnvironments() {
         return environments;
@@ -80,11 +72,8 @@ public class TargetType {
 
     /**
      * Gets the value of the resources property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link ResourcesType }
-     *     
+     *
+     * @return possible object is {@link ResourcesType }
      */
     public ResourcesType getResources() {
         return resources;
@@ -92,11 +81,8 @@ public class TargetType {
 
     /**
      * Gets the value of the subjects property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link SubjectsType }
-     *     
+     *
+     * @return possible object is {@link SubjectsType }
      */
     public SubjectsType getSubjects() {
         return subjects;
@@ -104,11 +90,8 @@ public class TargetType {
 
     /**
      * Sets the value of the actions property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link ActionsType }
-     *     
+     *
+     * @param value allowed object is {@link ActionsType }
      */
     public void setActions(ActionsType value) {
         this.actions = value;
@@ -116,11 +99,8 @@ public class TargetType {
 
     /**
      * Sets the value of the environments property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link EnvironmentsType }
-     *     
+     *
+     * @param value allowed object is {@link EnvironmentsType }
      */
     public void setEnvironments(EnvironmentsType value) {
         this.environments = value;
@@ -128,11 +108,8 @@ public class TargetType {
 
     /**
      * Sets the value of the resources property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link ResourcesType }
-     *     
+     *
+     * @param value allowed object is {@link ResourcesType }
      */
     public void setResources(ResourcesType value) {
         this.resources = value;
@@ -140,11 +117,8 @@ public class TargetType {
 
     /**
      * Sets the value of the subjects property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link SubjectsType }
-     *     
+     *
+     * @param value allowed object is {@link SubjectsType }
      */
     public void setSubjects(SubjectsType value) {
         this.subjects = value;

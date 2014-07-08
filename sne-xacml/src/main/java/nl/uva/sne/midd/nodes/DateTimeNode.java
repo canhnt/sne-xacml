@@ -28,17 +28,17 @@ import nl.uva.sne.midd.obligations.InternalNodeState;
 
 public class DateTimeNode extends InternalNode<XMLDateTime> {
 
-	public DateTimeNode(int id, DecisionType state) {
-		super(id, state);
-	}
+    public DateTimeNode(int id, DecisionType state) {
+        super(id, state);
+    }
 
-	public DateTimeNode(int id, InternalNodeState state) {
-		super(id, state);
-	}
-	
-	@Override
-	public Class<?> getType() {
-		return XMLDateTime.class;
-	}
+    public DateTimeNode(int id, InternalNodeState state) {
+        super(id, state);
+    }
+
+    @Override
+    public Class<?> getType() {
+        return XMLDateTime.class;
+    }
 
 }
