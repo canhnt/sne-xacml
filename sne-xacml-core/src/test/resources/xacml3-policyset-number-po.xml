@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    SNE-XACML: A high performance XACML evaluation engine.
+
+    Copyright (C) 2013 Canh T. Ngo <canhnt@gmail.com>
+    System and Network Engineering Group, University of Amsterdam.
+    All rights reserved.
+
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Lesser General Public
+    License as published by the Free Software Foundation; either
+    version 3.0 of the License, or any later version.
+
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+    Lesser General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public
+    License along with this library; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+    MA 02110-1301 USA
+
+-->
+<Policy xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17" 
+		xmlns:xacml ="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17"  
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:schemaLocation="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17 http://docs.oasis-open.org/xacml/3.0/xacml-core-v3-schema-wd-17.xsd" 
+		xmlns:md="http:www.med.example.com/schemas/record.xsd" 
+		PolicyId="policytest-number-permit-overrides" 
+		Version="1.0"
+		RuleCombiningAlgId="urn:oasis:names:tc:xacml:3.0:rule-combining-algorithm:permit-overrides">
+<!-- 		
+	<Target>
+		<AnyOf>
+			<AllOf>
+				<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:double-less-than-or-equal">
+					<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#double">2</AttributeValue>
+					<AttributeDesignator AttributeId="http://authz-interop.org/AAA/xacml/attr/x1" 
+										 DataType="http://www.w3.org/2001/XMLSchema#double"/>
+				</Match>
+				<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:double-greater-than-or-equal">
+					<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#double">6</AttributeValue>
+					<AttributeDesignator AttributeId="http://authz-interop.org/AAA/xacml/attr/x1" 
+										 DataType="http://www.w3.org/2001/XMLSchema#double"/>
+				</Match>				
+			</AllOf>
+		</AnyOf>
+	</Target> -->	
+	
+	<Rule RuleId="rule-example1" Effect="Permit">
+		<Target>
+			<!-- (1<= x1 <=2)^(3<= x2 <=4)^(3<= x3 <=4) v
+				 (3<= x1 <=4)^(1<= x3 <=2) v
+				 (1<= x1 <=2)^(1<= x2 <=2)^(1<= x3 <=2)-->		
+			<AnyOf>
+				<!-- (1<= x1 <=2)^(3<= x2 <=4)^(3<= x3 <=4) -->
+				<AllOf> 					
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:double-less-than-or-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#double">1</AttributeValue>
+						<AttributeDesignator AttributeId="http://authz-interop.org/AAA/xacml/attr/x1" 
+											 DataType="http://www.w3.org/2001/XMLSchema#double"/>
+					</Match>
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:double-greater-than-or-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#double">2</AttributeValue>
+						<AttributeDesignator AttributeId="http://authz-interop.org/AAA/xacml/attr/x1" 
+											 DataType="http://www.w3.org/2001/XMLSchema#double"/>
+					</Match>		
+						
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:double-less-than-or-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#double">3</AttributeValue>
+						<AttributeDesignator AttributeId="http://authz-interop.org/AAA/xacml/attr/x2" 
+											 DataType="http://www.w3.org/2001/XMLSchema#double"/>
+					</Match>												
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:double-greater-than-or-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#double">4</AttributeValue>
+						<AttributeDesignator AttributeId="http://authz-interop.org/AAA/xacml/attr/x2" 
+											 DataType="http://www.w3.org/2001/XMLSchema#double"/>
+					</Match>		
+					
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:double-less-than-or-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#double">3</AttributeValue>
+						<AttributeDesignator AttributeId="http://authz-interop.org/AAA/xacml/attr/x3" 
+											 DataType="http://www.w3.org/2001/XMLSchema#double"/>
+					</Match>		
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:double-greater-than-or-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#double">4</AttributeValue>
+						<AttributeDesignator AttributeId="http://authz-interop.org/AAA/xacml/attr/x3" 
+											 DataType="http://www.w3.org/2001/XMLSchema#double"/>
+					</Match>																								
+				</AllOf>
+				
+				<AllOf> <!--(3<= x1 <=4)^(1<= x3 <=2)-->							
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:double-less-than-or-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#double">3</AttributeValue>
+						<AttributeDesignator AttributeId="http://authz-interop.org/AAA/xacml/attr/x1" 
+											 DataType="http://www.w3.org/2001/XMLSchema#double"/>
+					</Match>
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:double-greater-than-or-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#double">4</AttributeValue>
+						<AttributeDesignator AttributeId="http://authz-interop.org/AAA/xacml/attr/x1" 
+											 DataType="http://www.w3.org/2001/XMLSchema#double"/>
+					</Match>		
+						
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:double-less-than-or-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#double">1</AttributeValue>
+						<AttributeDesignator AttributeId="http://authz-interop.org/AAA/xacml/attr/x3" 
+											 DataType="http://www.w3.org/2001/XMLSchema#double"/>
+					</Match>		
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:double-greater-than-or-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#double">2</AttributeValue>
+						<AttributeDesignator AttributeId="http://authz-interop.org/AAA/xacml/attr/x3" 
+											 DataType="http://www.w3.org/2001/XMLSchema#double"/>
+					</Match>																								
+				</AllOf>				
+							
+				<AllOf> <!-- (1<= x1 <=2)^(1<= x2 <=2)^(1<= x3 <=2)-->							
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:double-less-than-or-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#double">1</AttributeValue>
+						<AttributeDesignator AttributeId="http://authz-interop.org/AAA/xacml/attr/x1" 
+											 DataType="http://www.w3.org/2001/XMLSchema#double"/>
+					</Match>
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:double-greater-than-or-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#double">2</AttributeValue>
+						<AttributeDesignator AttributeId="http://authz-interop.org/AAA/xacml/attr/x1" 
+											 DataType="http://www.w3.org/2001/XMLSchema#double"/>
+					</Match>		
+						
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:double-less-than-or-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#double">1</AttributeValue>
+						<AttributeDesignator AttributeId="http://authz-interop.org/AAA/xacml/attr/x2" 
+											 DataType="http://www.w3.org/2001/XMLSchema#double"/>
+					</Match>												
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:double-greater-than-or-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#double">2</AttributeValue>
+						<AttributeDesignator AttributeId="http://authz-interop.org/AAA/xacml/attr/x2" 
+											 DataType="http://www.w3.org/2001/XMLSchema#double"/>
+					</Match>		
+					
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:double-less-than-or-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#double">1</AttributeValue>
+						<AttributeDesignator AttributeId="http://authz-interop.org/AAA/xacml/attr/x3" 
+											 DataType="http://www.w3.org/2001/XMLSchema#double"/>
+					</Match>		
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:double-greater-than-or-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#double">2</AttributeValue>
+						<AttributeDesignator AttributeId="http://authz-interop.org/AAA/xacml/attr/x3" 
+											 DataType="http://www.w3.org/2001/XMLSchema#double"/>
+					</Match>																								
+				</AllOf>								
+			</AnyOf>					
+		</Target>
+		<ObligationExpressions>
+			<ObligationExpression ObligationId="O1" FulfillOn="Permit">				
+			</ObligationExpression>
+		</ObligationExpressions>
+	</Rule>	
+
+	<Rule RuleId="rule-example2" Effect="Deny">
+		<Target>
+			<AnyOf>
+			<!-- (x1 == 1) ^ (x2 == 4) v (2<= x1 <=3)^(x2 == 2) v (x1 == 4)^(x2 == 3) -->
+			
+				<AllOf> <!--(x1 == 1) ^ (x2 == 4) -->							
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:double-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#double">1</AttributeValue>
+						<AttributeDesignator AttributeId="http://authz-interop.org/AAA/xacml/attr/x1" 
+											 DataType="http://www.w3.org/2001/XMLSchema#double"/>
+					</Match>
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:double-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#double">4</AttributeValue>
+						<AttributeDesignator AttributeId="http://authz-interop.org/AAA/xacml/attr/x2" 
+											 DataType="http://www.w3.org/2001/XMLSchema#double"/>
+					</Match>																										
+				</AllOf>		
+				
+				<AllOf> <!-- (2<= x1 <=3)^(x2 == 2) -->							
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:double-less-than-or-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#double">2</AttributeValue>
+						<AttributeDesignator AttributeId="http://authz-interop.org/AAA/xacml/attr/x1" 
+											 DataType="http://www.w3.org/2001/XMLSchema#double"/>
+					</Match>
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:double-greater-than-or-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#double">3</AttributeValue>
+						<AttributeDesignator AttributeId="http://authz-interop.org/AAA/xacml/attr/x1" 
+											 DataType="http://www.w3.org/2001/XMLSchema#double"/>
+					</Match>		
+					
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:double-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#double">2</AttributeValue>
+						<AttributeDesignator AttributeId="http://authz-interop.org/AAA/xacml/attr/x2" 
+											 DataType="http://www.w3.org/2001/XMLSchema#double"/>
+					</Match>																														
+				</AllOf>
+				
+				<AllOf> <!-- (x1 == 4)^(x2 == 3) -->							
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:double-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#double">4</AttributeValue>
+						<AttributeDesignator AttributeId="http://authz-interop.org/AAA/xacml/attr/x1" 
+											 DataType="http://www.w3.org/2001/XMLSchema#double"/>
+					</Match>
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:double-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#double">3</AttributeValue>
+						<AttributeDesignator AttributeId="http://authz-interop.org/AAA/xacml/attr/x2" 
+											 DataType="http://www.w3.org/2001/XMLSchema#double"/>
+					</Match>																										
+				</AllOf>													
+			</AnyOf>			
+		</Target>
+		<ObligationExpressions>
+			<ObligationExpression ObligationId="O3" FulfillOn="Deny">				
+			</ObligationExpression>
+		</ObligationExpressions>
+		
+	</Rule>	
+
+ 	
+</Policy>

@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Policy xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17" 
+		xmlns:xacml ="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17"  
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:schemaLocation="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17 http://docs.oasis-open.org/xacml/3.0/xacml-core-v3-schema-wd-17.xsd" 
+		xmlns:md="http:www.med.example.com/schemas/record.xsd" 
+		PolicyId="mli-interface" 
+		Version="1.0"
+		RuleCombiningAlgId="urn:oasis:names:tc:xacml:3.0:rule-combining-algorithm:permit-overrides">
+		
+	<Target>
+		<AnyOf>
+			<AllOf>
+				<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+					<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">VIO</AttributeValue>
+					<AttributeDesignator AttributeId="http://authz-interop.org/AAA/xacml/subject/subject-role" 
+										 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+				</Match>					
+			</AllOf>
+		</AnyOf>
+	</Target>
+	
+	<Rule RuleId="mli:vi-operations" Effect="Permit">
+		<Target>
+			<AnyOf>
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:anyURI-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">http://geysers.eu/upperlicl/resource/resource-type/VI</AttributeValue>
+						<AttributeDesignator AttributeId="http://authz-interop.org/AAA/xacml/resource/resource-type" 
+											 DataType="http://www.w3.org/2001/XMLSchema#anyURI"/>
+					</Match>				
+			</AnyOf>
+			<AnyOf>
+				<AllOf> 						
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">MLI:Request-VI</AttributeValue>
+						<AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" 
+											 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+					</Match>						
+				</AllOf>
+				<AllOf> 						
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">MLI:Instantiate-VI</AttributeValue>
+						<AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" 
+											 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+					</Match>						
+				</AllOf>
+				<AllOf> 						
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">MLI:Decommission-VI</AttributeValue>
+						<AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" 
+											 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+					</Match>						
+				</AllOf>
+				<AllOf> 						
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">MLI:ReplanningVI:Modify-Time</AttributeValue>
+						<AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" 
+											 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+					</Match>						
+				</AllOf>					
+			</AnyOf>								
+		</Target>
+	</Rule>
+	
+	<Rule RuleId="mli:vi-request-operations" Effect="Permit">
+		<Target>
+			<AnyOf>
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:anyURI-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">http://geysers.eu/upperlicl/resource/resource-type/VI-Request</AttributeValue>
+						<AttributeDesignator AttributeId="http://authz-interop.org/AAA/xacml/resource/resource-type" 
+											 DataType="http://www.w3.org/2001/XMLSchema#anyURI"/>
+					</Match>				
+			</AnyOf>
+			<AnyOf>
+				<AllOf> 						
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">MLI:Query-VI-Request-Status</AttributeValue>
+						<AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" 
+											 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+					</Match>						
+				</AllOf>
+				<AllOf> 						
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">MLI:Get-SLA-Offer</AttributeValue>
+						<AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" 
+											 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+					</Match>						
+				</AllOf>
+				<AllOf> 						
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">MLI:Sign-SLA-Offer</AttributeValue>
+						<AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" 
+											 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+					</Match>						
+				</AllOf>					
+			</AnyOf>								
+		</Target>
+	</Rule>	
+	
+	<Rule RuleId="mli:replanning:vr-it-operations" Effect="Permit">
+		<Target>
+			<AnyOf>
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:anyURI-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">http://geysers.eu/upperlicl/resource/resource-type/VR-IT</AttributeValue>
+						<AttributeDesignator AttributeId="http://authz-interop.org/AAA/xacml/resource/resource-type" 
+											 DataType="http://www.w3.org/2001/XMLSchema#anyURI"/>
+					</Match>				
+			</AnyOf>
+			<AnyOf>
+				<AllOf> 						
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">MLI:ReplanningVI:Add-VR-IT</AttributeValue>
+						<AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" 
+											 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+					</Match>						
+				</AllOf>
+				<AllOf> 						
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">MLI:ReplanningVI:Modify-VR-IT</AttributeValue>
+						<AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" 
+											 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+					</Match>						
+				</AllOf>
+				<AllOf> 						
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">MLI:ReplanningVI:Delete-VR-IT</AttributeValue>
+						<AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" 
+											 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+					</Match>						
+				</AllOf>				
+			</AnyOf>			
+		</Target>
+	</Rule>	
+	
+	<Rule RuleId="mli:replanning:vlink-operations" Effect="Permit">
+		<Target>
+			<AnyOf>
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:anyURI-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#anyURI">http://geysers.eu/upperlicl/resource/resource-type/VLink</AttributeValue>
+						<AttributeDesignator AttributeId="http://authz-interop.org/AAA/xacml/resource/resource-type" 
+											 DataType="http://www.w3.org/2001/XMLSchema#anyURI"/>
+					</Match>				
+			</AnyOf>
+			<AnyOf>
+				<AllOf> 						
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">MLI:ReplanningVI:Add-VLink</AttributeValue>
+						<AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" 
+											 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+					</Match>						
+				</AllOf>
+				<AllOf> 						
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">MLI:ReplanningVI:Modify-VLink</AttributeValue>
+						<AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" 
+											 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+					</Match>						
+				</AllOf>
+				<AllOf> 						
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">MLI:ReplanningVI:Delete-VLink</AttributeValue>
+						<AttributeDesignator AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" 
+											 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+					</Match>						
+				</AllOf>				
+			</AnyOf>			
+		</Target>
+	</Rule>		
+</Policy>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>nl.uva.sne</groupId>
+    <artifactId>sne-xacml</artifactId>
+    <version>0.0.3-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>sne-xacml-core</artifactId>
+  <packaging>bundle</packaging>
+
+  <name>SNE XACML Core Engine</name>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.sun.xml.bind</groupId>
+      <artifactId>jaxb-osgi</artifactId>
+      <version>${jaxb-osgi.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>${junit.version}</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <!--License plugin-->
+      <plugin>
+        <groupId>com.mycila.maven-license-plugin</groupId>
+        <artifactId>maven-license-plugin</artifactId>
+        <configuration>
+          <basedir>.</basedir>
+          <header>./etc/header.txt</header>
+          <validHeaders>
+            <validHeader>COPYING</validHeader>
+            <validHeader>http://www.gnu.org/licenses/lgpl-3.0.txt</validHeader>
+          </validHeaders>
+          <quiet>false</quiet>
+          <failIfMissing>true</failIfMissing>
+          <aggregate>false</aggregate>
+          <includes>
+            <include>src/**</include>
+            <include>**/test/**</include>
+          </includes>
+          <excludes>
+            <exclude>src/test/resources/**</exclude>
+            <exclude>target/**</exclude>
+            <exclude>src/main/java/oasis/**</exclude>
+            <exclude>src/main/resources/**</exclude>
+            <exclude>src/main/java/nl/uva/sne/xacml/profiles/_2_0_/**</exclude>
+          </excludes>
+          <useDefaultExcludes>true</useDefaultExcludes>
+          <mapping>
+            <xml>XML_STYLE</xml>
+            <java>JAVADOC_STYLE</java>
+          </mapping>
+          <useDefaultMapping>true</useDefaultMapping>
+          <encoding>UTF-8</encoding>
+          <strictCheck>true</strictCheck>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>

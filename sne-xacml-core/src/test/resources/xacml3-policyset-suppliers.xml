@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    SNE-XACML: A high performance XACML evaluation engine.
+
+    Copyright (C) 2013 Canh T. Ngo <canhnt@gmail.com>
+    System and Network Engineering Group, University of Amsterdam.
+    All rights reserved.
+
+    This library is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Lesser General Public
+    License as published by the Free Software Foundation; either
+    version 3.0 of the License, or any later version.
+
+    This library is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+    Lesser General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public
+    License along with this library; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+    MA 02110-1301 USA
+
+-->
+<Policy xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17" 
+		xmlns:xacml ="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17"  
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+		xsi:schemaLocation="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17 http://docs.oasis-open.org/xacml/3.0/xacml-core-v3-schema-wd-17.xsd" 
+		xmlns:md="http:www.med.example.com/schemas/record.xsd" 
+		PolicyId="policytest-number-permit-overrides" 
+		Version="1.0"
+		RuleCombiningAlgId="urn:oasis:names:tc:xacml:3.0:rule-combining-algorithm:permit-overrides">
+ 		
+	<Target>
+		<AnyOf>
+			<AllOf>
+				<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-less-than-or-equal">
+					<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">1080AB</AttributeValue>
+					<AttributeDesignator AttributeId="x1postal-code" MustBePresent="true" 
+										 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+				</Match>
+				<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-greater-than-or-equal">
+					<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">1098XH</AttributeValue>
+					<AttributeDesignator AttributeId="x1postal-code" MustBePresent="true" 
+										 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+				</Match>				
+			</AllOf>
+		</AnyOf>
+	</Target>	
+	
+	<Rule RuleId="rule1" Effect="Permit">
+		<Target>
+			<!-- (1080AB<= x1postal-code <=1085BL)^(12<= x2time <=17)^(3<= x3price <=4) v
+				 (1095CJ<= x1postal-code <=1098XH)^(1<= x3price <=2) v
+				 (1080AB<= x1 <=1085BL)^(6<= x2time <=9)^(1<= x3price <=2)	-->		
+			<AnyOf>
+				<!-- (1080AB<= x1 <=1085BL)^(12<= x2time <=17)^(3<= x3price <=4) -->
+				<AllOf> 					
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-less-than-or-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">1080AB</AttributeValue>
+						<AttributeDesignator AttributeId="x1postal-code" MustBePresent="true"  
+											 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+					</Match>
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-greater-than-or-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">1085BL</AttributeValue>
+						<AttributeDesignator AttributeId="x1postal-code" MustBePresent="true" 
+											 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+					</Match>		
+						
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:double-less-than-or-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#double">12</AttributeValue>
+						<AttributeDesignator AttributeId="x2time" 
+											 DataType="http://www.w3.org/2001/XMLSchema#double"/>
+					</Match>												
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:double-greater-than-or-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#double">17</AttributeValue>
+						<AttributeDesignator AttributeId="x2time" 
+											 DataType="http://www.w3.org/2001/XMLSchema#double"/>
+					</Match>		
+					
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:double-less-than-or-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#double">3</AttributeValue>
+						<AttributeDesignator AttributeId="x3price" 
+											 DataType="http://www.w3.org/2001/XMLSchema#double"/>
+					</Match>		
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:double-greater-than-or-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#double">4</AttributeValue>
+						<AttributeDesignator AttributeId="x3price" 
+											 DataType="http://www.w3.org/2001/XMLSchema#double"/>
+					</Match>																								
+				</AllOf>
+				
+				<AllOf> <!--(1095CJ<= x1 <=1098XH)^(1<= x3 <=2)-->							
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-less-than-or-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">1095CJ</AttributeValue>
+						<AttributeDesignator AttributeId="x1postal-code" MustBePresent="true" 
+											 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+					</Match>
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-greater-than-or-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">1098XH</AttributeValue>
+						<AttributeDesignator AttributeId="x1postal-code" MustBePresent="true" 
+											 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+					</Match>		
+						
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:double-less-than-or-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#double">1</AttributeValue>
+						<AttributeDesignator AttributeId="x3price" 
+											 DataType="http://www.w3.org/2001/XMLSchema#double"/>
+					</Match>		
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:double-greater-than-or-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#double">2</AttributeValue>
+						<AttributeDesignator AttributeId="x3price" 
+											 DataType="http://www.w3.org/2001/XMLSchema#double"/>
+					</Match>																								
+				</AllOf>				
+							
+				<AllOf> <!-- (1080AB<= x1 <=1085BL)^(6<= x2time <=9)^(1<= x3price <=2)-->							
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-less-than-or-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">1080AB</AttributeValue>
+						<AttributeDesignator AttributeId="x1postal-code" MustBePresent="true" 
+											 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+					</Match>
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-greater-than-or-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">1085BL</AttributeValue>
+						<AttributeDesignator AttributeId="x1postal-code" MustBePresent="true" 
+											 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+					</Match>		
+						
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:double-less-than-or-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#double">6</AttributeValue>
+						<AttributeDesignator AttributeId="x2time" 
+											 DataType="http://www.w3.org/2001/XMLSchema#double"/>
+					</Match>												
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:double-greater-than-or-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#double">9</AttributeValue>
+						<AttributeDesignator AttributeId="x2time" 
+											 DataType="http://www.w3.org/2001/XMLSchema#double"/>
+					</Match>		
+					
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:double-less-than-or-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#double">1</AttributeValue>
+						<AttributeDesignator AttributeId="x3price" 
+											 DataType="http://www.w3.org/2001/XMLSchema#double"/>
+					</Match>		
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:double-greater-than-or-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#double">2</AttributeValue>
+						<AttributeDesignator AttributeId="x3price" 
+											 DataType="http://www.w3.org/2001/XMLSchema#double"/>
+					</Match>																								
+				</AllOf>								
+			</AnyOf>					
+		</Target>
+		<ObligationExpressions>
+			<ObligationExpression ObligationId="O1" FulfillOn="Permit">				
+			</ObligationExpression>
+		</ObligationExpressions>
+	</Rule>	
+
+	<Rule RuleId="rule2" Effect="Deny">
+		<Target>
+			<AnyOf>
+			<!-- 	x1postal-code == 1080AB) ^ (x2time == 17) v 
+					(1085BL<= x1postal-code <=1095CJ)^(x2time == 9) v 
+					(x1postal == 1098XH)^(x2time == 12) -->
+			
+				<AllOf> <!--(x1postal-code == 1080AB) ^ (x3price == 17) -->							
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">1080AB</AttributeValue>
+						<AttributeDesignator AttributeId="x1postal-code" MustBePresent="true" 
+											 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+					</Match>
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:double-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#double">17</AttributeValue>
+						<AttributeDesignator AttributeId="x2time" 
+											 DataType="http://www.w3.org/2001/XMLSchema#double"/>
+					</Match>																										
+				</AllOf>		
+				
+				<AllOf> <!--(1085BL<= x1postal-code <=1095CJ)^(x2time == 9) -->							
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-less-than-or-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">1085BL</AttributeValue>
+						<AttributeDesignator AttributeId="x1postal-code" MustBePresent="true" 
+											 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+					</Match>
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-greater-than-or-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">1095CJ</AttributeValue>
+						<AttributeDesignator AttributeId="x1postal-code" MustBePresent="true" 
+											 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+					</Match>		
+					
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:double-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#double">9</AttributeValue>
+						<AttributeDesignator AttributeId="x2time" 
+											 DataType="http://www.w3.org/2001/XMLSchema#double"/>
+					</Match>																														
+				</AllOf>
+				
+				<AllOf> <!-- (x1postal == 1098XH)^(x2time == 12) -->							
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:string-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">1098XH</AttributeValue>
+						<AttributeDesignator AttributeId="x1postal-code" MustBePresent="true" 
+											 DataType="http://www.w3.org/2001/XMLSchema#string"/>
+					</Match>
+					<Match MatchId="urn:oasis:names:tc:xacml:1.0:function:double-equal">
+						<AttributeValue DataType="http://www.w3.org/2001/XMLSchema#double">12</AttributeValue>
+						<AttributeDesignator AttributeId="x2time" 
+											 DataType="http://www.w3.org/2001/XMLSchema#double"/>
+					</Match>																										
+				</AllOf>													
+			</AnyOf>			
+		</Target>
+		<ObligationExpressions>
+			<ObligationExpression ObligationId="O2" FulfillOn="Deny">				
+			</ObligationExpression>
+		</ObligationExpressions>
+		
+	</Rule>	
+
+ 	
+</Policy>
