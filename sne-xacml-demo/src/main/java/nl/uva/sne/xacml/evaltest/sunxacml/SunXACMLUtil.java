@@ -21,7 +21,7 @@
  * MA 02110-1301 USA
  */
 
-package nl.uva.sne.evaltest.sunxacml;
+package nl.uva.sne.xacml.evaltest.sunxacml;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -49,9 +49,6 @@ import oasis.names.tc.xacml._2_0.context.schema.os.RequestType;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
-
-import com.sun.xacml.ParsingException;
-import com.sun.xacml.ctx.ResponseCtx;
 
 /**
  * Convert from OpenSAML datatypes to SunXACML datatypes

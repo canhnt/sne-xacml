@@ -7,7 +7,7 @@
   <version>0.0.3-SNAPSHOT</version>
   <packaging>pom</packaging>
 
-  <name>SNE XACML Engine</name>
+  <name>SNE-XACML Engine</name>
   <url>https://github.com/canhnt/sne-xacml</url>
 
   <modules>
@@ -102,17 +102,6 @@
         <configuration>
           <source>1.7</source>
           <target>1.7</target>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.felix</groupId>
-        <artifactId>maven-bundle-plugin</artifactId>
-        <version>2.3.5</version>
-        <extensions>true</extensions>
-        <configuration>
-          <instructions>
-            <Bundle-SymbolicName>${project.artifactId}</Bundle-SymbolicName>
-          </instructions>
         </configuration>
       </plugin>
     </plugins>

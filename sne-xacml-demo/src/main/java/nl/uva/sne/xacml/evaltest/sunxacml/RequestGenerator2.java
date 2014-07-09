@@ -21,7 +21,7 @@
  * MA 02110-1301 USA
  */
 
-package nl.uva.sne.evaltest.sunxacml;
+package nl.uva.sne.xacml.evaltest.sunxacml;
 
 import java.util.ArrayList;
 import java.util.HashMap;

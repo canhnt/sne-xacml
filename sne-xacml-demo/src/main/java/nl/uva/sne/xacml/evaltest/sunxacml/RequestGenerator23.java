@@ -21,12 +21,12 @@
  * MA 02110-1301 USA
  */
 
-package nl.uva.sne.evaltest.validation;
+package nl.uva.sne.xacml.evaltest.sunxacml;
 
 import java.util.List;
 import java.util.Random;
 
-import nl.uva.sne.evaltest.sunxacml.RequestGenerator2;
+import nl.uva.sne.xacml.evaltest.sunxacml.RequestGenerator2;
 
 import oasis.names.tc.xacml._2_0.context.schema.os.ActionType;
 import oasis.names.tc.xacml._2_0.context.schema.os.AttributeType;

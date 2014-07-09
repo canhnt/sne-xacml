@@ -20,7 +20,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301 USA
  */
-package nl.uva.sne.evaltest.validation;
+package nl.uva.sne.xacml.evaltest;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -55,10 +55,11 @@ import com.sun.xacml.support.finder.StaticRefPolicyFinderModule;
 
 import static org.junit.Assert.*;
 
+import nl.uva.sne.xacml.evaltest.sunxacml.RequestGenerator23;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
-import nl.uva.sne.evaltest.sunxacml.SunXACMLUtil;
+import nl.uva.sne.xacml.evaltest.sunxacml.SunXACMLUtil;
 import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.xacml.policy.parsers.MIDDParsingException;
 import nl.uva.sne.xacml.policy.parsers.XACMLParsingException;
@@ -70,7 +71,7 @@ import oasis.names.tc.xacml._3_0.core.schema.wd_17.PolicySetType;
 import oasis.names.tc.xacml._3_0.core.schema.wd_17.ResponseType;
 import oasis.names.tc.xacml._3_0.core.schema.wd_17.ResultType;
 
-public class SNEXACMLValidation {
+public class SNEXACMLValidationTest {
     public static final String[] STATIC_XACML2_POLICIES = {
             "policies/continue-a.xml"
     };
@@ -87,7 +88,7 @@ public class SNEXACMLValidation {
     // The generator to generate both identical XACML 2.0 & 3.0 requests
     private RequestGenerator23 generator;
 
-    public SNEXACMLValidation() throws SecurityException, IOException {
+    public SNEXACMLValidationTest() throws SecurityException, IOException {
         logger = new PrintWriter(LOGGING_FILE);
     }
 
@@ -112,7 +113,7 @@ public class SNEXACMLValidation {
 
     @Test
     public void runTest() throws ParserConfigurationException, SAXException, IOException, URISyntaxException, UnknownIdentifierException, XACMLParsingException, MIDDException {
-        SNEXACMLValidation instance = new SNEXACMLValidation();
+        SNEXACMLValidationTest instance = new SNEXACMLValidationTest();
 
         assertTrue(instance.validate(RANDOM_REQUESTS));
 
