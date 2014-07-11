@@ -101,7 +101,7 @@ public class IntervalTest {
         // (4, inf)
         it1.setLowerBound(4.0);
         it1.setLowerBoundClosed(false);
-        it1.setUpperInfnite(true);
+        it1.setUpperInfinite(true);
 
         assertFalse(it1.contains(it2));
 
@@ -151,6 +151,7 @@ public class IntervalTest {
 
     }
 
+    @SuppressWarnings("unchecked")
     @Test
     public void testComplement() throws MIDDException {
         Interval<Double> i1 = new Interval<Double>(1.0, 5.0, true, true);

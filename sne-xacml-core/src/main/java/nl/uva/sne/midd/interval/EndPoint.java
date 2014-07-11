@@ -31,8 +31,7 @@ import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.utils.GenericUtil;
 
 /**
- * @author Canh Ngo (t.c.ngo@uva.nl)
- * @date: Sep 17, 2012
+ * @author Canh Ngo
  */
 public class EndPoint<T extends Comparable<T>> implements Comparable<EndPoint<T>> {
 
@@ -119,10 +118,6 @@ public class EndPoint<T extends Comparable<T>> implements Comparable<EndPoint<T>
         return this.fPositiveInfinity;
     }
 
-    //	public T getValue() {
-//		return this.value;
-//	}
-//
     /* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
@@ -160,6 +155,7 @@ public class EndPoint<T extends Comparable<T>> implements Comparable<EndPoint<T>
         return value.toString();
     }
 
+    @SuppressWarnings("unchecked")
     public Class<T> getType() {
 
         if (this.value != null) {
@@ -168,32 +164,4 @@ public class EndPoint<T extends Comparable<T>> implements Comparable<EndPoint<T>
             return null;
         }
     }
-
-//	@Override
-//	public boolean equals(Object v) {
-//		if (v instanceof EndPoint) {
-//			EndPoint<T> p = (EndPoint<T>)v;
-//			
-//			if (this.fPositiveInfinity)
-//				return p.fPositiveInfinity;
-//			else if (this.fNegativeInfinity)
-//				return p.fNegativeInfinity;
-//			else
-//				return this.value.equals(p.value);			
-//		}
-//		return false;		
-//	}
-//	
-//	public int hashCode() {		
-//		if (this.value != null)
-//			return this.value.hashCode();
-//		else if (this.fNegativeInfinity)
-//			return this.fNegativeInfinity.hashCode();
-//		else if (this.fPositiveInfinity)
-//			return this.fPositiveInfinity.hashCode();
-//		else 
-//			throw new RuntimeException("Undetermined EndPoint value");
-//	}
-
-
 }

@@ -45,7 +45,9 @@ public class GenericUtil {
         try {
             copyConstructor = clazz.getConstructor(clazz);
             return (T) copyConstructor.newInstance(value);
-        } catch (NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
+        } catch (InvocationTargetException | InstantiationException | IllegalAccessException e) {
+            throw new MIDDException("Failed to construct class " + clazz.toString(), e);
+        } catch (NoSuchMethodException e) {
             // use shallow copy
             return value;
         }

@@ -28,6 +28,7 @@
 package nl.uva.sne.midd.interval;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import nl.uva.sne.midd.MIDDException;
@@ -49,13 +50,13 @@ public class Interval<T extends Comparable<T>> {
     private boolean upperBoundClosed = false;
 
     /**
-     * Interval construction with a single end-point
+     * Interval with a single end point
      *
      * @param bound
      */
     public Interval(EndPoint<T> bound) {
         this.lowerBound = this.upperBound = bound;
-        this.lowerBoundClosed = this.upperBoundClosed = true;
+        this.lowerBoundClosed = (this.upperBoundClosed = true);
     }
 
     public Interval(EndPoint<T> lowerBound, EndPoint<T> upperBound) throws MIDDException {
@@ -63,7 +64,7 @@ public class Interval<T extends Comparable<T>> {
     }
 
     @SuppressWarnings("unchecked")
-    public Interval(EndPoint<T> lowerBound, EndPoint<T> upperBound, boolean isLowerBoundClosed, boolean isUpperBoundClosed) throws MIDDException {
+    public Interval(final EndPoint<T> lowerBound, final EndPoint<T> upperBound, boolean isLowerBoundClosed, boolean isUpperBoundClosed) throws MIDDException {
         this.lowerBound = new EndPoint(lowerBound);
         this.lowerBoundClosed = isLowerBoundClosed;
 
@@ -71,7 +72,13 @@ public class Interval<T extends Comparable<T>> {
         this.upperBoundClosed = isUpperBoundClosed;
     }
 
-    public Interval(Interval<T> interval) throws MIDDException {
+    /**
+     * Copy constructor for the immutable class
+     *
+     * @param interval
+     * @throws MIDDException
+     */
+    public Interval(final Interval<T> interval) throws MIDDException {
         this(interval.lowerBound, interval.upperBound, interval.lowerBoundClosed, interval.upperBoundClosed);
     }
 
@@ -80,6 +87,12 @@ public class Interval<T extends Comparable<T>> {
         this.lowerBoundClosed = this.upperBoundClosed = true;
     }
 
+    /**
+     * Create an interval with open end points
+     * @param lowerBound
+     * @param upperBound
+     * @throws MIDDException
+     */
     public Interval(T lowerBound, T upperBound) throws MIDDException {
         this(lowerBound, upperBound, false, false);
     }
@@ -96,34 +109,32 @@ public class Interval<T extends Comparable<T>> {
      * Return the complement section of the interval.
      *
      * @param op
-     * @return
+     * @return The complemented interval(s), or <CODE>null</CODE> if the complement is empty.
      */
-    public List<Interval<T>> complement(Interval<T> op) throws MIDDException {
+    public List<Interval<T>> complement(final Interval<T> op) throws MIDDException {
 
         if (this.lowerBound.compareTo(op.upperBound) >= 0 ||
-                this.upperBound.compareTo(op.lowerBound) <= 0) {
+            this.upperBound.compareTo(op.lowerBound) <= 0) {
             Interval<T> newInterval = new Interval<T>(this.lowerBound, this.upperBound);
 
             if ((this.lowerBound.compareTo(op.upperBound) == 0)) {
                 newInterval.setLowerBoundClosed(this.lowerBoundClosed && !op.upperBoundClosed);
-//				newInterval.setUpperBoundClosed(this.upperBoundClosed);
             } else {
                 newInterval.setLowerBoundClosed(this.lowerBoundClosed);
             }
 
             if (this.upperBound.compareTo(op.lowerBound) == 0) {
-//				newInterval.setLowerBoundClosed(this.lowerBoundClosed);
                 newInterval.setUpperBoundClosed(this.upperBoundClosed && !op.upperBoundClosed);
             } else {
                 newInterval.setUpperBoundClosed(this.upperBoundClosed);
             }
 
+            // return null if result is empty
             if (!newInterval.validate()) {
                 return null;
             }
-            List<Interval<T>> result = new ArrayList<Interval<T>>();
-            result.add(newInterval);
-            return result;
+
+            return Arrays.asList(newInterval);
         } else {    // (this.lowerBound.compareTo(op.upperBound) < 0 && this.upperBound.compareTo(op.lowerBound) > 0)
             Interval<T> interval1 = new Interval<T>(this.lowerBound, op.lowerBound);
             Interval<T> interval2 = new Interval<T>(op.upperBound, this.upperBound);
@@ -134,7 +145,7 @@ public class Interval<T extends Comparable<T>> {
             interval2.setLowerBoundClosed(!op.upperBoundClosed);
             interval2.setUpperBoundClosed(this.upperBoundClosed);
 
-            List<Interval<T>> result = new ArrayList<Interval<T>>();
+            List<Interval<T>> result = new ArrayList<>();
             if (interval1.validate()) {
                 result.add(interval1);
             }
@@ -155,7 +166,7 @@ public class Interval<T extends Comparable<T>> {
      * @param i
      * @return
      */
-    public boolean contains(Interval<T> i) {
+    public boolean contains(final Interval<T> i) {
 
         int compareLow, compareUp;
         compareLow = this.lowerBound.compareTo(i.lowerBound);
@@ -190,10 +201,8 @@ public class Interval<T extends Comparable<T>> {
         if (this == obj) {
             return true;
         }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
+        if ((obj == null) ||
+            (getClass() != obj.getClass())) {
             return false;
         }
 
@@ -207,9 +216,11 @@ public class Interval<T extends Comparable<T>> {
         } else if (!lowerBound.equals(other.lowerBound)) {
             return false;
         }
+
         if (lowerBoundClosed != other.lowerBoundClosed) {
             return false;
         }
+
         if (upperBound == null) {
             if (other.upperBound != null) {
                 return false;
@@ -217,18 +228,29 @@ public class Interval<T extends Comparable<T>> {
         } else if (!upperBound.equals(other.upperBound)) {
             return false;
         }
+
         if (upperBoundClosed != other.upperBoundClosed) {
             return false;
         }
         return true;
     }
 
-    public EndPoint<T> getLowerBound() {
-        return this.lowerBound;
+    /**
+     * Return the immutable endpoint of the interval
+     *
+     * @return
+     */
+    public EndPoint<T> getLowerBound() throws MIDDException {
+        return new EndPoint<>(this.lowerBound);
     }
 
-    public EndPoint<T> getUpperBound() {
-        return this.upperBound;
+    /**
+     * Return the immutable endpoint of the interval.
+     *
+     * @return
+     */
+    public EndPoint<T> getUpperBound() throws MIDDException {
+        return new EndPoint<>(this.upperBound);
     }
 
     @Override
@@ -250,7 +272,7 @@ public class Interval<T extends Comparable<T>> {
      * @param value
      * @return
      */
-    public boolean hasValue(T value) throws MIDDException {
+    public boolean hasValue(final T value) throws MIDDException {
 
         //special processing when missing attribute
         if (value == null) {
@@ -258,7 +280,7 @@ public class Interval<T extends Comparable<T>> {
         }
 
 
-        EndPoint<T> epValue = new EndPoint<T>(value);
+        EndPoint<T> epValue = new EndPoint<>(value);
 
         int compareLow = this.lowerBound.compareTo(epValue);
         int compareUp = this.upperBound.compareTo(epValue);
@@ -279,7 +301,7 @@ public class Interval<T extends Comparable<T>> {
      * @param target
      * @return
      */
-    public Interval<T> includeBound(Interval<T> target) {
+    public Interval<T> includeBound(final Interval<T> target) {
 
         if (target.lowerBound.equals(target.upperBound)) { // target is a single-value interval
             if (!this.lowerBound.equals(this.upperBound)) {
@@ -327,18 +349,18 @@ public class Interval<T extends Comparable<T>> {
         }
     }
 
-    public boolean isIntersec(Interval<T> i) {
-        int c = this.upperBound.compareTo(i.lowerBound);
+    public boolean isIntersec(final Interval<T> interval) {
+        int c = this.upperBound.compareTo(interval.lowerBound);
         if (c < 0) {
             return false;
         } else if (c == 0) {
-            return this.upperBoundClosed && i.lowerBoundClosed;
+            return this.upperBoundClosed && interval.lowerBoundClosed;
         }
-        c = this.lowerBound.compareTo(i.upperBound);
+        c = this.lowerBound.compareTo(interval.upperBound);
         if (c > 0) {
             return false;
         } else if (c == 0) {
-            return this.lowerBoundClosed && i.upperBoundClosed;
+            return this.lowerBoundClosed && interval.upperBoundClosed;
         }
         return true;
     }
@@ -359,8 +381,8 @@ public class Interval<T extends Comparable<T>> {
         return upperBound.getPositiveInfinity();
     }
 
-    public void setLowerBound(EndPoint<T> lowerBound) {
-        this.lowerBound = lowerBound;
+    public void setLowerBound(final EndPoint<T> lowerBound) throws MIDDException {
+        this.lowerBound = new EndPoint<>(lowerBound)  ;
     }
 
 //	/**
@@ -379,8 +401,8 @@ public class Interval<T extends Comparable<T>> {
 //		return lowBoundEqual && upBoundEqual;
 //	}
 
-    public void setLowerBound(T value) throws MIDDException {
-        this.lowerBound = new EndPoint<T>(value);
+    public void setLowerBound(final T value) throws MIDDException {
+        this.lowerBound = new EndPoint<>(value);
     }
 
     public void setLowerBoundClosed(boolean b) {
@@ -397,22 +419,21 @@ public class Interval<T extends Comparable<T>> {
 
     }
 
-    public void setUpperBound(EndPoint<T> upperBound) {
-        this.upperBound = upperBound;
+    public void setUpperBound(final EndPoint<T> upperBound) throws MIDDException {
+        this.upperBound = new EndPoint<>(upperBound);
     }
 
-    public void setUpperBound(T upperBound) throws MIDDException {
-        this.upperBound = new EndPoint<T>(upperBound);
+    public void setUpperBound(final T upperBound) throws MIDDException {
+        this.upperBound = new EndPoint<>(upperBound);
     }
 
     public void setUpperBoundClosed(boolean b) {
         this.upperBoundClosed = b;
     }
 
-    public void setUpperInfnite(boolean b) {
+    public void setUpperInfinite(boolean b) {
         this.upperBound.setPositiveInfinity(b);
         this.upperBoundClosed = false;
-
     }
 
     @Override
@@ -436,7 +457,6 @@ public class Interval<T extends Comparable<T>> {
                 builder.append(this.upperBound + (this.upperBoundClosed ? "]" : ")"));
             }
         }
-
 
         return builder.toString();
     }
@@ -463,8 +483,8 @@ public class Interval<T extends Comparable<T>> {
      *
      * @param value
      */
-    public void setSingleValue(EndPoint<T> value) {
-        this.upperBound = this.lowerBound = value;
+    public void setSingleValue(final EndPoint<T> value) throws MIDDException {
+        this.upperBound = this.lowerBound = new EndPoint<>(value);
         this.lowerBoundClosed = this.upperBoundClosed = true;
 
     }

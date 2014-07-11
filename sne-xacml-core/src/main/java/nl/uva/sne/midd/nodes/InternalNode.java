@@ -50,7 +50,7 @@ import nl.uva.sne.midd.obligations.InternalNodeState;
 public abstract class InternalNode<T extends Comparable<T>> extends AbstractNode {
     private static final Logger log = LoggerFactory.getLogger(InternalNode.class);
 
-    private List<AbstractEdge<T>> edges = new ArrayList<AbstractEdge<T>>();
+    private List<AbstractEdge<T>> edges = new ArrayList<>();
 
     private InternalNodeState state;
 
@@ -72,9 +72,10 @@ public abstract class InternalNode<T extends Comparable<T>> extends AbstractNode
      * @param child
      */
     @SuppressWarnings("unchecked")
-    public void addChild(final AbstractEdge<?> edge, AbstractNode child) {
-        if (child == null || edge.getIntervals().size() == 0) {
-            throw new RuntimeException("Cannot add null child or empty edge");
+    public void addChild(final AbstractEdge<?> edge, final AbstractNode child) {
+        if (child == null || edge == null ||
+            edge.getIntervals() == null || edge.getIntervals().size() == 0) {
+            throw new IllegalArgumentException("Cannot add null child or empty edge");
         }
 
         edge.setChild(child);

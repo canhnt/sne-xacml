@@ -49,10 +49,10 @@ public abstract class AbstractEdge<T extends Comparable<T>> {
     private AbstractNode subDiagram;
 
     private AbstractEdge() {
-        this.intervals = new ArrayList<Interval<T>>();
+        this.intervals = new ArrayList<>();
     }
 
-    public AbstractEdge(Interval<T> interval) {
+    public AbstractEdge(final Interval<T> interval) {
         this();
         this.intervals.add(interval);
     }
