@@ -31,8 +31,7 @@ import nl.uva.sne.midd.DecisionType;
 import nl.uva.sne.midd.obligations.InternalNodeState;
 
 /**
- * @author Canh Ngo (t.c.ngo@uva.nl)
- * @date: Aug 12, 2012
+ * @author Canh Ngo
  */
 public class IntegerNode extends InternalNode<Integer> {
 
@@ -42,14 +41,7 @@ public class IntegerNode extends InternalNode<Integer> {
 
     public IntegerNode(int id, InternalNodeState state) {
         super(id, state);
-        // TODO Auto-generated constructor stub
     }
-
-//	public void addChild(Interval<Integer> interval, InternalNode<?> child) {		
-//		IntegerEdge edge = new IntegerEdge(interval);
-//			
-//		super.addChild(edge, child);
-//	}
 
     @Override
     public Class<Integer> getType() {

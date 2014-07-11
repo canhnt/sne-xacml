@@ -29,7 +29,6 @@ public class BooleanNode extends InternalNode<Boolean> {
 
     public BooleanNode(int id, DecisionType state) {
         super(id, state);
-        // TODO Auto-generated constructor stub
     }
 
     public BooleanNode(int id, InternalNodeState state) {

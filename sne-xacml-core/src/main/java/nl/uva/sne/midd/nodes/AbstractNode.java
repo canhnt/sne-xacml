@@ -29,10 +29,6 @@ package nl.uva.sne.midd.nodes;
 
 import java.io.OutputStream;
 
-/**
- * @author Canh Ngo (t.c.ngo@uva.nl)
- * @date: Sep 11, 2012
- */
 public abstract class AbstractNode {
 
     private int id;
@@ -51,4 +47,5 @@ public abstract class AbstractNode {
     public abstract Class<?> getType();
 
     public abstract void print(OutputStream os);
+
 }

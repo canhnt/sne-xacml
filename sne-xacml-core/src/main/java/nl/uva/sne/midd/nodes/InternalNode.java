@@ -45,15 +45,7 @@ import nl.uva.sne.midd.interval.Interval;
 import nl.uva.sne.midd.obligations.InternalNodeState;
 
 /**
- * @author Canh Ngo (t.c.ngo@uva.nl)
- *
- * @version
- * @date: Aug 9, 2012
- */
-
-/**
- * @author Canh Ngo (t.c.ngo@uva.nl)
- * @date: Sep 14, 2012
+ * @author Canh Ngo
  */
 public abstract class InternalNode<T extends Comparable<T>> extends AbstractNode {
     private static final Logger log = LoggerFactory.getLogger(InternalNode.class);
