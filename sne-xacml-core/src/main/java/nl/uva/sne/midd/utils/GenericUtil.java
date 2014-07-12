@@ -35,12 +35,11 @@ import nl.uva.sne.midd.MIDDException;
 public class GenericUtil {
 
     @SuppressWarnings("unchecked")
-    public static <T extends Comparable<T>> T createCopy(final T value) throws MIDDException {
+    public static <T> T newInstance(final T value, Class<?> clazz) throws MIDDException {
         if (value == null) {
-            return null;
+            throw new MIDDException("Cannot copy null value");
         }
 
-        Class<?> clazz = value.getClass();
         Constructor<?> copyConstructor = null;
         try {
             copyConstructor = clazz.getConstructor(clazz);
@@ -51,5 +50,15 @@ public class GenericUtil {
             // use shallow copy
             return value;
         }
+    }
+
+    public static <T> T newInstance(final T value) throws MIDDException {
+        if (value == null) {
+//            throw new MIDDException("Cannot copy null value");
+            return null;
+        } else {
+            return newInstance(value, value.getClass());
+        }
+
     }
 }

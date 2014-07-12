@@ -91,7 +91,7 @@ public class AnyOfExpressionTest {
     }
 
     @Test
-    public void testAnyOf() throws FileNotFoundException, ParserConfigurationException, SAXException, IOException {
+    public void testAnyOf() throws ParserConfigurationException, SAXException, IOException, MIDDException {
         TargetType target = readTarget();
         assertNotNull(target);
 
@@ -104,13 +104,7 @@ public class AnyOfExpressionTest {
         try {
             AbstractNode root = ae.parse();
             root.print(System.out);
-        } catch (XACMLParsingException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (MIDDParsingException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (MIDDException e) {
+        } catch (XACMLParsingException | MIDDParsingException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }

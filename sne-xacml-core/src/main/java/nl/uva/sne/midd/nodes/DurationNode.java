@@ -23,6 +23,7 @@
 package nl.uva.sne.midd.nodes;
 
 import nl.uva.sne.midd.DecisionType;
+import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.datatype.XMLDuration;
 import nl.uva.sne.midd.obligations.InternalNodeState;
 
@@ -38,6 +39,9 @@ public class DurationNode extends InternalNode<XMLDuration> {
         // TODO Auto-generated constructor stub
     }
 
+    public DurationNode(DurationNode node) throws MIDDException {
+        super(node);
+    }
     @Override
     public Class<?> getType() {
         return XMLDuration.class;

@@ -51,22 +51,22 @@ public class EndPoint<T extends Comparable<T>> implements Comparable<EndPoint<T>
         this.value = null;
     }
 
-    public EndPoint(T value) throws MIDDException {
+    public EndPoint(final T value) throws MIDDException {
         this.fPositiveInfinity = false;
         this.fNegativeInfinity = false;
-        this.value = GenericUtil.createCopy(value);
+        this.value = GenericUtil.newInstance(value);
     }
 
-    public EndPoint(EndPoint<T> p) throws MIDDException {
+    public EndPoint(final EndPoint<T> p) throws MIDDException {
         this.fNegativeInfinity = p.fNegativeInfinity;
         this.fPositiveInfinity = p.fPositiveInfinity;
 
         // Perform deep copy
-        this.value = GenericUtil.createCopy(p.value);
+        this.value = GenericUtil.newInstance(p.value);
     }
 
     @Override
-    public int compareTo(EndPoint<T> o) {
+    public int compareTo(final EndPoint<T> o) {
         if (this.fPositiveInfinity) {
             return o.fPositiveInfinity ? 0 : 1;
         } else if (this.fNegativeInfinity) {
@@ -95,6 +95,7 @@ public class EndPoint<T extends Comparable<T>> implements Comparable<EndPoint<T>
             return false;
         }
 
+        @SuppressWarnings("unchecked")
         EndPoint<T> other = (EndPoint<T>) obj;
 
         if ((fNegativeInfinity != other.fNegativeInfinity) || (fPositiveInfinity != other.fPositiveInfinity)) {
@@ -143,16 +144,10 @@ public class EndPoint<T extends Comparable<T>> implements Comparable<EndPoint<T>
         this.value = null;
     }
 
-    public void setValue(T value) throws MIDDException {
-        this.fPositiveInfinity = false;
-        this.fNegativeInfinity = false;
-        this.value = GenericUtil.createCopy(value);
-    }
-
     @SuppressWarnings("unchecked")
     @Override
     public String toString() {
-        return value.toString();
+        return value == null ? "" : value.toString();
     }
 
     @SuppressWarnings("unchecked")

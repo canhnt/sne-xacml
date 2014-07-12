@@ -29,6 +29,8 @@ package nl.uva.sne.midd.nodes;
 
 import java.io.OutputStream;
 
+import nl.uva.sne.midd.MIDDException;
+
 public abstract class AbstractNode {
 
     private int id;
@@ -37,8 +39,14 @@ public abstract class AbstractNode {
         this.id = id;
     }
 
-    @Override
-    public abstract AbstractNode clone() throws CloneNotSupportedException;
+    /**
+     * Copy constructor.
+     *
+     * @param n
+     */
+    public AbstractNode(AbstractNode n){
+        id = n.id;
+    }
 
     public int getID() {
         return id;
@@ -46,6 +54,6 @@ public abstract class AbstractNode {
 
     public abstract Class<?> getType();
 
-    public abstract void print(OutputStream os);
+    public abstract void print(OutputStream os) throws MIDDException;
 
 }

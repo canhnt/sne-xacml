@@ -34,6 +34,7 @@ import nl.uva.sne.midd.nodes.ExternalNode;
 import nl.uva.sne.midd.nodes.InternalNode;
 import nl.uva.sne.midd.partition.Partition;
 import nl.uva.sne.midd.partition.PartitionBuilder;
+import nl.uva.sne.midd.utils.GenericUtil;
 
 /**
  * Join two MIDD using conjunctive operator.
@@ -97,7 +98,8 @@ public class ConjunctiveBuilder {
                     for (AbstractEdge<?> e : n1.getEdges()) {
                         AbstractNode child = join(e.getSubDiagram(), n2);
                         if (child != null) {
-                            n.addChild(IDDFactory.cloneEdge(e), child);
+                            // clone edge e before adding as the child
+                            n.addChild(GenericUtil.newInstance(e), child);
                         }
 //						else 
 //							throw new RuntimeException("Empty child");
@@ -154,11 +156,7 @@ public class ConjunctiveBuilder {
             if (op1 != null && op2 != null) {
                 child = join(op1, op2);
             } else if (op1 != null || op2 != null) {
-                try {
-                    child = (op1 == null) ? op2.clone() : op1.clone();
-                } catch (CloneNotSupportedException e) {
-                    e.printStackTrace();
-                }
+                child = (op1 == null) ? GenericUtil.newInstance(op2) : GenericUtil.newInstance(op1);
             } else {
                 throw new RuntimeException("Error joining two partitions, the output partition is incorrect");
             }

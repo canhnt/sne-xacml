@@ -24,12 +24,13 @@ package nl.uva.sne.midd.edges;
 
 import java.util.List;
 
+import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.datatype.AnyURI;
 import nl.uva.sne.midd.interval.Interval;
 
 public class AnyURIEdge extends AbstractEdge<AnyURI> {
 
-    public AnyURIEdge(Interval<AnyURI> interval) {
+    public AnyURIEdge(Interval<AnyURI> interval) throws MIDDException {
         super(interval);
     }
 
@@ -37,6 +38,9 @@ public class AnyURIEdge extends AbstractEdge<AnyURI> {
         super(intervals);
     }
 
+    public AnyURIEdge(AnyURIEdge e) throws MIDDException {
+        super(e);
+    }
     @Override
     public Class<AnyURI> getType() {
         return AnyURI.class;

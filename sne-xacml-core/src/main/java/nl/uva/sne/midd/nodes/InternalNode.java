@@ -38,11 +38,12 @@ import org.slf4j.LoggerFactory;
 
 import nl.uva.sne.midd.Decision;
 import nl.uva.sne.midd.DecisionType;
-import nl.uva.sne.midd.IDDFactory;
 import nl.uva.sne.midd.MIDDException;
+import nl.uva.sne.midd.UnmatchedException;
 import nl.uva.sne.midd.edges.AbstractEdge;
 import nl.uva.sne.midd.interval.Interval;
 import nl.uva.sne.midd.obligations.InternalNodeState;
+import nl.uva.sne.midd.utils.GenericUtil;
 
 /**
  * @author Canh Ngo
@@ -64,9 +65,25 @@ public abstract class InternalNode<T extends Comparable<T>> extends AbstractNode
         this.state = new InternalNodeState(state);
     }
 
+    /**
+     * Copy constructor
+     *
+     * @param node
+     */
+    public InternalNode(InternalNode<T> node) throws MIDDException {
+        super(node);
+        this.state = new InternalNodeState(node.state);
+        for (AbstractEdge<T> e : node.edges) {
+            AbstractEdge<T> newEdge = GenericUtil.newInstance(e);
+            edges.add(newEdge);
+        }
+    }
 
     /**
-     * Edge<?> and InternalNode<T> must use the same type
+     * Create an out-going edge to the given node. The edge and child node are mutable objects.
+     * If they are used in another tree, it'd better to clone before adding them.
+     *
+     * Note: Edge<?> and InternalNode<T> must use the same type
      *
      * @param edge
      * @param child
@@ -78,7 +95,7 @@ public abstract class InternalNode<T extends Comparable<T>> extends AbstractNode
             throw new IllegalArgumentException("Cannot add null child or empty edge");
         }
 
-        edge.setChild(child);
+        edge.setSubDiagram(child);
         edges.add((AbstractEdge<T>) edge);
     }
 
@@ -91,25 +108,6 @@ public abstract class InternalNode<T extends Comparable<T>> extends AbstractNode
         return state.buildDecision();
     }
 
-    @Override
-    public AbstractNode clone() throws CloneNotSupportedException {
-        InternalNode<?> n = IDDFactory.createInternalNode(this.getID(),
-                this.getState(),
-                this.getType());
-
-        for (AbstractEdge<?> e : this.edges) {
-            AbstractNode child = e.getSubDiagram().clone();
-            AbstractEdge<?> cloneEdge = null;
-            try {
-                cloneEdge = IDDFactory.cloneEdge(e);
-            } catch (MIDDException ex) {
-                log.error("Clone node {} failed:", this.toString(), ex);
-                throw new CloneNotSupportedException("Clone node failed");
-            }
-            n.addChild(cloneEdge, child);
-        }
-        return n;
-    }
 
     /**
      * Return the child of the current node with equivalent interval on its incoming edge.
@@ -117,7 +115,7 @@ public abstract class InternalNode<T extends Comparable<T>> extends AbstractNode
      * @param interval The interval which is the subset of the interval in the incoming edge
      * @return null if no matching edge found.
      */
-    public AbstractNode getChild(Interval<T> interval) {
+    public AbstractNode getChild(Interval<T> interval) throws MIDDException {
         for (AbstractEdge<T> e : this.edges) {
             if (e.containsInterval(interval)) {
                 return e.getSubDiagram();
@@ -165,7 +163,7 @@ public abstract class InternalNode<T extends Comparable<T>> extends AbstractNode
      *
      * @param value
      * @return
-     * @throws UnmatchedException
+     * @throws nl.uva.sne.midd.UnmatchedException
      */
     public AbstractEdge<T> match(T value) throws UnmatchedException, MIDDException {
         for (AbstractEdge<T> e : this.edges) {
@@ -181,7 +179,7 @@ public abstract class InternalNode<T extends Comparable<T>> extends AbstractNode
     }
 
     @Override
-    public void print(OutputStream os) {
+    public void print(OutputStream os) throws MIDDException {
         String strNode = "ID:" + this.getID() + ";" + this.state.getStateIN();
         PrintStream ps = new PrintStream(os);
 

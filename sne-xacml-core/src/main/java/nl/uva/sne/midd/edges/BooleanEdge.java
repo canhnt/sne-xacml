@@ -24,11 +24,14 @@ package nl.uva.sne.midd.edges;
 
 import java.util.List;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
+import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.interval.Interval;
 
 public class BooleanEdge extends AbstractEdge<Boolean> {
 
-    public BooleanEdge(Interval<Boolean> interval) {
+    public BooleanEdge(Interval<Boolean> interval) throws MIDDException {
         super(interval);
     }
 
@@ -36,6 +39,9 @@ public class BooleanEdge extends AbstractEdge<Boolean> {
         super(intervals);
     }
 
+    public BooleanEdge(BooleanEdge e) throws MIDDException {
+        super(e);
+    }
     @Override
     public Class<Boolean> getType() {
         return Boolean.class;

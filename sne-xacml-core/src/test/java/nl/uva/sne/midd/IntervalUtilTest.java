@@ -42,7 +42,7 @@ public class IntervalUtilTest {
 
 
         for (Interval<Double> i : intervals) {
-            List<Interval> lst = new ArrayList<Interval>();
+            List<Interval> lst = new ArrayList<>();
             lst.add(i);
             System.out.println("Complement of: " + i + " -> " + IntervalUtil.complement(lst));
         }

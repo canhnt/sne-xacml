@@ -45,6 +45,7 @@ import nl.uva.sne.midd.obligations.InternalNodeState;
 import nl.uva.sne.midd.obligations.ObligationExpression;
 import nl.uva.sne.midd.partition.Partition;
 import nl.uva.sne.midd.partition.PartitionBuilder;
+import nl.uva.sne.midd.utils.GenericUtil;
 import nl.uva.sne.midd.utils.IntervalUtil;
 import nl.uva.sne.xacml.ExternalNode3;
 
@@ -172,7 +173,7 @@ public class MIDDCombiner {
                         for (AbstractEdge<?> e : n1.getEdges()) {
                             AbstractNode child = combine(e.getSubDiagram(), n2);
                             if (child != null) {
-                                n.addChild(IDDFactory.cloneEdge(e), child);
+                                n.addChild(GenericUtil.newInstance(e), child);
                             } else {
 //								throw new RuntimeException("empty child");
                                 log.error("empty child");
@@ -191,7 +192,7 @@ public class MIDDCombiner {
                         for (AbstractEdge<?> e : n2.getEdges()) {
                             AbstractNode child = combine(n1, e.getSubDiagram());
                             if (child != null) {
-                                n.addChild(IDDFactory.cloneEdge(e), child);
+                                n.addChild(GenericUtil.newInstance(e), child);
                             }
                         }
                         // Create a new edge containing the complement of n2 children intervals, connecting n with n1
@@ -246,7 +247,7 @@ public class MIDDCombiner {
 //		else {
 //			//otherwise, combine with existing null-edge's sub-diagram
 //			AbstractNode child = combine(nullEdge.getSubDiagram(), newNode);
-//			nullEdge.setChild(child);
+//			nullEdge.setSubDiagram(child);
 //		}		
 //	}
 
@@ -298,7 +299,7 @@ public class MIDDCombiner {
 
         for (AbstractEdge<?> e : n2.getEdges()) {
             AbstractNode child = combine(n1, e.getSubDiagram());
-            n.addChild(IDDFactory.cloneEdge(e), child);
+            n.addChild(GenericUtil.newInstance(e), child);
         }
 //		linkWithNullEdge(n, n1);	// it means that traversing to n1 may not need a predicate of attr at n2
 
@@ -308,8 +309,8 @@ public class MIDDCombiner {
     /**
      * Combine two external nodes following the algorithm in this.algo
      *
-     * @param midd1
-     * @param midd2
+     * @param n1
+     * @param n2
      * @return
      */
     private ExternalNode3 combineExternalNodes(ExternalNode3 n1, ExternalNode3 n2) {
@@ -395,7 +396,7 @@ public class MIDDCombiner {
             if (child == null) {
                 throw new RuntimeException("Empty child");
             }
-            n.addChild(IDDFactory.cloneEdge(e), child);
+            n.addChild(GenericUtil.newInstance(e), child);
         }
 
 //		linkWithNullEdge(n, n2);
@@ -448,11 +449,12 @@ public class MIDDCombiner {
             if (op1 != null && op2 != null) {
                 child = combine(op1, op2);
             } else if (op1 != null || op2 != null) {
-                try {
-                    child = (op1 == null) ? op2.clone() : op1.clone();
-                } catch (CloneNotSupportedException e) {
-                    e.printStackTrace();
-                }
+//                try {
+//                    child = (op1 == null) ? op2.clone() : op1.clone();
+//                } catch (CloneNotSupportedException e) {
+//                    e.printStackTrace();
+//                }
+                child = GenericUtil.newInstance(op1 == null ? op2 : op1);
             } else {
                 throw new RuntimeException("Error merging two partitions, " +
                         "the output partition has an item not belong to both previous ones");

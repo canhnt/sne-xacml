@@ -24,7 +24,9 @@ package nl.uva.sne.midd.edges;
 
 import java.util.List;
 
+import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.interval.Interval;
+import nl.uva.sne.midd.nodes.DoubleNode;
 
 /**
  * @author Canh Ngo (t.c.ngo@uva.nl)
@@ -35,7 +37,7 @@ public class DoubleEdge extends AbstractEdge<Double> {
     /**
      * @param interval
      */
-    public DoubleEdge(Interval<Double> interval) {
+    public DoubleEdge(Interval<Double> interval) throws MIDDException {
         super(interval);
     }
 
@@ -46,6 +48,9 @@ public class DoubleEdge extends AbstractEdge<Double> {
         super(intervals);
     }
 
+    public DoubleEdge(DoubleEdge e) throws MIDDException {
+        super(e);
+    }
     @Override
     public Class<Double> getType() {
         return Double.class;

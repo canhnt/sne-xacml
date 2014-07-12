@@ -20,13 +20,10 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301 USA
  */
-package nl.uva.sne.midd.nodes;
+package nl.uva.sne.midd;
 
 public class UnmatchedException extends Exception {
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 5435302738929296790L;
 
     public UnmatchedException(String string) {

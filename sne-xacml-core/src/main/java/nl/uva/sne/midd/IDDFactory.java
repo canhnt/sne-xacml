@@ -46,16 +46,7 @@ import nl.uva.sne.midd.obligations.InternalNodeState;
 public class IDDFactory {
 
     @SuppressWarnings("unchecked")
-    public static AbstractEdge<?> cloneEdge(AbstractEdge<?> e) throws MIDDException {
-
-        final Class<?> type = e.getType();
-        List<? extends Interval> intervals = e.getIntervals();
-
-        return createEdge(intervals, type);
-    }
-
-    @SuppressWarnings("unchecked")
-    public static AbstractEdge<?> createEdge(Interval interval, Class<?> type) {
+    public static AbstractEdge<?> createEdge(Interval interval, Class<?> type) throws MIDDException {
         if (type == Integer.class) {
             return new IntegerEdge(interval);
         } else if (type == Double.class) {

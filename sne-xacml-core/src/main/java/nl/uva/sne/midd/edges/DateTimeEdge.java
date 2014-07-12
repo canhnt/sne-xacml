@@ -24,19 +24,23 @@ package nl.uva.sne.midd.edges;
 
 import java.util.List;
 
+import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.datatype.XMLDateTime;
 import nl.uva.sne.midd.interval.Interval;
 
-public class DateTypeEdge extends AbstractEdge<XMLDateTime> {
+public class DateTimeEdge extends AbstractEdge<XMLDateTime> {
 
-    public DateTypeEdge(Interval<XMLDateTime> interval) {
+    public DateTimeEdge(Interval<XMLDateTime> interval) throws MIDDException {
         super(interval);
     }
 
-    public DateTypeEdge(List<Interval<XMLDateTime>> intervals) {
+    public DateTimeEdge(List<Interval<XMLDateTime>> intervals) {
         super(intervals);
     }
 
+    public DateTimeEdge(DateTimeEdge e) throws MIDDException {
+        super(e);
+    }
     @Override
     public Class<XMLDateTime> getType() {
         return XMLDateTime.class;

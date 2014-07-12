@@ -35,6 +35,7 @@ import nl.uva.sne.midd.builders.ConjunctiveBuilder;
 import nl.uva.sne.midd.builders.MIDDCombiner;
 import nl.uva.sne.midd.nodes.AbstractNode;
 import nl.uva.sne.midd.nodes.ExternalNode;
+import nl.uva.sne.midd.utils.GenericUtil;
 import nl.uva.sne.xacml.AttributeMapper;
 import nl.uva.sne.xacml.policy.parsers.util.CombiningAlgConverterUtil;
 import oasis.names.tc.xacml._3_0.core.schema.wd_17.AnyOfType;
@@ -55,7 +56,7 @@ public class PolicyParser {
      * @param condition a MIDD that represents the target expression of the parents' policy.
      * @param policy    a XACML 3.0 policy element.
      */
-    public PolicyParser(AbstractNode condition, PolicyType policy, AttributeMapper attrMapper) {
+    public PolicyParser(AbstractNode condition, PolicyType policy, AttributeMapper attrMapper) throws MIDDException {
         if (policy == null) {
             throw new IllegalArgumentException("PolicyType argument must not be null");
         }
@@ -70,12 +71,7 @@ public class PolicyParser {
         if (condition == null) {
             this.preCondition = new ExternalNode();
         } else {
-//			this.preCondition = condition;
-            try {
-                this.preCondition = condition.clone();
-            } catch (CloneNotSupportedException e) {
-                log.error(e.getMessage());
-            }
+            this.preCondition = GenericUtil.newInstance(condition);
         }
     }
 

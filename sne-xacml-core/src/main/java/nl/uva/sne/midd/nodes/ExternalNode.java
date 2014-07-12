@@ -38,9 +38,8 @@ public class ExternalNode extends AbstractNode {
         super(EXTERNAL_NODE_ID);
     }
 
-    @Override
-    public AbstractNode clone() {
-        return new ExternalNode();
+    public ExternalNode(ExternalNode node) {
+        super(node);
     }
 
     @Override

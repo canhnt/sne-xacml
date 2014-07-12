@@ -29,6 +29,7 @@ package nl.uva.sne.midd.edges;
 
 import java.util.List;
 
+import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.interval.Interval;
 
 /**
@@ -37,7 +38,7 @@ import nl.uva.sne.midd.interval.Interval;
  */
 public class IntegerEdge extends AbstractEdge<Integer> {
 
-    public IntegerEdge(final Interval<Integer> interval) {
+    public IntegerEdge(final Interval<Integer> interval) throws MIDDException {
         super(interval);
     }
 
@@ -45,6 +46,9 @@ public class IntegerEdge extends AbstractEdge<Integer> {
         super(intervals);
     }
 
+    public IntegerEdge(IntegerEdge e) throws MIDDException {
+        super(e);
+    }
     @Override
     public Class<Integer> getType() {
         return Integer.class;

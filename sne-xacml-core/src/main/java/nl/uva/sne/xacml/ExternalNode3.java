@@ -48,20 +48,20 @@ public class ExternalNode3 extends ExternalNode {
 
     private DecisionType effect;
 
-    List<ObligationExpression> obligationExpressions;
+    private List<ObligationExpression> obligationExpressions;
 
     // place holder: condition element here
 
     /**
-     * @param id
+     * @param effect
      */
-    public ExternalNode3(DecisionType effect) {
+    public ExternalNode3(final DecisionType effect) {
         super();
         this.effect = effect;
-        this.obligationExpressions = new ArrayList<ObligationExpression>();
+        this.obligationExpressions = new ArrayList<>();
     }
 
-    public ExternalNode3(DecisionType effect, List<ObligationExpression> oes) {
+    public ExternalNode3(final DecisionType effect, List<ObligationExpression> oes) {
         super();
         this.effect = effect;
 
@@ -72,14 +72,20 @@ public class ExternalNode3 extends ExternalNode {
                     throw new RuntimeException("Only accept OE that has fullFillOn equals to effect value");
                 }
             }
-            this.obligationExpressions = new ArrayList<ObligationExpression>(oes);
+            this.obligationExpressions = new ArrayList<>(oes);
+        } else {
+            obligationExpressions = new ArrayList<>();
         }
     }
 
 
     public ExternalNode3(ExternalNode3 n) {
         this.effect = n.effect;
-        this.obligationExpressions = new ArrayList<ObligationExpression>(n.obligationExpressions);
+        if (n.obligationExpressions != null) {
+            this.obligationExpressions = new ArrayList<>(n.obligationExpressions);
+        } else {
+            obligationExpressions = new ArrayList<>();
+        }
     }
 
     public Decision buildDecision() {
@@ -93,11 +99,6 @@ public class ExternalNode3 extends ExternalNode {
             }
         }
         return decision;
-    }
-
-    @Override
-    public AbstractNode clone() {
-        return new ExternalNode3(this.effect, obligationExpressions);
     }
 
 //	/**

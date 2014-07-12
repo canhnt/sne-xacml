@@ -27,12 +27,13 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.Stack;
 
+import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.edges.AbstractEdge;
 import nl.uva.sne.midd.nodes.AbstractNode;
 import nl.uva.sne.midd.nodes.InternalNode;
 
 public class MIDDUtil {
-    public static int countNodes(InternalNode midd) {
+    public static int countNodes(InternalNode midd) throws MIDDException {
         Stack<InternalNode> stackNodes = new Stack<InternalNode>();
 
         stackNodes.push(midd);

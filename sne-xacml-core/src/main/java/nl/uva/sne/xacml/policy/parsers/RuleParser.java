@@ -37,6 +37,7 @@ import nl.uva.sne.midd.nodes.InternalNode;
 import nl.uva.sne.midd.obligations.InternalNodeState;
 import nl.uva.sne.midd.obligations.Obligation;
 import nl.uva.sne.midd.obligations.ObligationExpression;
+import nl.uva.sne.midd.utils.GenericUtil;
 import nl.uva.sne.xacml.AttributeMapper;
 import nl.uva.sne.xacml.ExternalNode3;
 import oasis.names.tc.xacml._3_0.core.schema.wd_17.AnyOfType;
@@ -97,7 +98,7 @@ public class RuleParser {
      * @param rule       A XACML 3.0 Rule element
      * @param attrMapper
      */
-    public RuleParser(AbstractNode condition, RuleType rule, AttributeMapper attrMapper) {
+    public RuleParser(AbstractNode condition, RuleType rule, AttributeMapper attrMapper) throws MIDDException {
         if (rule == null) {
             throw new IllegalArgumentException("RuleType argument must not be null");
         }
@@ -114,12 +115,7 @@ public class RuleParser {
         if (condition == null) {
             this.preCondition = new ExternalNode();
         } else {
-//			this.preCondition = condition; // should be cloned
-            try {
-                this.preCondition = condition.clone();
-            } catch (CloneNotSupportedException e) {
-                e.printStackTrace();
-            }
+            this.preCondition = GenericUtil.newInstance(condition);
         }
     }
 
@@ -197,7 +193,7 @@ public class RuleParser {
      * @param extNode
      */
     @SuppressWarnings("rawtypes")
-    private void setEffectNode(AbstractNode midd, ExternalNode3 extNode) {
+    private void setEffectNode(AbstractNode midd, ExternalNode3 extNode) throws MIDDException {
         // Replace current external nodes in the MIDD with the extNode (XACML 3 external node)
 
         if (!(midd instanceof InternalNode)) {
@@ -238,7 +234,7 @@ public class RuleParser {
                 if (child instanceof InternalNode) {
                     stackNodes.push((InternalNode) child);
                 } else {
-                    edge.setChild(extNode);        // set the final edge pointing to the xacml3 external node.
+                    edge.setSubDiagram(extNode);        // set the final edge pointing to the xacml3 external node.
                 }
             }
         }

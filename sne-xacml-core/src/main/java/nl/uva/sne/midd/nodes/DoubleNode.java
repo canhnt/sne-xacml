@@ -28,6 +28,7 @@
 package nl.uva.sne.midd.nodes;
 
 import nl.uva.sne.midd.DecisionType;
+import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.obligations.InternalNodeState;
 
 /**
@@ -43,6 +44,10 @@ public class DoubleNode extends InternalNode<Double> {
 
     public DoubleNode(int id, InternalNodeState state) {
         super(id, state);
+    }
+
+    public DoubleNode(DoubleNode node) throws MIDDException {
+        super(node);
     }
 
     @Override

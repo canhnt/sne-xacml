@@ -36,7 +36,7 @@ import nl.uva.sne.midd.Variable;
 import nl.uva.sne.midd.edges.AbstractEdge;
 import nl.uva.sne.midd.nodes.AbstractNode;
 import nl.uva.sne.midd.nodes.InternalNode;
-import nl.uva.sne.midd.nodes.UnmatchedException;
+import nl.uva.sne.midd.UnmatchedException;
 import nl.uva.sne.xacml.ExternalNode3;
 
 /**

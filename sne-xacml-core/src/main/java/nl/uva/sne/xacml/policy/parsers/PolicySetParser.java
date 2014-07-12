@@ -38,6 +38,7 @@ import nl.uva.sne.midd.builders.MIDDCombiner;
 import nl.uva.sne.midd.nodes.AbstractNode;
 import nl.uva.sne.midd.nodes.ExternalNode;
 import nl.uva.sne.midd.nodes.InternalNode;
+import nl.uva.sne.midd.utils.GenericUtil;
 import nl.uva.sne.midd.utils.MIDDUtil;
 import nl.uva.sne.xacml.AttributeMapper;
 import nl.uva.sne.xacml.policy.finder.PolicyFinder;
@@ -79,16 +80,16 @@ public class PolicySetParser {
      * @param attrMapper
      */
     public PolicySetParser(AbstractNode condition, PolicySetType policyset,
-                           AttributeMapper attrMapper) {
+                           AttributeMapper attrMapper) throws MIDDException {
         this(condition, policyset, attrMapper, null);
     }
 
     /**
      * @param condition a MIDD that represents the target expression of the parents' policyset.
-     * @param policy    a XACML 3.0 policy element.
+     * @param policyset a XACML 3.0 policy element.
      */
     public PolicySetParser(AbstractNode condition, PolicySetType policyset,
-                           AttributeMapper attrMapper, PolicyFinder policyFinder) {
+                           AttributeMapper attrMapper, PolicyFinder policyFinder) throws MIDDException {
         if (policyset == null) {
             throw new IllegalArgumentException("PolicySetType argument must not be null");
         }
@@ -106,11 +107,7 @@ public class PolicySetParser {
             this.preCondition = new ExternalNode();
         } else {
 //			this.preCondition = condition;
-            try {
-                this.preCondition = condition.clone();
-            } catch (CloneNotSupportedException e) {
-                e.printStackTrace();
-            }
+            this.preCondition = GenericUtil.newInstance(condition);
         }
     }
 
@@ -148,7 +145,7 @@ public class PolicySetParser {
     /**
      * Retrieve policy/policyset from the policy finder and add to the children policy or policyset lists
      *
-     * @param objValue
+     * @param idReference
      */
     private void addChildrenByRef(IdReferenceType idReference) {
         String id = idReference.getValue();
