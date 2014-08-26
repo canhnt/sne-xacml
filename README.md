@@ -1,7 +1,7 @@
 SNE-XACML
 =========
 [![Build Status](https://travis-ci.org/canhnt/sne-xacml.svg?branch=master)](http://travis-ci.org/canhnt/sne-xacml)
-
+[![Coverage Status](https://img.shields.io/coveralls/canhnt/sne-xacml.svg)](https://coveralls.io/r/canhnt/sne-xacml)
 
 A high performance XACML 3.0 PDP Engine.
 
