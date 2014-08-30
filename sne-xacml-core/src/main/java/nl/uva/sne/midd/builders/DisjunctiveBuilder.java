@@ -79,7 +79,7 @@ public class DisjunctiveBuilder {
         if (midd1 instanceof ExternalNode ||
                 midd2 instanceof ExternalNode) {
             // midd2 is also external node, return true external node
-            return new ExternalNode();
+            return ExternalNode.newInstance();
         } else {
             // both are internal nodes, combine two internal nodes here
             InternalNode<?> n1 = (InternalNode) midd1;

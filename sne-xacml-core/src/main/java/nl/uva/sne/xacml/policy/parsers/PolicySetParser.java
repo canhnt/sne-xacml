@@ -104,7 +104,7 @@ public class PolicySetParser {
         this.attrMapper = attrMapper;
 
         if (condition == null) {
-            this.preCondition = new ExternalNode();
+            this.preCondition = ExternalNode.newInstance();
         } else {
 //			this.preCondition = condition;
             this.preCondition = GenericUtil.newInstance(condition);

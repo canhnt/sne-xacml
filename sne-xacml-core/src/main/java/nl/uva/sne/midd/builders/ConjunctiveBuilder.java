@@ -75,7 +75,7 @@ public class ConjunctiveBuilder {
         // now MIDD2 always has higher order variable than MIDD1
         if (midd1 instanceof ExternalNode) {
             // midd2 is also external node, return true external node
-            return new ExternalNode();
+            return ExternalNode.newInstance();
         } else {
             InternalNode<?> n1 = (InternalNode) midd1;
 

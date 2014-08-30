@@ -86,7 +86,7 @@ public class TargetExpression {
     public AbstractNode parse() throws XACMLParsingException, MIDDParsingException, MIDDException {
 
         if (lstAnyOf == null || lstAnyOf.size() == 0) {
-            return new ExternalNode();    // return a true-value external node if there's no AnyOf expression.
+            return ExternalNode.newInstance();    // return a true-value external node if there's no AnyOf expression.
         }
 
         AbstractNode root = null;

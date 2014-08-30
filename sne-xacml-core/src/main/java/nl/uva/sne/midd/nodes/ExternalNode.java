@@ -34,12 +34,17 @@ public class ExternalNode extends AbstractNode {
 
     public static final int EXTERNAL_NODE_ID = -1;
 
+    private static ExternalNode instance;
+
     public ExternalNode() {
         super(EXTERNAL_NODE_ID);
     }
 
-    public ExternalNode(ExternalNode node) {
-        super(node);
+    public static ExternalNode newInstance(){
+        if (instance == null) {
+            instance = new ExternalNode();
+        }
+        return instance;
     }
 
     @Override

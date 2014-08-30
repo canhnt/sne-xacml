@@ -92,7 +92,7 @@ public class AnyOfExpression {
     public AbstractNode createFromConjunctionClauses(Map<String, AttributeInfo> intervals) throws MIDDParsingException, MIDDException {
 
         if (intervals == null || intervals.size() == 0) {
-            return new ExternalNode(); // return true-value external node
+            return ExternalNode.newInstance(); // return true-value external node
         }
 
         // Create edges from intervals
@@ -137,7 +137,7 @@ public class AnyOfExpression {
             }
         }
         // the tail points to the true clause
-        currentNode.addChild(currentEdge, new ExternalNode()); // add a true-value external node
+        currentNode.addChild(currentEdge, ExternalNode.newInstance()); // add a true-value external node
         return root;
     }
 
@@ -149,7 +149,7 @@ public class AnyOfExpression {
         List<AllOfType> lstAllOf = anyOf.getAllOf();
 
         if (lstAllOf == null || lstAllOf.size() == 0) {
-            return new ExternalNode(); // return true-value external node
+            return ExternalNode.newInstance(); // return true-value external node
         }
 
         /**

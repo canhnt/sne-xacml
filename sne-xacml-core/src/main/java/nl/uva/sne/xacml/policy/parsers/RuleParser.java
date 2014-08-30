@@ -113,7 +113,7 @@ public class RuleParser {
 
         // If there's no condition, assume it's the true value
         if (condition == null) {
-            this.preCondition = new ExternalNode();
+            this.preCondition = ExternalNode.newInstance();
         } else {
             this.preCondition = GenericUtil.newInstance(condition);
         }

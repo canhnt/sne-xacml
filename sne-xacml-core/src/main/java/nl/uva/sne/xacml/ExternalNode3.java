@@ -34,7 +34,6 @@ import java.util.List;
 
 import nl.uva.sne.midd.Decision;
 import nl.uva.sne.midd.DecisionType;
-import nl.uva.sne.midd.nodes.AbstractNode;
 import nl.uva.sne.midd.nodes.ExternalNode;
 import nl.uva.sne.midd.obligations.Obligation;
 import nl.uva.sne.midd.obligations.ObligationExpression;
@@ -42,7 +41,7 @@ import nl.uva.sne.midd.obligations.ObligationExpression;
 /**
  * External node for XACML 3.0 decisions.
  *
- * @date: Sep 11, 2012
+ * @Date: Sep 11, 2012
  */
 public class ExternalNode3 extends ExternalNode {
 
@@ -56,13 +55,13 @@ public class ExternalNode3 extends ExternalNode {
      * @param effect
      */
     public ExternalNode3(final DecisionType effect) {
-        super();
+//        super();
         this.effect = effect;
         this.obligationExpressions = new ArrayList<>();
     }
 
     public ExternalNode3(final DecisionType effect, List<ObligationExpression> oes) {
-        super();
+//        super();
         this.effect = effect;
 
         // only accept OE that has fullFillOn equals to effect value
@@ -78,7 +77,10 @@ public class ExternalNode3 extends ExternalNode {
         }
     }
 
-
+    /**
+     * Copy constructor
+     * @param n
+     */
     public ExternalNode3(ExternalNode3 n) {
         this.effect = n.effect;
         if (n.obligationExpressions != null) {
@@ -101,28 +103,6 @@ public class ExternalNode3 extends ExternalNode {
         return decision;
     }
 
-//	/**
-//	 * Combine values of two external nodes
-//	 * @param node
-//	 */
-//	public ExternalNode3 combine(ExternalNode3 node, CombiningAlgorithm algo) {
-//		effect = algo.combine(this.effect, node.effect);
-//		
-//		// only accept OE that match with combined effect.		
-//		ArrayList<ObligationExpression> lstOE = new ArrayList<ObligationExpression>();
-//		for(ObligationExpression oe : node.obligationExpressions) {
-//			if (oe.isFulfilled(effect))
-//				lstOE.add(oe);
-//		}
-//		for(ObligationExpression oe : obligationExpressions) {
-//			if (oe.isFulfilled(effect))
-//				lstOE.add(oe);
-//		}
-//		
-//		obligationExpressions = lstOE;
-//		return this;				
-//	}
-
     public DecisionType getDecision() {
         return this.effect;
     }
@@ -132,7 +112,7 @@ public class ExternalNode3 extends ExternalNode {
     }
 
     public List<Obligation> getObligations() {
-        List<Obligation> obligations = new ArrayList<Obligation>();
+        List<Obligation> obligations = new ArrayList<>();
         for (ObligationExpression oe : this.obligationExpressions) {
             obligations.add(oe.getObligation());
         }
@@ -146,18 +126,19 @@ public class ExternalNode3 extends ExternalNode {
 
     @Override
     public String toString() {
-        StringBuffer buf = new StringBuffer();
-        buf.append("{" + this.effect + ",[");
+        StringBuilder builder = new StringBuilder();
+
+        builder.append("{" + this.effect + ",[");
         if (obligationExpressions != null) {
             for (Object o : this.obligationExpressions) {
                 if (o != null) {
-                    buf.append(o.toString() + ",");
+                    builder.append(o.toString() + ",");
                 }
             }
         }
-        buf.deleteCharAt(buf.length() - 1);
-        buf.append("]}");
-        return buf.toString();
+        builder.deleteCharAt(builder.length() - 1);
+        builder.append("]}");
+        return builder.toString();
 
     }
 
