@@ -22,13 +22,13 @@
  */
 package nl.uva.sne.midd;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import nl.uva.sne.midd.interval.Interval;
+import nl.uva.sne.midd.util.IntervalUtils;
 import org.junit.Test;
 
-import nl.uva.sne.midd.interval.Interval;
-import nl.uva.sne.midd.utils.IntervalUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class IntervalUtilTest {
 
@@ -44,7 +44,7 @@ public class IntervalUtilTest {
         for (Interval<Double> i : intervals) {
             List<Interval> lst = new ArrayList<Interval>();
             lst.add(i);
-            System.out.println("Complement of: " + i + " -> " + IntervalUtil.complement(lst));
+            System.out.println("Complement of: " + i + " -> " + IntervalUtils.complement(lst));
         }
     }
 
@@ -59,6 +59,6 @@ public class IntervalUtilTest {
         for (Interval<Double> i : intervals) {
             System.out.print(i);
         }
-        System.out.println(" -> " + IntervalUtil.complement(intervals));
+        System.out.println(" -> " + IntervalUtils.complement(intervals));
     }
 }

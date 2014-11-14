@@ -1,4 +1,4 @@
-/**
+/*
  * SNE-XACML: A high performance XACML evaluation engine.
  *
  * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
@@ -20,15 +20,10 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301 USA
  */
-/**
- * System and Network Engineering Group
- * University of Amsterdam
- *
- */
 package nl.uva.sne.midd.interval;
 
 import nl.uva.sne.midd.MIDDException;
-import nl.uva.sne.midd.utils.GenericUtil;
+import nl.uva.sne.midd.util.GenericUtils;
 
 /**
  * @author Canh Ngo (t.c.ngo@uva.nl)
@@ -55,7 +50,7 @@ public class EndPoint<T extends Comparable<T>> implements Comparable<EndPoint<T>
     public EndPoint(T value) throws MIDDException {
         this.fPositiveInfinity = false;
         this.fNegativeInfinity = false;
-        this.value = GenericUtil.createCopy(value);
+        this.value = GenericUtils.createCopy(value);
     }
 
     public EndPoint(EndPoint<T> p) throws MIDDException {
@@ -63,7 +58,7 @@ public class EndPoint<T extends Comparable<T>> implements Comparable<EndPoint<T>
         this.fPositiveInfinity = p.fPositiveInfinity;
 
         // Perform deep copy
-        this.value = GenericUtil.createCopy(p.value);
+        this.value = GenericUtils.createCopy(p.value);
     }
 
     @Override
@@ -151,7 +146,7 @@ public class EndPoint<T extends Comparable<T>> implements Comparable<EndPoint<T>
     public void setValue(T value) throws MIDDException {
         this.fPositiveInfinity = false;
         this.fNegativeInfinity = false;
-        this.value = GenericUtil.createCopy(value);
+        this.value = GenericUtils.createCopy(value);
     }
 
     @SuppressWarnings("unchecked")

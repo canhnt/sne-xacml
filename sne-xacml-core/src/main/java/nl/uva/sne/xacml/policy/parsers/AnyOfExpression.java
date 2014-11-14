@@ -1,4 +1,4 @@
-/**
+/*
  * SNE-XACML: A high performance XACML evaluation engine.
  *
  * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
@@ -22,16 +22,7 @@
  */
 package nl.uva.sne.xacml.policy.parsers;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import nl.uva.sne.midd.DecisionType;
-import nl.uva.sne.midd.IDDFactory;
 import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.builders.DisjunctiveBuilder;
 import nl.uva.sne.midd.edges.AbstractEdge;
@@ -40,9 +31,13 @@ import nl.uva.sne.midd.nodes.AbstractNode;
 import nl.uva.sne.midd.nodes.ExternalNode;
 import nl.uva.sne.midd.nodes.InternalNode;
 import nl.uva.sne.midd.obligations.InternalNodeState;
+import nl.uva.sne.midd.util.EdgeUtils;
+import nl.uva.sne.midd.util.NodeUtils;
 import nl.uva.sne.xacml.AttributeMapper;
 import oasis.names.tc.xacml._3_0.core.schema.wd_17.AllOfType;
 import oasis.names.tc.xacml._3_0.core.schema.wd_17.AnyOfType;
+
+import java.util.*;
 
 /**
  * AnyOfExpression class is to parse AnyOf XACML 3.0 element to return map of parsed intervals for each variable
@@ -84,7 +79,6 @@ public class AnyOfExpression {
      * Create a MIDD from conjunctions of intervals
      *
      * @param intervals
-     * @param attrMapper
      * @return
      * @throws MIDDParsingException
      * @throws MIDDException
@@ -102,7 +96,7 @@ public class AnyOfExpression {
             Interval<?> interval = intervals.get(attrId).getInterval();
 
             Class<?> type = interval.getType();
-            AbstractEdge<?> e = IDDFactory.createEdge(interval);
+            AbstractEdge<?> e = EdgeUtils.createEdge(interval);
             edges.put(varId, e);
         }
 
@@ -125,7 +119,7 @@ public class AnyOfExpression {
 
             InternalNodeState nodeState = new InternalNodeState(isAttrMustBePresent ? DecisionType.Indeterminate : DecisionType.NotApplicable);
 
-            InternalNode<?> node = IDDFactory.createInternalNode(varId, nodeState, e.getType());
+            InternalNode<?> node = NodeUtils.createInternalNode(varId, nodeState, e.getType());
             if (root == null) {
                 root = node; // root points to the start of the MIDD path
                 currentNode = node;

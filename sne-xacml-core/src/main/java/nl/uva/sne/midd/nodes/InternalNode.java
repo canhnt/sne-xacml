@@ -1,4 +1,4 @@
-/**
+/*
  * SNE-XACML: A high performance XACML evaluation engine.
  *
  * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
@@ -20,29 +20,24 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301 USA
  */
-/**
- * System and Network Engineering Group
- * University of Amsterdam
- *
- */
 
 package nl.uva.sne.midd.nodes;
+
+import nl.uva.sne.midd.Decision;
+import nl.uva.sne.midd.DecisionType;
+import nl.uva.sne.midd.MIDDException;
+import nl.uva.sne.midd.edges.AbstractEdge;
+import nl.uva.sne.midd.interval.Interval;
+import nl.uva.sne.midd.obligations.InternalNodeState;
+import nl.uva.sne.midd.util.EdgeUtils;
+import nl.uva.sne.midd.util.NodeUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import nl.uva.sne.midd.Decision;
-import nl.uva.sne.midd.DecisionType;
-import nl.uva.sne.midd.IDDFactory;
-import nl.uva.sne.midd.MIDDException;
-import nl.uva.sne.midd.edges.AbstractEdge;
-import nl.uva.sne.midd.interval.Interval;
-import nl.uva.sne.midd.obligations.InternalNodeState;
 
 /**
  * @author Canh Ngo
@@ -92,15 +87,18 @@ public abstract class InternalNode<T extends Comparable<T>> extends AbstractNode
 
     @Override
     public AbstractNode clone() throws CloneNotSupportedException {
-        InternalNode<?> n = IDDFactory.createInternalNode(this.getID(),
-                this.getState(),
-                this.getType());
+        InternalNode<?> n = null;
+        try {
+            n = NodeUtils.createInternalNode(this.getID(), this.getState(), this.getType());
+        } catch (MIDDException e) {
+            log.error("Error cloning internal node", e);
+        }
 
         for (AbstractEdge<?> e : this.edges) {
             AbstractNode child = e.getSubDiagram().clone();
             AbstractEdge<?> cloneEdge = null;
             try {
-                cloneEdge = IDDFactory.cloneEdge(e);
+                cloneEdge = EdgeUtils.cloneEdge(e);
             } catch (MIDDException ex) {
                 log.error("Clone node {} failed:", this.toString(), ex);
                 throw new CloneNotSupportedException("Clone node failed");

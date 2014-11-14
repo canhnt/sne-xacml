@@ -1,4 +1,4 @@
-/**
+/*
  * SNE-XACML: A high performance XACML evaluation engine.
  *
  * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
@@ -20,24 +20,14 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301 USA
  */
-/**
- *
- */
 package nl.uva.sne.xacml;
-
-import java.io.OutputStream;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import nl.uva.sne.midd.Decision;
 import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.Variable;
 import nl.uva.sne.midd.nodes.AbstractNode;
 import nl.uva.sne.midd.nodes.InternalNode;
-import nl.uva.sne.midd.utils.EvaluationUtil;
+import nl.uva.sne.midd.util.EvaluationUtils;
 import nl.uva.sne.xacml.builders.ResponseTypeBuilder;
 import nl.uva.sne.xacml.policy.finder.PolicyFinder;
 import nl.uva.sne.xacml.policy.parsers.MIDDParsingException;
@@ -45,16 +35,14 @@ import nl.uva.sne.xacml.policy.parsers.PolicyParser;
 import nl.uva.sne.xacml.policy.parsers.PolicySetParser;
 import nl.uva.sne.xacml.policy.parsers.XACMLParsingException;
 import nl.uva.sne.xacml.policy.parsers.util.AttributeConverter;
-import oasis.names.tc.xacml._3_0.core.schema.wd_17.AttributeType;
-import oasis.names.tc.xacml._3_0.core.schema.wd_17.AttributesType;
-import oasis.names.tc.xacml._3_0.core.schema.wd_17.PolicySetType;
-import oasis.names.tc.xacml._3_0.core.schema.wd_17.PolicyType;
-import oasis.names.tc.xacml._3_0.core.schema.wd_17.RequestType;
-import oasis.names.tc.xacml._3_0.core.schema.wd_17.ResponseType;
+import oasis.names.tc.xacml._3_0.core.schema.wd_17.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-/**
- * @author canhnt
- */
+import java.io.OutputStream;
+import java.util.HashMap;
+import java.util.Map;
+
 public class PDP {
     private static final Logger logger = LoggerFactory.getLogger(PDP.class);
 
@@ -124,7 +112,7 @@ public class PDP {
         try {
             variables = convertRequest(request);
 
-            result = EvaluationUtil.eval(this.middRoot, variables);
+            result = EvaluationUtils.eval(this.middRoot, variables);
         } catch (MIDDParsingException e) {
             logger.error(e.getMessage());
             fProcessiongError = true;
@@ -144,7 +132,7 @@ public class PDP {
     }
 
     public Decision evaluate(Map<Integer, Variable<?>> variables) {
-        return EvaluationUtil.eval(this.middRoot, variables);
+        return EvaluationUtils.eval(this.middRoot, variables);
     }
 
     protected ResponseType createResponse(Decision middDecision) {

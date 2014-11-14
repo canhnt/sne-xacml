@@ -20,19 +20,19 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301 USA
  */
-package nl.uva.sne.midd.utils;
+package nl.uva.sne.midd.util;
+
+import nl.uva.sne.midd.MIDDException;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-
-import nl.uva.sne.midd.MIDDException;
 
 /**
  * @author cngo
  * @version $Id$
  * @since 2014-07-04
  */
-public class GenericUtil {
+public class GenericUtils {
 
     @SuppressWarnings("unchecked")
     public static <T extends Comparable<T>> T createCopy(final T value) throws MIDDException {

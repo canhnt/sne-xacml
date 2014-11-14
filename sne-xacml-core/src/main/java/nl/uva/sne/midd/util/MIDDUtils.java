@@ -1,4 +1,4 @@
-/**
+/*
  * SNE-XACML: A high performance XACML evaluation engine.
  *
  * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
@@ -20,18 +20,18 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301 USA
  */
-package nl.uva.sne.midd.utils;
+package nl.uva.sne.midd.util;
+
+import nl.uva.sne.midd.edges.AbstractEdge;
+import nl.uva.sne.midd.nodes.AbstractNode;
+import nl.uva.sne.midd.nodes.InternalNode;
 
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.Stack;
 
-import nl.uva.sne.midd.edges.AbstractEdge;
-import nl.uva.sne.midd.nodes.AbstractNode;
-import nl.uva.sne.midd.nodes.InternalNode;
-
-public class MIDDUtil {
+public class MIDDUtils {
     public static int countNodes(InternalNode midd) {
         Stack<InternalNode> stackNodes = new Stack<InternalNode>();
 

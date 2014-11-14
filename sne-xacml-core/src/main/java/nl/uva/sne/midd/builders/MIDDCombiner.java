@@ -27,14 +27,7 @@
  */
 package nl.uva.sne.midd.builders;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import nl.uva.sne.midd.DecisionType;
-import nl.uva.sne.midd.IDDFactory;
 import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.algorithms.CombiningAlgorithm;
 import nl.uva.sne.midd.edges.AbstractEdge;
@@ -45,20 +38,18 @@ import nl.uva.sne.midd.obligations.InternalNodeState;
 import nl.uva.sne.midd.obligations.ObligationExpression;
 import nl.uva.sne.midd.partition.Partition;
 import nl.uva.sne.midd.partition.PartitionBuilder;
-import nl.uva.sne.midd.utils.IntervalUtil;
+import nl.uva.sne.midd.util.EdgeUtils;
+import nl.uva.sne.midd.util.IntervalUtils;
+import nl.uva.sne.midd.util.NodeUtils;
 import nl.uva.sne.xacml.ExternalNode3;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-/**
- * @author Canh Ngo (t.c.ngo@uva.nl)
- *
- * @version
- * @date: Sep 11, 2012
- */
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Combine MIDDs using XACML 3.0 combining algorithms.
- *
- * @author canhnt
  */
 public class MIDDCombiner {
     private static final Logger log = LoggerFactory.getLogger(MIDDCombiner.class);
@@ -167,12 +158,12 @@ public class MIDDCombiner {
                     if (n1.getID() < n2.getID()) {
 
                         // Clone n1
-                        n = IDDFactory.createInternalNode(n1, n1.getType());
+                        n = NodeUtils.createInternalNode(n1, n1.getType());
 
                         for (AbstractEdge<?> e : n1.getEdges()) {
                             AbstractNode child = combine(e.getSubDiagram(), n2);
                             if (child != null) {
-                                n.addChild(IDDFactory.cloneEdge(e), child);
+                                n.addChild(EdgeUtils.cloneEdge(e), child);
                             } else {
 //								throw new RuntimeException("empty child");
                                 log.error("empty child");
@@ -180,24 +171,24 @@ public class MIDDCombiner {
                         }
 
                         // Create a new edge containing the complement of n1 children intervals, connecting n with n2
-                        List<Interval> complementIntervals = IntervalUtil.complement(n1.getIntervals());
+                        List<Interval> complementIntervals = IntervalUtils.complement(n1.getIntervals());
                         if (complementIntervals.size() > 0) {
-                            AbstractEdge<?> edge = IDDFactory.createEdge(complementIntervals, n1.getType());
+                            AbstractEdge<?> edge = EdgeUtils.createEdge(complementIntervals, n1.getType());
                             n.addChild(edge, n2);
                         }
 
                     } else { // n2 has lower id than n1, do in other way.
-                        n = IDDFactory.createInternalNode(n2, n2.getType());
+                        n = NodeUtils.createInternalNode(n2, n2.getType());
                         for (AbstractEdge<?> e : n2.getEdges()) {
                             AbstractNode child = combine(n1, e.getSubDiagram());
                             if (child != null) {
-                                n.addChild(IDDFactory.cloneEdge(e), child);
+                                n.addChild(EdgeUtils.cloneEdge(e), child);
                             }
                         }
                         // Create a new edge containing the complement of n2 children intervals, connecting n with n1
-                        List<Interval> complementIntervals = IntervalUtil.complement(n2.getIntervals());
+                        List<Interval> complementIntervals = IntervalUtils.complement(n2.getIntervals());
                         if (complementIntervals.size() > 0) {
-                            AbstractEdge<?> edge = IDDFactory.createEdge(complementIntervals, n2.getType());
+                            AbstractEdge<?> edge = EdgeUtils.createEdge(complementIntervals, n2.getType());
                             n.addChild(edge, n1);
                         }
                     }
@@ -273,7 +264,7 @@ public class MIDDCombiner {
 
 
         List<Interval> intervals = n2.getIntervals();
-        List<Interval> complementIntervals = IntervalUtil.complement(intervals);
+        List<Interval> complementIntervals = IntervalUtils.complement(intervals);
 
         // clone new node from n2
 
@@ -286,10 +277,10 @@ public class MIDDCombiner {
 
         InternalNodeState newINState = combineInternalNodeStates(n2.getState(), n1);
 
-        InternalNode<?> n = IDDFactory.createInternalNode(n2.getID(), newINState, n2.getType());
+        InternalNode<?> n = NodeUtils.createInternalNode(n2.getID(), newINState, n2.getType());
 
         if (complementIntervals.size() > 0) {
-            AbstractEdge<?> edge = IDDFactory.createEdge(complementIntervals, n2.getType());
+            AbstractEdge<?> edge = EdgeUtils.createEdge(complementIntervals, n2.getType());
             if (edge.getIntervals().size() == 0) {
                 throw new RuntimeException("Empty edge");
             }
@@ -298,7 +289,7 @@ public class MIDDCombiner {
 
         for (AbstractEdge<?> e : n2.getEdges()) {
             AbstractNode child = combine(n1, e.getSubDiagram());
-            n.addChild(IDDFactory.cloneEdge(e), child);
+            n.addChild(EdgeUtils.cloneEdge(e), child);
         }
 //		linkWithNullEdge(n, n1);	// it means that traversing to n1 may not need a predicate of attr at n2
 
@@ -375,7 +366,7 @@ public class MIDDCombiner {
 
 
         List<Interval> intervals = n1.getIntervals();
-        List<Interval> complementIntervals = IntervalUtil.complement(intervals);
+        List<Interval> complementIntervals = IntervalUtils.complement(intervals);
 
         // clone new node from n1
 
@@ -388,20 +379,20 @@ public class MIDDCombiner {
 
         InternalNodeState newINState = combineInternalNodeStates(n1.getState(), n2);
 
-        InternalNode<?> n = IDDFactory.createInternalNode(n1.getID(), newINState, n1.getType());
+        InternalNode<?> n = NodeUtils.createInternalNode(n1.getID(), newINState, n1.getType());
 
         for (AbstractEdge<?> e : n1.getEdges()) {
             AbstractNode child = combine(e.getSubDiagram(), n2);
             if (child == null) {
                 throw new RuntimeException("Empty child");
             }
-            n.addChild(IDDFactory.cloneEdge(e), child);
+            n.addChild(EdgeUtils.cloneEdge(e), child);
         }
 
 //		linkWithNullEdge(n, n2);
         // if the complement of the partition is not empty, add a new edge pointing to external node
         if (complementIntervals.size() > 0) {
-            AbstractEdge<?> edge = IDDFactory.createEdge(complementIntervals, n1.getType());
+            AbstractEdge<?> edge = EdgeUtils.createEdge(complementIntervals, n1.getType());
             n.addChild(edge, n2);
         }
         // else, ignore the external node, because its value has been integrated into node n's INState.
@@ -439,7 +430,7 @@ public class MIDDCombiner {
 
         InternalNodeState newState = combineIndeterminateStates(n1.getState(), n2.getState());
 
-        InternalNode<?> n = IDDFactory.createInternalNode(n1.getID(), newState, n1.getType());
+        InternalNode<?> n = NodeUtils.createInternalNode(n1.getID(), newState, n1.getType());
 
         for (Interval<?> interval : p.getIntervals()) {
             AbstractNode op1 = n1.getChild(interval);
@@ -459,7 +450,7 @@ public class MIDDCombiner {
             }
 
             if (child != null) {
-                AbstractEdge<?> edge = IDDFactory.createEdge(interval, n.getType());
+                AbstractEdge<?> edge = EdgeUtils.createEdge(interval, n.getType());
                 if (edge.getIntervals().size() == 0) {
                     throw new RuntimeException("Empty edge");
                 }

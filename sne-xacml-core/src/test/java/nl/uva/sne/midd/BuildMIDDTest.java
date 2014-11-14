@@ -22,14 +22,6 @@
  */
 package nl.uva.sne.midd;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.junit.Test;
-
 import nl.uva.sne.midd.algorithms.DenyOverridesAlg;
 import nl.uva.sne.midd.algorithms.PermitOverridesAlg;
 import nl.uva.sne.midd.builders.MIDDCombiner;
@@ -42,11 +34,13 @@ import nl.uva.sne.midd.nodes.InternalNode;
 import nl.uva.sne.midd.nodes.StringNode;
 import nl.uva.sne.midd.obligations.Obligation;
 import nl.uva.sne.midd.obligations.ObligationExpression;
-import nl.uva.sne.midd.utils.EvaluationUtil;
+import nl.uva.sne.midd.util.EvaluationUtils;
 import nl.uva.sne.xacml.ExternalNode3;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import org.junit.Test;
+
+import java.util.*;
+
+import static org.junit.Assert.*;
 
 public class BuildMIDDTest {
 
@@ -117,7 +111,7 @@ public class BuildMIDDTest {
         long startTime = System.currentTimeMillis();
         Decision result1 = null;
         for (int i = 0; i < 100000; i++) {
-            result1 = EvaluationUtil.eval(midd1, createRequest(request1));
+            result1 = EvaluationUtils.eval(midd1, createRequest(request1));
         }
         long endTime = System.currentTimeMillis();
         long totalTime = endTime - startTime;
@@ -127,13 +121,13 @@ public class BuildMIDDTest {
         assertTrue(result1.getObligations().get(0).equals(oe1.getObligation()));
 
 //		startTime = System.currentTimeMillis();
-        Decision result2 = EvaluationUtil.eval(midd1, createRequest(request2));
+        Decision result2 = EvaluationUtils.eval(midd1, createRequest(request2));
 //		endTime = System.currentTimeMillis();
 //		totalTime += endTime - startTime;
         assertTrue(result2.getDecision() == DecisionType.Indeterminate_P);
 
 //		startTime = System.currentTimeMillis();
-        Decision result3 = EvaluationUtil.eval(midd1, createRequest(request3));
+        Decision result3 = EvaluationUtils.eval(midd1, createRequest(request3));
 //		endTime = System.currentTimeMillis();
 //		totalTime += endTime - startTime;
         assertTrue(result3.getDecision() == DecisionType.Indeterminate_P);
@@ -205,7 +199,7 @@ public class BuildMIDDTest {
                     new Variable<Double>(1, 4.0),
                     new Variable<Double>(2, 3.5)
             };
-            Decision result1 = EvaluationUtil.eval(n, createRequest(request1));
+            Decision result1 = EvaluationUtils.eval(n, createRequest(request1));
             assertTrue(result1.getDecision() == DecisionType.Permit);
             List<Obligation> obligations1 = result1.getObligations();
             assertEquals(obligations1.size(), 1);
@@ -217,7 +211,7 @@ public class BuildMIDDTest {
                     new Variable<Double>(1, 4.0),
                     new Variable<Double>(2, 0.0)
             };
-            Decision result2 = EvaluationUtil.eval(n, createRequest(request2));
+            Decision result2 = EvaluationUtils.eval(n, createRequest(request2));
             assertTrue(result2.getDecision() == DecisionType.Deny);
 
             Variable<?> request3[] = new Variable<?>[]{
@@ -225,7 +219,7 @@ public class BuildMIDDTest {
                     new Variable<Double>(1, 4.0),
                     new Variable<Double>(2, 4.5)
             };
-            Decision result3 = EvaluationUtil.eval(n, createRequest(request3));
+            Decision result3 = EvaluationUtils.eval(n, createRequest(request3));
             assertTrue(result3.getDecision() == DecisionType.Deny);
             assertTrue(result3.getObligations().get(0).equals(oe3.getObligation()));
 
@@ -234,7 +228,7 @@ public class BuildMIDDTest {
                     new Variable<Double>(1, 2.0),
                     new Variable<Double>(2, 2.0)
             };
-            Decision result4 = EvaluationUtil.eval(n, createRequest(request4));
+            Decision result4 = EvaluationUtils.eval(n, createRequest(request4));
             System.out.println(result4);
 
         } else {
@@ -266,7 +260,7 @@ public class BuildMIDDTest {
                     new Variable<Double>(1, 4.0),
                     new Variable<Double>(2, 3.5)
             };
-            Decision result1 = EvaluationUtil.eval(n, createRequest(request1));
+            Decision result1 = EvaluationUtils.eval(n, createRequest(request1));
             assertTrue(result1.getDecision() == DecisionType.Deny);
             List<Obligation> obligations1 = result1.getObligations();
             assertEquals(obligations1.size(), 1);
@@ -278,7 +272,7 @@ public class BuildMIDDTest {
                     new Variable<Double>(1, 4.0),
                     new Variable<Double>(2, 0.0)
             };
-            Decision result2 = EvaluationUtil.eval(n, createRequest(request2));
+            Decision result2 = EvaluationUtils.eval(n, createRequest(request2));
             assertTrue(result2.getDecision() == DecisionType.Deny);
             assertTrue(obligations1.contains(oe3.getObligation()));
             System.out.println(result2);
@@ -288,7 +282,7 @@ public class BuildMIDDTest {
                     new Variable<Double>(1, 4.0),
                     new Variable<Double>(2, 4.5)
             };
-            Decision result3 = EvaluationUtil.eval(n, createRequest(request3));
+            Decision result3 = EvaluationUtils.eval(n, createRequest(request3));
             assertTrue(result3.getDecision() == DecisionType.Deny);
             assertTrue(result3.getObligations().get(0).equals(oe3.getObligation()));
 
@@ -297,7 +291,7 @@ public class BuildMIDDTest {
                     new Variable<Double>(1, 2.0),
                     new Variable<Double>(2, 1.0)
             };
-            Decision result4 = EvaluationUtil.eval(n, createRequest(request4));
+            Decision result4 = EvaluationUtils.eval(n, createRequest(request4));
             System.out.println(result4);
 
         } else {
@@ -340,7 +334,7 @@ public class BuildMIDDTest {
         long startTime = System.currentTimeMillis();
         Decision result1 = null;
         for (int i = 0; i < 1000; i++) {
-            result1 = EvaluationUtil.eval(root, createRequest(request1));
+            result1 = EvaluationUtils.eval(root, createRequest(request1));
         }
 
         long endTime = System.currentTimeMillis();

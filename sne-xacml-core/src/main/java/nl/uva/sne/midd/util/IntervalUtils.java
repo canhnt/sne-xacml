@@ -25,20 +25,16 @@
  * University of Amsterdam
  *
  */
-package nl.uva.sne.midd.utils;
-
-import java.util.ArrayList;
-import java.util.List;
+package nl.uva.sne.midd.util;
 
 import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.interval.EndPoint;
 import nl.uva.sne.midd.interval.Interval;
 
-/**
- * @author Canh Ngo (t.c.ngo@uva.nl)
- * @date: Sep 13, 2012
- */
-public class IntervalUtil {
+import java.util.ArrayList;
+import java.util.List;
+
+public class IntervalUtils {
 
     /**
      * Return the complement of set of intervals

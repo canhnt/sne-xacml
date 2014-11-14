@@ -1,4 +1,4 @@
-/**
+/*
  * SNE-XACML: A high performance XACML evaluation engine.
  *
  * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
@@ -22,15 +22,6 @@
  */
 package nl.uva.sne.xacml.policy.parsers;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import javax.xml.bind.JAXBElement;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.algorithms.CombiningAlgorithm;
 import nl.uva.sne.midd.builders.ConjunctiveBuilder;
@@ -38,21 +29,21 @@ import nl.uva.sne.midd.builders.MIDDCombiner;
 import nl.uva.sne.midd.nodes.AbstractNode;
 import nl.uva.sne.midd.nodes.ExternalNode;
 import nl.uva.sne.midd.nodes.InternalNode;
-import nl.uva.sne.midd.utils.MIDDUtil;
+import nl.uva.sne.midd.util.MIDDUtils;
 import nl.uva.sne.xacml.AttributeMapper;
 import nl.uva.sne.xacml.policy.finder.PolicyFinder;
 import nl.uva.sne.xacml.policy.parsers.util.CombiningAlgConverterUtil;
-import oasis.names.tc.xacml._3_0.core.schema.wd_17.AnyOfType;
-import oasis.names.tc.xacml._3_0.core.schema.wd_17.IdReferenceType;
-import oasis.names.tc.xacml._3_0.core.schema.wd_17.PolicySetType;
-import oasis.names.tc.xacml._3_0.core.schema.wd_17.PolicyType;
-import oasis.names.tc.xacml._3_0.core.schema.wd_17.TargetType;
+import oasis.names.tc.xacml._3_0.core.schema.wd_17.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import javax.xml.bind.JAXBElement;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Create MIDD from a XACML 3.0 PolicySet element.
- *
- * @author canhnt
  */
 public class PolicySetParser {
     private static final Logger logger = LoggerFactory.getLogger(PolicySetParser.class);
@@ -128,16 +119,16 @@ public class PolicySetParser {
                 root = n;
             } else {
                 if (root instanceof InternalNode) {
-                    System.out.println("root size:" + MIDDUtil.countNodes((InternalNode) root));
+                    System.out.println("root size:" + MIDDUtils.countNodes((InternalNode) root));
                 }
                 if (n instanceof InternalNode) {
-                    System.out.println("child midd size:" + MIDDUtil.countNodes((InternalNode) n));
+                    System.out.println("child midd size:" + MIDDUtils.countNodes((InternalNode) n));
                 }
 
                 root = combiner.combine(root, n);
 
                 if (root instanceof InternalNode) {
-                    System.out.println("Combined midd size:" + MIDDUtil.countNodes((InternalNode) root));
+                    System.out.println("Combined midd size:" + MIDDUtils.countNodes((InternalNode) root));
                 }
 
             }

@@ -25,12 +25,9 @@
  * University of Amsterdam
  *
  */
-package nl.uva.sne.midd.utils;
-
-import java.util.Map;
+package nl.uva.sne.midd.util;
 
 import nl.uva.sne.midd.Decision;
-import nl.uva.sne.midd.IDDFactory;
 import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.Variable;
 import nl.uva.sne.midd.edges.AbstractEdge;
@@ -39,11 +36,13 @@ import nl.uva.sne.midd.nodes.InternalNode;
 import nl.uva.sne.midd.nodes.UnmatchedException;
 import nl.uva.sne.xacml.ExternalNode3;
 
+import java.util.Map;
+
 /**
  * @author Canh Ngo (t.c.ngo@uva.nl)
  * @date: Sep 11, 2012
  */
-public class EvaluationUtil {
+public class EvaluationUtils {
     /**
      * Evaluate a map of attributes (from id to variable) against a multitype interval decision diagram (MIDD).
      *
@@ -62,7 +61,7 @@ public class EvaluationUtil {
             // attribute not found:
             if (!variables.containsKey(currentInternalNode.getID())) {
                 // create a null variable
-                currentVar = IDDFactory.createVariable(currentInternalNode.getID(), null, currentInternalNode.getType());
+                currentVar = createVariable(currentInternalNode.getID(), null, currentInternalNode.getType());
 //				return currentInternalNode.buildDecision();
             } else {
                 currentVar = variables.get(currentInternalNode.getID());
@@ -89,5 +88,9 @@ public class EvaluationUtil {
         }
 
         return ((ExternalNode3) currentNode).buildDecision();
+    }
+
+    public static <T extends Comparable<T>> Variable<?> createVariable(int id, T value, Class<T> type) {
+        return new Variable<T>(id, value, type);
     }
 }

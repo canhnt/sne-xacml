@@ -1,4 +1,4 @@
-/**
+/*
  * SNE-XACML: A high performance XACML evaluation engine.
  *
  * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
@@ -22,10 +22,6 @@
  */
 package nl.uva.sne.midd.builders;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import nl.uva.sne.midd.IDDFactory;
 import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.edges.AbstractEdge;
 import nl.uva.sne.midd.interval.Interval;
@@ -34,6 +30,10 @@ import nl.uva.sne.midd.nodes.ExternalNode;
 import nl.uva.sne.midd.nodes.InternalNode;
 import nl.uva.sne.midd.partition.Partition;
 import nl.uva.sne.midd.partition.PartitionBuilder;
+import nl.uva.sne.midd.util.EdgeUtils;
+import nl.uva.sne.midd.util.NodeUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Join two MIDD using conjunctive operator.
@@ -92,12 +92,12 @@ public class ConjunctiveBuilder {
                     // - combine n2 with all children of n1 -> children[1..k], add them to children of n
 
                     // Clone n1
-                    InternalNode<?> n = IDDFactory.createInternalNode(n1, n1.getType());
+                    InternalNode<?> n = NodeUtils.createInternalNode(n1, n1.getType());
 
                     for (AbstractEdge<?> e : n1.getEdges()) {
                         AbstractNode child = join(e.getSubDiagram(), n2);
                         if (child != null) {
-                            n.addChild(IDDFactory.cloneEdge(e), child);
+                            n.addChild(EdgeUtils.cloneEdge(e), child);
                         }
 //						else 
 //							throw new RuntimeException("Empty child");
@@ -143,7 +143,7 @@ public class ConjunctiveBuilder {
         }
 
         // Clone n1: warning: new MIDD node's state should be combined from two node states: n1 & n2???
-        InternalNode<?> newMIDD = IDDFactory.createInternalNode(n1.getID(), n1.getState(), n1.getType());
+        InternalNode<?> newMIDD = NodeUtils.createInternalNode(n1.getID(), n1.getState(), n1.getType());
 
         for (Interval<?> interval : p.getIntervals()) {
             AbstractNode op1 = n1.getChild(interval);
@@ -164,7 +164,7 @@ public class ConjunctiveBuilder {
             }
 
             if (child != null) {
-                AbstractEdge<?> edge = IDDFactory.createEdge(interval, newMIDD.getType());
+                AbstractEdge<?> edge = EdgeUtils.createEdge(interval, newMIDD.getType());
                 newMIDD.addChild(edge, child);
             } else {
                 System.err.println("Empty child");
