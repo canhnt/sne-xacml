@@ -22,11 +22,6 @@
  */
 package nl.uva.sne.xacml.policy.parsers;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Stack;
-
 import nl.uva.sne.midd.DecisionType;
 import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.builders.ConjunctiveBuilder;
@@ -37,15 +32,15 @@ import nl.uva.sne.midd.nodes.InternalNode;
 import nl.uva.sne.midd.obligations.InternalNodeState;
 import nl.uva.sne.midd.obligations.Obligation;
 import nl.uva.sne.midd.obligations.ObligationExpression;
-import nl.uva.sne.midd.utils.GenericUtil;
+import nl.uva.sne.midd.util.GenericUtils;
 import nl.uva.sne.xacml.AttributeMapper;
 import nl.uva.sne.xacml.ExternalNode3;
-import oasis.names.tc.xacml._3_0.core.schema.wd_17.AnyOfType;
-import oasis.names.tc.xacml._3_0.core.schema.wd_17.EffectType;
-import oasis.names.tc.xacml._3_0.core.schema.wd_17.ObligationExpressionType;
-import oasis.names.tc.xacml._3_0.core.schema.wd_17.ObligationExpressionsType;
-import oasis.names.tc.xacml._3_0.core.schema.wd_17.RuleType;
-import oasis.names.tc.xacml._3_0.core.schema.wd_17.TargetType;
+import oasis.names.tc.xacml._3_0.core.schema.wd_17.*;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Stack;
 
 public class RuleParser {
     private static final transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(RuleParser.class);
@@ -115,7 +110,7 @@ public class RuleParser {
         if (condition == null) {
             this.preCondition = ExternalNode.newInstance();
         } else {
-            this.preCondition = GenericUtil.newInstance(condition);
+            this.preCondition = GenericUtils.newInstance(condition);
         }
     }
 

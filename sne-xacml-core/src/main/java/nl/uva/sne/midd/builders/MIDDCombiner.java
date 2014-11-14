@@ -39,6 +39,7 @@ import nl.uva.sne.midd.obligations.ObligationExpression;
 import nl.uva.sne.midd.partition.Partition;
 import nl.uva.sne.midd.partition.PartitionBuilder;
 import nl.uva.sne.midd.util.EdgeUtils;
+import nl.uva.sne.midd.util.GenericUtils;
 import nl.uva.sne.midd.util.IntervalUtils;
 import nl.uva.sne.midd.util.NodeUtils;
 import nl.uva.sne.xacml.ExternalNode3;
@@ -299,8 +300,8 @@ public class MIDDCombiner {
     /**
      * Combine two external nodes following the algorithm in this.algo
      *
-     * @param midd1
-     * @param midd2
+     * @param n1
+     * @param n2
      * @return
      */
     private ExternalNode3 combineExternalNodes(ExternalNode3 n1, ExternalNode3 n2) {
@@ -439,11 +440,12 @@ public class MIDDCombiner {
             if (op1 != null && op2 != null) {
                 child = combine(op1, op2);
             } else if (op1 != null || op2 != null) {
-                try {
-                    child = (op1 == null) ? op2.clone() : op1.clone();
-                } catch (CloneNotSupportedException e) {
-                    e.printStackTrace();
-                }
+//                try {
+//                    child = (op1 == null) ? op2.clone() : op1.clone();
+//                } catch (CloneNotSupportedException e) {
+//                    e.printStackTrace();
+//                }
+                child = GenericUtils.newInstance(op1 == null ? op2 : op1);
             } else {
                 throw new RuntimeException("Error merging two partitions, " +
                         "the output partition has an item not belong to both previous ones");

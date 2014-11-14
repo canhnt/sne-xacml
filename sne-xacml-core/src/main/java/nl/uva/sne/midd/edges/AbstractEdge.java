@@ -29,7 +29,7 @@ import java.util.List;
 import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.interval.Interval;
 import nl.uva.sne.midd.nodes.AbstractNode;
-import nl.uva.sne.midd.utils.GenericUtil;
+import nl.uva.sne.midd.util.GenericUtils;
 
 /**
  * An out-going edge from a node
@@ -68,9 +68,9 @@ public abstract class AbstractEdge<T extends Comparable<T>> {
      */
     public AbstractEdge(AbstractEdge<T> e) throws MIDDException {
         intervals = new ArrayList<>(e.intervals);
-        this.subDiagram = GenericUtil.newInstance(e.subDiagram);
+        this.subDiagram = GenericUtils.newInstance(e.subDiagram);
     }
-     public boolean containsInterval(final Interval<T> interval) {
+    public boolean containsInterval(final Interval<T> interval) {
         for (Interval<T> item : intervals) {
             if (item.contains(interval)) {
                 return true;

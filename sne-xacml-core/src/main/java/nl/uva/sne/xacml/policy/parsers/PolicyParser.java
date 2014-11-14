@@ -22,26 +22,26 @@
  */
 package nl.uva.sne.xacml.policy.parsers;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.algorithms.CombiningAlgorithm;
 import nl.uva.sne.midd.builders.ConjunctiveBuilder;
 import nl.uva.sne.midd.builders.MIDDCombiner;
 import nl.uva.sne.midd.nodes.AbstractNode;
 import nl.uva.sne.midd.nodes.ExternalNode;
-import nl.uva.sne.midd.utils.GenericUtil;
+
+import nl.uva.sne.midd.util.GenericUtils;
 import nl.uva.sne.xacml.AttributeMapper;
 import nl.uva.sne.xacml.policy.parsers.util.CombiningAlgConverterUtil;
 import oasis.names.tc.xacml._3_0.core.schema.wd_17.AnyOfType;
 import oasis.names.tc.xacml._3_0.core.schema.wd_17.PolicyType;
 import oasis.names.tc.xacml._3_0.core.schema.wd_17.RuleType;
 import oasis.names.tc.xacml._3_0.core.schema.wd_17.TargetType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 public class PolicyParser {
     private static final Logger log = LoggerFactory.getLogger(PolicySetParser.class);
@@ -71,7 +71,7 @@ public class PolicyParser {
         if (condition == null) {
             this.preCondition = ExternalNode.newInstance();
         } else {
-            this.preCondition = GenericUtil.newInstance(condition);
+            this.preCondition = GenericUtils.newInstance(condition);
         }
     }
 

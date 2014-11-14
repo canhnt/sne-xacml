@@ -31,6 +31,7 @@ import nl.uva.sne.midd.nodes.InternalNode;
 import nl.uva.sne.midd.partition.Partition;
 import nl.uva.sne.midd.partition.PartitionBuilder;
 import nl.uva.sne.midd.util.EdgeUtils;
+import nl.uva.sne.midd.util.GenericUtils;
 import nl.uva.sne.midd.util.NodeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -154,11 +155,7 @@ public class ConjunctiveBuilder {
             if (op1 != null && op2 != null) {
                 child = join(op1, op2);
             } else if (op1 != null || op2 != null) {
-                try {
-                    child = (op1 == null) ? op2.clone() : op1.clone();
-                } catch (CloneNotSupportedException e) {
-                    e.printStackTrace();
-                }
+                child = (op1 == null) ? GenericUtils.newInstance(op2) : GenericUtils.newInstance(op1);
             } else {
                 throw new RuntimeException("Error joining two partitions, the output partition is incorrect");
             }

@@ -29,6 +29,7 @@ import nl.uva.sne.midd.builders.MIDDCombiner;
 import nl.uva.sne.midd.nodes.AbstractNode;
 import nl.uva.sne.midd.nodes.ExternalNode;
 import nl.uva.sne.midd.nodes.InternalNode;
+import nl.uva.sne.midd.util.GenericUtils;
 import nl.uva.sne.midd.util.MIDDUtils;
 import nl.uva.sne.xacml.AttributeMapper;
 import nl.uva.sne.xacml.policy.finder.PolicyFinder;
@@ -70,7 +71,7 @@ public class PolicySetParser {
      * @param attrMapper
      */
     public PolicySetParser(AbstractNode condition, PolicySetType policyset,
-                           AttributeMapper attrMapper) {
+                           AttributeMapper attrMapper) throws MIDDException {
         this(condition, policyset, attrMapper, null);
     }
 
@@ -79,7 +80,7 @@ public class PolicySetParser {
      * @param policy    a XACML 3.0 policy element.
      */
     public PolicySetParser(AbstractNode condition, PolicySetType policyset,
-                           AttributeMapper attrMapper, PolicyFinder policyFinder) {
+                           AttributeMapper attrMapper, PolicyFinder policyFinder) throws MIDDException {
         if (policyset == null) {
             throw new IllegalArgumentException("PolicySetType argument must not be null");
         }
@@ -97,11 +98,7 @@ public class PolicySetParser {
             this.preCondition = new ExternalNode();
         } else {
 //			this.preCondition = condition;
-            try {
-                this.preCondition = condition.clone();
-            } catch (CloneNotSupportedException e) {
-                e.printStackTrace();
-            }
+            this.preCondition = GenericUtils.newInstance(condition);
         }
     }
 
@@ -139,7 +136,7 @@ public class PolicySetParser {
     /**
      * Retrieve policy/policyset from the policy finder and add to the children policy or policyset lists
      *
-     * @param objValue
+     * @param idReference
      */
     private void addChildrenByRef(IdReferenceType idReference) {
         String id = idReference.getValue();

@@ -22,6 +22,7 @@
  */
 package nl.uva.sne.midd.util;
 
+import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.edges.AbstractEdge;
 import nl.uva.sne.midd.nodes.AbstractNode;
 import nl.uva.sne.midd.nodes.InternalNode;
@@ -32,7 +33,7 @@ import java.util.Set;
 import java.util.Stack;
 
 public class MIDDUtils {
-    public static int countNodes(InternalNode midd) {
+    public static int countNodes(InternalNode midd) throws MIDDException {
         Stack<InternalNode> stackNodes = new Stack<InternalNode>();
 
         stackNodes.push(midd);

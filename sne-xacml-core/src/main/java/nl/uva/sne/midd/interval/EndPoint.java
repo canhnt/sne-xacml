@@ -26,8 +26,7 @@ import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.util.GenericUtils;
 
 /**
- * @author Canh Ngo (t.c.ngo@uva.nl)
- * @date: Sep 17, 2012
+ * @author Canh Ngo
  */
 public class EndPoint<T extends Comparable<T>> implements Comparable<EndPoint<T>> {
 
@@ -50,7 +49,7 @@ public class EndPoint<T extends Comparable<T>> implements Comparable<EndPoint<T>
     public EndPoint(T value) throws MIDDException {
         this.fPositiveInfinity = false;
         this.fNegativeInfinity = false;
-        this.value = GenericUtils.createCopy(value);
+        this.value = GenericUtils.newInstance(value);
     }
 
     public EndPoint(EndPoint<T> p) throws MIDDException {
@@ -58,7 +57,7 @@ public class EndPoint<T extends Comparable<T>> implements Comparable<EndPoint<T>
         this.fPositiveInfinity = p.fPositiveInfinity;
 
         // Perform deep copy
-        this.value = GenericUtils.createCopy(p.value);
+        this.value = GenericUtils.newInstance(p.value);
     }
 
     @Override
@@ -114,10 +113,6 @@ public class EndPoint<T extends Comparable<T>> implements Comparable<EndPoint<T>
         return this.fPositiveInfinity;
     }
 
-    //	public T getValue() {
-//		return this.value;
-//	}
-//
     /* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
@@ -143,12 +138,6 @@ public class EndPoint<T extends Comparable<T>> implements Comparable<EndPoint<T>
         this.value = null;
     }
 
-    public void setValue(T value) throws MIDDException {
-        this.fPositiveInfinity = false;
-        this.fNegativeInfinity = false;
-        this.value = GenericUtils.createCopy(value);
-    }
-
     @SuppressWarnings("unchecked")
     @Override
     public String toString() {
@@ -163,32 +152,4 @@ public class EndPoint<T extends Comparable<T>> implements Comparable<EndPoint<T>
             return null;
         }
     }
-
-//	@Override
-//	public boolean equals(Object v) {
-//		if (v instanceof EndPoint) {
-//			EndPoint<T> p = (EndPoint<T>)v;
-//			
-//			if (this.fPositiveInfinity)
-//				return p.fPositiveInfinity;
-//			else if (this.fNegativeInfinity)
-//				return p.fNegativeInfinity;
-//			else
-//				return this.value.equals(p.value);			
-//		}
-//		return false;		
-//	}
-//	
-//	public int hashCode() {		
-//		if (this.value != null)
-//			return this.value.hashCode();
-//		else if (this.fNegativeInfinity)
-//			return this.fNegativeInfinity.hashCode();
-//		else if (this.fPositiveInfinity)
-//			return this.fPositiveInfinity.hashCode();
-//		else 
-//			throw new RuntimeException("Undetermined EndPoint value");
-//	}
-
-
 }
