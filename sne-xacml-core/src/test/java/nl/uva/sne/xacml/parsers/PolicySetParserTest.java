@@ -52,7 +52,7 @@ public class PolicySetParserTest {
     private static final String POLICYSET_FILE = "policies/sample-xacml3/continue-a-xacml3.xml";
 
     @Test
-    public void testParse() throws ParserConfigurationException, SAXException, IOException {
+    public void testParse() throws ParserConfigurationException, SAXException, IOException, MIDDException {
         PolicySetType policySet = XACMLUtil.unmarshalPolicySetType(POLICYSET_FILE);
         assertNotNull(policySet);
 
@@ -67,20 +67,14 @@ public class PolicySetParserTest {
 
             assertTrue(true);
             return;
-        } catch (XACMLParsingException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (MIDDParsingException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (MIDDException e) {
+        } catch (XACMLParsingException | MIDDParsingException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
         fail("Exceptions occured");
     }
 
-    public static int countNodes(InternalNode midd) {
+    public static int countNodes(InternalNode midd) throws MIDDException {
         Stack<InternalNode> stackNodes = new Stack<InternalNode>();
 
         stackNodes.push(midd);

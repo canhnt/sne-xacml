@@ -171,7 +171,7 @@ public class PDP {
         return variables;
     }
 
-    public void print(OutputStream os) {
+    public void print(OutputStream os) throws MIDDException {
         middRoot.print(os);
     }
 }

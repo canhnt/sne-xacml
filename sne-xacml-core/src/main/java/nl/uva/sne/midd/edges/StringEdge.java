@@ -29,6 +29,7 @@ package nl.uva.sne.midd.edges;
 
 import java.util.List;
 
+import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.interval.Interval;
 
 /**
@@ -38,18 +39,10 @@ import nl.uva.sne.midd.interval.Interval;
 public class StringEdge extends AbstractEdge<String> {
 
     /**
-     *
-     */
-//	public StringEdge() {
-//		// TODO Auto-generated constructor stub
-//	}
-
-    /**
      * @param interval
      */
-    public StringEdge(Interval<String> interval) {
+    public StringEdge(Interval<String> interval) throws MIDDException {
         super(interval);
-        // TODO Auto-generated constructor stub
     }
 
     /**
@@ -57,15 +50,16 @@ public class StringEdge extends AbstractEdge<String> {
      */
     public StringEdge(List<Interval<String>> intervals) {
         super(intervals);
-        // TODO Auto-generated constructor stub
     }
 
+    public StringEdge(StringEdge e) throws MIDDException {
+        super(e);
+    }
     /* (non-Javadoc)
      * @see nl.uva.sne.midd.AbstractEdge#getType()
      */
     @Override
     public Class<String> getType() {
-        // TODO Auto-generated method stub
         return String.class;
     }
 

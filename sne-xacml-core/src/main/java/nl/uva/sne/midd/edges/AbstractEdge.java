@@ -29,6 +29,7 @@ import java.util.List;
 import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.interval.Interval;
 import nl.uva.sne.midd.nodes.AbstractNode;
+import nl.uva.sne.midd.utils.GenericUtil;
 
 /**
  * An out-going edge from a node
@@ -49,28 +50,27 @@ public abstract class AbstractEdge<T extends Comparable<T>> {
     private AbstractNode subDiagram;
 
     private AbstractEdge() {
-        this.intervals = new ArrayList<Interval<T>>();
+        this.intervals = new ArrayList<>();
     }
 
-    public AbstractEdge(Interval<T> interval) {
+    public AbstractEdge(final Interval<T> interval) throws MIDDException {
         this();
-        this.intervals.add(interval);
+        this.intervals.add(new Interval<T>(interval));
     }
 
-    public AbstractEdge(List<Interval<T>> intervals) {
-        this();
-        this.intervals.addAll(intervals);
+    public AbstractEdge(final List<Interval<T>> intervals) {
+        this.intervals = new ArrayList<>(intervals);
     }
 
-    public void addInterval(Interval<T> interval) {
-        this.intervals.add(interval);
+    /**
+     * Copy constructor
+     * @param e
+     */
+    public AbstractEdge(AbstractEdge<T> e) throws MIDDException {
+        intervals = new ArrayList<>(e.intervals);
+        this.subDiagram = GenericUtil.newInstance(e.subDiagram);
     }
-
-    public void addInterval(List<Interval<T>> intervals) {
-        this.intervals.addAll(intervals);
-    }
-
-    public boolean containsInterval(Interval<T> interval) {
+     public boolean containsInterval(final Interval<T> interval) {
         for (Interval<T> item : intervals) {
             if (item.contains(interval)) {
                 return true;
@@ -86,7 +86,12 @@ public abstract class AbstractEdge<T extends Comparable<T>> {
         return Collections.unmodifiableList(this.intervals);
     }
 
-    public AbstractNode getSubDiagram() {
+    /**
+     * Return the mutable sub diagram of the edge.
+     *
+     * @return
+     */
+    public AbstractNode getSubDiagram() throws MIDDException {
         return this.subDiagram;
     }
 
@@ -98,7 +103,7 @@ public abstract class AbstractEdge<T extends Comparable<T>> {
      * @param value
      * @return
      */
-    public boolean match(T value) throws MIDDException {
+    public boolean match(final T value) throws MIDDException {
         for (Interval<T> interval : this.intervals) {
             if (interval.hasValue(value)) {
                 return true;
@@ -107,16 +112,22 @@ public abstract class AbstractEdge<T extends Comparable<T>> {
         return false;
     }
 
-    public void setChild(AbstractNode child) {
-        if (child == null) {
+    /**
+     * Set the referred node become the sub-diagram of the edge.
+     * Note: the child node is mutable
+     *
+     * @param node
+     */
+    public void setSubDiagram(AbstractNode node) {
+        if (node == null) {
             throw new IllegalArgumentException("child argument must not be null");
         }
-        this.subDiagram = child;
+        this.subDiagram = node;
     }
 
     @Override
     public String toString() {
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         buffer.append("{");
         for (Interval i : this.intervals) {
             buffer.append(i.toString());

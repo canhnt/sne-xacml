@@ -1,5 +1,8 @@
 SNE-XACML
 =========
+[![Build Status](https://travis-ci.org/canhnt/sne-xacml.svg?branch=master)](http://travis-ci.org/canhnt/sne-xacml)
+[![Coverage Status](https://img.shields.io/coveralls/canhnt/sne-xacml.svg)](https://coveralls.io/r/canhnt/sne-xacml)
+
 A high performance XACML 3.0 PDP Engine.
 
 SNE-XACML engine applies Multi-data-type Interval Decision Diagram (MIDD) techniques to parse and transform OASIS XACML v3.0 policies into decision diagrams, which can substantially improve evaluation performance.

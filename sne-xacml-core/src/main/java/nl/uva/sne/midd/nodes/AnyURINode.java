@@ -23,6 +23,7 @@
 package nl.uva.sne.midd.nodes;
 
 import nl.uva.sne.midd.DecisionType;
+import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.datatype.AnyURI;
 import nl.uva.sne.midd.obligations.InternalNodeState;
 
@@ -36,6 +37,9 @@ public class AnyURINode extends InternalNode<AnyURI> {
         super(id, state);
     }
 
+    public AnyURINode(AnyURINode node) throws MIDDException {
+        super(node);
+    }
     @Override
     public Class<?> getType() {
         return AnyURI.class;

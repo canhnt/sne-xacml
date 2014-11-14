@@ -14,7 +14,12 @@
     <name>SNE XACML Core</name>
 
     <dependencies>
-        <dependency>
+      <dependency>
+        <groupId>com.google.guava</groupId>
+        <artifactId>guava</artifactId>
+        <version>${guava.version}</version>
+      </dependency>
+      <dependency>
             <groupId>com.sun.xml.bind</groupId>
             <artifactId>jaxb-osgi</artifactId>
             <version>${jaxb-osgi.version}</version>

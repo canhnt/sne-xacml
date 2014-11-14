@@ -61,7 +61,7 @@ public class PolicyParserTest {
 
 
     @Test
-    public void testParse() throws ParserConfigurationException, SAXException, IOException {
+    public void testParse() throws ParserConfigurationException, SAXException, IOException, MIDDException {
         PolicyType policy = XACMLUtil.unmarshalPolicyType(POLICY_FILE);
         XACMLUtil.print((new ObjectFactory().createPolicy(policy)), PolicyType.class, System.out);
 
@@ -76,20 +76,14 @@ public class PolicyParserTest {
             System.out.println("Number of nodes:" + countNodes((InternalNode) root));
             assertTrue(true);
             return;
-        } catch (XACMLParsingException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (MIDDParsingException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (MIDDException e) {
+        } catch (XACMLParsingException | MIDDParsingException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        fail("Exceptions occured");
+        fail("Exceptions occurred");
     }
 
-    public static int countNodes(InternalNode midd) {
+    public static int countNodes(InternalNode midd) throws MIDDException {
         Stack<InternalNode> stackNodes = new Stack<InternalNode>();
 
         stackNodes.push(midd);

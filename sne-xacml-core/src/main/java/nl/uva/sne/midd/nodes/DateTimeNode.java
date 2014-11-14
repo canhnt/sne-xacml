@@ -23,6 +23,7 @@
 package nl.uva.sne.midd.nodes;
 
 import nl.uva.sne.midd.DecisionType;
+import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.datatype.XMLDateTime;
 import nl.uva.sne.midd.obligations.InternalNodeState;
 
@@ -36,6 +37,9 @@ public class DateTimeNode extends InternalNode<XMLDateTime> {
         super(id, state);
     }
 
+    public DateTimeNode(DateTimeNode node) throws MIDDException {
+        super(node);
+    }
     @Override
     public Class<?> getType() {
         return XMLDateTime.class;

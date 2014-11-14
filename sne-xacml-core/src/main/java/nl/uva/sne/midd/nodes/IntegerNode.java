@@ -28,6 +28,7 @@
 package nl.uva.sne.midd.nodes;
 
 import nl.uva.sne.midd.DecisionType;
+import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.obligations.InternalNodeState;
 
 /**
@@ -41,6 +42,10 @@ public class IntegerNode extends InternalNode<Integer> {
 
     public IntegerNode(int id, InternalNodeState state) {
         super(id, state);
+    }
+
+    public IntegerNode(IntegerNode node) throws MIDDException {
+        super(node);
     }
 
     @Override

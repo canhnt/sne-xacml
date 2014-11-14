@@ -23,6 +23,7 @@
 package nl.uva.sne.midd.nodes;
 
 import nl.uva.sne.midd.DecisionType;
+import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.obligations.InternalNodeState;
 
 public class BooleanNode extends InternalNode<Boolean> {
@@ -35,6 +36,9 @@ public class BooleanNode extends InternalNode<Boolean> {
         super(id, state);
     }
 
+    public BooleanNode(BooleanNode node) throws MIDDException {
+        super(node);
+    }
 
     @Override
     public Class<?> getType() {
