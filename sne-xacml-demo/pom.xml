@@ -36,8 +36,8 @@
 
     <repositories>
         <repository>
-            <id>private-sne-repo-snapshots</id>
-            <url>http://staff.science.uva.nl/~tngo1/maven2/snapshots</url>
+            <id>sunxacml-sourceforge</id>
+            <url>http://sourceforge.net/projects/sunxacml/files/maven/releases</url>
         </repository>
     </repositories>
 </project>
