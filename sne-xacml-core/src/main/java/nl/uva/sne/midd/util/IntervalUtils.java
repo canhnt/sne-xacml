@@ -1,4 +1,4 @@
-/**
+/*
  * SNE-XACML: A high performance XACML evaluation engine.
  *
  * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
@@ -20,11 +20,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301 USA
  */
-/**
- * System and Network Engineering Group
- * University of Amsterdam
- *
- */
 package nl.uva.sne.midd.util;
 
 import nl.uva.sne.midd.MIDDException;
@@ -34,6 +29,9 @@ import nl.uva.sne.midd.interval.Interval;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Canh Ngo
+ */
 public class IntervalUtils {
 
     /**
@@ -50,7 +48,6 @@ public class IntervalUtils {
         List<Interval> op1 = new ArrayList<Interval>();
         op1.add(w);
 
-
         for (Interval op2 : intervals) {
             List<Interval> result = new ArrayList<Interval>();
 
@@ -66,9 +63,6 @@ public class IntervalUtils {
             }
             op1 = result;
         }
-
         return op1;
     }
-
-
 }

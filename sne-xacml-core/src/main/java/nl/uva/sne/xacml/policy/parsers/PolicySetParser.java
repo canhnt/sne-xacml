@@ -47,7 +47,7 @@ import java.util.List;
  * Create MIDD from a XACML 3.0 PolicySet element.
  */
 public class PolicySetParser {
-    private static final Logger logger = LoggerFactory.getLogger(PolicySetParser.class);
+    private static final Logger log = LoggerFactory.getLogger(PolicySetParser.class);
 
     private PolicySetType policyset;
 
@@ -104,7 +104,7 @@ public class PolicySetParser {
 
     private AbstractNode combinePolicyMIDDs(List<AbstractNode> lstMIDDs,
                                             CombiningAlgorithm pca) throws MIDDException {
-        System.out.println("Combining policy set " + this.policyset.getPolicySetId());
+        log.debug("Combining policy set " + this.policyset.getPolicySetId());
         MIDDCombiner combiner = new MIDDCombiner(pca);
 
         Iterator<AbstractNode> it = lstMIDDs.iterator();
@@ -116,16 +116,16 @@ public class PolicySetParser {
                 root = n;
             } else {
                 if (root instanceof InternalNode) {
-                    System.out.println("root size:" + MIDDUtils.countNodes((InternalNode) root));
+                    log.debug("root size:" + MIDDUtils.countNodes((InternalNode) root));
                 }
                 if (n instanceof InternalNode) {
-                    System.out.println("child midd size:" + MIDDUtils.countNodes((InternalNode) n));
+                    log.debug("child midd size:" + MIDDUtils.countNodes((InternalNode) n));
                 }
 
                 root = combiner.combine(root, n);
 
                 if (root instanceof InternalNode) {
-                    System.out.println("Combined midd size:" + MIDDUtils.countNodes((InternalNode) root));
+                    log.debug("Combined midd size:" + MIDDUtils.countNodes((InternalNode) root));
                 }
 
             }
@@ -141,7 +141,7 @@ public class PolicySetParser {
     private void addChildrenByRef(IdReferenceType idReference) {
         String id = idReference.getValue();
         if (id == null || id.isEmpty()) {
-            logger.debug("Invalid reference to policy or policyset ");
+            log.debug("Invalid reference to policy or policyset ");
             return;
         }
 
@@ -150,7 +150,7 @@ public class PolicySetParser {
         if (obj instanceof PolicyType || obj instanceof PolicySetType) {
             children.add(obj);
         } else {
-            logger.debug("No policy/policyset found for the reference " + id);
+            log.debug("No policy/policyset found for the reference " + id);
         }
     }
 
@@ -161,7 +161,7 @@ public class PolicySetParser {
             throw new XACMLParsingException("No children policy/policyset found in the policyset " + policyset.getPolicySetId());
         }
 
-        children = new ArrayList<Object>();
+        children = new ArrayList<>();
 
         for (JAXBElement<?> obj : objs) {
             if (obj != null) {
@@ -172,11 +172,11 @@ public class PolicySetParser {
                     if (policyFinder != null) {
                         addChildrenByRef((IdReferenceType) objValue);
                     } else {
-                        logger.debug("No policy finder found to lookup reference in the policy: " + policyset.getPolicySetId());
+                        log.debug("No policy finder found to lookup reference in the policy: " + policyset.getPolicySetId());
                     }
                 } else {
                     // we ignore other types in this version: e.g. references to rule
-                    logger.info("Unsupported object type:" + objValue.getClass() + "inside the policyset '" + policyset.getPolicySetId() + "'");
+                    log.info("Unsupported object type:" + objValue.getClass() + "inside the policyset '" + policyset.getPolicySetId() + "'");
                 }
             }
         }
@@ -240,7 +240,7 @@ public class PolicySetParser {
                 // return the MIDD with XACML decisions at the external nodes
                 AbstractNode xacmlMIDD = psParser.parse();
                 if (xacmlMIDD == null) {// a never-applicable rule
-                    System.err.println("Found a non-transformable MIDD policy set:" + polset.getPolicySetId());
+                    log.error("Found a non-transformable MIDD policy set:" + polset.getPolicySetId());
                 } else {
                     lstMIDDs.add(xacmlMIDD);
                 }

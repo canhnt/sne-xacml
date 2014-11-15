@@ -1,4 +1,4 @@
-/**
+/*
  * SNE-XACML: A high performance XACML evaluation engine.
  *
  * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
@@ -28,30 +28,37 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
 /**
- * @author cngo
- * @version $Id$
+ * @author Canh Ngo
  * @since 2014-07-04
  */
 public class GenericUtils {
 
     @SuppressWarnings("unchecked")
-    public static <T> T newInstance(final T value, Class<?> clazz) throws MIDDException {
+    public static <T> T newInstance(final T value, Class<?> clsType) throws MIDDException {
         if (value == null) {
             throw new MIDDException("Cannot copy null value");
         }
 
         Constructor<?> copyConstructor = null;
         try {
-            copyConstructor = clazz.getConstructor(clazz);
+            copyConstructor = clsType.getConstructor(clsType);
             return (T) copyConstructor.newInstance(value);
         } catch (InvocationTargetException | InstantiationException | IllegalAccessException e) {
-            throw new MIDDException("Failed to construct class " + clazz.toString(), e);
+            throw new MIDDException("Failed to construct class " + clsType.toString(), e);
         } catch (NoSuchMethodException e) {
-            // use shallow copy
+            // use shallow copy if no copy constructor is found
             return value;
         }
     }
 
+    /**
+     * Create a new object of type <code>T</code>, which is cloned from <code>value</code>.
+     * The equivalent class copy constructor is invoked.
+     * @param value
+     * @param <T>
+     * @return
+     * @throws MIDDException
+     */
     public static <T> T newInstance(final T value) throws MIDDException {
         if (value == null) {
 //            throw new MIDDException("Cannot copy null value");

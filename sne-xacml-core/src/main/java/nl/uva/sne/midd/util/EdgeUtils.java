@@ -1,4 +1,4 @@
-/**
+/*
  * SNE-XACML: A high performance XACML evaluation engine.
  *
  * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
@@ -24,16 +24,14 @@ package nl.uva.sne.midd.util;
 
 import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.datatype.AnyURI;
+import nl.uva.sne.midd.datatype.XMLDateTime;
 import nl.uva.sne.midd.edges.*;
 import nl.uva.sne.midd.interval.Interval;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Utility class to create edges.
@@ -50,6 +48,8 @@ public class EdgeUtils {
         MAP_EDGE_TYPES.put(Double.class, DoubleEdge.class);
         MAP_EDGE_TYPES.put(String.class, StringEdge.class);
         MAP_EDGE_TYPES.put(AnyURI.class, AnyURIEdge.class);
+        MAP_EDGE_TYPES.put(Boolean.class, BooleanEdge.class);
+        MAP_EDGE_TYPES.put(XMLDateTime.class, DateTimeEdge.class);
     }
 
     public static AbstractEdge<?> cloneEdge(AbstractEdge<?> e) throws MIDDException {
@@ -59,6 +59,21 @@ public class EdgeUtils {
         return createEdge(intervals, clsType);
     }
 
+    /**
+     * Create an out-going edge for the variable data type <code>clsDataType</code> and
+     * with the predicate be the <code>interval</code>.
+     *
+     * @param interval
+     * @param clsDataType
+     * @return
+     * @throws MIDDException  if the equivalent edge class type or the constructor are not found
+     *
+     * @see nl.uva.sne.midd.edges.BooleanEdge
+     * @see nl.uva.sne.midd.edges.DateTimeEdge
+     * @see nl.uva.sne.midd.edges.DoubleEdge
+     * @see nl.uva.sne.midd.edges.IntegerEdge
+     * @see nl.uva.sne.midd.edges.StringEdge
+     */
     public static AbstractEdge<?> createEdge(Interval interval, Class<?> clsDataType) throws MIDDException {
         Class<? extends AbstractEdge> edgeClsType = getEdgeClassType(clsDataType);
         try {
@@ -72,6 +87,12 @@ public class EdgeUtils {
         throw new MIDDException("Unsupported data type to create edge of type " + clsDataType.getName());
     }
 
+    /**
+     * Similar to {@link #createEdge} with the data type is retrieved from <code>interval</code>
+     * @param interval
+     * @return
+     * @throws MIDDException
+     */
     public static AbstractEdge<?> createEdge(Interval<?> interval) throws MIDDException {
         return createEdge(interval, interval.getType());
     }
@@ -85,17 +106,18 @@ public class EdgeUtils {
     }
 
     /**
-     * Return the new edge created from the list of intervals.
+     * Create an out-going edge for the variable data type <code>clsDataType</code> and
+     * with the predicate be the list of intervals.
      *
-     * @param intervals
-     * @param type
+     * @param intervals list of intervals using as the edge's predicate
+     * @param clsDataType
      * @param <T>
      * @return
      * @throws nl.uva.sne.midd.MIDDException
      */
     @SuppressWarnings("unchecked")
-    public static <T extends Comparable<T>> AbstractEdge<?> createEdge(List<? extends Interval> intervals, Class<?> type) throws MIDDException {
-        Class<AbstractEdge<T>> clsEdgeType = (Class<AbstractEdge<T>>) getEdgeClassType(type);
+    public static <T extends Comparable<T>> AbstractEdge<?> createEdge(List<? extends Interval> intervals, Class<?> clsDataType) throws MIDDException {
+        Class<AbstractEdge<T>> clsEdgeType = (Class<AbstractEdge<T>>) getEdgeClassType(clsDataType);
         List<Interval<T>> lst = new ArrayList<>();
         for(Interval i : intervals) {
             lst.add(new Interval<T>(i));
@@ -104,11 +126,11 @@ public class EdgeUtils {
             Constructor<AbstractEdge<T>> constructor = clsEdgeType.getConstructor(List.class);
             return constructor.newInstance(lst);
         } catch (NoSuchMethodException e) {
-            log.error("Cannot find the constructor for the class {}", type.getName(), e);
+            log.error("Cannot find the constructor for the class {}", clsDataType.getName(), e);
         } catch (InvocationTargetException | InstantiationException | IllegalAccessException e) {
-            log.error("Failed to construct object of type '{}'", type.getName(), e);
+            log.error("Failed to construct object of type '{}'", clsDataType.getName(), e);
         }
 
-        throw new MIDDException("Unsupported data type to create edge of type " + type.getName());
+        throw new MIDDException("Unsupported data type to create edge of type " + clsDataType.getName());
     }
 }

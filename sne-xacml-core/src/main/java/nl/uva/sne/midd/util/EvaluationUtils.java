@@ -1,4 +1,4 @@
-/**
+/*
  * SNE-XACML: A high performance XACML evaluation engine.
  *
  * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
@@ -19,11 +19,6 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301 USA
- */
-/**
- * System and Network Engineering Group
- * University of Amsterdam
- *
  */
 package nl.uva.sne.midd.util;
 
@@ -46,11 +41,11 @@ public class EvaluationUtils {
     /**
      * Evaluate a map of attributes (from id to variable) against a multitype interval decision diagram (MIDD).
      *
-     * @param midd      The DAG which has its root is the first attribute (x0)
-     * @param variables Vector of attributes, starting from x0. If there's missing any attribute, its value is null.
+     * @param midd  the DAG which has its root is the first attribute (x0)
+     * @param variables vector of attributes, starting from x0. If there's missing any attribute, its value is null.
      * @return The external node that holds effect value and obligations (optional).
      */
-    @SuppressWarnings({"unchecked", "rawtypes"})
+    @SuppressWarnings({"unchecked"})
     public static Decision eval(InternalNode<?> midd, Map<Integer, Variable<?>> variables) {
         AbstractNode currentNode = midd;
 
@@ -75,9 +70,6 @@ public class EvaluationUtils {
                 AbstractEdge<?> e = currentInternalNode.match(currentVar.getValue());
                 currentNode = e.getSubDiagram();
             } catch (UnmatchedException ex) {
-//				System.out.println(ex.getMessage() + ": variable-id=" + currentVar.getID());
-//				value unmatched, return NotAvailable result
-//				return new Decision(DecisionType.NotApplicable);
                 return currentInternalNode.buildDecision();
             } catch (MIDDException e) {
                 throw new RuntimeException(e);
@@ -90,7 +82,7 @@ public class EvaluationUtils {
         return ((ExternalNode3) currentNode).buildDecision();
     }
 
-    public static <T extends Comparable<T>> Variable<?> createVariable(int id, T value, Class<T> type) {
-        return new Variable<T>(id, value, type);
+    private static <T extends Comparable<T>> Variable<?> createVariable(int id, T value, Class<T> type) {
+        return new Variable<>(id, value, type);
     }
 }

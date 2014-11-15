@@ -25,6 +25,7 @@ package nl.uva.sne.midd.util;
 
 import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.datatype.AnyURI;
+import nl.uva.sne.midd.datatype.XMLDateTime;
 import nl.uva.sne.midd.nodes.*;
 import nl.uva.sne.midd.obligations.InternalNodeState;
 import org.slf4j.LoggerFactory;
@@ -39,6 +40,7 @@ import java.util.Map;
  */
 public class NodeUtils {
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(NodeUtils.class);
+
     /**
      * Mapping from data types to node types
      */
@@ -49,8 +51,28 @@ public class NodeUtils {
         MAP_NODE_TYPES.put(Double.class, DoubleNode.class);
         MAP_NODE_TYPES.put(String.class, StringNode.class);
         MAP_NODE_TYPES.put(AnyURI.class, AnyURINode.class);
+        MAP_NODE_TYPES.put(Boolean.class, BooleanNode.class);
+        MAP_NODE_TYPES.put(XMLDateTime.class, DateTimeNode.class);
+
     }
 
+    /**
+     * Create an internal node object of type <code>clsDataType</code>.
+     *
+     * @param id  the variable id in the node
+     * @param state internal node state
+     * @param clsDataType data type of the variable in the node
+     * @return
+     * @throws MIDDException
+     *
+     * @see InternalNodeState
+     * @see BooleanNode
+     * @see DateTimeNode
+     * @see DoubleNode
+     * @see IntegerNode
+     * @see StringNode
+     *
+     */
     public static InternalNode<?> createInternalNode(int id, InternalNodeState state, Class<?> clsDataType) throws MIDDException {
         Class<? extends InternalNode> nodeClsType = getNodeClassType(clsDataType);
         try {
@@ -73,7 +95,16 @@ public class NodeUtils {
         }
     }
 
-    public static InternalNode<?> createInternalNode(InternalNode<?> n1, Class<?> type) throws MIDDException {
-        return createInternalNode(n1.getID(), n1.getState(), type);
+    /**
+     * Create an internal node object of type <code>clsDataType</code>. The node id and node state are taken from
+     * node <code>n</code>
+     *
+     * @param n
+     * @param clsDataType
+     * @return
+     * @throws MIDDException
+     */
+    public static InternalNode<?> createInternalNode(InternalNode<?> n, Class<?> clsDataType) throws MIDDException {
+        return createInternalNode(n.getID(), n.getState(), clsDataType);
     }
 }
