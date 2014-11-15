@@ -1,4 +1,4 @@
-/**
+/*
  * SNE-XACML: A high performance XACML evaluation engine.
  *
  * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
@@ -27,13 +27,13 @@
  */
 package nl.uva.sne.midd;
 
+import nl.uva.sne.midd.obligations.Obligation;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import nl.uva.sne.midd.obligations.Obligation;
-
 /**
- * @author Canh Ngo (t.c.ngo@uva.nl)
+ * @author Canh Ngo
  * @since: Sep 20, 2012
  */
 public class Decision {

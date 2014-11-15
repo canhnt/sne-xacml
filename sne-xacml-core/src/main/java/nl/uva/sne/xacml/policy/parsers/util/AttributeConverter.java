@@ -1,4 +1,4 @@
-/**
+/*
  * SNE-XACML: A high performance XACML evaluation engine.
  *
  * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
@@ -22,14 +22,14 @@
  */
 package nl.uva.sne.xacml.policy.parsers.util;
 
-import java.util.List;
-
 import nl.uva.sne.midd.Variable;
 import nl.uva.sne.xacml.AttributeMapper;
 import nl.uva.sne.xacml.policy.parsers.MIDDParsingException;
 import nl.uva.sne.xacml.policy.parsers.XACMLParsingException;
 import oasis.names.tc.xacml._3_0.core.schema.wd_17.AttributeType;
 import oasis.names.tc.xacml._3_0.core.schema.wd_17.AttributeValueType;
+
+import java.util.List;
 
 public class AttributeConverter {
 

@@ -1,4 +1,4 @@
-/**
+/*
  * SNE-XACML: A high performance XACML evaluation engine.
  *
  * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
@@ -27,21 +27,16 @@
  */
 package nl.uva.sne.midd.partition;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.interval.EndPoint;
 import nl.uva.sne.midd.interval.Interval;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.*;
 
 /**
- * @author Canh Ngo (t.c.ngo@uva.nl)
+ * @author Canh Ngo
  * @date: Sep 17, 2012
  */
 public class PartitionBuilder {

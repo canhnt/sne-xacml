@@ -1,4 +1,4 @@
-/**
+/*
  * SNE-XACML: A high performance XACML evaluation engine.
  *
  * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
@@ -30,9 +30,6 @@ public class MIDDParsingException extends MIDDException {
         super(string);
     }
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 5282038744403047245L;
 
 }

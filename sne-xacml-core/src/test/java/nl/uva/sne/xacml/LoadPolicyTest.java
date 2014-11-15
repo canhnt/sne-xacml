@@ -1,4 +1,4 @@
-/**
+/*
  * SNE-XACML: A high performance XACML evaluation engine.
  *
  * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
@@ -23,20 +23,18 @@
 package nl.uva.sne.xacml;
 
 
-import java.io.IOException;
+import nl.uva.sne.xacml.util.XACMLUtil;
+import oasis.names.tc.xacml._3_0.core.schema.wd_17.PolicySetType;
+import oasis.names.tc.xacml._3_0.core.schema.wd_17.PolicyType;
+import org.junit.Test;
+import org.xml.sax.SAXException;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.parsers.ParserConfigurationException;
-
-import org.junit.Test;
-import org.xml.sax.SAXException;
-
-import nl.uva.sne.xacml.util.XACMLUtil;
-import oasis.names.tc.xacml._3_0.core.schema.wd_17.PolicySetType;
-import oasis.names.tc.xacml._3_0.core.schema.wd_17.PolicyType;
+import java.io.IOException;
 
 
 public class LoadPolicyTest {

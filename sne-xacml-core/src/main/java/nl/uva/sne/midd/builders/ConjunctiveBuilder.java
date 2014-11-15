@@ -39,7 +39,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Join two MIDD using conjunctive operator.
  *
- * @author canhnt
+ * @author Canh Ngo
  */
 public class ConjunctiveBuilder {
     private static final Logger log = LoggerFactory.getLogger(ConjunctiveBuilder.class);

@@ -23,15 +23,6 @@
 
 package nl.uva.sne.midd.nodes;
 
-import java.io.OutputStream;
-import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.List;
-
-import nl.uva.sne.midd.util.GenericUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import nl.uva.sne.midd.Decision;
 import nl.uva.sne.midd.DecisionType;
 import nl.uva.sne.midd.MIDDException;
@@ -39,6 +30,14 @@ import nl.uva.sne.midd.UnmatchedException;
 import nl.uva.sne.midd.edges.AbstractEdge;
 import nl.uva.sne.midd.interval.Interval;
 import nl.uva.sne.midd.obligations.InternalNodeState;
+import nl.uva.sne.midd.util.GenericUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.OutputStream;
+import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Canh Ngo

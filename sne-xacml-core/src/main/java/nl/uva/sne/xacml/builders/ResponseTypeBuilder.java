@@ -1,4 +1,4 @@
-/**
+/*
  * SNE-XACML: A high performance XACML evaluation engine.
  *
  * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
@@ -22,20 +22,13 @@
  */
 package nl.uva.sne.xacml.builders;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import nl.uva.sne.midd.Decision;
 import nl.uva.sne.midd.DecisionType;
 import nl.uva.sne.midd.obligations.Obligation;
 import nl.uva.sne.xacml.policy.parsers.util.DecisionConverterUtil;
-import oasis.names.tc.xacml._3_0.core.schema.wd_17.ObjectFactory;
-import oasis.names.tc.xacml._3_0.core.schema.wd_17.ObligationType;
-import oasis.names.tc.xacml._3_0.core.schema.wd_17.ObligationsType;
-import oasis.names.tc.xacml._3_0.core.schema.wd_17.ResponseType;
-import oasis.names.tc.xacml._3_0.core.schema.wd_17.ResultType;
-import oasis.names.tc.xacml._3_0.core.schema.wd_17.StatusCodeType;
-import oasis.names.tc.xacml._3_0.core.schema.wd_17.StatusType;
+import oasis.names.tc.xacml._3_0.core.schema.wd_17.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ResponseTypeBuilder {
     private static final Logger logger = LoggerFactory.getLogger(ResponseTypeBuilder.class);

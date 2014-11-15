@@ -1,4 +1,4 @@
-/**
+/*
  * SNE-XACML demo project: illustrate how to use SNE-XACML engine.
  *
  * Copyright (C) 2013 Canh T. Ngo <canhnt@gmail.com>
@@ -22,22 +22,6 @@
  */
 package nl.uva.sne.xacml.evaltest;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-import java.util.logging.LogManager;
-import java.util.logging.Logger;
-
-import javax.xml.parsers.ParserConfigurationException;
-
 import com.sun.xacml.PDP;
 import com.sun.xacml.PDPConfig;
 import com.sun.xacml.UnknownIdentifierException;
@@ -52,24 +36,28 @@ import com.sun.xacml.finder.impl.CurrentEnvModule;
 import com.sun.xacml.finder.impl.SelectorModule;
 import com.sun.xacml.support.finder.StaticPolicyFinderModule;
 import com.sun.xacml.support.finder.StaticRefPolicyFinderModule;
-
-import static org.junit.Assert.*;
-
-import nl.uva.sne.xacml.evaltest.sunxacml.RequestGenerator23;
-import org.junit.Test;
-import org.xml.sax.SAXException;
-
-import nl.uva.sne.xacml.evaltest.sunxacml.SunXACMLUtil;
 import nl.uva.sne.midd.MIDDException;
+import nl.uva.sne.xacml.evaltest.sunxacml.RequestGenerator23;
+import nl.uva.sne.xacml.evaltest.sunxacml.SunXACMLUtil;
 import nl.uva.sne.xacml.policy.parsers.MIDDParsingException;
 import nl.uva.sne.xacml.policy.parsers.XACMLParsingException;
 import nl.uva.sne.xacml.util.XACMLUtil;
 import oasis.names.tc.xacml._2_0.context.schema.os.RequestType;
-import oasis.names.tc.xacml._3_0.core.schema.wd_17.DecisionType;
-import oasis.names.tc.xacml._3_0.core.schema.wd_17.ObjectFactory;
-import oasis.names.tc.xacml._3_0.core.schema.wd_17.PolicySetType;
-import oasis.names.tc.xacml._3_0.core.schema.wd_17.ResponseType;
-import oasis.names.tc.xacml._3_0.core.schema.wd_17.ResultType;
+import oasis.names.tc.xacml._3_0.core.schema.wd_17.*;
+import org.junit.Test;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.net.URISyntaxException;
+import java.util.*;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
+
+import static org.junit.Assert.assertTrue;
 
 public class SNEXACMLValidationTest {
     public static final String[] STATIC_XACML2_POLICIES = {

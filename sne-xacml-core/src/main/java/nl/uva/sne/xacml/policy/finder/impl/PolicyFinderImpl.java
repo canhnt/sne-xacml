@@ -1,4 +1,4 @@
-/**
+/*
  * SNE-XACML: A high performance XACML evaluation engine.
  *
  * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
@@ -22,10 +22,10 @@
  */
 package nl.uva.sne.xacml.policy.finder.impl;
 
+import nl.uva.sne.xacml.policy.finder.PolicyFinder;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import nl.uva.sne.xacml.policy.finder.PolicyFinder;
 
 public class PolicyFinderImpl implements PolicyFinder {
 

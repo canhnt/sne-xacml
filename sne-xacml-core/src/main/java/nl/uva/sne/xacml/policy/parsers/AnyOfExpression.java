@@ -47,7 +47,7 @@ import java.util.*;
  * <p/>
  * AnyOfType := SEQUENCE_OF<AllOfType>
  *
- * @author Canh Ngo (t.c.ngo@uva.nl)
+ * @author Canh Ngo
  * @date: Sep 27, 2012
  */
 public class AnyOfExpression {

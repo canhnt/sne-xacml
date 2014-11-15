@@ -1,4 +1,4 @@
-/**
+/*
  * SNE-XACML: A high performance XACML evaluation engine.
  *
  * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
@@ -22,12 +22,7 @@
  */
 package nl.uva.sne.xacml.policy.parsers.util;
 
-import nl.uva.sne.midd.algorithms.CombiningAlgorithm;
-import nl.uva.sne.midd.algorithms.DenyOverridesAlg;
-import nl.uva.sne.midd.algorithms.DenyUnlessPermitAlg;
-import nl.uva.sne.midd.algorithms.FirstApplicableAlg;
-import nl.uva.sne.midd.algorithms.PermitOverridesAlg;
-import nl.uva.sne.midd.algorithms.PermitUnlessDenyAlg;
+import nl.uva.sne.midd.algorithms.*;
 import nl.uva.sne.xacml.policy.parsers.XACMLParsingException;
 
 public class CombiningAlgConverterUtil {

@@ -1,4 +1,4 @@
-/**
+/*
  * SNE-XACML: A high performance XACML evaluation engine.
  *
  * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
@@ -28,9 +28,6 @@ public class PDPException extends RuntimeException {
         super(string);
     }
 
-    /**
-     *
-     */
     private static final long serialVersionUID = -753468369118036246L;
 
 }

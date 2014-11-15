@@ -1,4 +1,4 @@
-/**
+/*
  * SNE-XACML: A high performance XACML evaluation engine.
  *
  * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
@@ -22,19 +22,19 @@
  */
 package nl.uva.sne.midd.edges;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.interval.Interval;
 import nl.uva.sne.midd.nodes.AbstractNode;
 import nl.uva.sne.midd.util.GenericUtils;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * An out-going edge from a node
  *
- * @author Canh Ngo (t.c.ngo@uva.nl)
+ * @author Canh Ngo
  * @date: Aug 9, 2012
  */
 public abstract class AbstractEdge<T extends Comparable<T>> {

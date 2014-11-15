@@ -1,4 +1,4 @@
-/**
+/*
  * SNE-XACML: A high performance XACML evaluation engine.
  *
  * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
@@ -20,13 +20,11 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301 USA
  */
-/**
- *
- */
+
 package nl.uva.sne.xacml.policy.finder;
 
 /**
- * @author canhnt
+ * @author Canh Ngo
  */
 public interface PolicyFinder {
     Object lookup(String id);

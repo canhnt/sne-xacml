@@ -1,4 +1,4 @@
-/**
+/*
  * SNE-XACML demo project: illustrate how to use SNE-XACML engine.
  * 
  * Copyright (C) 2013 Canh T. Ngo <canhnt@gmail.com>
@@ -23,20 +23,9 @@
 
 package nl.uva.sne.xacml.evaltest.sunxacml;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import oasis.names.tc.xacml._2_0.context.schema.os.*;
 
-import oasis.names.tc.xacml._2_0.context.schema.os.ActionType;
-import oasis.names.tc.xacml._2_0.context.schema.os.AttributeType;
-import oasis.names.tc.xacml._2_0.context.schema.os.AttributeValueType;
-import oasis.names.tc.xacml._2_0.context.schema.os.EnvironmentType;
-import oasis.names.tc.xacml._2_0.context.schema.os.ObjectFactory;
-import oasis.names.tc.xacml._2_0.context.schema.os.RequestType;
-import oasis.names.tc.xacml._2_0.context.schema.os.ResourceType;
-import oasis.names.tc.xacml._2_0.context.schema.os.SubjectType;
+import java.util.*;
 
 /**
  * Generate XACML request v2.0

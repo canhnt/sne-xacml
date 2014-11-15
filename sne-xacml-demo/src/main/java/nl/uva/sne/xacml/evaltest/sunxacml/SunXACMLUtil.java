@@ -1,4 +1,4 @@
-/**
+/*
  * SNE-XACML demo project: illustrate how to use SNE-XACML engine.
  * 
  * Copyright (C) 2013 Canh T. Ngo <canhnt@gmail.com>
@@ -23,32 +23,21 @@
 
 package nl.uva.sne.xacml.evaltest.sunxacml;
 
-import java.io.IOException;
-import java.io.StringWriter;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.TransformerFactoryConfigurationError;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-
 import oasis.names.tc.xacml._2_0.context.schema.os.ObjectFactory;
 import oasis.names.tc.xacml._2_0.context.schema.os.RequestType;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
+
+import javax.xml.bind.*;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.*;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import java.io.IOException;
+import java.io.StringWriter;
 
 /**
  * Convert from OpenSAML datatypes to SunXACML datatypes

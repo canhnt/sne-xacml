@@ -1,4 +1,4 @@
-/**
+/*
  * SNE-XACML: A high performance XACML evaluation engine.
  *
  * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
@@ -27,16 +27,16 @@
  */
 package nl.uva.sne.xacml;
 
-import java.io.OutputStream;
-import java.io.PrintStream;
-import java.util.ArrayList;
-import java.util.List;
-
 import nl.uva.sne.midd.Decision;
 import nl.uva.sne.midd.DecisionType;
 import nl.uva.sne.midd.nodes.ExternalNode;
 import nl.uva.sne.midd.obligations.Obligation;
 import nl.uva.sne.midd.obligations.ObligationExpression;
+
+import java.io.OutputStream;
+import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * External node for XACML 3.0 decisions.

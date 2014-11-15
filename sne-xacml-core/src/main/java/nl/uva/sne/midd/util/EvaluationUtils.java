@@ -24,17 +24,17 @@ package nl.uva.sne.midd.util;
 
 import nl.uva.sne.midd.Decision;
 import nl.uva.sne.midd.MIDDException;
+import nl.uva.sne.midd.UnmatchedException;
 import nl.uva.sne.midd.Variable;
 import nl.uva.sne.midd.edges.AbstractEdge;
 import nl.uva.sne.midd.nodes.AbstractNode;
 import nl.uva.sne.midd.nodes.InternalNode;
-import nl.uva.sne.midd.UnmatchedException;
 import nl.uva.sne.xacml.ExternalNode3;
 
 import java.util.Map;
 
 /**
- * @author Canh Ngo (t.c.ngo@uva.nl)
+ * @author Canh Ngo
  * @date: Sep 11, 2012
  */
 public class EvaluationUtils {

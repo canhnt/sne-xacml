@@ -1,4 +1,4 @@
-/**
+/*
  * SNE-XACML: A high performance XACML evaluation engine.
  *
  * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
@@ -28,12 +28,11 @@
 package nl.uva.sne.midd;
 
 import com.sun.istack.NotNull;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @author Canh Ngo (t.c.ngo@uva.nl)
+ * @author Canh Ngo
  * @date: Sep 11, 2012
  */
 public class Variable<T extends Comparable<T>> implements Comparable<T> {

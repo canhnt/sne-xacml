@@ -1,4 +1,4 @@
-/**
+/*
  * SNE-XACML: A high performance XACML evaluation engine.
  *
  * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
@@ -22,13 +22,6 @@
  */
 package nl.uva.sne.xacml.policy.parsers;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.interval.EndPoint;
 import nl.uva.sne.midd.interval.Interval;
@@ -39,6 +32,12 @@ import oasis.names.tc.xacml._3_0.core.schema.wd_17.AllOfType;
 import oasis.names.tc.xacml._3_0.core.schema.wd_17.AttributeDesignatorType;
 import oasis.names.tc.xacml._3_0.core.schema.wd_17.AttributeValueType;
 import oasis.names.tc.xacml._3_0.core.schema.wd_17.MatchType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * AllOfExpression class is to parse the AllOf XACML 3.0 element, which returns the map of parsed intervals for each
@@ -49,7 +48,7 @@ import oasis.names.tc.xacml._3_0.core.schema.wd_17.MatchType;
  * AllOfType := SEQUENCE_OF<MatchExpression> MatchExpression := (operator, value, varId) // statement: <value> <op>
  * <varId> operator := {gt, ge, lt, le, eq}
  *
- * @author Canh Ngo (t.c.ngo@uva.nl)
+ * @author Canh Ngo
  * @date: Sep 27, 2012
  */
 public class AllOfExpression {

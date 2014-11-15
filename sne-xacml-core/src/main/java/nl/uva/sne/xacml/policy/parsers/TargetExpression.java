@@ -1,4 +1,4 @@
-/**
+/*
  * SNE-XACML: A high performance XACML evaluation engine.
  *
  * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
@@ -22,10 +22,6 @@
  */
 package nl.uva.sne.xacml.policy.parsers;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.builders.ConjunctiveBuilder;
 import nl.uva.sne.midd.nodes.AbstractNode;
@@ -33,10 +29,14 @@ import nl.uva.sne.midd.nodes.ExternalNode;
 import nl.uva.sne.xacml.AttributeMapper;
 import oasis.names.tc.xacml._3_0.core.schema.wd_17.AnyOfType;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 /**
  * TargetExpression: contains list of AnyOf expression combined by conjunctive operator
  *
- * @author Canh Ngo (t.c.ngo@uva.nl)
+ * @author Canh Ngo
  * @date: Sep 27, 2012
  */
 public class TargetExpression {

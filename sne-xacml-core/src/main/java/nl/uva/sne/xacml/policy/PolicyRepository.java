@@ -1,4 +1,4 @@
-/**
+/*
  * SNE-XACML: A high performance XACML evaluation engine.
  *
  * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
@@ -25,20 +25,19 @@
  */
 package nl.uva.sne.xacml.policy;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import nl.uva.sne.xacml.policy.finder.PolicyFinder;
 import nl.uva.sne.xacml.policy.finder.impl.PolicyFinderImpl;
 import oasis.names.tc.xacml._3_0.core.schema.wd_17.PolicySetType;
 import oasis.names.tc.xacml._3_0.core.schema.wd_17.PolicyType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
- * @author canhnt
+ * @author Canh Ngo
  */
 public class PolicyRepository {
     private static final Logger logger = LoggerFactory.getLogger(PolicyRepository.class);

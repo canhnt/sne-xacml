@@ -1,4 +1,4 @@
-/**
+/*
  * SNE-XACML: A high performance XACML evaluation engine.
  *
  * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
@@ -20,20 +20,15 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301 USA
  */
-/**
- * System and Network Engineering Group
- * University of Amsterdam
- *
- */
 package nl.uva.sne.midd.partition;
+
+import nl.uva.sne.midd.interval.Interval;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import nl.uva.sne.midd.interval.Interval;
-
 /**
- * @author Canh Ngo (t.c.ngo@uva.nl)
+ * @author Canh Ngo
  * @date: Sep 7, 2012
  */
 public class Partition<T extends Comparable<T>> {

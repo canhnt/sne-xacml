@@ -1,4 +1,4 @@
-/**
+/*
  * SNE-XACML: A high performance XACML evaluation engine.
  *
  * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
@@ -25,7 +25,6 @@ package nl.uva.sne.midd;
 import nl.uva.sne.midd.interval.Interval;
 import nl.uva.sne.midd.util.IntervalUtils;
 import org.junit.Test;
-
 
 import java.util.ArrayList;
 import java.util.List;

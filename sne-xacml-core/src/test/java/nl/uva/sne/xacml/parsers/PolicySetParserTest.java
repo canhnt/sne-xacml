@@ -1,4 +1,4 @@
-/**
+/*
  * SNE-XACML: A high performance XACML evaluation engine.
  *
  * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
@@ -22,17 +22,6 @@
  */
 package nl.uva.sne.xacml.parsers;
 
-import java.io.IOException;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.Stack;
-
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.junit.Test;
-import org.xml.sax.SAXException;
-
 import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.edges.AbstractEdge;
 import nl.uva.sne.midd.nodes.AbstractNode;
@@ -43,9 +32,17 @@ import nl.uva.sne.xacml.policy.parsers.PolicySetParser;
 import nl.uva.sne.xacml.policy.parsers.XACMLParsingException;
 import nl.uva.sne.xacml.util.XACMLUtil;
 import oasis.names.tc.xacml._3_0.core.schema.wd_17.PolicySetType;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import org.junit.Test;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+import java.util.Stack;
+
+import static org.junit.Assert.*;
 
 public class PolicySetParserTest {
     //	private static final String POLICYSET_FILE = "src/test/resources/xacml3-policyset-sli.xml";

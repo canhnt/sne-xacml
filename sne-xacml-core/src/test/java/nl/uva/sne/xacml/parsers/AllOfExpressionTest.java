@@ -1,4 +1,4 @@
-/**
+/*
  * SNE-XACML: A high performance XACML evaluation engine.
  *
  * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
@@ -22,6 +22,16 @@
  */
 package nl.uva.sne.xacml.parsers;
 
+import nl.uva.sne.midd.MIDDException;
+import nl.uva.sne.xacml.policy.parsers.AllOfExpression;
+import nl.uva.sne.xacml.policy.parsers.AttributeInfo;
+import nl.uva.sne.xacml.policy.parsers.XACMLParsingException;
+import nl.uva.sne.xacml.util.XACMLUtil;
+import oasis.names.tc.xacml._3_0.core.schema.wd_17.*;
+import org.junit.Test;
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -29,21 +39,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.junit.Test;
-import org.xml.sax.SAXException;
-
-import nl.uva.sne.midd.MIDDException;
-import nl.uva.sne.xacml.policy.parsers.AllOfExpression;
-import nl.uva.sne.xacml.policy.parsers.AttributeInfo;
-import nl.uva.sne.xacml.policy.parsers.XACMLParsingException;
-import nl.uva.sne.xacml.util.XACMLUtil;
-import oasis.names.tc.xacml._3_0.core.schema.wd_17.AllOfType;
-import oasis.names.tc.xacml._3_0.core.schema.wd_17.AnyOfType;
-import oasis.names.tc.xacml._3_0.core.schema.wd_17.PolicyType;
-import oasis.names.tc.xacml._3_0.core.schema.wd_17.RuleType;
-import oasis.names.tc.xacml._3_0.core.schema.wd_17.TargetType;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 

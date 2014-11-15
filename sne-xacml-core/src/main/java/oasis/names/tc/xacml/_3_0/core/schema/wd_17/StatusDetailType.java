@@ -8,15 +8,14 @@
 
 package oasis.names.tc.xacml._3_0.core.schema.wd_17;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlType;
-
-import org.w3c.dom.Element;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**

@@ -1,4 +1,4 @@
-/**
+/*
  * SNE-XACML: A high performance XACML evaluation engine.
  *
  * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
@@ -28,7 +28,7 @@ package nl.uva.sne.xacml.policy.parsers.util;
 import nl.uva.sne.xacml.policy.parsers.XACMLParsingException;
 
 /**
- * @author canhnt
+ * @author Canh Ngo
  */
 public class DataTypeConverterUtil {
 
