@@ -3,7 +3,7 @@
     <parent>
         <groupId>nl.uva.sne</groupId>
         <artifactId>sne-xacml</artifactId>
-        <version>0.0.3-SNAPSHOT</version>
+        <version>0.0.3</version>
     </parent>
     <artifactId>sne-xacml-demo</artifactId>
     <name>SNE XACML Engine Demo</name>
