@@ -27,7 +27,7 @@
       <email>[canh nt] a t g m a i l d o t c o m</email>
     </developer>
   </developers>
-  
+
   <licenses>
     <license>
       <name>GNU Lesser General Public License v3.0</name>
@@ -68,7 +68,7 @@
     <connection>scm:git:git@github.com:canhnt/sne-xacml.git</connection>
     <url>scm:git:git@github.com:canhnt/sne-xacml.git</url>
   </scm>
-  
+
   <distributionManagement>
   	<snapshotRepository>
   		<id>sonatype-nexus-snapshots</id>
@@ -124,7 +124,7 @@
           <version>${maven-release-plugin.version}</version>
           <configuration>
         	  <arguments>-Dgpg.passphrase=${gpg.passphrase}</arguments>
-          </configuration>          
+          </configuration>
         </plugin>
       </plugins>
     </pluginManagement>
