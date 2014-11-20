@@ -4,7 +4,7 @@
 
   <groupId>nl.uva.sne</groupId>
   <artifactId>sne-xacml</artifactId>
-  <version>0.0.3</version>
+  <version>0.0.4-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>SNE-XACML Engine</name>
@@ -69,7 +69,7 @@
     <developerConnection>scm:git:git@github.com:canhnt/sne-xacml.git</developerConnection>
     <connection>scm:git:git@github.com:canhnt/sne-xacml.git</connection>
     <url>scm:git:git@github.com:canhnt/sne-xacml.git</url>
-    <tag>sne-xacml-0.0.3</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <distributionManagement>
@@ -151,6 +151,11 @@
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
         <version>0.7.2.201409121644</version>
+	<configuration>
+		<excludes>
+			<exclude>sne-xacml-core/src/main/java/oasis/**/*.class</exclude>
+		</excludes>
+	</configuration>
         <executions>
           <execution>
             <id>prepare-agent</id>
