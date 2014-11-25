@@ -21,8 +21,25 @@ Features
 
 (\*) *Not all specs has been implemented*.
 
+Usages
+-------------
+Include sne-xacml-core to the project's dependencies:
+```
+<dependency>
+	<groupId>nl.uva.sne</groupId>
+	<artifactId>sne-xacml-core</artifactId>
+	<version>0.0.3</version>
+</dependency>
+```
+
 Release Notes
 -------------
+###Version 0.0.3 - November 20, 2014
+* Supported boolean and datetime nodes
+* Used java generic types to instantiate nodes and edges
+* Configured project to Travis, Jacoco & Coverage
+* Published library to [Maven Central Repository](http://search.maven.org)
+
 ###Version 0.0.2 - November 19, 2013
 * Compile library as a OSGi bundle
 * Send debug messages to slf4j stream
