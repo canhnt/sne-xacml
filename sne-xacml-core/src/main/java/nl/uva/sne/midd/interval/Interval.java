@@ -204,30 +204,11 @@ public class Interval<T extends Comparable<T>> {
     }
 
     private boolean equals(Interval<T> other) {
-        if (lowerBound == null) {
-            if (other.lowerBound != null) {
-                return false;
-            }
-        } else if (!lowerBound.equals(other.lowerBound)) {
-            return false;
-        }
+        return lowerBound.equals(other.lowerBound)
+            && (lowerBoundClosed == other.lowerBoundClosed)
+            && (upperBound.equals(other.upperBound))
+            && (upperBoundClosed == other.upperBoundClosed);
 
-        if (lowerBoundClosed != other.lowerBoundClosed) {
-            return false;
-        }
-
-        if (upperBound == null) {
-            if (other.upperBound != null) {
-                return false;
-            }
-        } else if (!upperBound.equals(other.upperBound)) {
-            return false;
-        }
-
-        if (upperBoundClosed != other.upperBoundClosed) {
-            return false;
-        }
-        return true;
     }
 
     /**
