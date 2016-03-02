@@ -22,8 +22,9 @@ package nl.uva.sne.midd.interval;
 import nl.uva.sne.midd.MIDDException;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+
+import com.google.common.collect.ImmutableList;
 
 /**
  * @author Canh Ngo
@@ -32,11 +33,9 @@ import java.util.List;
 public class Interval<T extends Comparable<T>> {
 
     private EndPoint<T> lowerBound;
-
-    private boolean lowerBoundClosed = false;
-
     private EndPoint<T> upperBound;
 
+    private boolean lowerBoundClosed = false;
     private boolean upperBoundClosed = false;
 
     /**
@@ -88,8 +87,8 @@ public class Interval<T extends Comparable<T>> {
     }
 
     public Interval(T lowerBound, T upperBound, boolean isLowerBoundClosed, boolean isUpperBoundClosed) throws MIDDException {
-        this.lowerBound = new EndPoint<T>(lowerBound);
-        this.upperBound = new EndPoint<T>(upperBound);
+        this.lowerBound = new EndPoint<>(lowerBound);
+        this.upperBound = new EndPoint<>(upperBound);
 
         this.lowerBoundClosed = isLowerBoundClosed;
         this.upperBoundClosed = isUpperBoundClosed;
@@ -99,35 +98,40 @@ public class Interval<T extends Comparable<T>> {
      * Return the complement section of the interval.
      *
      * @param op
-     * @return The complemented interval(s), or <CODE>null</CODE> if the complement is empty.
+     * @return The complemented interval(s), or an empty list if the complement is empty.
      */
     public List<Interval<T>> complement(final Interval<T> op) throws MIDDException {
 
-        if (this.lowerBound.compareTo(op.upperBound) >= 0 ||
-            this.upperBound.compareTo(op.lowerBound) <= 0) {
-            Interval<T> newInterval = new Interval<T>(this.lowerBound, this.upperBound);
+        final boolean disJoined = (this.lowerBound.compareTo(op.upperBound) >= 0) ||
+                (this.upperBound.compareTo(op.lowerBound) <= 0);
 
-            if ((this.lowerBound.compareTo(op.upperBound) == 0)) {
-                newInterval.setLowerBoundClosed(this.lowerBoundClosed && !op.upperBoundClosed);
+        if (disJoined) {
+            Interval<T> newInterval = new Interval<>(this.lowerBound, this.upperBound);
+
+            final boolean isLowerClosed;
+            if (this.lowerBound.compareTo(op.upperBound) == 0) {
+                isLowerClosed = this.lowerBoundClosed && !op.upperBoundClosed;
             } else {
-                newInterval.setLowerBoundClosed(this.lowerBoundClosed);
+                isLowerClosed = this.lowerBoundClosed;
             }
+            newInterval.setLowerBoundClosed(isLowerClosed);
 
+            final boolean isUpperClosed;
             if (this.upperBound.compareTo(op.lowerBound) == 0) {
-                newInterval.setUpperBoundClosed(this.upperBoundClosed && !op.upperBoundClosed);
+                isUpperClosed = this.upperBoundClosed && !op.upperBoundClosed;
             } else {
-                newInterval.setUpperBoundClosed(this.upperBoundClosed);
+                isUpperClosed = this.upperBoundClosed;
             }
+            newInterval.setUpperBoundClosed(isUpperClosed);
 
-            // return null if result is empty
+            // return empty if new interval is invalid
             if (!newInterval.validate()) {
-                return null;
+                return ImmutableList.of();
             }
-
-            return Arrays.asList(newInterval);
+            return ImmutableList.of(newInterval);
         } else {
-            Interval<T> interval1 = new Interval<T>(this.lowerBound, op.lowerBound);
-            Interval<T> interval2 = new Interval<T>(op.upperBound, this.upperBound);
+            final Interval<T> interval1 = new Interval<>(this.lowerBound, op.lowerBound);
+            final Interval<T> interval2 = new Interval<>(op.upperBound, this.upperBound);
 
             interval1.setLowerBoundClosed(this.lowerBoundClosed);
             interval1.setUpperBoundClosed(!op.lowerBoundClosed);
@@ -135,18 +139,14 @@ public class Interval<T extends Comparable<T>> {
             interval2.setLowerBoundClosed(!op.upperBoundClosed);
             interval2.setUpperBoundClosed(this.upperBoundClosed);
 
-            List<Interval<T>> result = new ArrayList<>();
+            final List<Interval<T>> result = new ArrayList<>();
             if (interval1.validate()) {
                 result.add(interval1);
             }
             if (interval2.validate()) {
                 result.add(interval2);
             }
-            if (result.size() > 0) {
-                return result;
-            } else {
-                return null;
-            }
+            return ImmutableList.copyOf(result);
         }
     }
 
@@ -196,9 +196,14 @@ public class Interval<T extends Comparable<T>> {
             return false;
         }
 
-        @SuppressWarnings("unchecked")
-        Interval<T> other = (Interval<T>) obj;
+        if (obj instanceof Interval) {
+            return equals((Interval)obj);
+        }
+        return false;
 
+    }
+
+    private boolean equals(Interval<T> other) {
         if (lowerBound == null) {
             if (other.lowerBound != null) {
                 return false;

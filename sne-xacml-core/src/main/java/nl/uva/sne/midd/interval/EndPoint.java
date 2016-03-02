@@ -31,6 +31,9 @@ public class EndPoint<T extends Comparable<T>> implements Comparable<EndPoint<T>
         NEGATIVE
     }
 
+    public static final EndPoint<?> NEGATIVE_INFINITY = new EndPoint<>(Infinity.NEGATIVE);
+    public static final EndPoint<?> POSITIVE_INFINITY = new EndPoint<>(Infinity.POSITIVE);
+
     private Infinity infinity;
 
     private T value;

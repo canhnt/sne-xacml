@@ -1,8 +1,5 @@
 /*
- * SNE-XACML: A high performance XACML evaluation engine.
- *
- * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
- * System and Network Engineering Group, University of Amsterdam.
+ * Copyright (C) 2013-2016 Canh Ngo <canhnt@gmail.com>
  * All rights reserved.
  *
  * This library is free software; you can redistribute it and/or
@@ -27,7 +24,11 @@ import nl.uva.sne.midd.interval.EndPoint;
 import nl.uva.sne.midd.interval.Interval;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.DoubleStream;
+
+import com.google.common.collect.ImmutableList;
 
 /**
  * @author Canh Ngo
@@ -35,26 +36,25 @@ import java.util.List;
 public class IntervalUtils {
 
     /**
-     * Return the complement of set of intervals
+     * Return the complement of list of intervals, i.e., (-inf, +inf) \ intervals
      *
      * @param intervals
-     * @return
+     * @return the immutable list of intervals that complement with the input
      */
     @SuppressWarnings({"rawtypes", "unchecked"})
-    public static List<Interval> complement(
-            List<Interval> intervals) throws MIDDException {
+    public static List<Interval<?>> complement(List<Interval> intervals) throws MIDDException {
 
-        Interval w = new Interval(new EndPoint(EndPoint.Infinity.NEGATIVE), new EndPoint(EndPoint.Infinity.POSITIVE));
-        List<Interval> op1 = new ArrayList<>();
+        final Interval w = new Interval(new EndPoint(EndPoint.Infinity.NEGATIVE), new EndPoint(EndPoint.Infinity.POSITIVE));
+        List<Interval<?>> op1 = new ArrayList<>();
         op1.add(w);
 
         for (Interval op2 : intervals) {
-            List<Interval> result = new ArrayList<>();
+            final List<Interval<?>> result = new ArrayList<>();
 
             for (Interval item : op1) {
                 if (item.isIntersec(op2)) {
-                    List<Interval> l = item.complement(op2);
-                    if (l != null && l.size() > 0) {
+                    final List<Interval<?>> l = item.complement(op2);
+                    if (!l.isEmpty()) {
                         result.addAll(l);
                     }
                 } else {
@@ -63,6 +63,10 @@ public class IntervalUtils {
             }
             op1 = result;
         }
-        return op1;
+        return ImmutableList.copyOf(op1);
+    }
+
+    public static List<Interval<?>> complement(final Interval interval) throws MIDDException {
+        return complement(Arrays.asList(interval));
     }
 }

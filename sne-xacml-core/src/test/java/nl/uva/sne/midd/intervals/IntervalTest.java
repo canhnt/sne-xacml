@@ -1,8 +1,5 @@
 /*
- * SNE-XACML: A high performance XACML evaluation engine.
- *
- * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
- * System and Network Engineering Group, University of Amsterdam.
+ * Copyright (C) 2013-2016 Canh Ngo <canhnt@gmail.com>
  * All rights reserved.
  *
  * This library is free software; you can redistribute it and/or
@@ -22,16 +19,23 @@
  */
 package nl.uva.sne.midd.intervals;
 
+import java.util.List;
+
+import com.google.common.collect.ImmutableList;
+
+import org.junit.Test;
+
 import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.interval.EndPoint;
 import nl.uva.sne.midd.interval.Interval;
-import org.junit.Test;
-
-import java.util.List;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 public class IntervalTest {
+
+    private static final List<Interval<Double>> EMPTY_LIST = ImmutableList.of();
 
     private static Interval<Double> i1;
 
@@ -102,17 +106,6 @@ public class IntervalTest {
 
     }
 
-//	@Test
-//	public void testIsIntersect() {
-//		assertTrue((new Interval<Double>(1.0, 3.0)).isIntersect(new Interval<Double>(2.0, 4.0)));
-//		
-//		assertTrue((new Interval<Double>(1.0, 5.0)).isIntersect(new Interval<Double>(-2.0, 2.0)));
-//		
-//		assertTrue((new Interval<Double>(1.0, 5.0)).isIntersect(new Interval<Double>(2.0, 3.0)));
-//		
-//		assertTrue((new Interval<Double>(1.0, 5.0)).isIntersect(new Interval<Double>(-2.0, 6.0)));
-//	}
-
     @Test
     public void testIncludeBound() throws MIDDException {
         // (1,2) U [1] -> [1, 2)
@@ -149,90 +142,50 @@ public class IntervalTest {
     @SuppressWarnings("unchecked")
     @Test
     public void testComplement() throws MIDDException {
-        Interval<Double> i1 = new Interval<Double>(1.0, 5.0, true, true);
+        final Interval<Double> i1 = new Interval<>(1.0, 5.0, true, true);
 
-        Interval<Double> targets[] = new Interval[]{
-                new Interval<Double>(-3.0, -2.0, true, true),
-                new Interval<Double>(-3.0, 1.0, true, true),
-                new Interval<Double>(-3.0, 1.0, true, false),
-                new Interval<Double>(-3.0, 2.5, true, true),
-                new Interval<Double>(-3.0, 2.5, true, false),
-                new Interval<Double>(-3.0, 5.0, true, false),
-                new Interval<Double>(-3.0, 5.0, true, true),
-                new Interval<Double>(-3.0, 6.0, true, true),
-                new Interval<Double>(-3.0, 6.0, true, false),
+        assertEquals(new Interval<>(1.0, 5.0, true, true), i1.complement(new Interval<>(-3.0, -2.0, true, true)).get(0));
+        assertEquals(new Interval<>(1.0, 5.0, false, true), i1.complement(new Interval<>(-3.0, 1.0, true, true)).get(0));
+        assertEquals(new Interval<>(1.0, 5.0, true, true), i1.complement(new Interval<>(-3.0, 1.0, true, false)).get(0));
+        assertEquals(new Interval<>(2.5, 5.0, false, true), i1.complement(new Interval<>(-3.0, 2.5, true, true)).get(0));
+        assertEquals(new Interval<>(2.5, 5.0, true, true), i1.complement(new Interval<>(-3.0, 2.5, true, false)).get(0));
+        assertEquals(new Interval<>(5.0, 5.0, true, true), i1.complement(new Interval<>(-3.0, 5.0, true, false)).get(0));
 
-                new Interval<Double>(1.0, 1.0, true, true),
-                new Interval<Double>(1.0, 3.0, true, true),
-                new Interval<Double>(1.0, 5.0, true, false),
-                new Interval<Double>(1.0, 5.0, true, true),
-                new Interval<Double>(1.0, 7.0, true, true),
-                new Interval<Double>(1.0, 7.0, true, false),
+        assertEquals(EMPTY_LIST, i1.complement(new Interval<>(-3.0, 5.0, true, true)));
+        assertEquals(EMPTY_LIST, i1.complement(new Interval<>(-3.0, 6.0, true, true)));
+        assertEquals(EMPTY_LIST, i1.complement(new Interval<>(-3.0, 6.0, true, false)));
 
-                new Interval<Double>(2.0, 5.0, true, true),
-                new Interval<Double>(2.0, 7.0, true, true),
+        assertEquals(new Interval<>(1.0, 5.0, false, true), i1.complement(new Interval<>(1.0, 1.0, true, true)).get(0));
+        assertEquals(new Interval<>(3.0, 5.0, false, true), i1.complement(new Interval<>(1.0, 3.0, true, true)).get(0));
+        assertEquals(new Interval<>(5.0, 5.0, true, true), i1.complement(new Interval<>(1.0, 5.0, true, false)).get(0));
 
-                new Interval<Double>(5.0, 5.0, true, true),
-                new Interval<Double>(5.0, 7.0, true, true),
+        assertEquals(EMPTY_LIST, i1.complement(new Interval<>(1.0, 5.0, true, true)));
+        assertEquals(EMPTY_LIST, i1.complement(new Interval<>(1.0, 7.0, true, true)));
+        assertEquals(EMPTY_LIST, i1.complement(new Interval<>(1.0, 7.0, true, false)));
 
-                new Interval<Double>(7.0, 8.0, false, false)
-        };
-
-        Interval<Double> results[] = new Interval[]{
-                new Interval<Double>(1.0, 5.0, true, true),
-                new Interval<Double>(1.0, 5.0, false, true),
-                new Interval<Double>(1.0, 5.0, true, true),
-                new Interval<Double>(2.5, 5.0, false, true),
-                new Interval<Double>(2.5, 5.0, true, true),
-                new Interval<Double>(5.0, 5.0, true, true),
-                null,
-                null,
-                null,
-
-                new Interval<Double>(1.0, 5.0, false, true),
-                new Interval<Double>(3.0, 5.0, false, true),
-                new Interval<Double>(5.0, 5.0, true, true),
-                null,
-                null,
-                null,
-
-                new Interval<Double>(1.0, 2.0, true, false),
-                new Interval<Double>(1.0, 2.0, true, false),
-
-                new Interval<Double>(1.0, 5.0, true, false),
-                new Interval<Double>(1.0, 5.0, true, false),
-
-                new Interval<Double>(1.0, 5.0, true, true)
-        };
-//		
-        for (int i = 0; i < targets.length; i++) {
-            List<Interval<Double>> c = i1.complement(targets[i]);
-            if (null != c) {
-                assertEquals(c.size(), 1);
-                assertTrue(c.get(0).equals(results[i]));
-            } else {
-                assertEquals(c, results[i]);
-            }
-
-        }
+        assertEquals(new Interval<>(1.0, 2.0, true, false), i1.complement(new Interval<>(2.0, 5.0, true, true)).get(0));
+        assertEquals(new Interval<>(1.0, 2.0, true, false), i1.complement(new Interval<>(2.0, 7.0, true, true)).get(0));
+        assertEquals(new Interval<>(1.0, 5.0, true, false), i1.complement(new Interval<>(5.0, 5.0, true, true)).get(0));
+        assertEquals(new Interval<>(1.0, 5.0, true, false), i1.complement(new Interval<>(5.0, 7.0, true, true)).get(0));
+        assertEquals(new Interval<>(1.0, 5.0, true, true), i1.complement(new Interval<>(7.0, 8.0, false, false)).get(0));
 
         // [1, 5] \ [2, 3) -> [1, 2) U [3, 5]
-        List<Interval<Double>> c1 = i1.complement(new Interval<Double>(2.0, 3.0, true, false));
+        List<Interval<Double>> c1 = i1.complement(new Interval<>(2.0, 3.0, true, false));
         assertEquals(c1.size(), 2);
-        assertTrue(c1.get(0).equals(new Interval<Double>(1.0, 2.0, true, false)));
-        assertTrue(c1.get(1).equals(new Interval<Double>(3.0, 5.0, true, true)));
+        assertTrue(c1.get(0).equals(new Interval<>(1.0, 2.0, true, false)));
+        assertTrue(c1.get(1).equals(new Interval<>(3.0, 5.0, true, true)));
 
         // [1, 5] \ (2, 3] -> [1, 2] U (3, 5]
-        List<Interval<Double>> c2 = i1.complement(new Interval<Double>(2.0, 3.0, false, true));
+        List<Interval<Double>> c2 = i1.complement(new Interval<>(2.0, 3.0, false, true));
         assertEquals(c2.size(), 2);
-        assertTrue(c2.get(0).equals(new Interval<Double>(1.0, 2.0, true, true)));
-        assertTrue(c2.get(1).equals(new Interval<Double>(3.0, 5.0, false, true)));
+        assertTrue(c2.get(0).equals(new Interval<>(1.0, 2.0, true, true)));
+        assertTrue(c2.get(1).equals(new Interval<>(3.0, 5.0, false, true)));
 
         // [1, 5] \ [2, 5) -> [1, 2) U [5]
-        List<Interval<Double>> c3 = i1.complement(new Interval<Double>(2.0, 5.0, true, false));
+        List<Interval<Double>> c3 = i1.complement(new Interval<>(2.0, 5.0, true, false));
         assertEquals(c3.size(), 2);
-        assertTrue(c3.get(0).equals(new Interval<Double>(1.0, 2.0, true, false)));
-        assertTrue(c3.get(1).equals(new Interval<Double>(5.0, 5.0, true, true)));
+        assertTrue(c3.get(0).equals(new Interval<>(1.0, 2.0, true, false)));
+        assertTrue(c3.get(1).equals(new Interval<>(5.0, 5.0, true, true)));
 
     }
 

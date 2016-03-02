@@ -1,8 +1,5 @@
 /*
- * SNE-XACML: A high performance XACML evaluation engine.
- *
- * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
- * System and Network Engineering Group, University of Amsterdam.
+ * Copyright (C) 2013-2016 Canh Ngo <canhnt@gmail.com>
  * All rights reserved.
  *
  * This library is free software; you can redistribute it and/or
@@ -118,7 +115,7 @@ public class MIDDCombiner {
                         }
 
                         // Create a new edge containing the complement of n1 children intervals, connecting n with n2
-                        List<Interval> complementIntervals = IntervalUtils.complement(n1.getIntervals());
+                        List<Interval<?>> complementIntervals = IntervalUtils.complement(n1.getIntervals());
                         if (complementIntervals.size() > 0) {
                             AbstractEdge<?> edge = EdgeUtils.createEdge(complementIntervals, n1.getType());
                             n.addChild(edge, n2);
@@ -133,7 +130,7 @@ public class MIDDCombiner {
                             }
                         }
                         // Create a new edge containing the complement of n2 children intervals, connecting n with n1
-                        List<Interval> complementIntervals = IntervalUtils.complement(n2.getIntervals());
+                        List<Interval<?>> complementIntervals = IntervalUtils.complement(n2.getIntervals());
                         if (complementIntervals.size() > 0) {
                             AbstractEdge<?> edge = EdgeUtils.createEdge(complementIntervals, n2.getType());
                             n.addChild(edge, n1);
@@ -170,7 +167,7 @@ public class MIDDCombiner {
 
 
         List<Interval> intervals = n2.getIntervals();
-        List<Interval> complementIntervals = IntervalUtils.complement(intervals);
+        List<Interval<?>> complementIntervals = IntervalUtils.complement(intervals);
 
         // clone new node from n2
 
@@ -263,7 +260,7 @@ public class MIDDCombiner {
 
 
         List<Interval> intervals = n1.getIntervals();
-        List<Interval> complementIntervals = IntervalUtils.complement(intervals);
+        List<Interval<?>> complementIntervals = IntervalUtils.complement(intervals);
 
         // clone new node from n1
         InternalNodeState newINState = combineInternalNodeStates(n1.getState(), n2);
