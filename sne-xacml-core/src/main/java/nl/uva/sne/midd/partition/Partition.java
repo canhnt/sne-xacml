@@ -63,17 +63,6 @@ public class Partition<T extends Comparable<T>> {
         return false;
     }
 
-//	public boolean isDisjointPartition() {
-//		int n = intervals.size();
-//		for(int i = 0; i < n - 1; i++) 
-//			for (int j = i + 1; j < n; j++) {
-//				if (intervals.get(i).isIntersect(intervals.get(j)))
-//					return false;
-//			}
-//		return true;
-//	}
-
-
     /* (non-Javadoc)
      * @see java.lang.Object#equals(java.lang.Object)
      */

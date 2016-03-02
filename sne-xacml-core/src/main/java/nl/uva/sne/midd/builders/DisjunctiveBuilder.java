@@ -53,7 +53,6 @@ public class DisjunctiveBuilder {
     public static AbstractNode join(AbstractNode midd1, AbstractNode midd2) throws MIDDException {
 
         if (midd1 == null || midd2 == null) {
-//			throw new IllegalArgumentException("MIDD parameters must not be null");
             log.error("Disjunctive join with a null MIDD");
             return (midd1 == null) ? midd2 : midd1;
         }

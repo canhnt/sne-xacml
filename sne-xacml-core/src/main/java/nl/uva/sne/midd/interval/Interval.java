@@ -35,8 +35,6 @@ import java.util.List;
  */
 public class Interval<T extends Comparable<T>> {
 
-//	private static final int SEED = 0;
-
     private EndPoint<T> lowerBound;
 
     private boolean lowerBoundClosed = false;
@@ -131,7 +129,7 @@ public class Interval<T extends Comparable<T>> {
             }
 
             return Arrays.asList(newInterval);
-        } else {    // (this.lowerBound.compareTo(op.upperBound) < 0 && this.upperBound.compareTo(op.lowerBound) > 0)
+        } else {
             Interval<T> interval1 = new Interval<T>(this.lowerBound, op.lowerBound);
             Interval<T> interval2 = new Interval<T>(op.upperBound, this.upperBound);
 
@@ -290,10 +288,7 @@ public class Interval<T extends Comparable<T>> {
     }
 
     /**
-     * Combine two interval, check if the bounds should be included Bug: not count use-cases when bounds are
-     * infinities.
-     *
-     * @param <T>
+     * Combine two interval, check if the bounds should be included Bug: not count use-cases when bounds are infinities.
      * @param target
      * @return
      */
@@ -308,10 +303,7 @@ public class Interval<T extends Comparable<T>> {
                     this.lowerBoundClosed = true;
                     return this;
                 } else {
-
                     throw new RuntimeException("Error! Cannot combine two separated interval");
-//					System.err.println("Error! Cannot combine two separated interval");
-//					return this;
                 }
             } else {
                 throw new RuntimeException("Error! Only support combine single value interval");
@@ -340,8 +332,6 @@ public class Interval<T extends Comparable<T>> {
             }
         } else {
             throw new RuntimeException("Error! Only support combine single value interval");
-//			System.err.println("Error! Only support combine single value interval");
-//			return this;
         }
     }
 
@@ -381,22 +371,6 @@ public class Interval<T extends Comparable<T>> {
         this.lowerBound = new EndPoint<>(lowerBound)  ;
     }
 
-//	/**
-//	 * Compare two interval if they are the same.
-//	 * 
-//	 * @param interval
-//	 * @return
-//	 */
-//	public boolean equals(Interval<T> interval) {
-//		
-//		boolean lowBoundEqual = false, upBoundEqual = false;
-//		
-//		lowBoundEqual = this.lowerBound.equals(interval.lowerBound) && this.lowerBoundClosed == interval.lowerBoundClosed;		
-//		upBoundEqual = this.upperBound.equals(interval.upperBound) && this.upperBoundClosed == interval.upperBoundClosed;
-//				
-//		return lowBoundEqual && upBoundEqual;
-//	}
-
     public void setLowerBound(final T value) throws MIDDException {
         this.lowerBound = new EndPoint<>(value);
     }
@@ -404,10 +378,6 @@ public class Interval<T extends Comparable<T>> {
     public void setLowerBoundClosed(boolean b) {
         this.lowerBoundClosed = b;
     }
-
-//	public Class<?> getType() {
-//		throw new UnsupportedOperationException("Not support for generic interval type");
-//	}
 
     public void setLowerInfinite(boolean b) {
         this.lowerBound.setNegativeInfinity(b);
@@ -467,11 +437,6 @@ public class Interval<T extends Comparable<T>> {
 
         return (compareBound < 0) ||
                 (compareBound == 0 && this.lowerBoundClosed && this.upperBoundClosed);
-//		if (compareBound < 0)
-//			return true;
-//		else if (compareBound == 0 && this.lowerBoundClosed && this.upperBoundClosed)
-//			return true;
-//		return false;
     }
 
     /**

@@ -61,7 +61,6 @@ public class GenericUtils {
      */
     public static <T> T newInstance(final T value) throws MIDDException {
         if (value == null) {
-//            throw new MIDDException("Cannot copy null value");
             return null;
         } else {
             return newInstance(value, value.getClass());

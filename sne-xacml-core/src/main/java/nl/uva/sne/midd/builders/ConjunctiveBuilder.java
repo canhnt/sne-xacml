@@ -53,7 +53,6 @@ public class ConjunctiveBuilder {
     public static AbstractNode join(AbstractNode midd1, AbstractNode midd2) throws MIDDException {
 
         if (midd1 == null || midd2 == null) {
-//			throw new IllegalArgumentException("MIDD parameters must not be null");
             log.error("Conjunctive join with either a null MIDD");
             return null;
         }
@@ -100,8 +99,6 @@ public class ConjunctiveBuilder {
                         if (child != null) {
                             n.addChild(EdgeUtils.cloneEdge(e), child);
                         }
-//						else 
-//							throw new RuntimeException("Empty child");
                     }
                     if (n.getEdges().size() == 0) {
                         System.err.println("Conjuctive join two midd return null");
@@ -140,7 +137,6 @@ public class ConjunctiveBuilder {
             // return false-node
             log.error("empty intersect partition");
             return null;
-//			throw new RuntimeException("empty intersect partition");
         }
 
         // Clone n1: warning: new MIDD node's state should be combined from two node states: n1 & n2???

@@ -57,7 +57,6 @@ public class EvaluationUtils {
             if (!variables.containsKey(currentInternalNode.getID())) {
                 // create a null variable
                 currentVar = createVariable(currentInternalNode.getID(), null, currentInternalNode.getType());
-//				return currentInternalNode.buildDecision();
             } else {
                 currentVar = variables.get(currentInternalNode.getID());
             }

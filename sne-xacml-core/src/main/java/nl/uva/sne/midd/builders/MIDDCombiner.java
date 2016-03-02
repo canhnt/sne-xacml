@@ -63,54 +63,6 @@ public class MIDDCombiner {
      * @param midd2
      * @return
      */
-//	public AbstractNode combine(AbstractNode midd1, AbstractNode midd2) {
-//	
-//		// find the MIDD with high-order, if MIDD1 has higher, swap to MIDD2
-//		if (midd1.getID() != ExternalNode.EXTERNAL_NODE_ID && midd2.getID() != ExternalNode.EXTERNAL_NODE_ID) {
-//			if (midd1.getID() > midd2.getID()) {			
-//				AbstractNode temp = midd1;
-//				midd1 = midd2;
-//				midd2 = temp;
-//			}			
-//		} else if (midd1.getID() == ExternalNode.EXTERNAL_NODE_ID) {
-//			AbstractNode temp = midd1;
-//			midd1 = midd2;
-//			midd2 = temp;
-//		}		
-//		
-//		// now MIDD2 always has higher order variable at the root
-//		if (midd1 instanceof ExternalNode3) {
-//			// midd2 is also external node, combine two external nodes here
-//			return combineExternalNodes((ExternalNode3)midd1, (ExternalNode3)midd2);
-//		} else {
-//			InternalNode<?> n1 = (InternalNode<?>) midd1;
-//			
-//			if (midd2 instanceof ExternalNode3) {								
-//				// combine an internal node (midd1) with an external node (midd2)			
-//				ExternalNode3 n2 = (ExternalNode3) midd2;
-//				return combineIDD(n1, n2);												
-//			} else {// both are internal nodes, combine two internal nodes here				
-//				InternalNode n2 = (InternalNode) midd2;
-//				
-//				if (n1.getID() == n2.getID())
-//					return combineIDDSameLevel(n1, n2);
-//				else { 
-//					//n1 as lower attribute order than n2, so:
-//					// - Create a node clone from n1 -> n
-//					// - combine n2 with all children of n1 -> children[1..k], add them to children of n
-//					
-//					// Clone n1
-//					InternalNode<?> n = IDDFactory.createInternalNode(n1, n1.getType());
-//					
-//					for(AbstractEdge<?> e : n1.getEdges()) {
-//						AbstractNode child = combine(e.getSubDiagram(), n2);						
-//						n.addChild(IDDFactory.createEdge(e), child);
-//					}
-//					return n;
-//				}
-//			}	
-//		}			
-//	}
 
     //
 
@@ -161,7 +113,6 @@ public class MIDDCombiner {
                             if (child != null) {
                                 n.addChild(EdgeUtils.cloneEdge(e), child);
                             } else {
-//								throw new RuntimeException("empty child");
                                 log.error("empty child");
                             }
                         }
@@ -188,34 +139,6 @@ public class MIDDCombiner {
                             n.addChild(edge, n1);
                         }
                     }
-//
-                    // New implementation: 2012.11.12 - Previous code cannot process following cases:
-                    // - When lower-order variable may not existed in the request X, then n1 (lower-var) is not applicable (missing attribute)
-                    // but n2 maybe applicable
-
-//					InternalNode<?> n = null;
-//					if (n1.getID() < n2.getID()) {
-//						
-//						// Clone n1
-//						n = IDDFactory.createInternalNode(n1, n1.getType());
-//						
-//						for(AbstractEdge<?> e : n1.getEdges()) {
-//							AbstractNode child = combine(e.getSubDiagram(), n2);						
-//							n.addChild(IDDFactory.createEdge(e), child);
-//						}
-//						// add a "null-edge" to  connect from n to n2
-//						// meaning: it may not to have n1 variable in the request to traverse to n2
-//						
-//						linkWithNullEdge(n, n2);						
-//					} else { // n2 has lower id than n1, do in the other way.
-//						n = IDDFactory.createInternalNode(n2, n2.getType());
-//						for(AbstractEdge<?> e : n2.getEdges()) {
-//							AbstractNode child = combine(n1, e.getSubDiagram());						
-//							n.addChild(IDDFactory.createEdge(e), child);
-//						}
-//						// add a 'null-edge' from n to n1								
-//						linkWithNullEdge(n, n1);
-//					}
                     if (n.getEdges().size() > 0) {
                         return n;
                     } else {
@@ -225,19 +148,6 @@ public class MIDDCombiner {
             }
         }
     }
-
-//	private void linkWithNullEdge(InternalNode<?> n, AbstractNode newNode) {
-//		NullEdge nullEdge = n.getNullEdge();
-//		if (nullEdge == null) // no null-edge found, create one
-//			n.addChild(new NullEdge(), newNode.clone());		
-//		else {
-//			//otherwise, combine with existing null-edge's sub-diagram
-//			AbstractNode child = combine(nullEdge.getSubDiagram(), newNode);
-//			nullEdge.setChild(child);
-//		}		
-//	}
-
-    // 2012.11.02
 
     /**
      * Combine two MIDDs: an external node with an internal node.
@@ -264,13 +174,6 @@ public class MIDDCombiner {
 
         // clone new node from n2
 
-//		IndeterminateState newINState = new IndeterminateState(algo.combine(
-//																	n1.getIndeterminateState().getStateIN(), 
-//																	n2.getDecision()));		
-//		// add all OEs from two nodes
-//		newINState.getObligationExpressions().addAll(n1.getIndeterminateState().getObligationExpressions());
-//		newINState.getObligationExpressions().addAll(n2.getObligationExpressions());	
-
         InternalNodeState newINState = combineInternalNodeStates(n2.getState(), n1);
 
         InternalNode<?> n = NodeUtils.createInternalNode(n2.getID(), newINState, n2.getType());
@@ -287,8 +190,6 @@ public class MIDDCombiner {
             AbstractNode child = combine(n1, e.getSubDiagram());
             n.addChild(EdgeUtils.cloneEdge(e), child);
         }
-//		linkWithNullEdge(n, n1);	// it means that traversing to n1 may not need a predicate of attr at n2
-
         return n;
     }
 
@@ -365,14 +266,6 @@ public class MIDDCombiner {
         List<Interval> complementIntervals = IntervalUtils.complement(intervals);
 
         // clone new node from n1
-
-//		IndeterminateState newINState = new IndeterminateState(algo.combine(
-//																	n1.getIndeterminateState().getStateIN(), 
-//																	n2.getDecision()));		
-//		// add all OEs from two nodes
-//		newINState.getObligationExpressions().addAll(n1.getIndeterminateState().getObligationExpressions());
-//		newINState.getObligationExpressions().addAll(n2.getObligationExpressions());	
-
         InternalNodeState newINState = combineInternalNodeStates(n1.getState(), n2);
 
         InternalNode<?> n = NodeUtils.createInternalNode(n1.getID(), newINState, n1.getType());
@@ -385,7 +278,6 @@ public class MIDDCombiner {
             n.addChild(EdgeUtils.cloneEdge(e), child);
         }
 
-//		linkWithNullEdge(n, n2);
         // if the complement of the partition is not empty, add a new edge pointing to external node
         if (complementIntervals.size() > 0) {
             AbstractEdge<?> edge = EdgeUtils.createEdge(complementIntervals, n1.getType());
@@ -419,7 +311,6 @@ public class MIDDCombiner {
 
         Partition<?> p = PartitionBuilder.union(p1, p2);
         if (p.size() == 0) {
-//			throw new RuntimeException("Empty unioned partition");
             log.error("Empty unioned partition");
             return null;
         }
@@ -435,11 +326,6 @@ public class MIDDCombiner {
             if (op1 != null && op2 != null) {
                 child = combine(op1, op2);
             } else if (op1 != null || op2 != null) {
-//                try {
-//                    child = (op1 == null) ? op2.clone() : op1.clone();
-//                } catch (CloneNotSupportedException e) {
-//                    e.printStackTrace();
-//                }
                 child = GenericUtils.newInstance(op1 == null ? op2 : op1);
             } else {
                 throw new RuntimeException("Error merging two partitions, " +

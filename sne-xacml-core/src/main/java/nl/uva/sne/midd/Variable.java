@@ -87,7 +87,6 @@ public class Variable<T extends Comparable<T>> implements Comparable<T> {
         } else if (id > var.id) {
             return AFTER;
         } else {
-//            throw new RuntimeException("Unknown comparison");
             log.error("Unknown comparison");
             return EQUAL;
         }
