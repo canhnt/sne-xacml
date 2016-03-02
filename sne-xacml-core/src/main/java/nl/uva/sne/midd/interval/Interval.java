@@ -1,9 +1,5 @@
 /*
- * SNE-XACML: A high performance XACML evaluation engine.
- *
- * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
- * System and Network Engineering Group, University of Amsterdam.
- * All rights reserved.
+ * Copyright (C) 2013-2016 Canh Ngo <canhnt@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -356,7 +352,7 @@ public class Interval<T extends Comparable<T>> {
     }
 
     public boolean isLowerInfinite() {
-        return lowerBound.getNegativeInfinity();
+        return lowerBound.getInfinity() == EndPoint.Infinity.NEGATIVE;
     }
 
     public boolean isUpperBoundClosed() {
@@ -364,7 +360,7 @@ public class Interval<T extends Comparable<T>> {
     }
 
     public boolean isUpperInfinite() {
-        return upperBound.getPositiveInfinity();
+        return upperBound.getInfinity() == EndPoint.Infinity.POSITIVE;
     }
 
     public void setLowerBound(final EndPoint<T> lowerBound) throws MIDDException {
@@ -379,8 +375,8 @@ public class Interval<T extends Comparable<T>> {
         this.lowerBoundClosed = b;
     }
 
-    public void setLowerInfinite(boolean b) {
-        this.lowerBound.setNegativeInfinity(b);
+    public void setLowerInfinite() {
+        this.lowerBound.setInfinity(EndPoint.Infinity.NEGATIVE);
         this.lowerBoundClosed = false;
 
     }
@@ -397,8 +393,8 @@ public class Interval<T extends Comparable<T>> {
         this.upperBoundClosed = b;
     }
 
-    public void setUpperInfinite(boolean b) {
-        this.upperBound.setPositiveInfinity(b);
+    public void setUpperInfinite() {
+        this.upperBound.setInfinity(EndPoint.Infinity.POSITIVE);
         this.upperBoundClosed = false;
     }
 
@@ -409,7 +405,7 @@ public class Interval<T extends Comparable<T>> {
         if (lowerBoundClosed && upperBoundClosed && lowerBound.equals(this.upperBound)) {
             builder.append("[" + lowerBound.toString() + "]");
         } else {
-            if (this.lowerBound.getNegativeInfinity()) {
+            if (this.lowerBound.negativeInfinity()) {
                 builder.append("(-inf");
             } else {
                 builder.append(this.lowerBoundClosed ? "[" : "(");
@@ -417,7 +413,7 @@ public class Interval<T extends Comparable<T>> {
             }
             builder.append(",");
 
-            if (this.upperBound.getPositiveInfinity()) {
+            if (this.upperBound.positiveInfinity()) {
                 builder.append("inf)");
             } else {
                 builder.append(this.upperBound + (this.upperBoundClosed ? "]" : ")"));

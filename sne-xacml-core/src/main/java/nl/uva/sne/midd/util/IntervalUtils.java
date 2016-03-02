@@ -44,12 +44,12 @@ public class IntervalUtils {
     public static List<Interval> complement(
             List<Interval> intervals) throws MIDDException {
 
-        Interval w = new Interval(new EndPoint(true, false), new EndPoint(false, true));
-        List<Interval> op1 = new ArrayList<Interval>();
+        Interval w = new Interval(new EndPoint(EndPoint.Infinity.NEGATIVE), new EndPoint(EndPoint.Infinity.POSITIVE));
+        List<Interval> op1 = new ArrayList<>();
         op1.add(w);
 
         for (Interval op2 : intervals) {
-            List<Interval> result = new ArrayList<Interval>();
+            List<Interval> result = new ArrayList<>();
 
             for (Interval item : op1) {
                 if (item.isIntersec(op2)) {

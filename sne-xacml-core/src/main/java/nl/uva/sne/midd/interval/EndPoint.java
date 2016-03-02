@@ -1,9 +1,5 @@
 /*
- * SNE-XACML: A high performance XACML evaluation engine.
- *
- * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
- * System and Network Engineering Group, University of Amsterdam.
- * All rights reserved.
+ * Copyright (C) 2013-2016 Canh Ngo <canhnt@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -30,31 +26,26 @@ import nl.uva.sne.midd.util.GenericUtils;
  */
 public class EndPoint<T extends Comparable<T>> implements Comparable<EndPoint<T>> {
 
-    private boolean fNegativeInfinity;
+    public enum Infinity {
+        POSITIVE,
+        NEGATIVE
+    }
 
-    private boolean fPositiveInfinity;
+    private Infinity infinity;
 
     private T value;
 
-    public EndPoint(boolean negativeInfinity, boolean positiveInfinity) {
-        if (!(negativeInfinity ^ positiveInfinity)) {
-            throw new IllegalArgumentException("Only -inf or +inf at a time");
-        }
-
-        this.fPositiveInfinity = positiveInfinity;
-        this.fNegativeInfinity = negativeInfinity;
-        this.value = null;
+    public EndPoint(Infinity infinity) {
+        this.infinity = infinity;
     }
 
     public EndPoint(T value) throws MIDDException {
-        this.fPositiveInfinity = false;
-        this.fNegativeInfinity = false;
         this.value = GenericUtils.newInstance(value);
+        this.infinity = null;
     }
 
     public EndPoint(EndPoint<T> p) throws MIDDException {
-        this.fNegativeInfinity = p.fNegativeInfinity;
-        this.fPositiveInfinity = p.fPositiveInfinity;
+        this.infinity = p.infinity;
 
         // Perform deep copy
         this.value = GenericUtils.newInstance(p.value);
@@ -62,19 +53,27 @@ public class EndPoint<T extends Comparable<T>> implements Comparable<EndPoint<T>
 
     @Override
     public int compareTo(EndPoint<T> o) {
-        if (this.fPositiveInfinity) {
-            return o.fPositiveInfinity ? 0 : 1;
-        } else if (this.fNegativeInfinity) {
-            return o.fNegativeInfinity ? 0 : -1;
+        if (positiveInfinity()) {
+            return o.positiveInfinity() ? 0 : 1;
+        } else if (negativeInfinity()) {
+            return o.negativeInfinity() ? 0 : -1;
         } else {
-            if (o.fPositiveInfinity) {
+            if (o.positiveInfinity()) {
                 return -1;
-            } else if (o.fNegativeInfinity) {
+            } else if (o.negativeInfinity()) {
                 return 1;
             } else {
                 return this.value.compareTo(o.value);
             }
         }
+    }
+
+    public boolean negativeInfinity() {
+        return this.infinity == Infinity.NEGATIVE;
+    }
+
+    public boolean positiveInfinity() {
+        return this.infinity == Infinity.POSITIVE;
     }
 
     /* (non-Javadoc)
@@ -86,31 +85,22 @@ public class EndPoint<T extends Comparable<T>> implements Comparable<EndPoint<T>
             return true;
         }
 
-        if (!(obj instanceof EndPoint)) {
-            return false;
+        if (obj instanceof EndPoint) {
+            return equals((EndPoint<T>) obj);
         }
 
-        EndPoint<T> other = (EndPoint<T>) obj;
-
-        if ((fNegativeInfinity != other.fNegativeInfinity) || (fPositiveInfinity != other.fPositiveInfinity)) {
-            return false;
-        }
-        if (value == other.value) {
-            return true;
-        }
-
-        if (value != null) {
-            return value.equals(other.value);
-        }
         return false;
     }
 
-    public boolean getNegativeInfinity() {
-        return this.fNegativeInfinity;
-    }
-
-    public boolean getPositiveInfinity() {
-        return this.fPositiveInfinity;
+    protected boolean equals(final EndPoint<T> other) {
+        if (this.infinity == other.infinity) {
+            if (value == other.value) {
+                return true;
+            } else if (value != null) {
+                return value.equals(other.value);
+            }
+        }
+        return false;
     }
 
     /* (non-Javadoc)
@@ -120,22 +110,19 @@ public class EndPoint<T extends Comparable<T>> implements Comparable<EndPoint<T>
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + (fNegativeInfinity ? 1231 : 1237);
-        result = prime * result + (fPositiveInfinity ? 1231 : 1237);
+        result = prime * result + (negativeInfinity() ? 1231 : 1237);
+        result = prime * result + (positiveInfinity() ? 1231 : 1237);
         result = prime * result + ((value == null) ? 0 : value.hashCode());
         return result;
     }
 
-    public void setNegativeInfinity(boolean b) {
-        this.fPositiveInfinity = false;
-        this.fNegativeInfinity = b;
+    public void setInfinity(Infinity infinity) {
+        this.infinity = infinity;
         this.value = null;
     }
 
-    public void setPositiveInfinity(boolean b) {
-        this.fPositiveInfinity = b;
-        this.fNegativeInfinity = false;
-        this.value = null;
+    public Infinity getInfinity() {
+        return this.infinity;
     }
 
     @SuppressWarnings("unchecked")

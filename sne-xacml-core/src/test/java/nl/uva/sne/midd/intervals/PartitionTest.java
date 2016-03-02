@@ -158,14 +158,15 @@ public class PartitionTest {
      */
     public void testCombinePartition4() throws MIDDException {
         List<Interval<Double>> listP1 = new ArrayList<Interval<Double>>();
-        listP1.add(new Interval<Double>(new EndPoint<Double>(true, false), new EndPoint<Double>(1.0), false, true));    // (-inf, 1]
-        listP1.add(new Interval<Double>(3.0, 4.0, false, true));
-        listP1.add(new Interval<Double>(6.0, 8.0, true, false));
+        listP1.add(new Interval<>(new EndPoint<Double>(EndPoint.Infinity.NEGATIVE),
+                new EndPoint<>(1.0), false, true));    // (-inf, 1]
+        listP1.add(new Interval<>(3.0, 4.0, false, true));
+        listP1.add(new Interval<>(6.0, 8.0, true, false));
 
         List<Interval<Double>> listP2 = new ArrayList<Interval<Double>>();
-        listP2.add(new Interval<Double>(-2.0, 2.0));                // (-2, 2)
-        listP2.add(new Interval<Double>(4.0, 5.5, true, true));        // [4, 5.5]
-        listP2.add(new Interval<Double>(8.0, 10.0, false, true));    // (8, 10]
+        listP2.add(new Interval<>(-2.0, 2.0));                // (-2, 2)
+        listP2.add(new Interval<>(4.0, 5.5, true, true));        // [4, 5.5]
+        listP2.add(new Interval<>(8.0, 10.0, false, true));    // (8, 10]
 
         Partition<Double> p1 = new Partition<Double>(listP1);
         Partition<Double> p2 = new Partition<Double>(listP2);

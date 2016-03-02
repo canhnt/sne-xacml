@@ -58,22 +58,20 @@ public class IntervalTest {
 
     @Test
     public void testContainsMethod() throws MIDDException {
-//		assertTrue((new Interval<Double>(1.0, 5.0)).isIntersect(new Interval<Double>(2.0, 4.0)));
+        assertTrue((new Interval<>(1.0, 5.0, true, false)).contains(new Interval<>(1.0, 3.0)));
 
-        assertTrue((new Interval<Double>(1.0, 5.0, true, false)).contains(new Interval<Double>(1.0, 3.0)));
+        assertFalse((new Interval<>(1.0, 5.0, false, true)).contains(new Interval<>(1.0, 3.0, true, false)));
 
-        assertFalse((new Interval<Double>(1.0, 5.0, false, true)).contains(new Interval<Double>(1.0, 3.0, true, false)));
+        assertTrue((new Interval<>(1.0, 5.0, true, true)).contains(new Interval<>(2.0, 5.0, true, true)));
 
-        assertTrue((new Interval<Double>(1.0, 5.0, true, true)).contains(new Interval<Double>(2.0, 5.0, true, true)));
+        assertFalse((new Interval<>(1.0, 5.0, true, false)).contains(new Interval<>(2.0, 5.0, true, true)));
 
-        assertFalse((new Interval<Double>(1.0, 5.0, true, false)).contains(new Interval<Double>(2.0, 5.0, true, true)));
+        Interval<Double> it1 = new Interval<>(new EndPoint<Double>(EndPoint.Infinity.NEGATIVE), new EndPoint<>(5.0)); //(-inf, 5)
 
-        Interval<Double> it1 = new Interval<Double>(new EndPoint<Double>(true, false), new EndPoint<Double>(5.0)); //(-inf, 5)
-
-        Interval<Double> it11 = new Interval<Double>(it1); // (-inf, 5]
+        Interval<Double> it11 = new Interval<>(it1); // (-inf, 5]
         it11.setUpperBoundClosed(true);
 
-        Interval<Double> it2 = new Interval<Double>(new EndPoint<Double>(true, false), new EndPoint<Double>(5.0)); //(-inf, 5)
+        Interval<Double> it2 = new Interval<>(new EndPoint<Double>(EndPoint.Infinity.NEGATIVE), new EndPoint<>(5.0)); //(-inf, 5)
         assertTrue(it1.contains(it2));
         assertTrue(it11.contains(it2));
 
@@ -98,7 +96,7 @@ public class IntervalTest {
         // (4, inf)
         it1.setLowerBound(4.0);
         it1.setLowerBoundClosed(false);
-        it1.setUpperInfinite(true);
+        it1.setUpperInfinite();
 
         assertFalse(it1.contains(it2));
 
@@ -241,49 +239,49 @@ public class IntervalTest {
     @Test
     public void testComplement2() throws MIDDException {
         // (-inf, 3]
-        Interval<Double> i1 = new Interval<Double>(new EndPoint<Double>(true, false),
-                new EndPoint<Double>(3.0), false, false);
+        Interval<Double> i1 = new Interval<>(new EndPoint<Double>(EndPoint.Infinity.NEGATIVE),
+                new EndPoint<>(3.0), false, false);
 
         // (1, 4)
-        List<Interval<Double>> c1 = i1.complement(new Interval<Double>(1.0, 4.0, true, true));
+        List<Interval<Double>> c1 = i1.complement(new Interval<>(1.0, 4.0, true, true));
         assertNotNull(c1);
         assertEquals(c1.size(), 1);
-        assertTrue(c1.get(0).equals(new Interval<Double>(new EndPoint<Double>(true, false),
-                new EndPoint<Double>(1.0), false, false)));
+        assertTrue(c1.get(0).equals(new Interval<>(new EndPoint<Double>(EndPoint.Infinity.NEGATIVE),
+                new EndPoint<>(1.0), false, false)));
 
         // (1,2)
-        List<Interval<Double>> c2 = i1.complement(new Interval<Double>(1.0, 2.0, false, false));
+        List<Interval<Double>> c2 = i1.complement(new Interval<>(1.0, 2.0, false, false));
         assertNotNull(c2);
         assertEquals(c2.size(), 2);
-        assertTrue(c2.get(0).equals(new Interval<Double>(new EndPoint<Double>(true, false),
-                new EndPoint<Double>(1.0), false, true)));
-        assertTrue(c2.get(1).equals(new Interval<Double>(2.0, 3.0, true, false)));
+        assertTrue(c2.get(0).equals(new Interval<>(new EndPoint<Double>(EndPoint.Infinity.NEGATIVE),
+                new EndPoint<>(1.0), false, true)));
+        assertTrue(c2.get(1).equals(new Interval<>(2.0, 3.0, true, false)));
 
         // (-inf, 0)
-        List<Interval<Double>> c3 = i1.complement(new Interval<Double>(new EndPoint<Double>(true, false),
+        List<Interval<Double>> c3 = i1.complement(new Interval<>(new EndPoint<Double>(EndPoint.Infinity.NEGATIVE),
                 new EndPoint<Double>(0.0), false, false));
         assertNotNull(c3);
         assertEquals(c3.size(), 1);
-        assertTrue(c3.get(0).equals(new Interval<Double>(0.0, 3.0, true, false)));
+        assertTrue(c3.get(0).equals(new Interval<>(0.0, 3.0, true, false)));
 
         // (0, inf)
-        List<Interval<Double>> c4 = i1.complement(new Interval<Double>(new EndPoint<Double>(0.0),
-                new EndPoint<Double>(false, true), false, false));
+        List<Interval<Double>> c4 = i1.complement(new Interval<>(new EndPoint<>(0.0),
+                new EndPoint<Double>(EndPoint.Infinity.POSITIVE), false, false));
         assertNotNull(c4);
         assertEquals(c4.size(), 1);
-        assertTrue(c4.get(0).equals(new Interval<Double>(new EndPoint<Double>(true, false),
-                new EndPoint<Double>(0.0), false, true)));
+        assertTrue(c4.get(0).equals(new Interval<>(new EndPoint<Double>(EndPoint.Infinity.NEGATIVE),
+                new EndPoint<>(0.0), false, true)));
     }
 
     @Test
     public void testEquals() throws MIDDException {
-        Interval<Double> i1 = new Interval<Double>(new EndPoint<Double>(true, false),
-                new EndPoint<Double>(3.0), false, false);
-        Interval<Double> i2 = new Interval<Double>(new EndPoint<Double>(true, false),
-                new EndPoint<Double>(3.0), false, false);
+        Interval<Double> i1 = new Interval<>(new EndPoint<Double>(EndPoint.Infinity.NEGATIVE),
+                new EndPoint<>(3.0), false, false);
+        Interval<Double> i2 = new Interval<>(new EndPoint<Double>(EndPoint.Infinity.NEGATIVE),
+                new EndPoint<>(3.0), false, false);
 
         assertTrue(i1.equals(i2));
-        assertTrue(i4.equals(new Interval<Double>(1.0, 2.0, true, false)));
+        assertTrue(i4.equals(new Interval<>(1.0, 2.0, true, false)));
     }
 
 }

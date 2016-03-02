@@ -32,35 +32,35 @@ public class EndPointTest {
 
     @Test
     public void testCompareTo() throws MIDDException {
-        EndPoint<Integer> pi1 = new EndPoint<Integer>(10);
-        EndPoint<Integer> pi2 = new EndPoint<Integer>(false, true);
-        EndPoint<Integer> pi3 = new EndPoint<Integer>(true, false);
+        EndPoint<Integer> pi1 = new EndPoint<>(10);
+        EndPoint<Integer> pi2 = new EndPoint<>(EndPoint.Infinity.POSITIVE);
+        EndPoint<Integer> pi3 = new EndPoint<>(EndPoint.Infinity.NEGATIVE);
 
-        EndPoint<Double> pd1 = new EndPoint<Double>(15.0);
+        EndPoint<Double> pd1 = new EndPoint<>(15.0);
 
         assertTrue(pi1.compareTo(pi2) < 0);
         assertTrue(pi1.compareTo(pi3) > 0);
         assertTrue(pi2.compareTo(pi3) > 0);
 
-        EndPoint<Integer> pi4 = new EndPoint<Integer>(40);
-        EndPoint<Integer> pi5 = new EndPoint<Integer>(100);
+        EndPoint<Integer> pi4 = new EndPoint<>(40);
+        EndPoint<Integer> pi5 = new EndPoint<>(100);
         assertTrue(pi4.compareTo(pi5) < 0);
 
     }
 
     @Test
     public void testEquals() throws MIDDException {
-        EndPoint<Integer> pi1 = new EndPoint<Integer>(10);
-        assertTrue(pi1.equals(new EndPoint<Integer>(10)));
+        EndPoint<Integer> pi1 = new EndPoint<>(10);
+        assertTrue(pi1.equals(new EndPoint<>(10)));
 
-        EndPoint<Double> pd1 = new EndPoint<Double>(15.0);
-        assertTrue(pd1.equals(new EndPoint<Double>(15.0)));
+        EndPoint<Double> pd1 = new EndPoint<>(15.0);
+        assertTrue(pd1.equals(new EndPoint<>(15.0)));
 
-        EndPoint<Double> pd2 = new EndPoint<Double>(true, false);
-        assertTrue(pd2.equals(new EndPoint<Double>(true, false)));
+        EndPoint<Double> pd2 = new EndPoint<>(EndPoint.Infinity.NEGATIVE);
+        assertTrue(pd2.equals(new EndPoint<Double>(EndPoint.Infinity.NEGATIVE)));
 
-        EndPoint<Double> pd3 = new EndPoint<Double>(false, true);
-        assertTrue(pd3.equals(new EndPoint<Double>(false, true)));
+        EndPoint<Double> pd3 = new EndPoint<>(EndPoint.Infinity.POSITIVE);
+        assertTrue(pd3.equals(new EndPoint<>(EndPoint.Infinity.POSITIVE)));
 
     }
 

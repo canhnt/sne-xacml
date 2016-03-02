@@ -99,8 +99,8 @@ public class AllOfExpression {
 
             if (!intervals.containsKey(varId)) {
                 // initialize interval as (-inf, +inf)
-                Interval newInterval = new Interval(new EndPoint(true, false),
-                        new EndPoint(false, true));
+                Interval newInterval = new Interval(new EndPoint(EndPoint.Infinity.NEGATIVE),
+                        new EndPoint(EndPoint.Infinity.POSITIVE));
                 intervals.put(varId, new AttributeInfo(isMustBePresent, newInterval));
             }
 
