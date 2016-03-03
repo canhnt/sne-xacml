@@ -1,8 +1,5 @@
 /*
- * SNE-XACML: A high performance XACML evaluation engine.
- *
- * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
- * System and Network Engineering Group, University of Amsterdam.
+ * Copyright (C) 2013-2016 Canh Ngo <canhnt@gmail.com>
  * All rights reserved.
  *
  * This library is free software; you can redistribute it and/or
@@ -256,9 +253,9 @@ public class BuildMIDDTest {
             // (1, 4, null) -> IN_DP
             // (1, 4, 4.5) -> D,O2
             Variable<?> request1[] = new Variable<?>[]{
-                    new Variable<Double>(0, 1.0),
-                    new Variable<Double>(1, 4.0),
-                    new Variable<Double>(2, 3.5)
+                    new Variable<>(0, 1.0),
+                    new Variable<>(1, 4.0),
+                    new Variable<>(2, 3.5)
             };
             Decision result1 = EvaluationUtils.eval(n, createRequest(request1));
             assertTrue(result1.getDecision() == DecisionType.Deny);

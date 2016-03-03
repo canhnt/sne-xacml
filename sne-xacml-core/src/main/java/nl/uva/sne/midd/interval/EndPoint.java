@@ -25,15 +25,36 @@ public class EndPoint<T extends Comparable<T>> implements Comparable<EndPoint<T>
 
     public enum Infinity {
         POSITIVE,
-        NEGATIVE
-    }
+        NEGATIVE;
 
-    public static final EndPoint NEGATIVE_INFINITY = new EndPoint(Infinity.NEGATIVE);
-    public static final EndPoint POSITIVE_INFINITY = new EndPoint(Infinity.POSITIVE);
+        @Override
+        public String toString() {
+            switch (this) {
+                case POSITIVE: return "+inf";
+                case NEGATIVE: return "-inf";
+                default: throw new IllegalArgumentException();
+            }
+        }
+    }
 
     private Infinity infinity;
 
     private T value;
+
+    public static <T extends Comparable<T>> EndPoint<T> of(final T v) throws MIDDException {
+        return new EndPoint<>(v);
+    }
+
+    /**
+     * Create an infinite endpoint
+     *
+     * @param infValue Either be +inf or -inf
+     * @return
+     * @throws MIDDException
+     */
+    public static EndPoint of(final Infinity infValue) throws MIDDException {
+        return new EndPoint<>(infValue);
+    }
 
     public EndPoint(Infinity infinity) {
         this.infinity = infinity;
@@ -85,11 +106,11 @@ public class EndPoint<T extends Comparable<T>> implements Comparable<EndPoint<T>
             return true;
         }
 
-        if (obj instanceof EndPoint) {
-            return equals((EndPoint<T>) obj);
+        if (!(obj instanceof EndPoint)) {
+            return false;
         }
 
-        return false;
+        return equals((EndPoint<T>) obj);
     }
 
     protected boolean equals(final EndPoint<T> other) {
@@ -104,7 +125,7 @@ public class EndPoint<T extends Comparable<T>> implements Comparable<EndPoint<T>
     }
 
     /* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
+     * @see java.lang.Object#hashCode()
 	 */
     @Override
     public int hashCode() {
@@ -125,10 +146,14 @@ public class EndPoint<T extends Comparable<T>> implements Comparable<EndPoint<T>
         return this.infinity;
     }
 
+    public boolean isInfinity() {
+        return this.infinity != null && this.value == null;
+    }
+
     @SuppressWarnings("unchecked")
     @Override
     public String toString() {
-        return value.toString();
+        return value == null ? infinity.toString() : value.toString();
     }
 
     public Class<T> getType() {

@@ -28,7 +28,6 @@ import com.google.common.collect.ImmutableList;
 
 /**
  * @author Canh Ngo
- * @date: Sep 7, 2012
  */
 public class Interval<T extends Comparable<T>> {
 
@@ -46,6 +45,22 @@ public class Interval<T extends Comparable<T>> {
     public Interval(EndPoint<T> bound) {
         this.lowerBound = this.upperBound = bound;
         this.lowerBoundClosed = (this.upperBoundClosed = true);
+    }
+
+    /**
+     * Create an interval either be (-inf, bound) or (bound, +inf)
+     *
+     * @param inf
+     * @param v
+     */
+    public Interval(EndPoint.Infinity inf, final T v) throws MIDDException {
+        if (inf == EndPoint.Infinity.NEGATIVE) {
+            this.lowerBound = EndPoint.of(EndPoint.Infinity.NEGATIVE);
+            this.upperBound = EndPoint.of(v);
+        } else {
+            this.lowerBound = EndPoint.of(v);
+            this.upperBound = EndPoint.of(EndPoint.Infinity.POSITIVE);
+        }
     }
 
     public Interval(EndPoint<T> lowerBound, EndPoint<T> upperBound) throws MIDDException {
@@ -71,8 +86,13 @@ public class Interval<T extends Comparable<T>> {
         this(interval.lowerBound, interval.upperBound, interval.lowerBoundClosed, interval.upperBoundClosed);
     }
 
+    /**
+     * Create an interval containing only an end-point, i.e., [v]
+     * @param bound
+     * @throws MIDDException
+     */
     public Interval(T bound) throws MIDDException {
-        this.lowerBound = this.upperBound = new EndPoint<T>(bound);
+        this.lowerBound = this.upperBound = new EndPoint<>(bound);
         this.lowerBoundClosed = this.upperBoundClosed = true;
     }
 
@@ -114,7 +134,7 @@ public class Interval<T extends Comparable<T>> {
             } else {
                 isLowerClosed = this.lowerBoundClosed;
             }
-            newInterval.setLowerBoundClosed(isLowerClosed);
+            newInterval.closeLeft(isLowerClosed);
 
             final boolean isUpperClosed;
             if (this.upperBound.compareTo(op.lowerBound) == 0) {
@@ -122,7 +142,7 @@ public class Interval<T extends Comparable<T>> {
             } else {
                 isUpperClosed = this.upperBoundClosed;
             }
-            newInterval.setUpperBoundClosed(isUpperClosed);
+            newInterval.closeRight(isUpperClosed);
 
             // return empty if new interval is invalid
             if (!newInterval.validate()) {
@@ -133,11 +153,11 @@ public class Interval<T extends Comparable<T>> {
             final Interval<T> interval1 = new Interval<>(this.lowerBound, op.lowerBound);
             final Interval<T> interval2 = new Interval<>(op.upperBound, this.upperBound);
 
-            interval1.setLowerBoundClosed(this.lowerBoundClosed);
-            interval1.setUpperBoundClosed(!op.lowerBoundClosed);
+            interval1.closeLeft(!interval1.isLowerInfinite() && this.lowerBoundClosed);
+            interval1.closeRight(!interval1.isUpperInfinite() && !op.lowerBoundClosed);
 
-            interval2.setLowerBoundClosed(!op.upperBoundClosed);
-            interval2.setUpperBoundClosed(this.upperBoundClosed);
+            interval2.closeLeft(!interval2.isLowerInfinite() && !op.upperBoundClosed);
+            interval2.closeRight(!interval2.isUpperInfinite() && this.upperBoundClosed);
 
             final List<Interval<T>> result = new ArrayList<>();
             if (interval1.validate()) {
@@ -338,7 +358,7 @@ public class Interval<T extends Comparable<T>> {
     }
 
     public boolean isLowerInfinite() {
-        return lowerBound.getInfinity() == EndPoint.Infinity.NEGATIVE;
+        return lowerBound.isInfinity();
     }
 
     public boolean isUpperBoundClosed() {
@@ -346,7 +366,7 @@ public class Interval<T extends Comparable<T>> {
     }
 
     public boolean isUpperInfinite() {
-        return upperBound.getInfinity() == EndPoint.Infinity.POSITIVE;
+        return upperBound.isInfinity();
     }
 
     public void setLowerBound(final EndPoint<T> lowerBound) throws MIDDException {
@@ -357,26 +377,24 @@ public class Interval<T extends Comparable<T>> {
         this.lowerBound = new EndPoint<>(value);
     }
 
-    public void setLowerBoundClosed(boolean b) {
+    public Interval<T> closeLeft(boolean b) {
+        if (b && lowerBound.isInfinity()) {
+            throw new IllegalArgumentException("Cannot set closed because the lower bound is infinite");
+        }
         this.lowerBoundClosed = b;
+        return this;
     }
 
-    public void setLowerInfinite() {
-        this.lowerBound.setInfinity(EndPoint.Infinity.NEGATIVE);
-        this.lowerBoundClosed = false;
-
+    public Interval<T> closeRight(boolean b) {
+        if (b && upperBound.isInfinity()) {
+            throw new IllegalArgumentException("Cannot set closed because the upper bound is infinite");
+        }
+        this.upperBoundClosed = b;
+        return this;
     }
 
     public void setUpperBound(final EndPoint<T> upperBound) throws MIDDException {
         this.upperBound = new EndPoint<>(upperBound);
-    }
-
-    public void setUpperBound(final T upperBound) throws MIDDException {
-        this.upperBound = new EndPoint<>(upperBound);
-    }
-
-    public void setUpperBoundClosed(boolean b) {
-        this.upperBoundClosed = b;
     }
 
     public void setUpperInfinite() {
@@ -386,27 +404,27 @@ public class Interval<T extends Comparable<T>> {
 
     @Override
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
 
-        if (lowerBoundClosed && upperBoundClosed && lowerBound.equals(this.upperBound)) {
-            builder.append("[" + lowerBound.toString() + "]");
+        if (isSinglePoint()) {
+            builder.append("[").append(lowerBound).append("]");
         } else {
-            if (this.lowerBound.negativeInfinity()) {
-                builder.append("(-inf");
-            } else {
-                builder.append(this.lowerBoundClosed ? "[" : "(");
-                builder.append(this.lowerBound.toString());
-            }
-            builder.append(",");
+            builder.append((this.lowerBound.negativeInfinity() || !this.lowerBoundClosed) ? "(" : "[")
+                    .append(this.lowerBound)
+                    .append(", ")
+                    .append(this.upperBound)
+                    .append((this.upperBound.positiveInfinity() || !this.upperBoundClosed) ? ")" : "]");
 
-            if (this.upperBound.positiveInfinity()) {
-                builder.append("inf)");
-            } else {
-                builder.append(this.upperBound + (this.upperBoundClosed ? "]" : ")"));
-            }
         }
-
         return builder.toString();
+    }
+
+    /**
+     * <code>True</code> if the inteval only contains a single point value
+     * @return
+     */
+    public boolean isSinglePoint() {
+        return lowerBoundClosed && upperBoundClosed && lowerBound.equals(this.upperBound);
     }
 
     /**
@@ -443,5 +461,36 @@ public class Interval<T extends Comparable<T>> {
         }
 
         throw new MIDDException("Unsupported (-inf, +inf) interval");
+    }
+
+    public static <T extends Comparable<T>> Interval<T> of(T lowerBound, T upperBound, boolean isLowerBoundClosed, boolean isUpperBoundClosed) throws MIDDException {
+        return new Interval(lowerBound, upperBound, isLowerBoundClosed, isUpperBoundClosed);
+    }
+
+    public static <T extends Comparable<T>> Interval<T> of(T lowerBound, T upperBound) throws MIDDException {
+        return new Interval(lowerBound, upperBound);
+    }
+
+    /**
+     * Create an interval either be (-inf, v) or (v, +inf)
+     * @param v
+     * @param inf
+     * @param <T>
+     * @return
+     * @throws MIDDException
+     */
+    public static <T extends Comparable<T>> Interval<T> from(final EndPoint.Infinity inf, final T v) throws MIDDException {
+        return new Interval<>(inf, v);
+    }
+
+    /**
+     * Create an interval with a single endpoint
+     * @param v
+     * @param <T>
+     * @return
+     * @throws MIDDException
+     */
+    public static <T extends Comparable<T>> Interval<T> of(final T v) throws MIDDException {
+        return new Interval(v);
     }
 }

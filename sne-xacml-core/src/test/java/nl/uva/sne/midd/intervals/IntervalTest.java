@@ -37,204 +37,175 @@ public class IntervalTest {
 
     private static final List<Interval<Double>> EMPTY_LIST = ImmutableList.of();
 
-    private static Interval<Double> i1;
-
-    private static Interval<Double> i2;
-
-    private static Interval<Double> i3;
-
-    private static Interval<Double> i4;
-
-    private static Interval<Double> i5;
-
-    static {
-        try {
-            i4 = new Interval<Double>(1.0, 2.0, true, false);
-            i5 = new Interval<Double>(1.0, 2.0, false, true);
-            i3 = new Interval<Double>(2.0);
-            i2 = new Interval<Double>(1.0);
-            i1 = new Interval<Double>(1.0, 2.0);
-        } catch (MIDDException e) {
-            e.printStackTrace();
-        }
-    }
-
-
     @Test
     public void testContainsMethod() throws MIDDException {
-        assertTrue((new Interval<>(1.0, 5.0, true, false)).contains(new Interval<>(1.0, 3.0)));
+        assertTrue((Interval.of(1.0, 5.0, true, false)).contains(Interval.of(1.0, 3.0)));
 
-        assertFalse((new Interval<>(1.0, 5.0, false, true)).contains(new Interval<>(1.0, 3.0, true, false)));
+        assertFalse((Interval.of(1.0, 5.0, false, true)).contains(Interval.of(1.0, 3.0, true, false)));
 
-        assertTrue((new Interval<>(1.0, 5.0, true, true)).contains(new Interval<>(2.0, 5.0, true, true)));
+        assertTrue((Interval.of(1.0, 5.0, true, true)).contains(Interval.of(2.0, 5.0, true, true)));
 
-        assertFalse((new Interval<>(1.0, 5.0, true, false)).contains(new Interval<>(2.0, 5.0, true, true)));
+        assertFalse((Interval.of(1.0, 5.0, true, false)).contains(Interval.of(2.0, 5.0, true, true)));
 
-        Interval<Double> it1 = new Interval<>(new EndPoint<Double>(EndPoint.Infinity.NEGATIVE), new EndPoint<>(5.0)); //(-inf, 5)
+        final Interval<Double> upTo5 = Interval.from(EndPoint.Infinity.NEGATIVE, 5.0);
 
-        Interval<Double> it11 = new Interval<>(it1); // (-inf, 5]
-        it11.setUpperBoundClosed(true);
+        final Interval<Double> upToInclude5 = Interval.from(EndPoint.Infinity.NEGATIVE, 5.0).closeRight(true); // (-inf, 5]
 
-        Interval<Double> it2 = new Interval<>(new EndPoint<Double>(EndPoint.Infinity.NEGATIVE), new EndPoint<>(5.0)); //(-inf, 5)
-        assertTrue(it1.contains(it2));
-        assertTrue(it11.contains(it2));
+        assertTrue(Interval.from(EndPoint.Infinity.NEGATIVE, 5.0). //(-inf, 5)
+                contains(upTo5));
+        assertTrue(upToInclude5.contains(upTo5));
 
-        it2.setUpperBoundClosed(true); // it2 = (-inf, 5]
-        assertFalse(it1.contains(it2));
+        assertFalse(upTo5.contains(upToInclude5));
 
+        assertTrue(upTo5.contains(
+                Interval.from(EndPoint.Infinity.NEGATIVE, 4.0).closeRight(true)));// (-inf, 4]
 
-        it2.setUpperBound(4.0); // (-inf, 4]
-        assertTrue(it1.contains(it2));
+        assertTrue(upTo5.contains(
+                Interval.from(EndPoint.Infinity.NEGATIVE, 4.0) // (-inf, 4)
+        ));
 
+        assertFalse(upTo5.contains(
+                Interval.from(EndPoint.Infinity.NEGATIVE, 5.1) // (-inf, 5.1)
+        ));
 
-        it2.setUpperBoundClosed(false); // (-inf, 4)
-        assertTrue(it1.contains(it2));
+        assertFalse(upTo5.contains(
+                Interval.from(EndPoint.Infinity.NEGATIVE, 5.1).closeRight(true)));// (-inf, 5.1]
 
-        it2.setUpperBound(5.1);
-        it2.setUpperBoundClosed(false); // (-inf, 5.1)
-        assertFalse(it1.contains(it2));
-        it2.setUpperBoundClosed(true); // (-inf, 5.1]
-        assertFalse(it1.contains(it2));
-
-
-        // (4, inf)
-        it1.setLowerBound(4.0);
-        it1.setLowerBoundClosed(false);
-        it1.setUpperInfinite();
-
-        assertFalse(it1.contains(it2));
-
+        assertFalse(Interval.from(EndPoint.Infinity.POSITIVE, 4.0).contains(
+                Interval.from(EndPoint.Infinity.NEGATIVE, 4.0)
+        ));
     }
 
     @Test
-    public void testIncludeBound() throws MIDDException {
+    public void open_interval_includes_with_a_single_point() throws MIDDException {
         // (1,2) U [1] -> [1, 2)
-        Interval<Double> t1 = new Interval<Double>(i1);
-        System.out.print(t1.toString() + " U " + i2.toString() + "->");
-        t1.includeBound(i2);
-        System.out.println(t1.toString());
-        assertTrue(t1.equals(i4));
-
-
-        // [1] U (1,2) -> [1, 2)
-        Interval<Double> t2 = new Interval<Double>(i2);
-        System.out.print(t2.toString() + " U " + i1.toString() + "->");
-        t2.includeBound(i1);
-        System.out.println(t2.toString());
-        assertTrue(t2.equals(i4));
+        assertEquals(Interval.of(1.0, 2.0)
+                        .closeLeft(true)
+                        .closeRight(false),
+                Interval.of(1.0, 2.0).includeBound(Interval.of(1.0)));
 
         // (1,2) U [2] -> (1, 2]
-        Interval<Double> t3 = new Interval<Double>(i1);
-        System.out.print(t3.toString() + " U " + i3.toString() + "->");
-        t3.includeBound(i3);
-        System.out.println(t3.toString());
-        assertTrue(t3.equals(i5));
+        assertEquals(Interval.of(1.0, 2.0)
+                        .closeLeft(false)
+                        .closeRight(true),
+                Interval.of(1.0, 2.0).includeBound(Interval.of(2.0)));
+
+        // [1] U (1,2) -> [1, 2)
+        assertEquals(Interval.of(1.0, 2.0)
+                        .closeLeft(true)
+                        .closeRight(false),
+                Interval.of(1.0).includeBound(Interval.of(1.0, 2.0)));
 
         // [2] U (1,2) -> (1, 2]
-        Interval<Double> t4 = new Interval<Double>(i3);
-        System.out.print(t4.toString() + " U " + i1.toString() + "->");
-        t4.includeBound(i1);
-        System.out.println(t4.toString());
-        assertTrue(t4.equals(i5));
-
+        assertEquals(Interval.of(1.0, 2.0)
+                        .closeLeft(false)
+                        .closeRight(true),
+                Interval.of(2.0).includeBound(Interval.of(1.0, 2.0)));
     }
 
-    @SuppressWarnings("unchecked")
     @Test
     public void testComplement() throws MIDDException {
-        final Interval<Double> i1 = new Interval<>(1.0, 5.0, true, true);
+        final Interval<Double> from1To5 = new Interval<>(1.0, 5.0, true, true);
 
-        assertEquals(new Interval<>(1.0, 5.0, true, true), i1.complement(new Interval<>(-3.0, -2.0, true, true)).get(0));
-        assertEquals(new Interval<>(1.0, 5.0, false, true), i1.complement(new Interval<>(-3.0, 1.0, true, true)).get(0));
-        assertEquals(new Interval<>(1.0, 5.0, true, true), i1.complement(new Interval<>(-3.0, 1.0, true, false)).get(0));
-        assertEquals(new Interval<>(2.5, 5.0, false, true), i1.complement(new Interval<>(-3.0, 2.5, true, true)).get(0));
-        assertEquals(new Interval<>(2.5, 5.0, true, true), i1.complement(new Interval<>(-3.0, 2.5, true, false)).get(0));
-        assertEquals(new Interval<>(5.0, 5.0, true, true), i1.complement(new Interval<>(-3.0, 5.0, true, false)).get(0));
+        assertEquals(Interval.of(1.0, 5.0, true, true), from1To5.complement(Interval.of(-3.0, -2.0, true, true)).get(0));
+        assertEquals(Interval.of(1.0, 5.0, false, true), from1To5.complement(Interval.of(-3.0, 1.0, true, true)).get(0));
+        assertEquals(Interval.of(1.0, 5.0, true, true), from1To5.complement(Interval.of(-3.0, 1.0, true, false)).get(0));
+        assertEquals(Interval.of(2.5, 5.0, false, true), from1To5.complement(Interval.of(-3.0, 2.5, true, true)).get(0));
+        assertEquals(Interval.of(2.5, 5.0, true, true), from1To5.complement(Interval.of(-3.0, 2.5, true, false)).get(0));
+        assertEquals(Interval.of(5.0, 5.0, true, true), from1To5.complement(Interval.of(-3.0, 5.0, true, false)).get(0));
 
-        assertEquals(EMPTY_LIST, i1.complement(new Interval<>(-3.0, 5.0, true, true)));
-        assertEquals(EMPTY_LIST, i1.complement(new Interval<>(-3.0, 6.0, true, true)));
-        assertEquals(EMPTY_LIST, i1.complement(new Interval<>(-3.0, 6.0, true, false)));
+        assertEquals(EMPTY_LIST, from1To5.complement(new Interval<>(-3.0, 5.0, true, true)));
+        assertEquals(EMPTY_LIST, from1To5.complement(new Interval<>(-3.0, 6.0, true, true)));
+        assertEquals(EMPTY_LIST, from1To5.complement(new Interval<>(-3.0, 6.0, true, false)));
 
-        assertEquals(new Interval<>(1.0, 5.0, false, true), i1.complement(new Interval<>(1.0, 1.0, true, true)).get(0));
-        assertEquals(new Interval<>(3.0, 5.0, false, true), i1.complement(new Interval<>(1.0, 3.0, true, true)).get(0));
-        assertEquals(new Interval<>(5.0, 5.0, true, true), i1.complement(new Interval<>(1.0, 5.0, true, false)).get(0));
+        assertEquals(Interval.of(1.0, 5.0, false, true), from1To5.complement(Interval.of(1.0, 1.0, true, true)).get(0));
+        assertEquals(Interval.of(3.0, 5.0, false, true), from1To5.complement(Interval.of(1.0, 3.0, true, true)).get(0));
+        assertEquals(Interval.of(5.0, 5.0, true, true), from1To5.complement(Interval.of(1.0, 5.0, true, false)).get(0));
 
-        assertEquals(EMPTY_LIST, i1.complement(new Interval<>(1.0, 5.0, true, true)));
-        assertEquals(EMPTY_LIST, i1.complement(new Interval<>(1.0, 7.0, true, true)));
-        assertEquals(EMPTY_LIST, i1.complement(new Interval<>(1.0, 7.0, true, false)));
+        assertEquals(EMPTY_LIST, from1To5.complement(Interval.of(1.0, 5.0, true, true)));
+        assertEquals(EMPTY_LIST, from1To5.complement(Interval.of(1.0, 7.0, true, true)));
+        assertEquals(EMPTY_LIST, from1To5.complement(Interval.of(1.0, 7.0, true, false)));
 
-        assertEquals(new Interval<>(1.0, 2.0, true, false), i1.complement(new Interval<>(2.0, 5.0, true, true)).get(0));
-        assertEquals(new Interval<>(1.0, 2.0, true, false), i1.complement(new Interval<>(2.0, 7.0, true, true)).get(0));
-        assertEquals(new Interval<>(1.0, 5.0, true, false), i1.complement(new Interval<>(5.0, 5.0, true, true)).get(0));
-        assertEquals(new Interval<>(1.0, 5.0, true, false), i1.complement(new Interval<>(5.0, 7.0, true, true)).get(0));
-        assertEquals(new Interval<>(1.0, 5.0, true, true), i1.complement(new Interval<>(7.0, 8.0, false, false)).get(0));
+        assertEquals(Interval.of(1.0, 2.0, true, false), from1To5.complement(Interval.of(2.0, 5.0, true, true)).get(0));
+        assertEquals(Interval.of(1.0, 2.0, true, false), from1To5.complement(Interval.of(2.0, 7.0, true, true)).get(0));
+        assertEquals(Interval.of(1.0, 5.0, true, false), from1To5.complement(Interval.of(5.0, 5.0, true, true)).get(0));
+        assertEquals(Interval.of(1.0, 5.0, true, false), from1To5.complement(Interval.of(5.0, 7.0, true, true)).get(0));
+        assertEquals(Interval.of(1.0, 5.0, true, true), from1To5.complement(Interval.of(7.0, 8.0, false, false)).get(0));
 
         // [1, 5] \ [2, 3) -> [1, 2) U [3, 5]
-        List<Interval<Double>> c1 = i1.complement(new Interval<>(2.0, 3.0, true, false));
+        List<Interval<Double>> c1 = from1To5.complement(Interval.of(2.0, 3.0, true, false));
         assertEquals(c1.size(), 2);
-        assertTrue(c1.get(0).equals(new Interval<>(1.0, 2.0, true, false)));
-        assertTrue(c1.get(1).equals(new Interval<>(3.0, 5.0, true, true)));
+        assertTrue(c1.get(0).equals(Interval.of(1.0, 2.0, true, false)));
+        assertTrue(c1.get(1).equals(Interval.of(3.0, 5.0, true, true)));
 
         // [1, 5] \ (2, 3] -> [1, 2] U (3, 5]
-        List<Interval<Double>> c2 = i1.complement(new Interval<>(2.0, 3.0, false, true));
+        List<Interval<Double>> c2 = from1To5.complement(Interval.of(2.0, 3.0, false, true));
         assertEquals(c2.size(), 2);
-        assertTrue(c2.get(0).equals(new Interval<>(1.0, 2.0, true, true)));
-        assertTrue(c2.get(1).equals(new Interval<>(3.0, 5.0, false, true)));
+        assertTrue(c2.get(0).equals(Interval.of(1.0, 2.0, true, true)));
+        assertTrue(c2.get(1).equals(Interval.of(3.0, 5.0, false, true)));
 
         // [1, 5] \ [2, 5) -> [1, 2) U [5]
-        List<Interval<Double>> c3 = i1.complement(new Interval<>(2.0, 5.0, true, false));
+        List<Interval<Double>> c3 = from1To5.complement(Interval.of(2.0, 5.0, true, false));
         assertEquals(c3.size(), 2);
-        assertTrue(c3.get(0).equals(new Interval<>(1.0, 2.0, true, false)));
-        assertTrue(c3.get(1).equals(new Interval<>(5.0, 5.0, true, true)));
+        assertTrue(c3.get(0).equals(Interval.of(1.0, 2.0, true, false)));
+        assertTrue(c3.get(1).equals(Interval.of(5.0, 5.0, true, true)));
 
     }
 
     @Test
     public void testComplement2() throws MIDDException {
-        // (-inf, 3]
-        Interval<Double> i1 = new Interval<>(new EndPoint<Double>(EndPoint.Infinity.NEGATIVE),
-                new EndPoint<>(3.0), false, false);
+        // (-inf, 3)
+        Interval<Double> upTo3 = Interval.from(EndPoint.Infinity.NEGATIVE, 3.0);
 
         // (1, 4)
-        List<Interval<Double>> c1 = i1.complement(new Interval<>(1.0, 4.0, true, true));
-        assertNotNull(c1);
+        final List<Interval<Double>> c1 = upTo3.complement(Interval.of(1.0, 4.0, true, true));
         assertEquals(c1.size(), 1);
-        assertTrue(c1.get(0).equals(new Interval<>(new EndPoint<Double>(EndPoint.Infinity.NEGATIVE),
-                new EndPoint<>(1.0), false, false)));
+        assertEquals(Interval.from(EndPoint.Infinity.NEGATIVE, 1.0), c1.get(0));
 
         // (1,2)
-        List<Interval<Double>> c2 = i1.complement(new Interval<>(1.0, 2.0, false, false));
+        final List<Interval<Double>> c2 = upTo3.complement(Interval.of(1.0, 2.0));
         assertNotNull(c2);
         assertEquals(c2.size(), 2);
-        assertTrue(c2.get(0).equals(new Interval<>(new EndPoint<Double>(EndPoint.Infinity.NEGATIVE),
-                new EndPoint<>(1.0), false, true)));
-        assertTrue(c2.get(1).equals(new Interval<>(2.0, 3.0, true, false)));
+        assertEquals(Interval.from(EndPoint.Infinity.NEGATIVE, 1.0).closeRight(true), c2.get(0));
+        assertEquals(Interval.of(2.0, 3.0).closeLeft(true), c2.get(1));
 
         // (-inf, 0)
-        List<Interval<Double>> c3 = i1.complement(new Interval<>(new EndPoint<Double>(EndPoint.Infinity.NEGATIVE),
-                new EndPoint<Double>(0.0), false, false));
+        final List<Interval<Double>> c3 = upTo3.complement(Interval.from(EndPoint.Infinity.NEGATIVE, 0.0));
         assertNotNull(c3);
         assertEquals(c3.size(), 1);
-        assertTrue(c3.get(0).equals(new Interval<>(0.0, 3.0, true, false)));
+        assertEquals(Interval.of(0.0, 3.0, true, false), c3.get(0));
 
         // (0, inf)
-        List<Interval<Double>> c4 = i1.complement(new Interval<>(new EndPoint<>(0.0),
-                new EndPoint<Double>(EndPoint.Infinity.POSITIVE), false, false));
+        final List<Interval<Double>> c4 = upTo3.complement(Interval.from(EndPoint.Infinity.POSITIVE, 0.0));
         assertNotNull(c4);
         assertEquals(c4.size(), 1);
-        assertTrue(c4.get(0).equals(new Interval<>(new EndPoint<Double>(EndPoint.Infinity.NEGATIVE),
-                new EndPoint<>(0.0), false, true)));
+        assertEquals(Interval.from(EndPoint.Infinity.NEGATIVE, 0.0).closeRight(true), c4.get(0));
     }
 
     @Test
     public void testEquals() throws MIDDException {
-        Interval<Double> i1 = new Interval<>(new EndPoint<Double>(EndPoint.Infinity.NEGATIVE),
-                new EndPoint<>(3.0), false, false);
-        Interval<Double> i2 = new Interval<>(new EndPoint<Double>(EndPoint.Infinity.NEGATIVE),
-                new EndPoint<>(3.0), false, false);
-
-        assertTrue(i1.equals(i2));
-        assertTrue(i4.equals(new Interval<>(1.0, 2.0, true, false)));
+        assertEquals(Interval.from(EndPoint.Infinity.NEGATIVE, 3.0), Interval.from(EndPoint.Infinity.NEGATIVE, 3.0));
+        assertEquals(Interval.of(1.0, 2.0, true, false), Interval.of(1.0, 2.0).closeLeft(true));
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void test_set_close_left_on_negative_infinite() throws MIDDException {
+        Interval.from(EndPoint.Infinity.NEGATIVE, 1.0).closeLeft(true);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void test_set_close_rights_on_negative_infinite() throws MIDDException {
+        Interval.from(EndPoint.Infinity.POSITIVE, 1.0).closeRight(true);
+    }
+
+    @Test
+    public void testToString() throws MIDDException {
+        assertEquals("(-inf, 1.0)", Interval.from(EndPoint.Infinity.NEGATIVE, 1.0).toString());
+        assertEquals("(-inf, 2.0]", Interval.from(EndPoint.Infinity.NEGATIVE, 2.0).closeRight(true).toString());
+
+        assertEquals("(3.0, 5.0)", Interval.of(3.0, 5.0).toString());
+        assertEquals("(3.0, 5.0]", Interval.of(3.0, 5.0).closeRight(true).toString());
+        assertEquals("[3.0, 5.0)", Interval.of(3.0, 5.0).closeLeft(true).toString());
+        assertEquals("[3.0, 5.0]", Interval.of(3.0, 5.0, true, true).toString());
+    }
 }

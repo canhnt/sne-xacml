@@ -1,8 +1,5 @@
 /*
- * SNE-XACML: A high performance XACML evaluation engine.
- *
- * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
- * System and Network Engineering Group, University of Amsterdam.
+ * Copyright (C) 2013-2016 Canh Ngo <canhnt@gmail.com>
  * All rights reserved.
  *
  * This library is free software; you can redistribute it and/or
@@ -45,8 +42,8 @@ import java.util.Map;
  * <p/>
  * Note: AllOf XACML3 element contains conjunctive sequence of Match expressions.
  * <p/>
- * AllOfType := SEQUENCE_OF<MatchExpression> MatchExpression := (operator, value, varId) // statement: <value> <op>
- * <varId> operator := {gt, ge, lt, le, eq}
+ * AllOfType := SEQUENCE_OF<MatchExpression> MatchExpression := (operator, value, varId) <br/>
+ * operator := [gt, ge, lt, le, eq]
  *
  * @author Canh Ngo
  * @date: Sep 27, 2012
@@ -119,7 +116,7 @@ public class AllOfExpression {
                     // find the largest lower-bound
                     if (value.compareTo(interval.getLowerBound()) >= 0) {
                         interval.setLowerBound(value);
-                        interval.setLowerBoundClosed(operator == OperatorType.LESS_THAN_OR_EQUAL);
+                        interval.closeLeft(operator == OperatorType.LESS_THAN_OR_EQUAL);
                     }
                     break;
                 }
@@ -128,7 +125,7 @@ public class AllOfExpression {
                     int c = value.compareTo(interval.getUpperBound());
                     if (c <= 0) {
                         interval.setUpperBound(value);
-                        interval.setUpperBoundClosed(operator == OperatorType.GREATER_THAN_OR_EQUAL);
+                        interval.closeRight(operator == OperatorType.GREATER_THAN_OR_EQUAL);
                     }
                     break;
                 }
