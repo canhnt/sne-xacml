@@ -21,9 +21,6 @@ package nl.uva.sne.midd.interval;
 import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.util.GenericUtils;
 
-/**
- * @author Canh Ngo
- */
 public class EndPoint<T extends Comparable<T>> implements Comparable<EndPoint<T>> {
 
     public enum Infinity {
@@ -31,8 +28,8 @@ public class EndPoint<T extends Comparable<T>> implements Comparable<EndPoint<T>
         NEGATIVE
     }
 
-    public static final EndPoint<?> NEGATIVE_INFINITY = new EndPoint<>(Infinity.NEGATIVE);
-    public static final EndPoint<?> POSITIVE_INFINITY = new EndPoint<>(Infinity.POSITIVE);
+    public static final EndPoint NEGATIVE_INFINITY = new EndPoint(Infinity.NEGATIVE);
+    public static final EndPoint POSITIVE_INFINITY = new EndPoint(Infinity.POSITIVE);
 
     private Infinity infinity;
 
