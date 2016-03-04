@@ -3,8 +3,8 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>nl.uva.sne</groupId>
-  <artifactId>sne-xacml</artifactId>
-  <version>0.0.4-SNAPSHOT</version>
+  <artifactId>sne-xacml-project</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>SNE-XACML Engine</name>
@@ -14,8 +14,8 @@
   <inceptionYear>2012</inceptionYear>
 
   <modules>
-    <module>sne-xacml-core</module>
-    <module>sne-xacml-demo</module>
+    <module>sne-xacml</module>
+    <module>demo</module>
   </modules>
 
   <organization>
