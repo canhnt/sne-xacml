@@ -1,8 +1,5 @@
 /*
- * SNE-XACML: A high performance XACML evaluation engine.
- *
- * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
- * System and Network Engineering Group, University of Amsterdam.
+ * Copyright (C) 2013-2016 Canh Ngo <canhnt@gmail.com>
  * All rights reserved.
  *
  * This library is free software; you can redistribute it and/or
@@ -28,7 +25,7 @@ import nl.uva.sne.midd.UnmatchedException;
 import nl.uva.sne.midd.Variable;
 import nl.uva.sne.midd.edges.AbstractEdge;
 import nl.uva.sne.midd.nodes.AbstractNode;
-import nl.uva.sne.midd.nodes.InternalNode;
+import nl.uva.sne.midd.nodes.InternalNodeImpl;
 import nl.uva.sne.xacml.ExternalNode3;
 
 import java.util.Map;
@@ -46,11 +43,11 @@ public class EvaluationUtils {
      * @return The external node that holds effect value and obligations (optional).
      */
     @SuppressWarnings({"unchecked"})
-    public static Decision eval(InternalNode<?> midd, Map<Integer, Variable<?>> variables) {
+    public static Decision eval(InternalNodeImpl<?> midd, Map<Integer, Variable<?>> variables) {
         AbstractNode currentNode = midd;
 
-        while (currentNode instanceof InternalNode) {
-            InternalNode currentInternalNode = (InternalNode) currentNode;
+        while (currentNode instanceof InternalNodeImpl) {
+            InternalNodeImpl currentInternalNode = (InternalNodeImpl) currentNode;
 
             Variable<?> currentVar = null;
             // attribute not found:

@@ -1,9 +1,5 @@
 /*
- * SNE-XACML: A high performance XACML evaluation engine.
- *
- * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
- * System and Network Engineering Group, University of Amsterdam.
- * All rights reserved.
+ * Copyright (C) 2013-2016 Canh Ngo <canhnt@gmail.com>
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -27,7 +23,7 @@ import nl.uva.sne.midd.edges.AbstractEdge;
 import nl.uva.sne.midd.interval.Interval;
 import nl.uva.sne.midd.nodes.AbstractNode;
 import nl.uva.sne.midd.nodes.ExternalNode;
-import nl.uva.sne.midd.nodes.InternalNode;
+import nl.uva.sne.midd.nodes.InternalNodeImpl;
 import nl.uva.sne.midd.partition.Partition;
 import nl.uva.sne.midd.partition.PartitionBuilder;
 import nl.uva.sne.midd.util.EdgeUtils;
@@ -76,13 +72,13 @@ public class ConjunctiveBuilder {
             // midd2 is also external node, return true external node
             return new ExternalNode();
         } else {
-            InternalNode<?> n1 = (InternalNode) midd1;
+            InternalNodeImpl<?> n1 = (InternalNodeImpl) midd1;
 
             if (midd2 instanceof ExternalNode) {
                 // return midd1
                 return midd1;
             } else {// both are internal nodes, combine two internal nodes here
-                InternalNode<?> n2 = (InternalNode) midd2;
+                InternalNodeImpl<?> n2 = (InternalNodeImpl) midd2;
 
                 if (n1.getID() == n2.getID()) {
                     return joinMIDDatSameLevel(n1, n2);
@@ -92,7 +88,7 @@ public class ConjunctiveBuilder {
                     // - combine n2 with all children of n1 -> children[1..k], add them to children of n
 
                     // Clone n1
-                    InternalNode<?> n = NodeUtils.createInternalNode(n1, n1.getType());
+                    InternalNodeImpl<?> n = NodeUtils.createInternalNode(n1, n1.getType());
 
                     for (AbstractEdge<?> e : n1.getEdges()) {
                         AbstractNode child = join(e.getSubDiagram(), n2);
@@ -119,7 +115,7 @@ public class ConjunctiveBuilder {
      * @return
      */
     @SuppressWarnings({"unchecked", "rawtypes"})
-    private static InternalNode<?> joinMIDDatSameLevel(InternalNode n1, InternalNode n2) throws MIDDException {
+    private static InternalNodeImpl<?> joinMIDDatSameLevel(InternalNodeImpl n1, InternalNodeImpl n2) throws MIDDException {
         if (n1.getID() != n2.getID()) {
             throw new IllegalArgumentException("Both params should have the same variable level at their root");
         }
@@ -140,7 +136,7 @@ public class ConjunctiveBuilder {
         }
 
         // Clone n1: warning: new MIDD node's state should be combined from two node states: n1 & n2???
-        InternalNode<?> newMIDD = NodeUtils.createInternalNode(n1.getID(), n1.getState(), n1.getType());
+        InternalNodeImpl<?> newMIDD = NodeUtils.createInternalNode(n1.getID(), n1.getState(), n1.getType());
 
         for (Interval<?> interval : p.getIntervals()) {
             AbstractNode op1 = n1.getChild(interval);

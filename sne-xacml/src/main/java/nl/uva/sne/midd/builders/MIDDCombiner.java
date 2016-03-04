@@ -25,7 +25,7 @@ import nl.uva.sne.midd.algorithms.CombiningAlgorithm;
 import nl.uva.sne.midd.edges.AbstractEdge;
 import nl.uva.sne.midd.interval.Interval;
 import nl.uva.sne.midd.nodes.AbstractNode;
-import nl.uva.sne.midd.nodes.InternalNode;
+import nl.uva.sne.midd.nodes.InternalNodeImpl;
 import nl.uva.sne.midd.obligations.InternalNodeState;
 import nl.uva.sne.midd.obligations.ObligationExpression;
 import nl.uva.sne.midd.partition.Partition;
@@ -78,11 +78,11 @@ public class MIDDCombiner {
                 return combineExternalNodes((ExternalNode3) midd1, (ExternalNode3) midd2);            // combine two external nodes
             } else {
                 ExternalNode3 n1 = (ExternalNode3) midd1;
-                InternalNode<?> n2 = (InternalNode<?>) midd2;
+                InternalNodeImpl<?> n2 = (InternalNodeImpl<?>) midd2;
                 return combineIDD(n1, n2); // combine an external node n1 with an internal node n2
             }
         } else {
-            InternalNode<?> n1 = (InternalNode<?>) midd1;
+            InternalNodeImpl<?> n1 = (InternalNodeImpl<?>) midd1;
 
             if (midd2 instanceof ExternalNode3) {
                 // combine an internal node (midd1) with an external node (midd2)
@@ -90,7 +90,7 @@ public class MIDDCombiner {
                 return combineIDD(n1, n2);     // combine an internal node n1 with an external node2
             } else {
                 // both are internal nodes, combine two internal nodes here
-                InternalNode<?> n2 = (InternalNode<?>) midd2;
+                InternalNodeImpl<?> n2 = (InternalNodeImpl<?>) midd2;
 
                 if (n1.getID() == n2.getID()) {
                     return combineIDDSameLevel(n1, n2);
@@ -99,7 +99,7 @@ public class MIDDCombiner {
                     // - Create a node clone from n1 -> n
                     // - combine n2 with all children of n1 -> children[1..k], add them to children of n
 
-                    InternalNode<?> n = null;
+                    InternalNodeImpl<?> n = null;
                     if (n1.getID() < n2.getID()) {
 
                         // Clone n1
@@ -163,7 +163,7 @@ public class MIDDCombiner {
      * @return
      */
     @SuppressWarnings("rawtypes")
-    private AbstractNode combineIDD(ExternalNode3 n1, InternalNode<?> n2) throws MIDDException {
+    private AbstractNode combineIDD(ExternalNode3 n1, InternalNodeImpl<?> n2) throws MIDDException {
 
 
         List<Interval> intervals = n2.getIntervals();
@@ -173,7 +173,7 @@ public class MIDDCombiner {
 
         InternalNodeState newINState = combineInternalNodeStates(n2.getState(), n1);
 
-        InternalNode<?> n = NodeUtils.createInternalNode(n2.getID(), newINState, n2.getType());
+        InternalNodeImpl<?> n = NodeUtils.createInternalNode(n2.getID(), newINState, n2.getType());
 
         if (complementIntervals.size() > 0) {
             AbstractEdge<?> edge = EdgeUtils.createEdge(complementIntervals, n2.getType());
@@ -249,7 +249,7 @@ public class MIDDCombiner {
      * @return
      */
     @SuppressWarnings("rawtypes")
-    private AbstractNode combineIDD(InternalNode<?> n1,
+    private AbstractNode combineIDD(InternalNodeImpl<?> n1,
                                     ExternalNode3 n2) throws MIDDException {
         // Algorithm:
         // set of intervals: n1.intervals U (*\{n1.intervals})
@@ -265,7 +265,7 @@ public class MIDDCombiner {
         // clone new node from n1
         InternalNodeState newINState = combineInternalNodeStates(n1.getState(), n2);
 
-        InternalNode<?> n = NodeUtils.createInternalNode(n1.getID(), newINState, n1.getType());
+        InternalNodeImpl<?> n = NodeUtils.createInternalNode(n1.getID(), newINState, n1.getType());
 
         for (AbstractEdge<?> e : n1.getEdges()) {
             AbstractNode child = combine(e.getSubDiagram(), n2);
@@ -293,8 +293,8 @@ public class MIDDCombiner {
      * @return
      */
     @SuppressWarnings({"unchecked", "rawtypes"})
-    private InternalNode<?> combineIDDSameLevel(InternalNode n1,
-                                                InternalNode n2) throws MIDDException {
+    private InternalNodeImpl<?> combineIDDSameLevel(InternalNodeImpl n1,
+                                                    InternalNodeImpl n2) throws MIDDException {
         if (n1.getID() != n2.getID()) {
             throw new IllegalArgumentException("Both params should have the same variable level at their root");
         }
@@ -314,7 +314,7 @@ public class MIDDCombiner {
 
         InternalNodeState newState = combineIndeterminateStates(n1.getState(), n2.getState());
 
-        InternalNode<?> n = NodeUtils.createInternalNode(n1.getID(), newState, n1.getType());
+        InternalNodeImpl<?> n = NodeUtils.createInternalNode(n1.getID(), newState, n1.getType());
 
         for (Interval<?> interval : p.getIntervals()) {
             AbstractNode op1 = n1.getChild(interval);

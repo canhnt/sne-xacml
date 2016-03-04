@@ -27,7 +27,7 @@ import nl.uva.sne.midd.edges.StringEdge;
 import nl.uva.sne.midd.interval.Interval;
 import nl.uva.sne.midd.nodes.AbstractNode;
 import nl.uva.sne.midd.nodes.DoubleNode;
-import nl.uva.sne.midd.nodes.InternalNode;
+import nl.uva.sne.midd.nodes.InternalNodeImpl;
 import nl.uva.sne.midd.nodes.StringNode;
 import nl.uva.sne.midd.obligations.Obligation;
 import nl.uva.sne.midd.obligations.ObligationExpression;
@@ -41,8 +41,8 @@ import static org.junit.Assert.*;
 
 public class BuildMIDDTest {
 
-    InternalNode<?> midd1;
-    InternalNode<?> midd2;
+    InternalNodeImpl<?> midd1;
+    InternalNodeImpl<?> midd2;
 
     private ObligationExpression oe1 = new ObligationExpression(DecisionType.Permit, new Obligation("O1"));
     private ObligationExpression oe2 = new ObligationExpression(DecisionType.Deny, new Obligation("O2"));
@@ -185,8 +185,8 @@ public class BuildMIDDTest {
         MIDDCombiner combiner = new MIDDCombiner(new PermitOverridesAlg());
         AbstractNode root = combiner.combine(midd1, midd2);
 
-        if (root instanceof InternalNode<?>) {
-            InternalNode<?> n = (InternalNode<?>) root;
+        if (root instanceof InternalNodeImpl<?>) {
+            InternalNodeImpl<?> n = (InternalNodeImpl<?>) root;
 
             // (1, 4, 3.5) -> P,O1O2
             // (1, 4, null) -> IN_DP
@@ -246,8 +246,8 @@ public class BuildMIDDTest {
         MIDDCombiner combiner = new MIDDCombiner(new DenyOverridesAlg());
         AbstractNode root = combiner.combine(midd1, midd2);
 
-        if (root instanceof InternalNode<?>) {
-            InternalNode<?> n = (InternalNode<?>) root;
+        if (root instanceof InternalNodeImpl<?>) {
+            InternalNodeImpl<?> n = (InternalNodeImpl<?>) root;
 
             // (1, 4, 3.5) -> P,O1O2
             // (1, 4, null) -> IN_DP

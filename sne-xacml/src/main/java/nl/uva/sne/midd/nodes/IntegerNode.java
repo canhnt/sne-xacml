@@ -1,8 +1,5 @@
 /*
- * SNE-XACML: A high performance XACML evaluation engine.
- *
- * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
- * System and Network Engineering Group, University of Amsterdam.
+ * Copyright (C) 2013-2016 Canh Ngo <canhnt@gmail.com>
  * All rights reserved.
  *
  * This library is free software; you can redistribute it and/or
@@ -20,11 +17,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301 USA
  */
-/**
- * System and Network Engineering Group
- * University of Amsterdam
- *
- */
 package nl.uva.sne.midd.nodes;
 
 import nl.uva.sne.midd.DecisionType;
@@ -34,7 +26,7 @@ import nl.uva.sne.midd.obligations.InternalNodeState;
 /**
  * @author Canh Ngo
  */
-public class IntegerNode extends InternalNode<Integer> {
+public class IntegerNode extends InternalNodeImpl<Integer> {
 
     public IntegerNode(int id, DecisionType state) {
         super(id, state);

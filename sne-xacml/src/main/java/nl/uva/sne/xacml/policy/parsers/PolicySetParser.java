@@ -1,8 +1,5 @@
 /*
- * SNE-XACML: A high performance XACML evaluation engine.
- *
- * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
- * System and Network Engineering Group, University of Amsterdam.
+ * Copyright (C) 2013-2016 Canh Ngo <canhnt@gmail.com>
  * All rights reserved.
  *
  * This library is free software; you can redistribute it and/or
@@ -28,7 +25,7 @@ import nl.uva.sne.midd.builders.ConjunctiveBuilder;
 import nl.uva.sne.midd.builders.MIDDCombiner;
 import nl.uva.sne.midd.nodes.AbstractNode;
 import nl.uva.sne.midd.nodes.ExternalNode;
-import nl.uva.sne.midd.nodes.InternalNode;
+import nl.uva.sne.midd.nodes.InternalNodeImpl;
 import nl.uva.sne.midd.util.GenericUtils;
 import nl.uva.sne.midd.util.MIDDUtils;
 import nl.uva.sne.xacml.AttributeMapper;
@@ -115,17 +112,17 @@ public class PolicySetParser {
             if (root == null) {
                 root = n;
             } else {
-                if (root instanceof InternalNode) {
-                    log.debug("root size:" + MIDDUtils.countNodes((InternalNode) root));
+                if (root instanceof InternalNodeImpl) {
+                    log.debug("root size:" + MIDDUtils.countNodes((InternalNodeImpl) root));
                 }
-                if (n instanceof InternalNode) {
-                    log.debug("child midd size:" + MIDDUtils.countNodes((InternalNode) n));
+                if (n instanceof InternalNodeImpl) {
+                    log.debug("child midd size:" + MIDDUtils.countNodes((InternalNodeImpl) n));
                 }
 
                 root = combiner.combine(root, n);
 
-                if (root instanceof InternalNode) {
-                    log.debug("Combined midd size:" + MIDDUtils.countNodes((InternalNode) root));
+                if (root instanceof InternalNodeImpl) {
+                    log.debug("Combined midd size:" + MIDDUtils.countNodes((InternalNodeImpl) root));
                 }
 
             }

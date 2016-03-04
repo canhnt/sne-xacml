@@ -1,8 +1,5 @@
 /*
- * SNE-XACML: A high performance XACML evaluation engine.
- *
- * Copyright (C) 2014 Canh Ngo <canhnt@gmail.com>
- * System and Network Engineering Group, University of Amsterdam.
+ * Copyright (C) 2014-2016 Canh Ngo <canhnt@gmail.com>
  * All rights reserved.
  *
  * This library is free software; you can redistribute it and/or
@@ -44,7 +41,7 @@ public class NodeUtils {
     /**
      * Mapping from data types to node types
      */
-    private static final Map<Class<? extends  Comparable>, Class<? extends InternalNode>> MAP_NODE_TYPES = new HashMap<>();
+    private static final Map<Class<? extends  Comparable>, Class<? extends InternalNodeImpl>> MAP_NODE_TYPES = new HashMap<>();
 
     static{
         MAP_NODE_TYPES.put(Integer.class, IntegerNode.class);
@@ -73,10 +70,10 @@ public class NodeUtils {
      * @see StringNode
      *
      */
-    public static InternalNode<?> createInternalNode(int id, InternalNodeState state, Class<?> clsDataType) throws MIDDException {
-        Class<? extends InternalNode> nodeClsType = getNodeClassType(clsDataType);
+    public static InternalNodeImpl<?> createInternalNode(int id, InternalNodeState state, Class<?> clsDataType) throws MIDDException {
+        Class<? extends InternalNodeImpl> nodeClsType = getNodeClassType(clsDataType);
         try {
-            Constructor<? extends InternalNode> constructor  = nodeClsType.getConstructor(int.class, InternalNodeState.class);
+            Constructor<? extends InternalNodeImpl> constructor  = nodeClsType.getConstructor(int.class, InternalNodeState.class);
             return constructor.newInstance(id, state);
         } catch (NoSuchMethodException e) {
             log.error("Cannot find the constructor for the class {}", clsDataType.getName(), e);
@@ -87,7 +84,7 @@ public class NodeUtils {
         throw new MIDDException("Unsupported data type to create internal node of type " + clsDataType.getName());
     }
 
-    private static Class<? extends InternalNode> getNodeClassType(Class<?> clsDataType) {
+    private static Class<? extends InternalNodeImpl> getNodeClassType(Class<?> clsDataType) {
         if (MAP_NODE_TYPES.containsKey(clsDataType)){
             return MAP_NODE_TYPES.get(clsDataType);
         } else {
@@ -104,7 +101,7 @@ public class NodeUtils {
      * @return
      * @throws MIDDException
      */
-    public static InternalNode<?> createInternalNode(InternalNode<?> n, Class<?> clsDataType) throws MIDDException {
+    public static InternalNodeImpl<?> createInternalNode(InternalNodeImpl<?> n, Class<?> clsDataType) throws MIDDException {
         return createInternalNode(n.getID(), n.getState(), clsDataType);
     }
 }

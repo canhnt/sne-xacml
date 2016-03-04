@@ -1,8 +1,5 @@
 /*
- * SNE-XACML: A high performance XACML evaluation engine.
- *
- * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
- * System and Network Engineering Group, University of Amsterdam.
+ * Copyright (C) 2013-2016 Canh Ngo <canhnt@gmail.com>
  * All rights reserved.
  *
  * This library is free software; you can redistribute it and/or
@@ -25,7 +22,7 @@ package nl.uva.sne.midd.util;
 import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.edges.AbstractEdge;
 import nl.uva.sne.midd.nodes.AbstractNode;
-import nl.uva.sne.midd.nodes.InternalNode;
+import nl.uva.sne.midd.nodes.InternalNodeImpl;
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -33,15 +30,15 @@ import java.util.Set;
 import java.util.Stack;
 
 public class MIDDUtils {
-    public static int countNodes(InternalNode midd) throws MIDDException {
-        Stack<InternalNode> stackNodes = new Stack<InternalNode>();
+    public static int countNodes(InternalNodeImpl midd) throws MIDDException {
+        Stack<InternalNodeImpl> stackNodes = new Stack<InternalNodeImpl>();
 
         stackNodes.push(midd);
 
         Set<AbstractNode> nodes = new HashSet<AbstractNode>();
 
         while (!stackNodes.empty()) {
-            InternalNode n = stackNodes.pop();
+            InternalNodeImpl n = stackNodes.pop();
             nodes.add(n);
             // search for all children of the poped internal node
             Iterator<AbstractEdge> it = n.getEdges().iterator();
@@ -49,8 +46,8 @@ public class MIDDUtils {
                 AbstractEdge edge = it.next();
                 AbstractNode child = edge.getSubDiagram();
                 nodes.add(child);
-                if (child instanceof InternalNode) {
-                    stackNodes.push((InternalNode) child);
+                if (child instanceof InternalNodeImpl) {
+                    stackNodes.push((InternalNodeImpl) child);
                 }
             }
         }

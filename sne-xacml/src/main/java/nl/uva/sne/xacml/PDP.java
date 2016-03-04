@@ -1,8 +1,5 @@
 /*
- * SNE-XACML: A high performance XACML evaluation engine.
- *
- * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
- * System and Network Engineering Group, University of Amsterdam.
+ * Copyright (C) 2013-2016 Canh Ngo <canhnt@gmail.com>
  * All rights reserved.
  *
  * This library is free software; you can redistribute it and/or
@@ -26,7 +23,7 @@ import nl.uva.sne.midd.Decision;
 import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.Variable;
 import nl.uva.sne.midd.nodes.AbstractNode;
-import nl.uva.sne.midd.nodes.InternalNode;
+import nl.uva.sne.midd.nodes.InternalNodeImpl;
 import nl.uva.sne.midd.util.EvaluationUtils;
 import nl.uva.sne.xacml.builders.ResponseTypeBuilder;
 import nl.uva.sne.xacml.policy.finder.PolicyFinder;
@@ -48,7 +45,7 @@ public class PDP {
 
     protected AttributeMapper attrMapper;
 
-    protected InternalNode middRoot = null;
+    protected InternalNodeImpl middRoot = null;
 
     protected boolean fXACMLParsingError;
 
@@ -84,10 +81,10 @@ public class PDP {
             throw new RuntimeException("Invalid constructing PDP");
         }
 
-        if (!(n instanceof InternalNode)) {
+        if (!(n instanceof InternalNodeImpl)) {
             throw new MIDDException("Invalid parsing policies to MIDD tree");
         } else {
-            this.middRoot = (InternalNode) n;
+            this.middRoot = (InternalNodeImpl) n;
         }
     }
 

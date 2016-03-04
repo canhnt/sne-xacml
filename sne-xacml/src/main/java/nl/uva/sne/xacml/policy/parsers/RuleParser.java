@@ -1,8 +1,5 @@
 /*
- * SNE-XACML: A high performance XACML evaluation engine.
- *
- * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
- * System and Network Engineering Group, University of Amsterdam.
+ * Copyright (C) 2013-2016 Canh Ngo <canhnt@gmail.com>
  * All rights reserved.
  *
  * This library is free software; you can redistribute it and/or
@@ -28,7 +25,7 @@ import nl.uva.sne.midd.builders.ConjunctiveBuilder;
 import nl.uva.sne.midd.edges.AbstractEdge;
 import nl.uva.sne.midd.nodes.AbstractNode;
 import nl.uva.sne.midd.nodes.ExternalNode;
-import nl.uva.sne.midd.nodes.InternalNode;
+import nl.uva.sne.midd.nodes.InternalNodeImpl;
 import nl.uva.sne.midd.obligations.InternalNodeState;
 import nl.uva.sne.midd.obligations.Obligation;
 import nl.uva.sne.midd.obligations.ObligationExpression;
@@ -172,7 +169,7 @@ public class RuleParser {
         ExternalNode3 extNode = new ExternalNode3(ruleEffect, oes);
 
         // change the leaves of MIDD by the extNode (effect node)
-        if (midd instanceof InternalNode) {
+        if (midd instanceof InternalNodeImpl) {
             setEffectNode(midd, extNode);
             return midd;
         } else {
@@ -191,18 +188,18 @@ public class RuleParser {
     private void setEffectNode(AbstractNode midd, ExternalNode3 extNode) throws MIDDException {
         // Replace current external nodes in the MIDD with the extNode (XACML 3 external node)
 
-        if (!(midd instanceof InternalNode)) {
+        if (!(midd instanceof InternalNodeImpl)) {
             throw new IllegalArgumentException("MIDD argument must not be an ExternalNode");
         }
 
-        InternalNode currentNode = (InternalNode) midd;
+        InternalNodeImpl currentNode = (InternalNodeImpl) midd;
 
-        Stack<InternalNode> stackNodes = new Stack<InternalNode>();
+        Stack<InternalNodeImpl> stackNodes = new Stack<InternalNodeImpl>();
 
         stackNodes.push(currentNode);
 
         while (!stackNodes.empty()) {
-            InternalNode n = stackNodes.pop();
+            InternalNodeImpl n = stackNodes.pop();
 
             // Change indeterminate state of the internal node,
             //	- By default is NotApplicable (XACML 3.0, sec 7.3.5, 7.19.3)
@@ -226,8 +223,8 @@ public class RuleParser {
             while (it.hasNext()) {
                 AbstractEdge edge = it.next();
                 AbstractNode child = edge.getSubDiagram();
-                if (child instanceof InternalNode) {
-                    stackNodes.push((InternalNode) child);
+                if (child instanceof InternalNodeImpl) {
+                    stackNodes.push((InternalNodeImpl) child);
                 } else {
                     edge.setSubDiagram(extNode);        // set the final edge pointing to the xacml3 external node.
                 }

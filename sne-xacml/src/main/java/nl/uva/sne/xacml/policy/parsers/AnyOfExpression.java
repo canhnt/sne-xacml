@@ -1,8 +1,5 @@
 /*
- * SNE-XACML: A high performance XACML evaluation engine.
- *
- * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
- * System and Network Engineering Group, University of Amsterdam.
+ * Copyright (C) 2013-2016 Canh Ngo <canhnt@gmail.com>
  * All rights reserved.
  *
  * This library is free software; you can redistribute it and/or
@@ -29,7 +26,7 @@ import nl.uva.sne.midd.edges.AbstractEdge;
 import nl.uva.sne.midd.interval.Interval;
 import nl.uva.sne.midd.nodes.AbstractNode;
 import nl.uva.sne.midd.nodes.ExternalNode;
-import nl.uva.sne.midd.nodes.InternalNode;
+import nl.uva.sne.midd.nodes.InternalNodeImpl;
 import nl.uva.sne.midd.obligations.InternalNodeState;
 import nl.uva.sne.midd.util.EdgeUtils;
 import nl.uva.sne.midd.util.NodeUtils;
@@ -104,8 +101,8 @@ public class AnyOfExpression {
         Collections.sort(lstVarIds);
 
         // create a MIDD path from list of edges, start from lowest var-id
-        InternalNode<?> root = null;
-        InternalNode<?> currentNode = null;
+        InternalNodeImpl<?> root = null;
+        InternalNodeImpl<?> currentNode = null;
         AbstractEdge<?> currentEdge = null;
 
         Iterator<Integer> lstIt = lstVarIds.iterator();
@@ -119,7 +116,7 @@ public class AnyOfExpression {
 
             InternalNodeState nodeState = new InternalNodeState(isAttrMustBePresent ? DecisionType.Indeterminate : DecisionType.NotApplicable);
 
-            InternalNode<?> node = NodeUtils.createInternalNode(varId, nodeState, e.getType());
+            InternalNodeImpl<?> node = NodeUtils.createInternalNode(varId, nodeState, e.getType());
             if (root == null) {
                 root = node; // root points to the start of the MIDD path
                 currentNode = node;

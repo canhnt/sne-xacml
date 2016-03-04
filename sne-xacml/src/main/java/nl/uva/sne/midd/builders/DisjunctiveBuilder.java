@@ -1,8 +1,5 @@
 /*
- * SNE-XACML: A high performance XACML evaluation engine.
- *
- * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
- * System and Network Engineering Group, University of Amsterdam.
+ * Copyright (C) 2013-2016 Canh Ngo <canhnt@gmail.com>
  * All rights reserved.
  *
  * This library is free software; you can redistribute it and/or
@@ -27,7 +24,7 @@ import nl.uva.sne.midd.edges.AbstractEdge;
 import nl.uva.sne.midd.interval.Interval;
 import nl.uva.sne.midd.nodes.AbstractNode;
 import nl.uva.sne.midd.nodes.ExternalNode;
-import nl.uva.sne.midd.nodes.InternalNode;
+import nl.uva.sne.midd.nodes.InternalNodeImpl;
 import nl.uva.sne.midd.partition.Partition;
 import nl.uva.sne.midd.partition.PartitionBuilder;
 import nl.uva.sne.midd.util.EdgeUtils;
@@ -81,8 +78,8 @@ public class DisjunctiveBuilder {
             return new ExternalNode();
         } else {
             // both are internal nodes, combine two internal nodes here
-            InternalNode<?> n1 = (InternalNode) midd1;
-            InternalNode<?> n2 = (InternalNode) midd2;
+            InternalNodeImpl<?> n1 = (InternalNodeImpl) midd1;
+            InternalNodeImpl<?> n2 = (InternalNodeImpl) midd2;
 
             if (n1.getID() == n2.getID()) {
                 return joinWithSameLevel(n1, n2);
@@ -92,7 +89,7 @@ public class DisjunctiveBuilder {
                 // - combine n2 with all children of n1 -> children[1..k], add them to children of n
 
                 // Clone n1
-                InternalNode<?> n = NodeUtils.createInternalNode(n1, n1.getType());
+                InternalNodeImpl<?> n = NodeUtils.createInternalNode(n1, n1.getType());
 
                 for (AbstractEdge<?> e : n1.getEdges()) {
                     AbstractNode child = join(e.getSubDiagram(), n2);
@@ -120,8 +117,8 @@ public class DisjunctiveBuilder {
      * @return
      */
     @SuppressWarnings({"rawtypes", "unchecked"})
-    private static InternalNode<?> joinWithSameLevel(InternalNode n1,
-                                                     InternalNode n2) throws MIDDException {
+    private static InternalNodeImpl<?> joinWithSameLevel(InternalNodeImpl n1,
+                                                         InternalNodeImpl n2) throws MIDDException {
         if (n1.getID() != n2.getID()) {
             throw new IllegalArgumentException("Both params should have the same variable level at their root");
         }
@@ -141,7 +138,7 @@ public class DisjunctiveBuilder {
         }
 
         // Clone n1 to n: should combine two internal node states of n1 & n2?
-        InternalNode<?> newIDD = NodeUtils.createInternalNode(n1.getID(), n1.getState(), n1.getType());
+        InternalNodeImpl<?> newIDD = NodeUtils.createInternalNode(n1.getID(), n1.getState(), n1.getType());
 
         for (Interval<?> interval : p.getIntervals()) {
             AbstractNode op1 = n1.getChild(interval);
