@@ -3,6 +3,12 @@
 .project
 .metadata
 
+*.iml
+.idea/
+/out/
+.idea_modules/
+
+
 # Package Files #
 *.jar
 *.war
