@@ -1,23 +1,26 @@
 /*
- * Copyright (C) 2016 Canh Ngo <canhnt@gmail.com>
- * All rights reserved.
+ * *
+ *  * Copyright (C) 2016 Canh Ngo <canhnt@gmail.com>
+ *  * All rights reserved.
+ *  *
+ *  * This library is free software; you can redistribute it and/or
+ *  * modify it under the terms of the GNU Lesser General Public
+ *  * License as published by the Free Software Foundation; either
+ *  * version 3.0 of the License, or any later version.
+ *  *
+ *  * This library is distributed in the hope that it will be useful,
+ *  * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ *  * Lesser General Public License for more details.
+ *  *
+ *  * You should have received a copy of the GNU Lesser General Public
+ *  * License along with this library; if not, write to the Free Software
+ *  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
+ *  * MA 02110-1301 USA
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 3.0 of the License, or any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
- * MA 02110-1301 USA
  */
-package nl.uva.sne.midd.nodes;
+
+package nl.uva.sne.midd.nodes.internal;
 
 import java.util.List;
 
@@ -27,9 +30,9 @@ import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.UnmatchedException;
 import nl.uva.sne.midd.edges.AbstractEdge;
 import nl.uva.sne.midd.interval.Interval;
-import nl.uva.sne.midd.obligations.InternalNodeState;
+import nl.uva.sne.midd.nodes.Node;
 
-public interface InternalNode<T extends Comparable<T>> {
+public interface InternalNode<T extends Comparable<T>> extends Node<T> {
 
     /**
      * Create decision value from current internal state
@@ -42,7 +45,7 @@ public interface InternalNode<T extends Comparable<T>> {
      * @param interval The interval which is the subset of the interval in the incoming edge
      * @return null if no matching edge found.
      */
-    AbstractNode getChild(Interval<T> interval) throws MIDDException;
+    Node getChild(Interval<T> interval) throws MIDDException;
 
     /**
      * Create an out-going edge to the given node. The edge and child node are mutable objects.
@@ -53,13 +56,13 @@ public interface InternalNode<T extends Comparable<T>> {
      * @param edge
      * @param child
      */
-    void addChild(final AbstractEdge<?> edge, final AbstractNode child);
+    void addChild(final AbstractEdge<?> edge, final Node child);
 
     List<AbstractEdge<T>> getEdges();
 
-    InternalNodeState getState();
+    State getState();
 
-    void setState(InternalNodeState state);
+    void setState(State state);
 
     /**
      * Collect all intervals of all outgoing edges

@@ -21,15 +21,16 @@ package nl.uva.sne.midd.nodes;
 
 import nl.uva.sne.midd.DecisionType;
 import nl.uva.sne.midd.MIDDException;
-import nl.uva.sne.midd.obligations.InternalNodeState;
+import nl.uva.sne.midd.nodes.internal.AbstractInternalNode;
+import nl.uva.sne.midd.nodes.internal.State;
 
-public class BooleanNode extends InternalNodeImpl<Boolean> {
+public class BooleanNode extends AbstractInternalNode<Boolean> {
 
     public BooleanNode(int id, DecisionType state) {
         super(id, state);
     }
 
-    public BooleanNode(int id, InternalNodeState state) {
+    public BooleanNode(int id, State state) {
         super(id, state);
     }
 
@@ -38,7 +39,7 @@ public class BooleanNode extends InternalNodeImpl<Boolean> {
     }
 
     @Override
-    public Class<?> getType() {
+    public Class<Boolean> getType() {
         return Boolean.class;
     }
 

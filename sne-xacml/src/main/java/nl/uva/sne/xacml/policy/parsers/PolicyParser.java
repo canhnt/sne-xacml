@@ -1,8 +1,5 @@
 /*
- * SNE-XACML: A high performance XACML evaluation engine.
- *
- * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
- * System and Network Engineering Group, University of Amsterdam.
+ * Copyright (C) 2013-2016 Canh Ngo <canhnt@gmail.com>
  * All rights reserved.
  *
  * This library is free software; you can redistribute it and/or
@@ -22,12 +19,19 @@
  */
 package nl.uva.sne.xacml.policy.parsers;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.algorithms.CombiningAlgorithm;
 import nl.uva.sne.midd.builders.ConjunctiveBuilder;
 import nl.uva.sne.midd.builders.MIDDCombiner;
-import nl.uva.sne.midd.nodes.AbstractNode;
 import nl.uva.sne.midd.nodes.ExternalNode;
+import nl.uva.sne.midd.nodes.Node;
 import nl.uva.sne.midd.util.GenericUtils;
 import nl.uva.sne.xacml.AttributeMapper;
 import nl.uva.sne.xacml.policy.parsers.util.CombiningAlgConverterUtil;
@@ -35,19 +39,13 @@ import oasis.names.tc.xacml._3_0.core.schema.wd_17.AnyOfType;
 import oasis.names.tc.xacml._3_0.core.schema.wd_17.PolicyType;
 import oasis.names.tc.xacml._3_0.core.schema.wd_17.RuleType;
 import oasis.names.tc.xacml._3_0.core.schema.wd_17.TargetType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 public class PolicyParser {
     private static final Logger log = LoggerFactory.getLogger(PolicySetParser.class);
 
     private PolicyType policy;
 
-    private AbstractNode preCondition;
+    private Node preCondition;
 
     private AttributeMapper attrMapper = null;
 
@@ -55,7 +53,7 @@ public class PolicyParser {
      * @param condition a MIDD that represents the target expression of the parents' policy.
      * @param policy    a XACML 3.0 policy element.
      */
-    public PolicyParser(AbstractNode condition, PolicyType policy, AttributeMapper attrMapper) throws MIDDException {
+    public PolicyParser(Node condition, PolicyType policy, AttributeMapper attrMapper) throws MIDDException {
         if (policy == null) {
             throw new IllegalArgumentException("PolicyType argument must not be null");
         }
@@ -74,17 +72,17 @@ public class PolicyParser {
         }
     }
 
-    private AbstractNode combineRuleMIDDs(List<AbstractNode> lstMIDDs,
+    private Node combineRuleMIDDs(List<Node> lstMIDDs,
                                           CombiningAlgorithm rca) throws MIDDException {
         log.debug("Combining policy {}", this.policy.getPolicyId());
 
         MIDDCombiner combiner = new MIDDCombiner(rca);
 
-        Iterator<AbstractNode> it = lstMIDDs.iterator();
-        AbstractNode root = null;
+        Iterator<Node> it = lstMIDDs.iterator();
+        Node root = null;
 
         while (it.hasNext()) {
-            AbstractNode n = it.next();
+            Node n = it.next();
             if (root == null) {
                 root = n;
             } else {
@@ -129,7 +127,7 @@ public class PolicyParser {
     }
 
 
-    private AbstractNode getTargetCondition() throws XACMLParsingException, MIDDParsingException, MIDDException {
+    private Node getTargetCondition() throws XACMLParsingException, MIDDParsingException, MIDDException {
         TargetType target = policy.getTarget();
 
         List<AnyOfType> lstAnyOf;
@@ -143,10 +141,10 @@ public class PolicyParser {
         return te.parse();
     }
 
-    public AbstractNode parse() throws XACMLParsingException, MIDDParsingException, MIDDException {
+    public Node parse() throws XACMLParsingException, MIDDParsingException, MIDDException {
 
         // Get a MIDD to represent the policy's target expression
-        AbstractNode targetCondition = getTargetCondition();
+        Node targetCondition = getTargetCondition();
         if (targetCondition == null) // no applicable MIDD extracted from Target
         {
             return null;
@@ -154,17 +152,17 @@ public class PolicyParser {
 
 
         // Conjunctive join it with the MIDD representing preconditions of the policy
-        AbstractNode condition = ConjunctiveBuilder.join(this.preCondition, targetCondition);
+        Node condition = ConjunctiveBuilder.join(this.preCondition, targetCondition);
 
         List<RuleType> rules = getRules();
 
         // Create MIDDs for rules inside the policy
-        List<AbstractNode> lstMIDDs = new ArrayList<AbstractNode>();
+        List<Node> lstMIDDs = new ArrayList<Node>();
         for (RuleType r : rules) {
             RuleParser ruleParser = new RuleParser(condition, r, attrMapper);
 
             // return the MIDD with XACML decisions at the external nodes
-            AbstractNode xacmlMIDD = ruleParser.parse();
+            Node xacmlMIDD = ruleParser.parse();
             if (xacmlMIDD == null) {// a never-applicable rule
                 System.err.println("Found a non-transformable MIDD rule:" + r.getRuleId());
             } else {

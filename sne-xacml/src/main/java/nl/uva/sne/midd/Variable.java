@@ -1,8 +1,5 @@
 /*
- * SNE-XACML: A high performance XACML evaluation engine.
- *
- * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
- * System and Network Engineering Group, University of Amsterdam.
+ * Copyright (C) 2013-2016 Canh Ngo <canhnt@gmail.com>
  * All rights reserved.
  *
  * This library is free software; you can redistribute it and/or
@@ -19,11 +16,6 @@
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301 USA
- */
-/**
- * System and Network Engineering Group
- * University of Amsterdam
- *
  */
 package nl.uva.sne.midd;
 
@@ -69,7 +61,7 @@ public class Variable<T extends Comparable<T>> implements Comparable<T> {
         }
     }
 
-    public Comparable<?> getValue() {
+    public T getValue() {
         return value;
     }
 
@@ -90,5 +82,9 @@ public class Variable<T extends Comparable<T>> implements Comparable<T> {
             log.error("Unknown comparison");
             return EQUAL;
         }
+    }
+
+    public static <T extends Comparable<T>> Variable<T> of(final int id, final Object value, final Class<?> type) {
+        return new Variable<>(id, (T)value, type);
     }
 }

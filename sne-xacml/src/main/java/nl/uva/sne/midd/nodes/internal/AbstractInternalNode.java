@@ -18,7 +18,7 @@
  * MA 02110-1301 USA
  */
 
-package nl.uva.sne.midd.nodes;
+package nl.uva.sne.midd.nodes.internal;
 
 import java.io.OutputStream;
 import java.io.PrintStream;
@@ -34,25 +34,26 @@ import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.UnmatchedException;
 import nl.uva.sne.midd.edges.AbstractEdge;
 import nl.uva.sne.midd.interval.Interval;
-import nl.uva.sne.midd.obligations.InternalNodeState;
+import nl.uva.sne.midd.nodes.AbstractNode;
+import nl.uva.sne.midd.nodes.Node;
 import nl.uva.sne.midd.util.GenericUtils;
 
-public abstract class InternalNodeImpl<T extends Comparable<T>>
-        extends AbstractNode implements InternalNode<T> {
-    private static final Logger log = LoggerFactory.getLogger(InternalNodeImpl.class);
+public abstract class AbstractInternalNode<T extends Comparable<T>>
+        extends AbstractNode<T> implements InternalNode<T> {
+    private static final Logger log = LoggerFactory.getLogger(AbstractInternalNode.class);
 
     private List<AbstractEdge<T>> edges = new ArrayList<>();
 
-    private InternalNodeState state;
+    private State state;
 
-    public InternalNodeImpl(int id, DecisionType state) {
+    public AbstractInternalNode(int id, DecisionType state) {
         super(id);
-        this.state = new InternalNodeState(state);
+        this.state = new StateImpl(state);
     }
 
-    public InternalNodeImpl(int id, InternalNodeState state) {
+    public AbstractInternalNode(int id, State state) {
         super(id);
-        this.state = new InternalNodeState(state);
+        this.state = new StateImpl(state);
     }
 
     /**
@@ -60,17 +61,17 @@ public abstract class InternalNodeImpl<T extends Comparable<T>>
      *
      * @param node
      */
-    public InternalNodeImpl(InternalNodeImpl<T> node) throws MIDDException {
+    public AbstractInternalNode(InternalNode<T> node) throws MIDDException {
         super(node);
-        this.state = new InternalNodeState(node.state);
-        for (AbstractEdge<T> e : node.edges) {
+        this.state = new StateImpl(node.getState());
+        for (AbstractEdge<T> e : node.getEdges()) {
             AbstractEdge<T> newEdge = GenericUtils.newInstance(e);
             edges.add(newEdge);
         }
     }
 
     @Override
-    public void addChild(final AbstractEdge<?> edge, final AbstractNode child) {
+    public void addChild(final AbstractEdge<?> edge, final Node child) {
         if (child == null || edge == null ||
                 edge.getIntervals() == null || edge.getIntervals().size() == 0) {
             throw new IllegalArgumentException("Cannot add null child or empty edge");
@@ -86,7 +87,7 @@ public abstract class InternalNodeImpl<T extends Comparable<T>>
     }
 
     @Override
-    public AbstractNode getChild(Interval<T> interval) throws MIDDException {
+    public Node getChild(Interval<T> interval) throws MIDDException {
         for (AbstractEdge<T> e : this.edges) {
             if (e.containsInterval(interval)) {
                 return e.getSubDiagram();
@@ -101,13 +102,13 @@ public abstract class InternalNodeImpl<T extends Comparable<T>>
     }
 
     @Override
-    public InternalNodeState getState() {
+    public State getState() {
         return this.state;
     }
 
     @Override
-    public void setState(InternalNodeState state) {
-        this.state = new InternalNodeState(state);
+    public void setState(State state) {
+        this.state = new StateImpl(state);
     }
 
     @Override
@@ -126,7 +127,7 @@ public abstract class InternalNodeImpl<T extends Comparable<T>>
     }
 
     @Override
-    public abstract Class<?> getType();
+    public abstract Class<T> getType();
 
     @Override
     public AbstractEdge<T> match(T value) throws UnmatchedException, MIDDException {
@@ -151,7 +152,7 @@ public abstract class InternalNodeImpl<T extends Comparable<T>>
         ps.println(strNode);
 
         for (AbstractEdge<?> e : this.edges) {
-            AbstractNode child = e.getSubDiagram();
+            Node child = e.getSubDiagram();
             ps.println(e.getIntervals());
             if (child != null) {
                 child.print(os);

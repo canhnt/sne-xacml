@@ -21,18 +21,16 @@ package nl.uva.sne.midd.nodes;
 
 import nl.uva.sne.midd.DecisionType;
 import nl.uva.sne.midd.MIDDException;
-import nl.uva.sne.midd.obligations.InternalNodeState;
+import nl.uva.sne.midd.nodes.internal.AbstractInternalNode;
+import nl.uva.sne.midd.nodes.internal.State;
 
-/**
- * @author Canh Ngo
- */
-public class IntegerNode extends InternalNodeImpl<Integer> {
+public class IntegerNode extends AbstractInternalNode<Integer> {
 
     public IntegerNode(int id, DecisionType state) {
         super(id, state);
     }
 
-    public IntegerNode(int id, InternalNodeState state) {
+    public IntegerNode(int id, State state) {
         super(id, state);
     }
 

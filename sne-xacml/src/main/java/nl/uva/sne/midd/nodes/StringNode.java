@@ -21,9 +21,10 @@ package nl.uva.sne.midd.nodes;
 
 import nl.uva.sne.midd.DecisionType;
 import nl.uva.sne.midd.MIDDException;
-import nl.uva.sne.midd.obligations.InternalNodeState;
+import nl.uva.sne.midd.nodes.internal.AbstractInternalNode;
+import nl.uva.sne.midd.nodes.internal.State;
 
-public class StringNode extends InternalNodeImpl<String> {
+public class StringNode extends AbstractInternalNode<String> {
 
     /**
      * @param id
@@ -34,11 +35,7 @@ public class StringNode extends InternalNodeImpl<String> {
         // TODO Auto-generated constructor stub
     }
 
-    /**
-     * @param id
-     * @param state
-     */
-    public StringNode(int id, InternalNodeState state) {
+    public StringNode(int id, State state) {
         super(id, state);
         // TODO Auto-generated constructor stub
     }
@@ -46,11 +43,9 @@ public class StringNode extends InternalNodeImpl<String> {
     public StringNode(StringNode node) throws MIDDException {
         super(node);
     }
-    /* (non-Javadoc)
-     * @see nl.uva.sne.midd.InternalNode#getType()
-     */
+
     @Override
-    public Class<?> getType() {
+    public Class<String> getType() {
         // TODO Auto-generated method stub
         return String.class;
     }

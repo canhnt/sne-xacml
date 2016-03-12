@@ -23,10 +23,10 @@ import nl.uva.sne.midd.DecisionType;
 import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.builders.ConjunctiveBuilder;
 import nl.uva.sne.midd.edges.AbstractEdge;
-import nl.uva.sne.midd.nodes.AbstractNode;
+import nl.uva.sne.midd.nodes.Node;
 import nl.uva.sne.midd.nodes.ExternalNode;
-import nl.uva.sne.midd.nodes.InternalNodeImpl;
-import nl.uva.sne.midd.obligations.InternalNodeState;
+import nl.uva.sne.midd.nodes.internal.InternalNode;
+import nl.uva.sne.midd.nodes.internal.StateImpl;
 import nl.uva.sne.midd.obligations.Obligation;
 import nl.uva.sne.midd.obligations.ObligationExpression;
 import nl.uva.sne.midd.util.GenericUtils;
@@ -79,7 +79,7 @@ public class RuleParser {
 
     private RuleType rule;
 
-    private AbstractNode preCondition;
+    private Node preCondition;
 
     private AttributeMapper attrMapper = null;
 
@@ -90,7 +90,7 @@ public class RuleParser {
      * @param rule       A XACML 3.0 Rule element
      * @param attrMapper
      */
-    public RuleParser(AbstractNode condition, RuleType rule, AttributeMapper attrMapper) throws MIDDException {
+    public RuleParser(Node condition, RuleType rule, AttributeMapper attrMapper) throws MIDDException {
         if (rule == null) {
             throw new IllegalArgumentException("RuleType argument must not be null");
         }
@@ -137,7 +137,7 @@ public class RuleParser {
         return null;
     }
 
-    private AbstractNode getTargetCondition() throws XACMLParsingException, MIDDParsingException, MIDDException {
+    private Node getTargetCondition() throws XACMLParsingException, MIDDParsingException, MIDDException {
 
         TargetType target = rule.getTarget();
 
@@ -152,16 +152,16 @@ public class RuleParser {
         return te.parse();
     }
 
-    public AbstractNode parse() throws XACMLParsingException, MIDDParsingException, MIDDException {
+    public Node parse() throws XACMLParsingException, MIDDParsingException, MIDDException {
 
-        AbstractNode targetCondition = getTargetCondition();
+        Node targetCondition = getTargetCondition();
         if (targetCondition == null) // no applicable MIDD extracted from Target
         {
             return null;
         }
 
         // Conjunctive join it with the MIDD representing preconditions of the parents' policy
-        AbstractNode midd = ConjunctiveBuilder.join(this.preCondition, targetCondition);
+        Node midd = ConjunctiveBuilder.join(this.preCondition, targetCondition);
 
         ruleEffect = convertEffectType(rule.getEffect());
         List<ObligationExpression> oes = getObligationExpressions();
@@ -169,7 +169,7 @@ public class RuleParser {
         ExternalNode3 extNode = new ExternalNode3(ruleEffect, oes);
 
         // change the leaves of MIDD by the extNode (effect node)
-        if (midd instanceof InternalNodeImpl) {
+        if (midd instanceof InternalNode) {
             setEffectNode(midd, extNode);
             return midd;
         } else {
@@ -185,21 +185,21 @@ public class RuleParser {
      * @param extNode
      */
     @SuppressWarnings("rawtypes")
-    private void setEffectNode(AbstractNode midd, ExternalNode3 extNode) throws MIDDException {
+    private void setEffectNode(Node midd, ExternalNode3 extNode) throws MIDDException {
         // Replace current external nodes in the MIDD with the extNode (XACML 3 external node)
 
-        if (!(midd instanceof InternalNodeImpl)) {
+        if (!(midd instanceof InternalNode)) {
             throw new IllegalArgumentException("MIDD argument must not be an ExternalNode");
         }
 
-        InternalNodeImpl currentNode = (InternalNodeImpl) midd;
+        InternalNode currentNode = (InternalNode) midd;
 
-        Stack<InternalNodeImpl> stackNodes = new Stack<InternalNodeImpl>();
+        Stack<InternalNode> stackNodes = new Stack<>();
 
         stackNodes.push(currentNode);
 
         while (!stackNodes.empty()) {
-            InternalNodeImpl n = stackNodes.pop();
+            InternalNode n = stackNodes.pop();
 
             // Change indeterminate state of the internal node,
             //	- By default is NotApplicable (XACML 3.0, sec 7.3.5, 7.19.3)
@@ -208,9 +208,9 @@ public class RuleParser {
 
             if (n.getStateIN() == DecisionType.Indeterminate) { // this attribute has 'MustBePresent'=true
                 if (ruleEffect == DecisionType.Deny) {
-                    n.setState(new InternalNodeState(nl.uva.sne.midd.DecisionType.Indeterminate_D));
+                    n.setState(new StateImpl(nl.uva.sne.midd.DecisionType.Indeterminate_D));
                 } else if (ruleEffect == DecisionType.Permit) {
-                    n.setState(new InternalNodeState(nl.uva.sne.midd.DecisionType.Indeterminate_P));
+                    n.setState(new StateImpl(nl.uva.sne.midd.DecisionType.Indeterminate_P));
                 }
             }
 //			else {
@@ -222,9 +222,9 @@ public class RuleParser {
             Iterator<AbstractEdge> it = n.getEdges().iterator();
             while (it.hasNext()) {
                 AbstractEdge edge = it.next();
-                AbstractNode child = edge.getSubDiagram();
-                if (child instanceof InternalNodeImpl) {
-                    stackNodes.push((InternalNodeImpl) child);
+                Node child = edge.getSubDiagram();
+                if (child instanceof InternalNode) {
+                    stackNodes.push((InternalNode) child);
                 } else {
                     edge.setSubDiagram(extNode);        // set the final edge pointing to the xacml3 external node.
                 }

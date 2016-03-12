@@ -22,8 +22,8 @@ package nl.uva.sne.xacml;
 import nl.uva.sne.midd.Decision;
 import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.Variable;
-import nl.uva.sne.midd.nodes.AbstractNode;
-import nl.uva.sne.midd.nodes.InternalNodeImpl;
+import nl.uva.sne.midd.nodes.Node;
+import nl.uva.sne.midd.nodes.internal.InternalNode;
 import nl.uva.sne.midd.util.EvaluationUtils;
 import nl.uva.sne.xacml.builders.ResponseTypeBuilder;
 import nl.uva.sne.xacml.policy.finder.PolicyFinder;
@@ -45,7 +45,7 @@ public class PDP {
 
     protected AttributeMapper attrMapper;
 
-    protected InternalNodeImpl middRoot = null;
+    protected InternalNode middRoot = null;
 
     protected boolean fXACMLParsingError;
 
@@ -72,7 +72,7 @@ public class PDP {
             throws MIDDParsingException, XACMLParsingException, MIDDException {
         attrMapper = new AttributeMapper();
 
-        AbstractNode n;
+        Node n;
         if (policyset != null) {
             n = buildMIDD(policyset);
         } else if (policy != null) {
@@ -81,10 +81,10 @@ public class PDP {
             throw new RuntimeException("Invalid constructing PDP");
         }
 
-        if (!(n instanceof InternalNodeImpl)) {
+        if (!(n instanceof InternalNode)) {
             throw new MIDDException("Invalid parsing policies to MIDD tree");
         } else {
-            this.middRoot = (InternalNodeImpl) n;
+            this.middRoot = (InternalNode) n;
         }
     }
 
@@ -139,12 +139,12 @@ public class PDP {
         return builder.create(middDecision);
     }
 
-    private AbstractNode buildMIDD(PolicySetType policyset) throws MIDDParsingException, XACMLParsingException, MIDDException {
+    private Node buildMIDD(PolicySetType policyset) throws MIDDParsingException, XACMLParsingException, MIDDException {
         PolicySetParser parser = new PolicySetParser(null, policyset, this.attrMapper, policyFinder);
         return parser.parse();
     }
 
-    private AbstractNode buildMIDD(PolicyType policy) throws MIDDParsingException, XACMLParsingException, MIDDException {
+    private Node buildMIDD(PolicyType policy) throws MIDDParsingException, XACMLParsingException, MIDDException {
         PolicyParser parser = new PolicyParser(null, policy, this.attrMapper);
         return parser.parse();
     }

@@ -19,14 +19,21 @@
  */
 package nl.uva.sne.midd.builders;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import nl.uva.sne.midd.DecisionType;
 import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.algorithms.CombiningAlgorithm;
 import nl.uva.sne.midd.edges.AbstractEdge;
 import nl.uva.sne.midd.interval.Interval;
-import nl.uva.sne.midd.nodes.AbstractNode;
-import nl.uva.sne.midd.nodes.InternalNodeImpl;
-import nl.uva.sne.midd.obligations.InternalNodeState;
+import nl.uva.sne.midd.nodes.Node;
+import nl.uva.sne.midd.nodes.internal.InternalNode;
+import nl.uva.sne.midd.nodes.internal.State;
+import nl.uva.sne.midd.nodes.internal.StateImpl;
 import nl.uva.sne.midd.obligations.ObligationExpression;
 import nl.uva.sne.midd.partition.Partition;
 import nl.uva.sne.midd.partition.PartitionBuilder;
@@ -35,11 +42,6 @@ import nl.uva.sne.midd.util.GenericUtils;
 import nl.uva.sne.midd.util.IntervalUtils;
 import nl.uva.sne.midd.util.NodeUtils;
 import nl.uva.sne.xacml.ExternalNode3;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Combine MIDDs using XACML 3.0 combining algorithms.
@@ -54,16 +56,6 @@ public class MIDDCombiner {
     }
 
     /**
-     * Combine two MIDD DAG using PCA algorithm.
-     *
-     * @param midd1
-     * @param midd2
-     * @return
-     */
-
-    //
-
-    /**
      * Combine two MIDD DAG using PCA algorithm. testing version 2012.11.02: this version is to support ordered
      * combining algorithms(e.g. first-applicable)
      *
@@ -71,18 +63,18 @@ public class MIDDCombiner {
      * @param midd2
      * @return
      */
-    public AbstractNode combine(AbstractNode midd1, AbstractNode midd2) throws MIDDException {
+    public Node combine(Node midd1, Node midd2) throws MIDDException {
 
         if (midd1 instanceof ExternalNode3) {
             if (midd2 instanceof ExternalNode3) {
                 return combineExternalNodes((ExternalNode3) midd1, (ExternalNode3) midd2);            // combine two external nodes
             } else {
                 ExternalNode3 n1 = (ExternalNode3) midd1;
-                InternalNodeImpl<?> n2 = (InternalNodeImpl<?>) midd2;
+                InternalNode<?> n2 = (InternalNode<?>) midd2;
                 return combineIDD(n1, n2); // combine an external node n1 with an internal node n2
             }
         } else {
-            InternalNodeImpl<?> n1 = (InternalNodeImpl<?>) midd1;
+            InternalNode<?> n1 = (InternalNode<?>) midd1;
 
             if (midd2 instanceof ExternalNode3) {
                 // combine an internal node (midd1) with an external node (midd2)
@@ -90,7 +82,7 @@ public class MIDDCombiner {
                 return combineIDD(n1, n2);     // combine an internal node n1 with an external node2
             } else {
                 // both are internal nodes, combine two internal nodes here
-                InternalNodeImpl<?> n2 = (InternalNodeImpl<?>) midd2;
+                InternalNode<?> n2 = (InternalNode<?>) midd2;
 
                 if (n1.getID() == n2.getID()) {
                     return combineIDDSameLevel(n1, n2);
@@ -99,14 +91,14 @@ public class MIDDCombiner {
                     // - Create a node clone from n1 -> n
                     // - combine n2 with all children of n1 -> children[1..k], add them to children of n
 
-                    InternalNodeImpl<?> n = null;
+                    InternalNode<?> n = null;
                     if (n1.getID() < n2.getID()) {
 
                         // Clone n1
                         n = NodeUtils.createInternalNode(n1, n1.getType());
 
                         for (AbstractEdge<?> e : n1.getEdges()) {
-                            AbstractNode child = combine(e.getSubDiagram(), n2);
+                            Node child = combine(e.getSubDiagram(), n2);
                             if (child != null) {
                                 n.addChild(EdgeUtils.cloneEdge(e), child);
                             } else {
@@ -124,7 +116,7 @@ public class MIDDCombiner {
                     } else { // n2 has lower id than n1, do in other way.
                         n = NodeUtils.createInternalNode(n2, n2.getType());
                         for (AbstractEdge<?> e : n2.getEdges()) {
-                            AbstractNode child = combine(n1, e.getSubDiagram());
+                            Node child = combine(n1, e.getSubDiagram());
                             if (child != null) {
                                 n.addChild(EdgeUtils.cloneEdge(e), child);
                             }
@@ -163,7 +155,7 @@ public class MIDDCombiner {
      * @return
      */
     @SuppressWarnings("rawtypes")
-    private AbstractNode combineIDD(ExternalNode3 n1, InternalNodeImpl<?> n2) throws MIDDException {
+    private Node combineIDD(ExternalNode3 n1, InternalNode<?> n2) throws MIDDException {
 
 
         List<Interval> intervals = n2.getIntervals();
@@ -171,9 +163,9 @@ public class MIDDCombiner {
 
         // clone new node from n2
 
-        InternalNodeState newINState = combineInternalNodeStates(n2.getState(), n1);
+        State newINState = combineInternalNodeStates(n2.getState(), n1);
 
-        InternalNodeImpl<?> n = NodeUtils.createInternalNode(n2.getID(), newINState, n2.getType());
+        InternalNode<?> n = NodeUtils.createInternalNode(n2.getID(), newINState, n2.getType());
 
         if (complementIntervals.size() > 0) {
             AbstractEdge<?> edge = EdgeUtils.createEdge(complementIntervals, n2.getType());
@@ -184,7 +176,7 @@ public class MIDDCombiner {
         }
 
         for (AbstractEdge<?> e : n2.getEdges()) {
-            AbstractNode child = combine(n1, e.getSubDiagram());
+            Node child = combine(n1, e.getSubDiagram());
             n.addChild(EdgeUtils.cloneEdge(e), child);
         }
         return n;
@@ -249,7 +241,7 @@ public class MIDDCombiner {
      * @return
      */
     @SuppressWarnings("rawtypes")
-    private AbstractNode combineIDD(InternalNodeImpl<?> n1,
+    private Node combineIDD(InternalNode<?> n1,
                                     ExternalNode3 n2) throws MIDDException {
         // Algorithm:
         // set of intervals: n1.intervals U (*\{n1.intervals})
@@ -263,12 +255,12 @@ public class MIDDCombiner {
         List<Interval<?>> complementIntervals = IntervalUtils.complement(intervals);
 
         // clone new node from n1
-        InternalNodeState newINState = combineInternalNodeStates(n1.getState(), n2);
+        State newINState = combineInternalNodeStates(n1.getState(), n2);
 
-        InternalNodeImpl<?> n = NodeUtils.createInternalNode(n1.getID(), newINState, n1.getType());
+        InternalNode<?> n = NodeUtils.createInternalNode(n1.getID(), newINState, n1.getType());
 
         for (AbstractEdge<?> e : n1.getEdges()) {
-            AbstractNode child = combine(e.getSubDiagram(), n2);
+            Node child = combine(e.getSubDiagram(), n2);
             if (child == null) {
                 throw new RuntimeException("Empty child");
             }
@@ -293,8 +285,8 @@ public class MIDDCombiner {
      * @return
      */
     @SuppressWarnings({"unchecked", "rawtypes"})
-    private InternalNodeImpl<?> combineIDDSameLevel(InternalNodeImpl n1,
-                                                    InternalNodeImpl n2) throws MIDDException {
+    private InternalNode<?> combineIDDSameLevel(InternalNode n1,
+                                                        InternalNode n2) throws MIDDException {
         if (n1.getID() != n2.getID()) {
             throw new IllegalArgumentException("Both params should have the same variable level at their root");
         }
@@ -312,14 +304,14 @@ public class MIDDCombiner {
             return null;
         }
 
-        InternalNodeState newState = combineIndeterminateStates(n1.getState(), n2.getState());
+        State newState = combineIndeterminateStates(n1.getState(), n2.getState());
 
-        InternalNodeImpl<?> n = NodeUtils.createInternalNode(n1.getID(), newState, n1.getType());
+        InternalNode<?> n = NodeUtils.createInternalNode(n1.getID(), newState, n1.getType());
 
         for (Interval<?> interval : p.getIntervals()) {
-            AbstractNode op1 = n1.getChild(interval);
-            AbstractNode op2 = n2.getChild(interval);
-            AbstractNode child = null;
+            Node op1 = n1.getChild(interval);
+            Node op2 = n2.getChild(interval);
+            Node child = null;
             if (op1 != null && op2 != null) {
                 child = combine(op1, op2);
             } else if (op1 != null || op2 != null) {
@@ -349,22 +341,22 @@ public class MIDDCombiner {
      * @param externalNode
      * @return
      */
-    private InternalNodeState combineInternalNodeStates(InternalNodeState inState, ExternalNode3 externalNode) {
+    private State combineInternalNodeStates(State inState, ExternalNode3 externalNode) {
 
         ExternalNode3 n1 = inState.getExternalNode();
 
         ExternalNode3 n = combineExternalNodes(n1, externalNode);
 
-        return new InternalNodeState(n);
+        return new StateImpl(n);
     }
 
-    private InternalNodeState combineIndeterminateStates(InternalNodeState state1, InternalNodeState state2) {
+    private State combineIndeterminateStates(State state1, State state2) {
 
         ExternalNode3 e1 = state1.getExternalNode();
         ExternalNode3 e2 = state2.getExternalNode();
 
         ExternalNode3 e = this.combineExternalNodes(e1, e2);
 
-        return new InternalNodeState(e);
+        return new StateImpl(e);
     }
 }

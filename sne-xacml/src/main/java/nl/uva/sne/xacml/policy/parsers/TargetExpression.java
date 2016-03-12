@@ -1,8 +1,5 @@
 /*
- * SNE-XACML: A high performance XACML evaluation engine.
- *
  * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
- * System and Network Engineering Group, University of Amsterdam.
  * All rights reserved.
  *
  * This library is free software; you can redistribute it and/or
@@ -22,16 +19,16 @@
  */
 package nl.uva.sne.xacml.policy.parsers;
 
-import nl.uva.sne.midd.MIDDException;
-import nl.uva.sne.midd.builders.ConjunctiveBuilder;
-import nl.uva.sne.midd.nodes.AbstractNode;
-import nl.uva.sne.midd.nodes.ExternalNode;
-import nl.uva.sne.xacml.AttributeMapper;
-import oasis.names.tc.xacml._3_0.core.schema.wd_17.AnyOfType;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import nl.uva.sne.midd.MIDDException;
+import nl.uva.sne.midd.builders.ConjunctiveBuilder;
+import nl.uva.sne.midd.nodes.ExternalNode;
+import nl.uva.sne.midd.nodes.Node;
+import nl.uva.sne.xacml.AttributeMapper;
+import oasis.names.tc.xacml._3_0.core.schema.wd_17.AnyOfType;
 
 /**
  * TargetExpression: contains list of AnyOf expression combined by conjunctive operator
@@ -83,13 +80,13 @@ public class TargetExpression {
         return this.attrMapper;
     }
 
-    public AbstractNode parse() throws XACMLParsingException, MIDDParsingException, MIDDException {
+    public Node parse() throws XACMLParsingException, MIDDParsingException, MIDDException {
 
         if (lstAnyOf == null || lstAnyOf.size() == 0) {
             return ExternalNode.newInstance();    // return a true-value external node if there's no AnyOf expression.
         }
 
-        AbstractNode root = null;
+        Node root = null;
 
         Iterator<AnyOfType> itAnyOf = lstAnyOf.iterator();
 
@@ -97,7 +94,7 @@ public class TargetExpression {
             AnyOfType currentAnyOfExp = itAnyOf.next();
             AnyOfExpression aoe = new AnyOfExpression(currentAnyOfExp, attrMapper);
 
-            AbstractNode currentMIDD = aoe.parse();
+            Node currentMIDD = aoe.parse();
 
             if (root != null) {
                 // Conjunctive join current AnyOf expressions

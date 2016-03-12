@@ -19,26 +19,32 @@
  */
 package nl.uva.sne.xacml.policy.parsers;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import javax.xml.bind.JAXBElement;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.algorithms.CombiningAlgorithm;
 import nl.uva.sne.midd.builders.ConjunctiveBuilder;
 import nl.uva.sne.midd.builders.MIDDCombiner;
-import nl.uva.sne.midd.nodes.AbstractNode;
 import nl.uva.sne.midd.nodes.ExternalNode;
-import nl.uva.sne.midd.nodes.InternalNodeImpl;
+import nl.uva.sne.midd.nodes.Node;
+import nl.uva.sne.midd.nodes.internal.InternalNode;
 import nl.uva.sne.midd.util.GenericUtils;
 import nl.uva.sne.midd.util.MIDDUtils;
 import nl.uva.sne.xacml.AttributeMapper;
 import nl.uva.sne.xacml.policy.finder.PolicyFinder;
 import nl.uva.sne.xacml.policy.parsers.util.CombiningAlgConverterUtil;
-import oasis.names.tc.xacml._3_0.core.schema.wd_17.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.xml.bind.JAXBElement;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import oasis.names.tc.xacml._3_0.core.schema.wd_17.AnyOfType;
+import oasis.names.tc.xacml._3_0.core.schema.wd_17.IdReferenceType;
+import oasis.names.tc.xacml._3_0.core.schema.wd_17.PolicySetType;
+import oasis.names.tc.xacml._3_0.core.schema.wd_17.PolicyType;
+import oasis.names.tc.xacml._3_0.core.schema.wd_17.TargetType;
 
 /**
  * Create MIDD from a XACML 3.0 PolicySet element.
@@ -48,7 +54,7 @@ public class PolicySetParser {
 
     private PolicySetType policyset;
 
-    private AbstractNode preCondition;
+    private Node preCondition;
 
     private AttributeMapper attrMapper;
 
@@ -67,7 +73,7 @@ public class PolicySetParser {
      * @param policyset
      * @param attrMapper
      */
-    public PolicySetParser(AbstractNode condition, PolicySetType policyset,
+    public PolicySetParser(Node condition, PolicySetType policyset,
                            AttributeMapper attrMapper) throws MIDDException {
         this(condition, policyset, attrMapper, null);
     }
@@ -76,7 +82,7 @@ public class PolicySetParser {
      * @param condition a MIDD that represents the target expression of the parents' policyset.
      * @param policy    a XACML 3.0 policy element.
      */
-    public PolicySetParser(AbstractNode condition, PolicySetType policyset,
+    public PolicySetParser(Node condition, PolicySetType policyset,
                            AttributeMapper attrMapper, PolicyFinder policyFinder) throws MIDDException {
         if (policyset == null) {
             throw new IllegalArgumentException("PolicySetType argument must not be null");
@@ -99,30 +105,30 @@ public class PolicySetParser {
         }
     }
 
-    private AbstractNode combinePolicyMIDDs(List<AbstractNode> lstMIDDs,
+    private Node combinePolicyMIDDs(List<Node> lstMIDDs,
                                             CombiningAlgorithm pca) throws MIDDException {
         log.debug("Combining policy set " + this.policyset.getPolicySetId());
         MIDDCombiner combiner = new MIDDCombiner(pca);
 
-        Iterator<AbstractNode> it = lstMIDDs.iterator();
-        AbstractNode root = null;
+        Iterator<Node> it = lstMIDDs.iterator();
+        Node root = null;
 
         while (it.hasNext()) {
-            AbstractNode n = it.next();
+            Node n = it.next();
             if (root == null) {
                 root = n;
             } else {
-                if (root instanceof InternalNodeImpl) {
-                    log.debug("root size:" + MIDDUtils.countNodes((InternalNodeImpl) root));
+                if (root instanceof InternalNode) {
+                    log.debug("root size:" + MIDDUtils.countNodes((InternalNode) root));
                 }
-                if (n instanceof InternalNodeImpl) {
-                    log.debug("child midd size:" + MIDDUtils.countNodes((InternalNodeImpl) n));
+                if (n instanceof InternalNode) {
+                    log.debug("child midd size:" + MIDDUtils.countNodes((InternalNode) n));
                 }
 
                 root = combiner.combine(root, n);
 
-                if (root instanceof InternalNodeImpl) {
-                    log.debug("Combined midd size:" + MIDDUtils.countNodes((InternalNodeImpl) root));
+                if (root instanceof InternalNode) {
+                    log.debug("Combined midd size:" + MIDDUtils.countNodes((InternalNode) root));
                 }
 
             }
@@ -183,7 +189,7 @@ public class PolicySetParser {
         }
     }
 
-    private AbstractNode getTargetCondition() throws XACMLParsingException, MIDDException, MIDDParsingException {
+    private Node getTargetCondition() throws XACMLParsingException, MIDDException, MIDDParsingException {
         TargetType target = policyset.getTarget();
 
         List<AnyOfType> lstAnyOf;
@@ -197,21 +203,21 @@ public class PolicySetParser {
         return te.parse();
     }
 
-    public AbstractNode parse() throws XACMLParsingException, MIDDException, MIDDParsingException {
+    public Node parse() throws XACMLParsingException, MIDDException, MIDDParsingException {
         // Get a MIDD to represent the policy's target expression
 
-        AbstractNode targetCondition = getTargetCondition();
+        Node targetCondition = getTargetCondition();
         if (targetCondition == null) // no applicable MIDD extracted from Target
         {
             return null;
         }
 
         // Conjunctive join it with the MIDD representing preconditions of the policy
-        AbstractNode condition = ConjunctiveBuilder.join(this.preCondition, targetCondition);
+        Node condition = ConjunctiveBuilder.join(this.preCondition, targetCondition);
 
         getChilden();
 
-        List<AbstractNode> lstMIDDs = new ArrayList<AbstractNode>();
+        List<Node> lstMIDDs = new ArrayList<Node>();
 
         // Warning: must convert children policy/policyset in its natural order to compliant with some ordered-RCAs (e.g: First-Applicable)
 
@@ -222,7 +228,7 @@ public class PolicySetParser {
                 PolicyParser policyParser = new PolicyParser(condition, pol, attrMapper);
 
                 // return the MIDD with XACML decisions at the external nodes
-                AbstractNode xacmlMIDD = policyParser.parse();
+                Node xacmlMIDD = policyParser.parse();
 
                 if (xacmlMIDD == null) {// a never-applicable rule
                     System.err.println("Found a non-transformable MIDD policy:" + pol.getPolicyId());
@@ -235,7 +241,7 @@ public class PolicySetParser {
                 PolicySetParser psParser = new PolicySetParser(condition, polset, attrMapper, policyFinder);
 
                 // return the MIDD with XACML decisions at the external nodes
-                AbstractNode xacmlMIDD = psParser.parse();
+                Node xacmlMIDD = psParser.parse();
                 if (xacmlMIDD == null) {// a never-applicable rule
                     log.error("Found a non-transformable MIDD policy set:" + polset.getPolicySetId());
                 } else {

@@ -19,16 +19,16 @@
  */
 package nl.uva.sne.midd.util;
 
+import java.util.Map;
+
 import nl.uva.sne.midd.Decision;
 import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.UnmatchedException;
 import nl.uva.sne.midd.Variable;
 import nl.uva.sne.midd.edges.AbstractEdge;
-import nl.uva.sne.midd.nodes.AbstractNode;
-import nl.uva.sne.midd.nodes.InternalNodeImpl;
+import nl.uva.sne.midd.nodes.Node;
+import nl.uva.sne.midd.nodes.internal.InternalNode;
 import nl.uva.sne.xacml.ExternalNode3;
-
-import java.util.Map;
 
 /**
  * @author Canh Ngo
@@ -43,22 +43,23 @@ public class EvaluationUtils {
      * @return The external node that holds effect value and obligations (optional).
      */
     @SuppressWarnings({"unchecked"})
-    public static Decision eval(InternalNodeImpl<?> midd, Map<Integer, Variable<?>> variables) {
-        AbstractNode currentNode = midd;
+    public static Decision eval(InternalNode midd, Map<Integer, Variable<?>> variables) {
+        Node currentNode = midd;
 
-        while (currentNode instanceof InternalNodeImpl) {
-            InternalNodeImpl currentInternalNode = (InternalNodeImpl) currentNode;
+        while (currentNode instanceof InternalNode) {
+            InternalNode currentInternalNode = (InternalNode) currentNode;
 
-            Variable<?> currentVar = null;
+            final Variable<?> currentVar;
             // attribute not found:
+            final Class<?> type = currentInternalNode.getType();
             if (!variables.containsKey(currentInternalNode.getID())) {
                 // create a null variable
-                currentVar = createVariable(currentInternalNode.getID(), null, currentInternalNode.getType());
+                currentVar = Variable.of(currentInternalNode.getID(), null, type);
             } else {
                 currentVar = variables.get(currentInternalNode.getID());
             }
 
-            if (currentVar.getType() != currentInternalNode.getType()) {
+            if (currentVar.getType() != type) {
                 throw new RuntimeException("Error evaluation, either tree or values have error: same attribute with different variable identifiers");
             }
 
@@ -76,9 +77,5 @@ public class EvaluationUtils {
         }
 
         return ((ExternalNode3) currentNode).buildDecision();
-    }
-
-    private static <T extends Comparable<T>> Variable<?> createVariable(int id, T value, Class<T> type) {
-        return new Variable<>(id, value, type);
     }
 }

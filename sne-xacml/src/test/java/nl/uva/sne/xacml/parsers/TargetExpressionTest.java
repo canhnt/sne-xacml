@@ -1,8 +1,5 @@
 /*
- * SNE-XACML: A high performance XACML evaluation engine.
- *
  * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
- * System and Network Engineering Group, University of Amsterdam.
  * All rights reserved.
  *
  * This library is free software; you can redistribute it and/or
@@ -24,6 +21,7 @@ package nl.uva.sne.xacml.parsers;
 
 import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.nodes.AbstractNode;
+import nl.uva.sne.midd.nodes.Node;
 import nl.uva.sne.xacml.AttributeMapper;
 import nl.uva.sne.xacml.policy.parsers.MIDDParsingException;
 import nl.uva.sne.xacml.policy.parsers.TargetExpression;
@@ -76,7 +74,7 @@ public class TargetExpressionTest {
         TargetExpression te = new TargetExpression(attrMapper);
         te.addAll(target.getAnyOf());
 
-        AbstractNode root;
+        Node root;
         try {
             root = te.parse();
             root.print(System.out);

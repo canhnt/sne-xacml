@@ -1,8 +1,5 @@
 /*
- * SNE-XACML: A high performance XACML evaluation engine.
- *
  * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
- * System and Network Engineering Group, University of Amsterdam.
  * All rights reserved.
  *
  * This library is free software; you can redistribute it and/or
@@ -20,57 +17,55 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301 USA
  */
-package nl.uva.sne.midd.obligations;
-
-import nl.uva.sne.midd.Decision;
-import nl.uva.sne.midd.DecisionType;
-import nl.uva.sne.xacml.ExternalNode3;
+package nl.uva.sne.midd.nodes.internal;
 
 import java.util.List;
 
-/**
- * @author Canh Ngo
- *
- * @version
- * @date: Sep 20, 2012
- */
+import nl.uva.sne.midd.Decision;
+import nl.uva.sne.midd.DecisionType;
+import nl.uva.sne.midd.obligations.ObligationExpression;
+import nl.uva.sne.xacml.ExternalNode3;
 
 /**
  * Class represents returned information when evaluation has indeterminate state at a node
  */
-public class InternalNodeState {
+public class StateImpl implements State {
 
     private ExternalNode3 state;
 
-    public InternalNodeState(DecisionType state) {
+    public StateImpl(DecisionType state) {
         this.state = new ExternalNode3(state);
     }
 
-    public InternalNodeState(DecisionType stateIN, List<ObligationExpression> oes) {
+    public StateImpl(DecisionType stateIN, List<ObligationExpression> oes) {
         this.state = new ExternalNode3(stateIN, oes);
     }
 
 
-    public InternalNodeState(ExternalNode3 n) {
+    public StateImpl(ExternalNode3 n) {
         this.state = new ExternalNode3(n);
     }
 
-    public InternalNodeState(InternalNodeState state) {
-        this.state = new ExternalNode3(state.state);
+    public StateImpl(State state) {
+        this.state = new ExternalNode3(state.getExternalNode());
     }
 
+    @Override
     public Decision buildDecision() {
         return state.buildDecision();
     }
 
+    @Override
     public ExternalNode3 getExternalNode() {
         return state;
     }
 
+    @Override
     public List<ObligationExpression> getObligationExpressions() {
         return state.getObligationExpressions();
     }
 
+    @Override
     public DecisionType getStateIN() {
         return state.getDecision();
     }

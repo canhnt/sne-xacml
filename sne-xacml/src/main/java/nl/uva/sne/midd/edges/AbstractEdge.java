@@ -1,8 +1,5 @@
 /*
- * SNE-XACML: A high performance XACML evaluation engine.
- *
- * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
- * System and Network Engineering Group, University of Amsterdam.
+ * Copyright (C) 2013-2016 Canh Ngo <canhnt@gmail.com>
  * All rights reserved.
  *
  * This library is free software; you can redistribute it and/or
@@ -24,7 +21,7 @@ package nl.uva.sne.midd.edges;
 
 import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.interval.Interval;
-import nl.uva.sne.midd.nodes.AbstractNode;
+import nl.uva.sne.midd.nodes.Node;
 import nl.uva.sne.midd.util.GenericUtils;
 
 import java.util.ArrayList;
@@ -47,7 +44,7 @@ public abstract class AbstractEdge<T extends Comparable<T>> {
     /**
      * The sub-diagram of the function at the edge's endpoint
      */
-    private AbstractNode subDiagram;
+    private Node subDiagram;
 
     private AbstractEdge() {
         this.intervals = new ArrayList<>();
@@ -91,7 +88,7 @@ public abstract class AbstractEdge<T extends Comparable<T>> {
      *
      * @return
      */
-    public AbstractNode getSubDiagram() throws MIDDException {
+    public Node getSubDiagram() throws MIDDException {
         return this.subDiagram;
     }
 
@@ -118,7 +115,7 @@ public abstract class AbstractEdge<T extends Comparable<T>> {
      *
      * @param node
      */
-    public void setSubDiagram(AbstractNode node) {
+    public void setSubDiagram(Node node) {
         if (node == null) {
             throw new IllegalArgumentException("child argument must not be null");
         }

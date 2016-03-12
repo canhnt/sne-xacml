@@ -19,30 +19,36 @@
  */
 package nl.uva.sne.midd;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.junit.Test;
+
 import nl.uva.sne.midd.algorithms.DenyOverridesAlg;
 import nl.uva.sne.midd.algorithms.PermitOverridesAlg;
 import nl.uva.sne.midd.builders.MIDDCombiner;
 import nl.uva.sne.midd.edges.DoubleEdge;
 import nl.uva.sne.midd.edges.StringEdge;
 import nl.uva.sne.midd.interval.Interval;
-import nl.uva.sne.midd.nodes.AbstractNode;
 import nl.uva.sne.midd.nodes.DoubleNode;
-import nl.uva.sne.midd.nodes.InternalNodeImpl;
+import nl.uva.sne.midd.nodes.Node;
 import nl.uva.sne.midd.nodes.StringNode;
+import nl.uva.sne.midd.nodes.internal.InternalNode;
 import nl.uva.sne.midd.obligations.Obligation;
 import nl.uva.sne.midd.obligations.ObligationExpression;
 import nl.uva.sne.midd.util.EvaluationUtils;
 import nl.uva.sne.xacml.ExternalNode3;
-import org.junit.Test;
-
-import java.util.*;
-
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 public class BuildMIDDTest {
 
-    InternalNodeImpl<?> midd1;
-    InternalNodeImpl<?> midd2;
+    InternalNode<?> midd1;
+    InternalNode<?> midd2;
 
     private ObligationExpression oe1 = new ObligationExpression(DecisionType.Permit, new Obligation("O1"));
     private ObligationExpression oe2 = new ObligationExpression(DecisionType.Deny, new Obligation("O2"));
@@ -183,10 +189,10 @@ public class BuildMIDDTest {
         buildMIDD2();
 
         MIDDCombiner combiner = new MIDDCombiner(new PermitOverridesAlg());
-        AbstractNode root = combiner.combine(midd1, midd2);
+        Node root = combiner.combine(midd1, midd2);
 
-        if (root instanceof InternalNodeImpl<?>) {
-            InternalNodeImpl<?> n = (InternalNodeImpl<?>) root;
+        if (root instanceof InternalNode<?>) {
+            InternalNode<?> n = (InternalNode<?>) root;
 
             // (1, 4, 3.5) -> P,O1O2
             // (1, 4, null) -> IN_DP
@@ -244,10 +250,10 @@ public class BuildMIDDTest {
         buildMIDD2();
 
         MIDDCombiner combiner = new MIDDCombiner(new DenyOverridesAlg());
-        AbstractNode root = combiner.combine(midd1, midd2);
+        Node root = combiner.combine(midd1, midd2);
 
-        if (root instanceof InternalNodeImpl<?>) {
-            InternalNodeImpl<?> n = (InternalNodeImpl<?>) root;
+        if (root instanceof InternalNode<?>) {
+            InternalNode<?> n = (InternalNode<?>) root;
 
             // (1, 4, 3.5) -> P,O1O2
             // (1, 4, null) -> IN_DP

@@ -20,17 +20,24 @@
 
 package nl.uva.sne.midd.util;
 
-import nl.uva.sne.midd.MIDDException;
-import nl.uva.sne.midd.datatype.AnyURI;
-import nl.uva.sne.midd.datatype.XMLDateTime;
-import nl.uva.sne.midd.nodes.*;
-import nl.uva.sne.midd.obligations.InternalNodeState;
-import org.slf4j.LoggerFactory;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.slf4j.LoggerFactory;
+
+import nl.uva.sne.midd.MIDDException;
+import nl.uva.sne.midd.datatype.AnyURI;
+import nl.uva.sne.midd.datatype.XMLDateTime;
+import nl.uva.sne.midd.nodes.AnyURINode;
+import nl.uva.sne.midd.nodes.BooleanNode;
+import nl.uva.sne.midd.nodes.DateTimeNode;
+import nl.uva.sne.midd.nodes.DoubleNode;
+import nl.uva.sne.midd.nodes.IntegerNode;
+import nl.uva.sne.midd.nodes.StringNode;
+import nl.uva.sne.midd.nodes.internal.InternalNode;
+import nl.uva.sne.midd.nodes.internal.State;
 
 /**
  * Utility class to create internal nodes.
@@ -41,7 +48,7 @@ public class NodeUtils {
     /**
      * Mapping from data types to node types
      */
-    private static final Map<Class<? extends  Comparable>, Class<? extends InternalNodeImpl>> MAP_NODE_TYPES = new HashMap<>();
+    private static final Map<Class<? extends  Comparable>, Class<? extends InternalNode>> MAP_NODE_TYPES = new HashMap<>();
 
     static{
         MAP_NODE_TYPES.put(Integer.class, IntegerNode.class);
@@ -62,7 +69,7 @@ public class NodeUtils {
      * @return
      * @throws MIDDException
      *
-     * @see InternalNodeState
+     * @see State
      * @see BooleanNode
      * @see DateTimeNode
      * @see DoubleNode
@@ -70,10 +77,10 @@ public class NodeUtils {
      * @see StringNode
      *
      */
-    public static InternalNodeImpl<?> createInternalNode(int id, InternalNodeState state, Class<?> clsDataType) throws MIDDException {
-        Class<? extends InternalNodeImpl> nodeClsType = getNodeClassType(clsDataType);
+    public static InternalNode<?> createInternalNode(int id, State state, Class<?> clsDataType) throws MIDDException {
+        Class<? extends InternalNode> nodeClsType = getNodeClassType(clsDataType);
         try {
-            Constructor<? extends InternalNodeImpl> constructor  = nodeClsType.getConstructor(int.class, InternalNodeState.class);
+            Constructor<? extends InternalNode> constructor  = nodeClsType.getConstructor(int.class, State.class);
             return constructor.newInstance(id, state);
         } catch (NoSuchMethodException e) {
             log.error("Cannot find the constructor for the class {}", clsDataType.getName(), e);
@@ -84,7 +91,7 @@ public class NodeUtils {
         throw new MIDDException("Unsupported data type to create internal node of type " + clsDataType.getName());
     }
 
-    private static Class<? extends InternalNodeImpl> getNodeClassType(Class<?> clsDataType) {
+    private static Class<? extends InternalNode> getNodeClassType(Class<?> clsDataType) {
         if (MAP_NODE_TYPES.containsKey(clsDataType)){
             return MAP_NODE_TYPES.get(clsDataType);
         } else {
@@ -101,7 +108,7 @@ public class NodeUtils {
      * @return
      * @throws MIDDException
      */
-    public static InternalNodeImpl<?> createInternalNode(InternalNodeImpl<?> n, Class<?> clsDataType) throws MIDDException {
+    public static InternalNode<?> createInternalNode(InternalNode<?> n, Class<?> clsDataType) throws MIDDException {
         return createInternalNode(n.getID(), n.getState(), clsDataType);
     }
 }

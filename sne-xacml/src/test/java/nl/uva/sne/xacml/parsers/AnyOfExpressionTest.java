@@ -24,6 +24,7 @@ package nl.uva.sne.xacml.parsers;
 
 import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.nodes.AbstractNode;
+import nl.uva.sne.midd.nodes.Node;
 import nl.uva.sne.xacml.AttributeMapper;
 import nl.uva.sne.xacml.policy.parsers.*;
 import nl.uva.sne.xacml.util.XACMLUtil;
@@ -86,14 +87,14 @@ public class AnyOfExpressionTest {
         TargetType target = readTarget();
         assertNotNull(target);
 
-        List<AnyOfType> lstAnyOf = target.getAnyOf();
-        assertTrue(lstAnyOf != null && lstAnyOf.size() > 0);
+        final List<AnyOfType> lstAnyOf = target.getAnyOf();
+        assertTrue(!lstAnyOf.isEmpty());
 
         AttributeMapper attrMapper = new AttributeMapper();
         AnyOfExpression ae = new AnyOfExpression(lstAnyOf.get(0), attrMapper);
 
         try {
-            AbstractNode root = ae.parse();
+            Node root = ae.parse();
             root.print(System.out);
         } catch (XACMLParsingException | MIDDParsingException e) {
             // TODO Auto-generated catch block

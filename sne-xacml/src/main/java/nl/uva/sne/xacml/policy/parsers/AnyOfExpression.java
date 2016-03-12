@@ -24,10 +24,11 @@ import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.builders.DisjunctiveBuilder;
 import nl.uva.sne.midd.edges.AbstractEdge;
 import nl.uva.sne.midd.interval.Interval;
-import nl.uva.sne.midd.nodes.AbstractNode;
+import nl.uva.sne.midd.nodes.Node;
 import nl.uva.sne.midd.nodes.ExternalNode;
-import nl.uva.sne.midd.nodes.InternalNodeImpl;
-import nl.uva.sne.midd.obligations.InternalNodeState;
+import nl.uva.sne.midd.nodes.internal.InternalNode;
+import nl.uva.sne.midd.nodes.internal.State;
+import nl.uva.sne.midd.nodes.internal.StateImpl;
 import nl.uva.sne.midd.util.EdgeUtils;
 import nl.uva.sne.midd.util.NodeUtils;
 import nl.uva.sne.xacml.AttributeMapper;
@@ -80,7 +81,7 @@ public class AnyOfExpression {
      * @throws MIDDParsingException
      * @throws MIDDException
      */
-    public AbstractNode createFromConjunctionClauses(Map<String, AttributeInfo> intervals) throws MIDDParsingException, MIDDException {
+    public Node createFromConjunctionClauses(Map<String, AttributeInfo> intervals) throws MIDDParsingException, MIDDException {
 
         if (intervals == null || intervals.size() == 0) {
             return ExternalNode.newInstance(); // return true-value external node
@@ -101,8 +102,8 @@ public class AnyOfExpression {
         Collections.sort(lstVarIds);
 
         // create a MIDD path from list of edges, start from lowest var-id
-        InternalNodeImpl<?> root = null;
-        InternalNodeImpl<?> currentNode = null;
+        InternalNode<?> root = null;
+        InternalNode<?> currentNode = null;
         AbstractEdge<?> currentEdge = null;
 
         Iterator<Integer> lstIt = lstVarIds.iterator();
@@ -114,9 +115,9 @@ public class AnyOfExpression {
             String attrId = attrMapper.getAttributeId(varId);
             boolean isAttrMustBePresent = intervals.get(attrId).isMustBePresent;
 
-            InternalNodeState nodeState = new InternalNodeState(isAttrMustBePresent ? DecisionType.Indeterminate : DecisionType.NotApplicable);
+            State nodeState = new StateImpl(isAttrMustBePresent ? DecisionType.Indeterminate : DecisionType.NotApplicable);
 
-            InternalNodeImpl<?> node = NodeUtils.createInternalNode(varId, nodeState, e.getType());
+            InternalNode<?> node = NodeUtils.createInternalNode(varId, nodeState, e.getType());
             if (root == null) {
                 root = node; // root points to the start of the MIDD path
                 currentNode = node;
@@ -132,7 +133,7 @@ public class AnyOfExpression {
         return root;
     }
 
-    public AbstractNode parse() throws XACMLParsingException, MIDDParsingException, MIDDException {
+    public Node parse() throws XACMLParsingException, MIDDParsingException, MIDDException {
         if (anyOf == null) {
             throw new NullPointerException("AnyOf element must not be null");
         }
@@ -173,14 +174,14 @@ public class AnyOfExpression {
         attrMapper.addAttributes(attributes);
 
         // Build MIDDs from allOf expressions and combine as disjunction
-        AbstractNode root = null;
+        Node root = null;
 
         Iterator<Map<String, AttributeInfo>> iterAllOf = lstAllOfExprIntervals.iterator();
 
         while (iterAllOf.hasNext()) {
             Map<String, AttributeInfo> currentAllOfExp = iterAllOf.next();
             // Create an IDD from list of intervals in the AllOf expression
-            AbstractNode n = createFromConjunctionClauses(currentAllOfExp);
+            Node n = createFromConjunctionClauses(currentAllOfExp);
 
             // Combine MIDDs as disjunction clauses
             if (root == null) {

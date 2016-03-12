@@ -18,19 +18,20 @@
  */
 package nl.uva.sne.midd.builders;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.edges.AbstractEdge;
 import nl.uva.sne.midd.interval.Interval;
-import nl.uva.sne.midd.nodes.AbstractNode;
 import nl.uva.sne.midd.nodes.ExternalNode;
-import nl.uva.sne.midd.nodes.InternalNodeImpl;
+import nl.uva.sne.midd.nodes.Node;
+import nl.uva.sne.midd.nodes.internal.InternalNode;
 import nl.uva.sne.midd.partition.Partition;
 import nl.uva.sne.midd.partition.PartitionBuilder;
 import nl.uva.sne.midd.util.EdgeUtils;
 import nl.uva.sne.midd.util.GenericUtils;
 import nl.uva.sne.midd.util.NodeUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Join two MIDD using conjunctive operator.
@@ -46,7 +47,7 @@ public class ConjunctiveBuilder {
      * @return
      */
     @SuppressWarnings("rawtypes")
-    public static AbstractNode join(AbstractNode midd1, AbstractNode midd2) throws MIDDException {
+    public static Node join(Node midd1, Node midd2) throws MIDDException {
 
         if (midd1 == null || midd2 == null) {
             log.error("Conjunctive join with either a null MIDD");
@@ -56,13 +57,13 @@ public class ConjunctiveBuilder {
         if (midd1.getID() != ExternalNode.EXTERNAL_NODE_ID &&
                 midd2.getID() != ExternalNode.EXTERNAL_NODE_ID) {
             if (midd1.getID() > midd2.getID()) {
-                AbstractNode temp = midd1;
+                Node temp = midd1;
                 midd1 = midd2;
                 midd2 = temp;
             }
         } else if (midd1.getID() == ExternalNode.EXTERNAL_NODE_ID) {
 
-            AbstractNode temp = midd1;
+            Node temp = midd1;
             midd1 = midd2;
             midd2 = temp;
         }
@@ -72,13 +73,13 @@ public class ConjunctiveBuilder {
             // midd2 is also external node, return true external node
             return new ExternalNode();
         } else {
-            InternalNodeImpl<?> n1 = (InternalNodeImpl) midd1;
+            InternalNode<?> n1 = (InternalNode) midd1;
 
             if (midd2 instanceof ExternalNode) {
                 // return midd1
                 return midd1;
             } else {// both are internal nodes, combine two internal nodes here
-                InternalNodeImpl<?> n2 = (InternalNodeImpl) midd2;
+                InternalNode<?> n2 = (InternalNode) midd2;
 
                 if (n1.getID() == n2.getID()) {
                     return joinMIDDatSameLevel(n1, n2);
@@ -88,10 +89,10 @@ public class ConjunctiveBuilder {
                     // - combine n2 with all children of n1 -> children[1..k], add them to children of n
 
                     // Clone n1
-                    InternalNodeImpl<?> n = NodeUtils.createInternalNode(n1, n1.getType());
+                    InternalNode<?> n = NodeUtils.createInternalNode(n1, n1.getType());
 
                     for (AbstractEdge<?> e : n1.getEdges()) {
-                        AbstractNode child = join(e.getSubDiagram(), n2);
+                        Node child = join(e.getSubDiagram(), n2);
                         if (child != null) {
                             n.addChild(EdgeUtils.cloneEdge(e), child);
                         }
@@ -115,7 +116,7 @@ public class ConjunctiveBuilder {
      * @return
      */
     @SuppressWarnings({"unchecked", "rawtypes"})
-    private static InternalNodeImpl<?> joinMIDDatSameLevel(InternalNodeImpl n1, InternalNodeImpl n2) throws MIDDException {
+    private static InternalNode<?> joinMIDDatSameLevel(InternalNode n1, InternalNode n2) throws MIDDException {
         if (n1.getID() != n2.getID()) {
             throw new IllegalArgumentException("Both params should have the same variable level at their root");
         }
@@ -136,13 +137,13 @@ public class ConjunctiveBuilder {
         }
 
         // Clone n1: warning: new MIDD node's state should be combined from two node states: n1 & n2???
-        InternalNodeImpl<?> newMIDD = NodeUtils.createInternalNode(n1.getID(), n1.getState(), n1.getType());
+        InternalNode<?> newMIDD = NodeUtils.createInternalNode(n1.getID(), n1.getState(), n1.getType());
 
         for (Interval<?> interval : p.getIntervals()) {
-            AbstractNode op1 = n1.getChild(interval);
-            AbstractNode op2 = n2.getChild(interval);
+            final Node op1 = n1.getChild(interval);
+            final Node op2 = n2.getChild(interval);
 
-            AbstractNode child = null;
+            Node child = null;
 
             if (op1 != null && op2 != null) {
                 child = join(op1, op2);

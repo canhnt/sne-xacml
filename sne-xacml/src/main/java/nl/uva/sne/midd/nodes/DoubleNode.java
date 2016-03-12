@@ -17,25 +17,21 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301 USA
  */
-/**
- * System and Network Engineering Group
- * University of Amsterdam
- *
- */
 package nl.uva.sne.midd.nodes;
 
 import nl.uva.sne.midd.DecisionType;
 import nl.uva.sne.midd.MIDDException;
-import nl.uva.sne.midd.obligations.InternalNodeState;
+import nl.uva.sne.midd.nodes.internal.AbstractInternalNode;
+import nl.uva.sne.midd.nodes.internal.State;
 
-public class DoubleNode extends InternalNodeImpl<Double> {
+public class DoubleNode extends AbstractInternalNode<Double> {
 
     public DoubleNode(int id, DecisionType state) {
         super(id, state);
         // TODO Auto-generated constructor stub
     }
 
-    public DoubleNode(int id, InternalNodeState state) {
+    public DoubleNode(int id, State state) {
         super(id, state);
     }
 

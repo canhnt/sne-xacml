@@ -21,8 +21,8 @@ package nl.uva.sne.xacml.parsers;
 
 import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.edges.AbstractEdge;
-import nl.uva.sne.midd.nodes.AbstractNode;
-import nl.uva.sne.midd.nodes.InternalNodeImpl;
+import nl.uva.sne.midd.nodes.Node;
+import nl.uva.sne.midd.nodes.internal.InternalNode;
 import nl.uva.sne.xacml.AttributeMapper;
 import nl.uva.sne.xacml.policy.parsers.MIDDParsingException;
 import nl.uva.sne.xacml.policy.parsers.PolicySetParser;
@@ -55,9 +55,9 @@ public class PolicySetParserTest {
 
 
         try {
-            AbstractNode root = parser.parse();
+            Node root = parser.parse();
             root.print(System.out);
-            System.out.println("Number of nodes:" + countNodes((InternalNodeImpl) root));
+            System.out.println("Number of nodes:" + countNodes((InternalNode) root));
 
             assertTrue(true);
             return;
@@ -68,24 +68,24 @@ public class PolicySetParserTest {
         fail("Exceptions occured");
     }
 
-    public static int countNodes(InternalNodeImpl midd) throws MIDDException {
-        Stack<InternalNodeImpl> stackNodes = new Stack<InternalNodeImpl>();
+    public static int countNodes(InternalNode midd) throws MIDDException {
+        Stack<InternalNode> stackNodes = new Stack<InternalNode>();
 
         stackNodes.push(midd);
 
-        Set<AbstractNode> nodes = new HashSet<AbstractNode>();
+        Set<Node> nodes = new HashSet<Node>();
 
         while (!stackNodes.empty()) {
-            InternalNodeImpl n = stackNodes.pop();
+            InternalNode n = stackNodes.pop();
             nodes.add(n);
             // search for all children of the poped internal node
             Iterator<AbstractEdge> it = n.getEdges().iterator();
             while (it.hasNext()) {
                 AbstractEdge edge = it.next();
-                AbstractNode child = edge.getSubDiagram();
+                Node child = edge.getSubDiagram();
                 nodes.add(child);
-                if (child instanceof InternalNodeImpl) {
-                    stackNodes.push((InternalNodeImpl) child);
+                if (child instanceof InternalNode) {
+                    stackNodes.push((InternalNode) child);
                 }
             }
         }

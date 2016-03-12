@@ -20,18 +20,10 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301 USA
  */
-/**
- * System and Network Engineering Group
- * University of Amsterdam
- *
- */
+
 package nl.uva.sne.midd.nodes;
 
-import java.io.OutputStream;
-
-import nl.uva.sne.midd.MIDDException;
-
-public abstract class AbstractNode {
+public abstract class AbstractNode<T> implements Node<T> {
 
     private int id;
 
@@ -44,16 +36,12 @@ public abstract class AbstractNode {
      *
      * @param n
      */
-    public AbstractNode(AbstractNode n){
-        id = n.id;
+    public AbstractNode(Node n){
+        id = n.getID();
     }
 
+    @Override
     public int getID() {
         return id;
     }
-
-    public abstract Class<?> getType();
-
-    public abstract void print(OutputStream os) throws MIDDException;
-
 }

@@ -22,15 +22,16 @@ package nl.uva.sne.midd.nodes;
 import nl.uva.sne.midd.DecisionType;
 import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.datatype.XMLDateTime;
-import nl.uva.sne.midd.obligations.InternalNodeState;
+import nl.uva.sne.midd.nodes.internal.AbstractInternalNode;
+import nl.uva.sne.midd.nodes.internal.State;
 
-public class DateTimeNode extends InternalNodeImpl<XMLDateTime> {
+public class DateTimeNode extends AbstractInternalNode<XMLDateTime> {
 
     public DateTimeNode(int id, DecisionType state) {
         super(id, state);
     }
 
-    public DateTimeNode(int id, InternalNodeState state) {
+    public DateTimeNode(int id, State state) {
         super(id, state);
     }
 
@@ -38,7 +39,7 @@ public class DateTimeNode extends InternalNodeImpl<XMLDateTime> {
         super(node);
     }
     @Override
-    public Class<?> getType() {
+    public Class<XMLDateTime> getType() {
         return XMLDateTime.class;
     }
 
