@@ -30,7 +30,5 @@ import nl.uva.sne.midd.MIDDException;
 public interface Node<T> {
     int getID();
 
-    Class<T> getType();
-
     void print(OutputStream os) throws MIDDException;
 }

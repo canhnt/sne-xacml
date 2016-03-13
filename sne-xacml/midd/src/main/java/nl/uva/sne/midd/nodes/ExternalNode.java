@@ -48,11 +48,6 @@ public class ExternalNode extends AbstractNode {
     }
 
     @Override
-    public Class<?> getType() {
-        return Boolean.class;
-    }
-
-    @Override
     public void print(OutputStream os) {
         PrintStream ps = new PrintStream(os);
         ps.println("TrueNode\n");

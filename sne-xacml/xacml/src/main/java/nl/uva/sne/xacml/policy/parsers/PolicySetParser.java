@@ -29,9 +29,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import nl.uva.sne.midd.MIDDException;
-import nl.uva.sne.midd.algorithms.CombiningAlgorithm;
+import nl.uva.sne.xacml.algorithms.CombiningAlgorithm;
 import nl.uva.sne.midd.builders.ConjunctiveBuilder;
-import nl.uva.sne.midd.builders.MIDDCombiner;
+import nl.uva.sne.xacml.builders.MIDDCombiner;
 import nl.uva.sne.midd.nodes.ExternalNode;
 import nl.uva.sne.midd.nodes.Node;
 import nl.uva.sne.midd.nodes.internal.InternalNode;

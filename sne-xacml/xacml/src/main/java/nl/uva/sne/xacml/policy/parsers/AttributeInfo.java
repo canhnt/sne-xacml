@@ -1,8 +1,5 @@
 /*
- * SNE-XACML: A high performance XACML evaluation engine.
- *
- * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
- * System and Network Engineering Group, University of Amsterdam.
+ * Copyright (C) 2013-2016 Canh Ngo <canhnt@gmail.com>
  * All rights reserved.
  *
  * This library is free software; you can redistribute it and/or
@@ -20,6 +17,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301 USA
  */
+
 package nl.uva.sne.xacml.policy.parsers;
 
 import nl.uva.sne.midd.interval.Interval;

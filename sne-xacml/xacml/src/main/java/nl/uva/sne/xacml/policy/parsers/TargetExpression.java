@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
+ * Copyright (C) 2013-2016 Canh Ngo <canhnt@gmail.com>
  * All rights reserved.
  *
  * This library is free software; you can redistribute it and/or

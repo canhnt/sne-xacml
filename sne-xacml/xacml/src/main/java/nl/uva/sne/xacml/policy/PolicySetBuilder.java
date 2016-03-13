@@ -1,8 +1,5 @@
 /*
- * SNE-XACML: A high performance XACML evaluation engine.
- *
- * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
- * System and Network Engineering Group, University of Amsterdam.
+ * Copyright (C) 2016 Canh Ngo <canhnt@gmail.com>
  * All rights reserved.
  *
  * This library is free software; you can redistribute it and/or

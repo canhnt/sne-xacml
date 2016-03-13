@@ -24,8 +24,6 @@ package nl.uva.sne.midd.nodes.internal;
 
 import java.util.List;
 
-import nl.uva.sne.midd.Decision;
-import nl.uva.sne.midd.DecisionType;
 import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.UnmatchedException;
 import nl.uva.sne.midd.edges.AbstractEdge;
@@ -33,11 +31,6 @@ import nl.uva.sne.midd.interval.Interval;
 import nl.uva.sne.midd.nodes.Node;
 
 public interface InternalNode<T extends Comparable<T>> extends Node<T> {
-
-    /**
-     * Create decision value from current internal state
-     */
-    Decision buildDecision();
 
     /**
      * Return the child of the current node with equivalent interval on its incoming edge.
@@ -60,17 +53,11 @@ public interface InternalNode<T extends Comparable<T>> extends Node<T> {
 
     List<AbstractEdge<T>> getEdges();
 
-    State getState();
-
-    void setState(State state);
-
     /**
      * Collect all intervals of all outgoing edges
      * @return
      */
     List<Interval> getIntervals();
-
-    DecisionType getStateIN();
 
     /**
      * Return an edge to match with input value
@@ -82,4 +69,6 @@ public interface InternalNode<T extends Comparable<T>> extends Node<T> {
     AbstractEdge<T> match(T value) throws UnmatchedException, MIDDException;
 
     void addAllEdges(List<AbstractEdge<T>> newEdges);
+
+    Class<T> getType();
 }

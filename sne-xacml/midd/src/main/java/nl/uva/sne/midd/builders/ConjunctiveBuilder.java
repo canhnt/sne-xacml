@@ -26,28 +26,34 @@ import nl.uva.sne.midd.edges.AbstractEdge;
 import nl.uva.sne.midd.interval.Interval;
 import nl.uva.sne.midd.nodes.ExternalNode;
 import nl.uva.sne.midd.nodes.Node;
+import nl.uva.sne.midd.nodes.NodeFactory;
 import nl.uva.sne.midd.nodes.internal.InternalNode;
 import nl.uva.sne.midd.partition.Partition;
 import nl.uva.sne.midd.partition.PartitionBuilder;
 import nl.uva.sne.midd.util.EdgeUtils;
 import nl.uva.sne.midd.util.GenericUtils;
-import nl.uva.sne.midd.util.NodeUtils;
 
 /**
  * Join two MIDD using conjunctive operator.
  *
  * @author Canh Ngo
  */
-public class ConjunctiveBuilder {
+public class ConjunctiveBuilder implements MIDDBuilder {
     private static final Logger log = LoggerFactory.getLogger(ConjunctiveBuilder.class);
 
+    private final NodeFactory nodeFactory;
+
+    public ConjunctiveBuilder(NodeFactory nodeFactory) {
+        this.nodeFactory = nodeFactory;
+    }
     /**
      * @param midd1
      * @param midd2
      * @return
      */
     @SuppressWarnings("rawtypes")
-    public static Node join(Node midd1, Node midd2) throws MIDDException {
+    @Override
+    public Node join(Node midd1, Node midd2) throws MIDDException {
 
         if (midd1 == null || midd2 == null) {
             log.error("Conjunctive join with either a null MIDD");
@@ -89,7 +95,7 @@ public class ConjunctiveBuilder {
                     // - combine n2 with all children of n1 -> children[1..k], add them to children of n
 
                     // Clone n1
-                    InternalNode<?> n = NodeUtils.createInternalNode(n1, n1.getType());
+                    InternalNode<?> n = nodeFactory.create(n1);
 
                     for (AbstractEdge<?> e : n1.getEdges()) {
                         Node child = join(e.getSubDiagram(), n2);
@@ -116,7 +122,7 @@ public class ConjunctiveBuilder {
      * @return
      */
     @SuppressWarnings({"unchecked", "rawtypes"})
-    private static InternalNode<?> joinMIDDatSameLevel(InternalNode n1, InternalNode n2) throws MIDDException {
+    private InternalNode<?> joinMIDDatSameLevel(InternalNode n1, InternalNode n2) throws MIDDException {
         if (n1.getID() != n2.getID()) {
             throw new IllegalArgumentException("Both params should have the same variable level at their root");
         }
@@ -137,7 +143,7 @@ public class ConjunctiveBuilder {
         }
 
         // Clone n1: warning: new MIDD node's state should be combined from two node states: n1 & n2???
-        InternalNode<?> newMIDD = NodeUtils.createInternalNode(n1.getID(), n1.getState(), n1.getType());
+        InternalNode<?> newMIDD = nodeFactory.create(n1);
 
         for (Interval<?> interval : p.getIntervals()) {
             final Node op1 = n1.getChild(interval);

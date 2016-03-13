@@ -1,3 +1,4 @@
+
 /*
  * Copyright (C) 2013-2016 Canh Ngo <canhnt@gmail.com>
  * All rights reserved.
@@ -17,9 +18,11 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301 USA
  */
+
 package nl.uva.sne.xacml.policy.parsers;
 
-import nl.uva.sne.midd.DecisionType;
+import nl.uva.sne.midd.builders.MIDDBuilder;
+import nl.uva.sne.xacml.DecisionType;
 import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.builders.DisjunctiveBuilder;
 import nl.uva.sne.midd.edges.AbstractEdge;
@@ -27,10 +30,11 @@ import nl.uva.sne.midd.interval.Interval;
 import nl.uva.sne.midd.nodes.Node;
 import nl.uva.sne.midd.nodes.ExternalNode;
 import nl.uva.sne.midd.nodes.internal.InternalNode;
-import nl.uva.sne.midd.nodes.internal.State;
-import nl.uva.sne.midd.nodes.internal.StateImpl;
+import nl.uva.sne.xacml.builders.XNodeFactory;
+import nl.uva.sne.xacml.nodes.internal.State;
+import nl.uva.sne.xacml.nodes.internal.StateImpl;
 import nl.uva.sne.midd.util.EdgeUtils;
-import nl.uva.sne.midd.util.NodeUtils;
+import nl.uva.sne.xacml.util.NodeUtils;
 import nl.uva.sne.xacml.AttributeMapper;
 import oasis.names.tc.xacml._3_0.core.schema.wd_17.AllOfType;
 import oasis.names.tc.xacml._3_0.core.schema.wd_17.AnyOfType;
@@ -50,6 +54,9 @@ import java.util.*;
  */
 public class AnyOfExpression {
 
+    private final XNodeFactory nodeFactory;
+    private MIDDBuilder disjunctiveBuilder;
+
     private AnyOfType anyOf = null;
 
     private AttributeMapper attrMapper;
@@ -57,15 +64,16 @@ public class AnyOfExpression {
     // Store flags to indicate if an attribute is set 'MustBePresent' property
     private Map<String, Boolean> mapperMustBePresent = null;
 
-    public AnyOfExpression(AnyOfType anyOf, AttributeMapper attrMapper) {
+    public AnyOfExpression(final XNodeFactory nodeFactory, final AnyOfType anyOf, final AttributeMapper attrMapper) {
         if (anyOf == null) {
             throw new IllegalArgumentException("Cannot parse a null AnyOf expression");
         }
 
-
         if (attrMapper == null) {
             throw new IllegalArgumentException("Attribute mapper parameter must not be null");
         }
+
+        this.nodeFactory = nodeFactory;
 
         this.anyOf = anyOf;
         this.attrMapper = attrMapper;
@@ -117,7 +125,7 @@ public class AnyOfExpression {
 
             State nodeState = new StateImpl(isAttrMustBePresent ? DecisionType.Indeterminate : DecisionType.NotApplicable);
 
-            InternalNode<?> node = NodeUtils.createInternalNode(varId, nodeState, e.getType());
+            InternalNode<?> node = nodeFactory.create(varId, nodeState, e.getType());
             if (root == null) {
                 root = node; // root points to the start of the MIDD path
                 currentNode = node;
@@ -188,7 +196,7 @@ public class AnyOfExpression {
                 root = n;
             } else {
                 // Join current MIDD with the new MIDD using disjunctive operation
-                root = DisjunctiveBuilder.join(root, n);
+                root = disjunctiveBuilder.join(root, n);
             }
         }
 

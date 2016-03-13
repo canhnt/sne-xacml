@@ -27,20 +27,26 @@ import nl.uva.sne.midd.edges.AbstractEdge;
 import nl.uva.sne.midd.interval.Interval;
 import nl.uva.sne.midd.nodes.ExternalNode;
 import nl.uva.sne.midd.nodes.Node;
+import nl.uva.sne.midd.nodes.NodeFactory;
 import nl.uva.sne.midd.nodes.internal.InternalNode;
 import nl.uva.sne.midd.partition.Partition;
 import nl.uva.sne.midd.partition.PartitionBuilder;
 import nl.uva.sne.midd.util.EdgeUtils;
 import nl.uva.sne.midd.util.GenericUtils;
-import nl.uva.sne.midd.util.NodeUtils;
 
 /**
  * Join two MIDD using disjunctive operator.
  *
  * @author Canh Ngo
  */
-public class DisjunctiveBuilder {
+public class DisjunctiveBuilder implements MIDDBuilder {
     private static final Logger log = LoggerFactory.getLogger(DisjunctiveBuilder.class);
+
+    private final NodeFactory nodeFactory;
+
+    public DisjunctiveBuilder(final NodeFactory nodeFactory) {
+        this.nodeFactory = nodeFactory;
+    }
 
     /**
      * @param midd1
@@ -48,7 +54,8 @@ public class DisjunctiveBuilder {
      * @return
      */
     @SuppressWarnings("rawtypes")
-    public static Node join(Node midd1, Node midd2) throws MIDDException {
+    @Override
+    public Node join(Node midd1, Node midd2) throws MIDDException {
 
         if (midd1 == null || midd2 == null) {
             log.error("Disjunctive join with a null MIDD");
@@ -90,7 +97,7 @@ public class DisjunctiveBuilder {
                 // - combine n2 with all children of n1 -> children[1..k], add them to children of n
 
                 // Clone n1
-                InternalNode<?> n = NodeUtils.createInternalNode(n1, n1.getType());
+                InternalNode<?> n = nodeFactory.create(n1);
 
                 for (AbstractEdge<?> e : n1.getEdges()) {
                     Node child = join(e.getSubDiagram(), n2);
@@ -118,7 +125,7 @@ public class DisjunctiveBuilder {
      * @return
      */
     @SuppressWarnings({"rawtypes", "unchecked"})
-    private static InternalNode<?> joinWithSameLevel(InternalNode n1,
+    private InternalNode<?> joinWithSameLevel(InternalNode n1,
                                                              InternalNode n2) throws MIDDException {
         if (n1.getID() != n2.getID()) {
             throw new IllegalArgumentException("Both params should have the same variable level at their root");
@@ -139,7 +146,7 @@ public class DisjunctiveBuilder {
         }
 
         // Clone n1 to n: should combine two internal node states of n1 & n2?
-        InternalNode<?> newIDD = NodeUtils.createInternalNode(n1.getID(), n1.getState(), n1.getType());
+        InternalNode<?> newIDD = nodeFactory.create(n1);
 
         for (Interval<?> interval : p.getIntervals()) {
             Node op1 = n1.getChild(interval);

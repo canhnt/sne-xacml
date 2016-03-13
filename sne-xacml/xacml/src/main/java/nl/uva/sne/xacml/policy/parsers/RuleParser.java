@@ -19,19 +19,19 @@
  */
 package nl.uva.sne.xacml.policy.parsers;
 
-import nl.uva.sne.midd.DecisionType;
+import nl.uva.sne.xacml.DecisionType;
 import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.builders.ConjunctiveBuilder;
 import nl.uva.sne.midd.edges.AbstractEdge;
 import nl.uva.sne.midd.nodes.Node;
 import nl.uva.sne.midd.nodes.ExternalNode;
-import nl.uva.sne.midd.nodes.internal.InternalNode;
-import nl.uva.sne.midd.nodes.internal.StateImpl;
-import nl.uva.sne.midd.obligations.Obligation;
-import nl.uva.sne.midd.obligations.ObligationExpression;
+import nl.uva.sne.xacml.nodes.internal.InternalXACMLNode;
+import nl.uva.sne.xacml.nodes.internal.StateImpl;
+import nl.uva.sne.xacml.obligations.Obligation;
+import nl.uva.sne.xacml.obligations.ObligationExpression;
 import nl.uva.sne.midd.util.GenericUtils;
 import nl.uva.sne.xacml.AttributeMapper;
-import nl.uva.sne.xacml.ExternalNode3;
+import nl.uva.sne.xacml.nodes.ExternalNode3;
 import oasis.names.tc.xacml._3_0.core.schema.wd_17.*;
 
 import java.util.ArrayList;
@@ -42,12 +42,12 @@ import java.util.Stack;
 public class RuleParser {
     private static final transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(RuleParser.class);
 
-    private static nl.uva.sne.midd.DecisionType convertEffectType(EffectType effect) {
+    private static DecisionType convertEffectType(EffectType effect) {
         switch (effect) {
             case PERMIT:
-                return nl.uva.sne.midd.DecisionType.Permit;
+                return DecisionType.Permit;
             case DENY:
-                return nl.uva.sne.midd.DecisionType.Deny;
+                return DecisionType.Deny;
             default:
                 throw new UnsupportedOperationException("Effect type not found");
         }
@@ -55,7 +55,7 @@ public class RuleParser {
 
     private static ObligationExpression convertObligationExpression(ObligationExpressionType xacmlOE) {
         String id = xacmlOE.getObligationId();
-        nl.uva.sne.midd.DecisionType fulFillOn = convertEffectType(xacmlOE.getFulfillOn());
+        DecisionType fulFillOn = convertEffectType(xacmlOE.getFulfillOn());
         ObligationExpression oe = new ObligationExpression(fulFillOn, new Obligation(id));
         return oe;
     }
@@ -68,11 +68,11 @@ public class RuleParser {
 //	 * @param extNode
 //	 * @return
 //	 */
-//	private static InternalNodeState getRuleStateIN(nl.uva.sne.midd.DecisionType effect) {
+//	private static InternalXACMLNodeState getRuleStateIN(nl.uva.sne.midd.DecisionType effect) {
 //		if (effect == nl.uva.sne.midd.DecisionType.Permit) 
-//			return new InternalNodeState(nl.uva.sne.midd.DecisionType.Indeterminate_P);
+//			return new InternalXACMLNodeState(nl.uva.sne.midd.DecisionType.Indeterminate_P);
 //		else if (effect == nl.uva.sne.midd.DecisionType.Deny)
-//			return new InternalNodeState(nl.uva.sne.midd.DecisionType.Indeterminate_D);
+//			return new InternalXACMLNodeState(nl.uva.sne.midd.DecisionType.Indeterminate_D);
 //		else
 //			throw new UnsupportedOperationException("Invalid used of method createStateIN");		
 //	}
@@ -83,7 +83,7 @@ public class RuleParser {
 
     private AttributeMapper attrMapper = null;
 
-    private nl.uva.sne.midd.DecisionType ruleEffect;
+    private DecisionType ruleEffect;
 
     /**
      * @param condition  A MIDD representing the target condition of the parents' policy
@@ -169,7 +169,7 @@ public class RuleParser {
         ExternalNode3 extNode = new ExternalNode3(ruleEffect, oes);
 
         // change the leaves of MIDD by the extNode (effect node)
-        if (midd instanceof InternalNode) {
+        if (midd instanceof InternalXACMLNode) {
             setEffectNode(midd, extNode);
             return midd;
         } else {
@@ -188,18 +188,18 @@ public class RuleParser {
     private void setEffectNode(Node midd, ExternalNode3 extNode) throws MIDDException {
         // Replace current external nodes in the MIDD with the extNode (XACML 3 external node)
 
-        if (!(midd instanceof InternalNode)) {
+        if (!(midd instanceof InternalXACMLNode)) {
             throw new IllegalArgumentException("MIDD argument must not be an ExternalNode");
         }
 
-        InternalNode currentNode = (InternalNode) midd;
+        InternalXACMLNode currentNode = (InternalXACMLNode) midd;
 
-        Stack<InternalNode> stackNodes = new Stack<>();
+        Stack<InternalXACMLNode> stackNodes = new Stack<>();
 
         stackNodes.push(currentNode);
 
         while (!stackNodes.empty()) {
-            InternalNode n = stackNodes.pop();
+            InternalXACMLNode n = stackNodes.pop();
 
             // Change indeterminate state of the internal node,
             //	- By default is NotApplicable (XACML 3.0, sec 7.3.5, 7.19.3)
@@ -208,13 +208,13 @@ public class RuleParser {
 
             if (n.getStateIN() == DecisionType.Indeterminate) { // this attribute has 'MustBePresent'=true
                 if (ruleEffect == DecisionType.Deny) {
-                    n.setState(new StateImpl(nl.uva.sne.midd.DecisionType.Indeterminate_D));
+                    n.setState(new StateImpl(DecisionType.Indeterminate_D));
                 } else if (ruleEffect == DecisionType.Permit) {
-                    n.setState(new StateImpl(nl.uva.sne.midd.DecisionType.Indeterminate_P));
+                    n.setState(new StateImpl(DecisionType.Indeterminate_P));
                 }
             }
 //			else {
-//				n.setState(new InternalNodeState(nl.uva.sne.midd.DecisionType.NotApplicable));
+//				n.setState(new InternalXACMLNodeState(nl.uva.sne.midd.DecisionType.NotApplicable));
 //			}
 
             // search for all children of the poped internal node
@@ -223,8 +223,8 @@ public class RuleParser {
             while (it.hasNext()) {
                 AbstractEdge edge = it.next();
                 Node child = edge.getSubDiagram();
-                if (child instanceof InternalNode) {
-                    stackNodes.push((InternalNode) child);
+                if (child instanceof InternalXACMLNode) {
+                    stackNodes.push((InternalXACMLNode) child);
                 } else {
                     edge.setSubDiagram(extNode);        // set the final edge pointing to the xacml3 external node.
                 }

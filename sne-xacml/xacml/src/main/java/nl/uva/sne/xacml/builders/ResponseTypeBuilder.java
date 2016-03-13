@@ -1,8 +1,5 @@
 /*
- * SNE-XACML: A high performance XACML evaluation engine.
- *
- * Copyright (C) 2013-2014 Canh Ngo <canhnt@gmail.com>
- * System and Network Engineering Group, University of Amsterdam.
+ * Copyright (C) 2013-2016 Canh Ngo <canhnt@gmail.com>
  * All rights reserved.
  *
  * This library is free software; you can redistribute it and/or
@@ -22,9 +19,9 @@
  */
 package nl.uva.sne.xacml.builders;
 
-import nl.uva.sne.midd.Decision;
-import nl.uva.sne.midd.DecisionType;
-import nl.uva.sne.midd.obligations.Obligation;
+import nl.uva.sne.xacml.Decision;
+import nl.uva.sne.xacml.DecisionType;
+import nl.uva.sne.xacml.obligations.Obligation;
 import nl.uva.sne.xacml.policy.parsers.util.DecisionConverterUtil;
 import oasis.names.tc.xacml._3_0.core.schema.wd_17.*;
 import org.slf4j.Logger;
