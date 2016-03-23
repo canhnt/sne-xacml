@@ -29,18 +29,13 @@ import nl.uva.sne.midd.nodes.internal.InternalNodeImpl;
 import nl.uva.sne.xacml.Decision;
 import nl.uva.sne.xacml.DecisionType;
 
-/**
- * @author cngo
- * @version $Id$
- * @since 2016-03-12
- */
 public abstract class AbstractInternalXACMLNode<T extends Comparable<T>>
         extends InternalNodeImpl<T> implements InternalXACMLNode<T> {
 
     private State state;
 
-    public AbstractInternalXACMLNode(int id, State state) {
-        super(id);
+    public AbstractInternalXACMLNode(int id, final Class<T> type, final State state) {
+        super(id, type);
         this.state = new StateImpl(state);
     }
 

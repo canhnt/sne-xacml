@@ -25,6 +25,7 @@ import nl.uva.sne.midd.builders.ConjunctiveBuilder;
 import nl.uva.sne.midd.edges.AbstractEdge;
 import nl.uva.sne.midd.nodes.Node;
 import nl.uva.sne.midd.nodes.ExternalNode;
+import nl.uva.sne.xacml.builders.ServiceRegistry;
 import nl.uva.sne.xacml.nodes.internal.InternalXACMLNode;
 import nl.uva.sne.xacml.nodes.internal.StateImpl;
 import nl.uva.sne.xacml.obligations.Obligation;
@@ -161,7 +162,8 @@ public class RuleParser {
         }
 
         // Conjunctive join it with the MIDD representing preconditions of the parents' policy
-        Node midd = ConjunctiveBuilder.join(this.preCondition, targetCondition);
+        final ConjunctiveBuilder conjunctiveBuilder = (ConjunctiveBuilder) ServiceRegistry.getInstance().getService("CONJUNCTIVE");
+        Node midd = conjunctiveBuilder.join(this.preCondition, targetCondition);
 
         ruleEffect = convertEffectType(rule.getEffect());
         List<ObligationExpression> oes = getObligationExpressions();

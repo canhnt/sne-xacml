@@ -34,6 +34,7 @@ import nl.uva.sne.midd.nodes.ExternalNode;
 import nl.uva.sne.midd.nodes.Node;
 import nl.uva.sne.midd.util.GenericUtils;
 import nl.uva.sne.xacml.AttributeMapper;
+import nl.uva.sne.xacml.builders.ServiceRegistry;
 import nl.uva.sne.xacml.policy.parsers.util.CombiningAlgConverterUtil;
 import oasis.names.tc.xacml._3_0.core.schema.wd_17.AnyOfType;
 import oasis.names.tc.xacml._3_0.core.schema.wd_17.PolicyType;
@@ -152,7 +153,8 @@ public class PolicyParser {
 
 
         // Conjunctive join it with the MIDD representing preconditions of the policy
-        Node condition = ConjunctiveBuilder.join(this.preCondition, targetCondition);
+        final ConjunctiveBuilder conjunctiveBuilder = (ConjunctiveBuilder) ServiceRegistry.getInstance().getService("CONJUNCTIVE");
+        Node condition = conjunctiveBuilder.join(this.preCondition, targetCondition);
 
         List<RuleType> rules = getRules();
 

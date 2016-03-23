@@ -21,6 +21,7 @@
 package nl.uva.sne.xacml.builders;
 
 import nl.uva.sne.midd.MIDDException;
+import nl.uva.sne.midd.nodes.NodeFactory;
 import nl.uva.sne.midd.nodes.internal.InternalNode;
 import nl.uva.sne.xacml.nodes.internal.InternalXACMLNode;
 import nl.uva.sne.xacml.nodes.internal.State;
@@ -30,7 +31,7 @@ import nl.uva.sne.xacml.nodes.internal.State;
  * @version $Id$
  * @since 2016-03-13
  */
-public interface XNodeFactory {
+public interface XNodeFactory extends NodeFactory {
 
     InternalXACMLNode create(InternalXACMLNode source) throws MIDDException;
 

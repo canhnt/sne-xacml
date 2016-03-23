@@ -28,6 +28,7 @@ import nl.uva.sne.midd.builders.ConjunctiveBuilder;
 import nl.uva.sne.midd.nodes.ExternalNode;
 import nl.uva.sne.midd.nodes.Node;
 import nl.uva.sne.xacml.AttributeMapper;
+import nl.uva.sne.xacml.builders.ServiceRegistry;
 import oasis.names.tc.xacml._3_0.core.schema.wd_17.AnyOfType;
 
 /**
@@ -41,7 +42,6 @@ public class TargetExpression {
     private List<AnyOfType> lstAnyOf;
 
     private AttributeMapper attrMapper = null;
-    ;
 
     public TargetExpression(AttributeMapper attrMapper) {
         if (attrMapper == null) {
@@ -98,7 +98,8 @@ public class TargetExpression {
 
             if (root != null) {
                 // Conjunctive join current AnyOf expressions
-                root = ConjunctiveBuilder.join(root, currentMIDD);
+                final ConjunctiveBuilder conjunctiveBuilder = (ConjunctiveBuilder) ServiceRegistry.getInstance().getService("CONJUNCTIVE");
+                root = conjunctiveBuilder.join(root, currentMIDD);
             } else {
                 root = currentMIDD;
             }

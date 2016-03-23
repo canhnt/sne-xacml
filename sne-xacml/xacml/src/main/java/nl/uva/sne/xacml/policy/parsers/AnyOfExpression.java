@@ -30,6 +30,7 @@ import nl.uva.sne.midd.interval.Interval;
 import nl.uva.sne.midd.nodes.Node;
 import nl.uva.sne.midd.nodes.ExternalNode;
 import nl.uva.sne.midd.nodes.internal.InternalNode;
+import nl.uva.sne.xacml.builders.ServiceRegistry;
 import nl.uva.sne.xacml.builders.XNodeFactory;
 import nl.uva.sne.xacml.nodes.internal.State;
 import nl.uva.sne.xacml.nodes.internal.StateImpl;
@@ -63,6 +64,11 @@ public class AnyOfExpression {
 
     // Store flags to indicate if an attribute is set 'MustBePresent' property
     private Map<String, Boolean> mapperMustBePresent = null;
+
+    public AnyOfExpression(final AnyOfType anyOf, final AttributeMapper attrMapper) {
+        this((XNodeFactory) ServiceRegistry.getInstance().getService(ServiceRegistry.NODE_FACTORY),
+                anyOf, attrMapper);
+    }
 
     public AnyOfExpression(final XNodeFactory nodeFactory, final AnyOfType anyOf, final AttributeMapper attrMapper) {
         if (anyOf == null) {

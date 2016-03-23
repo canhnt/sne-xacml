@@ -55,6 +55,11 @@ public class MIDDCombiner {
 
     private final XNodeFactory nodeFactory;
 
+    public MIDDCombiner(final CombiningAlgorithm algorithm) {
+        this((XNodeFactory) ServiceRegistry.getInstance().getService(ServiceRegistry.NODE_FACTORY),
+                algorithm);
+    }
+
     public MIDDCombiner(final XNodeFactory nodeFactory, final CombiningAlgorithm algorithm) {
         this.nodeFactory = nodeFactory;
         this.algo = algorithm;

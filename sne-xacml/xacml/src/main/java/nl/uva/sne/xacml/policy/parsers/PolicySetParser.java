@@ -38,6 +38,7 @@ import nl.uva.sne.midd.nodes.internal.InternalNode;
 import nl.uva.sne.midd.util.GenericUtils;
 import nl.uva.sne.midd.util.MIDDUtils;
 import nl.uva.sne.xacml.AttributeMapper;
+import nl.uva.sne.xacml.builders.ServiceRegistry;
 import nl.uva.sne.xacml.policy.finder.PolicyFinder;
 import nl.uva.sne.xacml.policy.parsers.util.CombiningAlgConverterUtil;
 import oasis.names.tc.xacml._3_0.core.schema.wd_17.AnyOfType;
@@ -80,7 +81,7 @@ public class PolicySetParser {
 
     /**
      * @param condition a MIDD that represents the target expression of the parents' policyset.
-     * @param policy    a XACML 3.0 policy element.
+     * @param policyset    a XACML 3.0 policy element.
      */
     public PolicySetParser(Node condition, PolicySetType policyset,
                            AttributeMapper attrMapper, PolicyFinder policyFinder) throws MIDDException {
@@ -213,7 +214,8 @@ public class PolicySetParser {
         }
 
         // Conjunctive join it with the MIDD representing preconditions of the policy
-        Node condition = ConjunctiveBuilder.join(this.preCondition, targetCondition);
+        final ConjunctiveBuilder conjunctiveBuilder = (ConjunctiveBuilder)ServiceRegistry.getInstance().getService("CONJUNCTIVE");
+        Node condition = conjunctiveBuilder.join(this.preCondition, targetCondition);
 
         getChilden();
 
