@@ -26,12 +26,15 @@ import nl.uva.sne.midd.edges.AbstractEdge;
 import nl.uva.sne.midd.nodes.Node;
 import nl.uva.sne.midd.nodes.internal.InternalNode;
 import nl.uva.sne.xacml.AttributeMapper;
+import nl.uva.sne.xacml.builders.ServiceRegistry;
 import nl.uva.sne.xacml.policy.parsers.MIDDParsingException;
 import nl.uva.sne.xacml.policy.parsers.PolicyParser;
 import nl.uva.sne.xacml.policy.parsers.XACMLParsingException;
 import nl.uva.sne.xacml.util.XACMLUtil;
 import oasis.names.tc.xacml._3_0.core.schema.wd_17.ObjectFactory;
 import oasis.names.tc.xacml._3_0.core.schema.wd_17.PolicyType;
+
+import org.junit.Before;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -55,6 +58,10 @@ public class PolicyParserTest {
 
     private static final String POLICY_FILE_NULL = "src/test/resources/xacml3-null.xml";
 
+    @Before
+    public void setUp() {
+        ServiceRegistry.init();
+    }
 
     @Test
     public void testParse() throws ParserConfigurationException, SAXException, IOException, MIDDException {
@@ -69,7 +76,15 @@ public class PolicyParserTest {
         try {
             Node root = parser.parse();
             root.print(System.out);
-            System.out.println("Number of nodes:" + countNodes((InternalNode) root));
+
+            final int countNode;
+            if (root instanceof InternalNode) {
+                countNode = countNodes((InternalNode) root);
+            } else {
+                countNode = 1;
+            }
+            System.out.println("Number of nodes:" + countNode);
+
             assertTrue(true);
             return;
         } catch (XACMLParsingException | MIDDParsingException e) {

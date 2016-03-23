@@ -65,4 +65,8 @@ public class StateImpl implements State {
     public DecisionType getStateIN() {
         return state.getDecision();
     }
+
+    public static State of(DecisionType state) {
+        return new StateImpl(state);
+    }
 }

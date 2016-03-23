@@ -26,11 +26,14 @@ import nl.uva.sne.midd.edges.AbstractEdge;
 import nl.uva.sne.midd.nodes.Node;
 import nl.uva.sne.midd.nodes.internal.InternalNode;
 import nl.uva.sne.xacml.AttributeMapper;
+import nl.uva.sne.xacml.builders.ServiceRegistry;
 import nl.uva.sne.xacml.policy.parsers.MIDDParsingException;
 import nl.uva.sne.xacml.policy.parsers.PolicySetParser;
 import nl.uva.sne.xacml.policy.parsers.XACMLParsingException;
 import nl.uva.sne.xacml.util.XACMLUtil;
 import oasis.names.tc.xacml._3_0.core.schema.wd_17.PolicySetType;
+
+import org.junit.Before;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -45,7 +48,12 @@ import static org.junit.Assert.*;
 
 public class PolicySetParserTest {
     //	private static final String POLICYSET_FILE = "src/test/resources/xacml3-policyset-sli.xml";
-    private static final String POLICYSET_FILE = "policies/sample-xacml3/continue-a-xacml3.xml";
+    private static final String POLICYSET_FILE = "../policies/sample-xacml3/continue-a-xacml3.xml";
+
+    @Before
+    public void setUp() {
+        ServiceRegistry.init();
+    }
 
     @Test
     public void testParse() throws ParserConfigurationException, SAXException, IOException, MIDDException {

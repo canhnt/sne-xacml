@@ -21,6 +21,7 @@
 
 package nl.uva.sne.xacml.policy.parsers;
 
+import nl.uva.sne.midd.builders.ConjunctiveBuilder;
 import nl.uva.sne.midd.builders.MIDDBuilder;
 import nl.uva.sne.xacml.DecisionType;
 import nl.uva.sne.midd.MIDDException;
@@ -56,7 +57,6 @@ import java.util.*;
 public class AnyOfExpression {
 
     private final XNodeFactory nodeFactory;
-    private MIDDBuilder disjunctiveBuilder;
 
     private AnyOfType anyOf = null;
 
@@ -202,6 +202,7 @@ public class AnyOfExpression {
                 root = n;
             } else {
                 // Join current MIDD with the new MIDD using disjunctive operation
+                final DisjunctiveBuilder disjunctiveBuilder = (DisjunctiveBuilder) ServiceRegistry.getInstance().getService("DISJUNCTIVE");
                 root = disjunctiveBuilder.join(root, n);
             }
         }

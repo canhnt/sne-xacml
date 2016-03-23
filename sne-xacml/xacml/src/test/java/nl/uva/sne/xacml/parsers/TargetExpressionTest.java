@@ -24,6 +24,7 @@ package nl.uva.sne.xacml.parsers;
 import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.nodes.Node;
 import nl.uva.sne.xacml.AttributeMapper;
+import nl.uva.sne.xacml.builders.ServiceRegistry;
 import nl.uva.sne.xacml.policy.parsers.MIDDParsingException;
 import nl.uva.sne.xacml.policy.parsers.TargetExpression;
 import nl.uva.sne.xacml.policy.parsers.XACMLParsingException;
@@ -31,6 +32,8 @@ import nl.uva.sne.xacml.util.XACMLUtil;
 import oasis.names.tc.xacml._3_0.core.schema.wd_17.PolicyType;
 import oasis.names.tc.xacml._3_0.core.schema.wd_17.RuleType;
 import oasis.names.tc.xacml._3_0.core.schema.wd_17.TargetType;
+
+import org.junit.Before;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -48,6 +51,10 @@ public class TargetExpressionTest {
     //	private static final String SAMPLE_POLICY_FILE = "src/test/resources/xacml3-AnyOf.xml";
     private static final String SAMPLE_POLICY_FILE = "src/test/resources/xacml3-policyset-suppliers.xml";
 
+    @Before
+    public void setUp() {
+        ServiceRegistry.init();
+    }
 
     private TargetType readTarget() throws ParserConfigurationException,
             SAXException, IOException, FileNotFoundException {

@@ -38,7 +38,7 @@ import java.io.IOException;
 
 public class LoadPolicyTest {
 
-    private static final String POLICY_FILE = "policies/xacml3-mli-interface.xml";
+    private static final String POLICY_FILE = "../policies/xacml3-mli-interface.xml";
 
     private static final String POLICYSET_TYPE = "src/test/resources/xacml3-policyset-sli.xml";
 
