@@ -27,16 +27,10 @@ import nl.uva.sne.xacml.nodes.internal.State;
 public class BooleanNode extends AbstractInternalXACMLNode<Boolean> {
 
     public BooleanNode(int id, State state) {
-        super(id, state);
+        super(id, Boolean.class, state);
     }
 
     public BooleanNode(BooleanNode node) throws MIDDException {
         super(node);
     }
-
-    @Override
-    public Class<Boolean> getType() {
-        return Boolean.class;
-    }
-
 }

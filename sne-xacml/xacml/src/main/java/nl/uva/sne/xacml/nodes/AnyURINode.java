@@ -28,15 +28,10 @@ import nl.uva.sne.xacml.nodes.internal.State;
 public class AnyURINode extends AbstractInternalXACMLNode<AnyURI> {
 
     public AnyURINode(int id, State state) {
-        super(id, state);
+        super(id, AnyURI.class, state);
     }
 
     public AnyURINode(AnyURINode node) throws MIDDException {
         super(node);
     }
-    @Override
-    public Class<AnyURI> getType() {
-        return AnyURI.class;
-    }
-
 }

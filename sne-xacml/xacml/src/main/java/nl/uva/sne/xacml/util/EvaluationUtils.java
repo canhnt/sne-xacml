@@ -19,6 +19,7 @@
  */
 package nl.uva.sne.xacml.util;
 
+import java.util.Comparator;
 import java.util.Map;
 
 import nl.uva.sne.midd.MIDDException;
@@ -50,7 +51,7 @@ public class EvaluationUtils {
         while (currentNode instanceof InternalNode) {
             InternalXACMLNode currentInternalNode = (InternalXACMLNode) currentNode;
 
-            final Variable<?> currentVar;
+            final Variable<? extends Comparable> currentVar;
             // attribute not found:
             final Class<?> type = currentInternalNode.getType();
             if (!variables.containsKey(currentInternalNode.getID())) {

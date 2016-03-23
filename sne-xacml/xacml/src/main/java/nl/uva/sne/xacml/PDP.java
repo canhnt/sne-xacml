@@ -25,6 +25,7 @@ import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.Variable;
 import nl.uva.sne.midd.nodes.Node;
 import nl.uva.sne.midd.nodes.internal.InternalNode;
+import nl.uva.sne.xacml.nodes.internal.InternalXACMLNode;
 import nl.uva.sne.xacml.util.EvaluationUtils;
 import nl.uva.sne.xacml.builders.ResponseTypeBuilder;
 import nl.uva.sne.xacml.policy.finder.PolicyFinder;
@@ -46,7 +47,7 @@ public class PDP {
 
     protected AttributeMapper attrMapper;
 
-    protected InternalNode middRoot = null;
+    protected InternalXACMLNode middRoot = null;
 
     protected boolean fXACMLParsingError;
 
@@ -82,10 +83,10 @@ public class PDP {
             throw new RuntimeException("Invalid constructing PDP");
         }
 
-        if (!(n instanceof InternalNode)) {
+        if (!(n instanceof InternalXACMLNode)) {
             throw new MIDDException("Invalid parsing policies to MIDD tree");
         } else {
-            this.middRoot = (InternalNode) n;
+            this.middRoot = (InternalXACMLNode) n;
         }
     }
 

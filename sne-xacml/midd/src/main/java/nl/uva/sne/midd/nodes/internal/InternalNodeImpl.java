@@ -116,7 +116,7 @@ public class InternalNodeImpl<T extends Comparable<T>>
 
     @Override
     public Class<T> getType() {
-        return null;
+        return this.type;
     }
 
     @Override

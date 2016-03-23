@@ -21,9 +21,9 @@
  */
 package nl.uva.sne.xacml.algorithms;
 
-import nl.uva.sne.midd.DecisionType;
 import org.junit.Test;
 
+import nl.uva.sne.xacml.DecisionType;
 import static org.junit.Assert.assertTrue;
 
 public class FirstApplicableAlgTest extends FirstApplicableAlg {

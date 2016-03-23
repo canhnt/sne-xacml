@@ -27,17 +27,10 @@ import nl.uva.sne.xacml.nodes.internal.State;
 public class IntegerNode extends AbstractInternalXACMLNode<Integer> {
 
     public IntegerNode(int id, State state) {
-        super(id, state);
+        super(id, Integer.class, state);
     }
 
     public IntegerNode(IntegerNode node) throws MIDDException {
         super(node);
     }
-
-    @Override
-    public Class<Integer> getType() {
-        return Integer.class;
-    }
-
-
 }

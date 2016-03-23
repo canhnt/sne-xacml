@@ -28,16 +28,11 @@ import nl.uva.sne.xacml.nodes.internal.State;
 public class DurationNode extends AbstractInternalXACMLNode<XMLDuration> {
 
     public DurationNode(int id, State state) {
-        super(id, state);
+        super(id, XMLDuration.class, state);
         // TODO Auto-generated constructor stub
     }
 
     public DurationNode(DurationNode node) throws MIDDException {
         super(node);
     }
-    @Override
-    public Class<XMLDuration> getType() {
-        return XMLDuration.class;
-    }
-
 }

@@ -29,9 +29,4 @@ public class DateTimeNode extends AbstractInternalXACMLNode<XMLDateTime> {
     public DateTimeNode(DateTimeNode node) throws MIDDException {
         super(node);
     }
-    @Override
-    public Class<XMLDateTime> getType() {
-        return XMLDateTime.class;
-    }
-
 }

@@ -27,18 +27,11 @@ import nl.uva.sne.xacml.nodes.internal.State;
 public class StringNode extends AbstractInternalXACMLNode<String> {
 
     public StringNode(int id, State state) {
-        super(id, state);
+        super(id, String.class, state);
         // TODO Auto-generated constructor stub
     }
 
     public StringNode(StringNode node) throws MIDDException {
         super(node);
     }
-
-    @Override
-    public Class<String> getType() {
-        // TODO Auto-generated method stub
-        return String.class;
-    }
-
 }

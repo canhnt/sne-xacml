@@ -27,16 +27,11 @@ import nl.uva.sne.xacml.nodes.internal.State;
 public class DoubleNode extends AbstractInternalXACMLNode<Double> {
 
     public DoubleNode(int id, State state) {
-        super(id, state);
+        super(id, Double.class, state);
         // TODO Auto-generated constructor stub
     }
 
     public DoubleNode(DoubleNode node) throws MIDDException {
         super(node);
-    }
-
-    @Override
-    public Class<Double> getType() {
-        return Double.class;
     }
 }

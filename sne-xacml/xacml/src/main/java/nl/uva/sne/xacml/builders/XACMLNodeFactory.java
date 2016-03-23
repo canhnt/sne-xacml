@@ -28,8 +28,10 @@ import java.util.Map;
 import org.slf4j.LoggerFactory;
 
 import nl.uva.sne.midd.MIDDException;
+import nl.uva.sne.midd.builders.MIDDNodeFactory;
 import nl.uva.sne.midd.datatype.AnyURI;
 import nl.uva.sne.midd.datatype.XMLDateTime;
+import nl.uva.sne.midd.nodes.internal.InternalNode;
 import nl.uva.sne.xacml.nodes.AnyURINode;
 import nl.uva.sne.xacml.nodes.BooleanNode;
 import nl.uva.sne.xacml.nodes.DateTimeNode;
@@ -39,7 +41,7 @@ import nl.uva.sne.xacml.nodes.StringNode;
 import nl.uva.sne.xacml.nodes.internal.InternalXACMLNode;
 import nl.uva.sne.xacml.nodes.internal.State;
 
-public class XACMLNodeFactory implements XNodeFactory {
+public class XACMLNodeFactory extends MIDDNodeFactory implements XNodeFactory {
     private static final org.slf4j.Logger log = LoggerFactory.getLogger(XACMLNodeFactory.class);
 
     /**
