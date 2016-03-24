@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?><Request xmlns="urn:oasis:names:tc:xacml:2.0:context:schema:os" xmlns:ns2="urn:oasis:names:tc:xacml:2.0:policy:schema:os">
+  <Subject>
+    <Attribute AttributeId="hasSubmittedReviewForResPaper" DataType="http://www.w3.org/2001/XMLSchema#string">
+      <AttributeValue>false</AttributeValue>
+    </Attribute>
+    <Attribute AttributeId="role" DataType="http://www.w3.org/2001/XMLSchema#string">
+      <AttributeValue>pc-chair</AttributeValue>
+    </Attribute>
+    <Attribute AttributeId="isMeeting" DataType="http://www.w3.org/2001/XMLSchema#string">
+      <AttributeValue>true</AttributeValue>
+    </Attribute>
+    <Attribute AttributeId="isConflicted" DataType="http://www.w3.org/2001/XMLSchema#string">
+      <AttributeValue>true</AttributeValue>
+    </Attribute>
+    <Attribute AttributeId="isEq-subjUserId-resUserId" DataType="http://www.w3.org/2001/XMLSchema#string">
+      <AttributeValue>false</AttributeValue>
+    </Attribute>
+    <Attribute AttributeId="isSubjectsMeeting" DataType="http://www.w3.org/2001/XMLSchema#string">
+      <AttributeValue>false</AttributeValue>
+    </Attribute>
+    <Attribute AttributeId="subjReviewsThisResPaper" DataType="http://www.w3.org/2001/XMLSchema#string">
+      <AttributeValue>true</AttributeValue>
+    </Attribute>
+    <Attribute AttributeId="isReviewContentInPlace" DataType="http://www.w3.org/2001/XMLSchema#string">
+      <AttributeValue>true</AttributeValue>
+    </Attribute>
+  </Subject>
+  <Resource>
+    <Attribute AttributeId="phase" DataType="http://www.w3.org/2001/XMLSchema#string">
+      <AttributeValue>discussion</AttributeValue>
+    </Attribute>
+    <Attribute AttributeId="isSeeUnassignedAllowed" DataType="http://www.w3.org/2001/XMLSchema#string">
+      <AttributeValue>false</AttributeValue>
+    </Attribute>
+    <Attribute AttributeId="isPending" DataType="http://www.w3.org/2001/XMLSchema#string">
+      <AttributeValue>false</AttributeValue>
+    </Attribute>
+    <Attribute AttributeId="isEq-meetingPaper-resId" DataType="http://www.w3.org/2001/XMLSchema#string">
+      <AttributeValue>true</AttributeValue>
+    </Attribute>
+    <Attribute AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-id" DataType="http://www.w3.org/2001/XMLSchema#string">
+      <AttributeValue>paper-decision_rc</AttributeValue>
+    </Attribute>
+  </Resource>
+  <Action>
+    <Attribute AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id" DataType="http://www.w3.org/2001/XMLSchema#string">
+      <AttributeValue>write</AttributeValue>
+    </Attribute>
+  </Action>
+  <Environment/>
+</Request>

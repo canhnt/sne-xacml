@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Request xmlns="urn:oasis:names:tc:xacml:3.0:core:schema:wd-17" ReturnPolicyIdList="false" CombinedDecision="false">
+  <Attributes>
+    <Attribute IncludeInResult="false" AttributeId="hasSubmittedReviewForResPaper">
+      <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">false</AttributeValue>
+    </Attribute>
+  </Attributes>
+  <Attributes>
+    <Attribute IncludeInResult="false" AttributeId="role">
+      <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">pc-chair</AttributeValue>
+    </Attribute>
+  </Attributes>
+  <Attributes>
+    <Attribute IncludeInResult="false" AttributeId="isMeeting">
+      <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">true</AttributeValue>
+    </Attribute>
+  </Attributes>
+  <Attributes>
+    <Attribute IncludeInResult="false" AttributeId="isConflicted">
+      <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">true</AttributeValue>
+    </Attribute>
+  </Attributes>
+  <Attributes>
+    <Attribute IncludeInResult="false" AttributeId="isEq-subjUserId-resUserId">
+      <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">false</AttributeValue>
+    </Attribute>
+  </Attributes>
+  <Attributes>
+    <Attribute IncludeInResult="false" AttributeId="isSubjectsMeeting">
+      <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">false</AttributeValue>
+    </Attribute>
+  </Attributes>
+  <Attributes>
+    <Attribute IncludeInResult="false" AttributeId="subjReviewsThisResPaper">
+      <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">true</AttributeValue>
+    </Attribute>
+  </Attributes>
+  <Attributes>
+    <Attribute IncludeInResult="false" AttributeId="isReviewContentInPlace">
+      <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">true</AttributeValue>
+    </Attribute>
+  </Attributes>
+  <Attributes>
+    <Attribute IncludeInResult="false" AttributeId="phase">
+      <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">discussion</AttributeValue>
+    </Attribute>
+  </Attributes>
+  <Attributes>
+    <Attribute IncludeInResult="false" AttributeId="isSeeUnassignedAllowed">
+      <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">false</AttributeValue>
+    </Attribute>
+  </Attributes>
+  <Attributes>
+    <Attribute IncludeInResult="false" AttributeId="isPending">
+      <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">false</AttributeValue>
+    </Attribute>
+  </Attributes>
+  <Attributes>
+    <Attribute IncludeInResult="false" AttributeId="isEq-meetingPaper-resId">
+      <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">true</AttributeValue>
+    </Attribute>
+  </Attributes>
+  <Attributes>
+    <Attribute IncludeInResult="false" AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-id">
+      <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">paper-decision_rc</AttributeValue>
+    </Attribute>
+  </Attributes>
+  <Attributes>
+    <Attribute IncludeInResult="false" AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id">
+      <AttributeValue DataType="http://www.w3.org/2001/XMLSchema#string">write</AttributeValue>
+    </Attribute>
+  </Attributes>
+</Request>
