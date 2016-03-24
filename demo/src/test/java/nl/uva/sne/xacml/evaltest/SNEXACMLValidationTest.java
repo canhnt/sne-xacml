@@ -19,44 +19,29 @@
  */
 package nl.uva.sne.xacml.evaltest;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.URISyntaxException;
+import java.util.Arrays;
+
+import javax.xml.parsers.ParserConfigurationException;
+
 import com.sun.xacml.PDP;
-import com.sun.xacml.PDPConfig;
 import com.sun.xacml.UnknownIdentifierException;
-import com.sun.xacml.combine.PermitOverridesPolicyAlg;
 import com.sun.xacml.ctx.ResponseCtx;
-import com.sun.xacml.ctx.Result;
-import com.sun.xacml.finder.AttributeFinder;
-import com.sun.xacml.finder.AttributeFinderModule;
-import com.sun.xacml.finder.PolicyFinder;
-import com.sun.xacml.finder.PolicyFinderModule;
-import com.sun.xacml.finder.impl.CurrentEnvModule;
-import com.sun.xacml.finder.impl.SelectorModule;
-import com.sun.xacml.support.finder.StaticPolicyFinderModule;
-import com.sun.xacml.support.finder.StaticRefPolicyFinderModule;
-import nl.uva.sne.midd.MIDDException;
-import nl.uva.sne.xacml.evaltest.sunxacml.RequestGenerator23;
-import nl.uva.sne.xacml.evaltest.sunxacml.SunXACMLUtil;
-import nl.uva.sne.xacml.policy.parsers.MIDDParsingException;
-import nl.uva.sne.xacml.policy.parsers.XACMLParsingException;
-import nl.uva.sne.xacml.util.XACMLUtil;
-import oasis.names.tc.xacml._2_0.context.schema.os.RequestType;
-import oasis.names.tc.xacml._3_0.core.schema.wd_17.*;
+
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.net.URISyntaxException;
-import java.util.*;
-import java.util.logging.LogManager;
-import java.util.logging.Logger;
-
+import nl.uva.sne.midd.MIDDException;
+import nl.uva.sne.xacml.evaltest.sunxacml.RequestGenerator23;
+import nl.uva.sne.xacml.policy.parsers.MIDDParsingException;
+import nl.uva.sne.xacml.policy.parsers.XACMLParsingException;
+import oasis.names.tc.xacml._2_0.context.schema.os.RequestType;
+import oasis.names.tc.xacml._3_0.core.schema.wd_17.ResponseType;
 import static org.junit.Assert.assertTrue;
 
-public class SNEXACMLValidationTest {
+public class SNEXACMLValidationTest extends AbstractEvaluationTest {
     public static final String[] STATIC_XACML2_POLICIES = {
             "policies/continue-a.xml"
     };
@@ -75,25 +60,6 @@ public class SNEXACMLValidationTest {
 
     public SNEXACMLValidationTest() throws SecurityException, IOException {
         logger = new PrintWriter(LOGGING_FILE);
-    }
-
-
-    private PDP initSunXACMLPDP() throws URISyntaxException, UnknownIdentifierException {
-        //Initialization
-        StaticPolicyFinderModule staticModule = new StaticPolicyFinderModule(
-                PermitOverridesPolicyAlg.algId, Arrays.asList(STATIC_XACML2_POLICIES));
-
-        StaticRefPolicyFinderModule staticRefModule = new StaticRefPolicyFinderModule(
-                Arrays.asList(STATIC_XACML2_REF_POLICIES));
-
-        Set<PolicyFinderModule> policyModules = new HashSet<PolicyFinderModule>();
-        policyModules.add(staticModule);
-        policyModules.add(staticRefModule);
-
-        PDPConfig config = createPDPConfig(policyModules);
-
-        PDP sunPDP = new PDP(config);
-        return sunPDP;
     }
 
     @Test
@@ -122,10 +88,10 @@ public class SNEXACMLValidationTest {
 
         initGenerator();
         //create a SunXACML PDP
-        PDP pdp2 = initSunXACMLPDP();
+        PDP pdp2 = initSunXACMLPDP(Arrays.asList(STATIC_XACML2_POLICIES), Arrays.asList(STATIC_XACML2_REF_POLICIES));
 
         // create a SNE-XACML PDP
-        nl.uva.sne.xacml.PDP pdp3 = initSNEXACMLPDP();
+        nl.uva.sne.xacml.PDP pdp3 = initSNEXACMLPDP(XACML3_POLICY_FILE);
 
         RequestType request2 = null;
         oasis.names.tc.xacml._3_0.core.schema.wd_17.RequestType request3 = null;
@@ -150,10 +116,8 @@ public class SNEXACMLValidationTest {
                 throw new RuntimeException("Invalid SunXACML evaluation for the request:" + print(request3));
             } else if (response3 == null) {
                 throw new RuntimeException("Invalid SNEXACML evaluation for the request:" + print(request3));
-            } else if (!compareResponses(response2, response3)) {
-                String xacml3Request = print(request3);
-                String xacml2Request = print(request2);
-                logger.println("Inconsistent SNEXACML response for the request:\n" + xacml2Request + "\n" + xacml3Request);
+            } else if (!verifyResponses(response2, response3)) {
+                logger.println("Inconsistent SNEXACML response for the request:\n" + print(request2) + "\n" + print(request3));
                 cntInvalidResponses++;
             }
         }
@@ -163,96 +127,6 @@ public class SNEXACMLValidationTest {
         return cntInvalidResponses == 0;
     }
 
-    private String print(RequestType request2) {
-        return SunXACMLUtil.toString(SunXACMLUtil.marshall(request2));
-    }
-
-
-    private boolean compareResponses(ResponseCtx response2,
-                                     ResponseType response3) {
-
-        if (response3.getResult() == null || response3.getResult().size() == 0) {
-            return false;
-        }
-
-        ResultType result3 = response3.getResult().get(0);
-
-        Iterator it = response2.getResults().iterator();
-        // only use the first result
-        if (!it.hasNext()) {
-            System.out.println("Not Decision found in response2");
-            return false;
-        }
-        Result result2 = (Result) it.next();
-
-        if (result3.getDecision() == DecisionType.PERMIT && result2.getDecision() == Result.DECISION_PERMIT) {
-            return true;
-        }
-        if (result3.getDecision() == DecisionType.DENY && result2.getDecision() == Result.DECISION_DENY) {
-            return true;
-        }
-        if (result3.getDecision() == DecisionType.NOT_APPLICABLE && result2.getDecision() == Result.DECISION_NOT_APPLICABLE) {
-            return true;
-        }
-        if (result3.getDecision() == DecisionType.INDETERMINATE && result2.getDecision() == Result.DECISION_INDETERMINATE) {
-            return true;
-        }
-
-        return false;
-    }
-
-
-    private String print(
-            oasis.names.tc.xacml._3_0.core.schema.wd_17.RequestType request3) {
-
-        OutputStream os = new ByteArrayOutputStream();
-
-        XACMLUtil.print((new ObjectFactory()).createRequest(request3),
-                oasis.names.tc.xacml._3_0.core.schema.wd_17.RequestType.class, os);
-
-        return os.toString();
-    }
-
-    private nl.uva.sne.xacml.PDP initSNEXACMLPDP() throws ParserConfigurationException, SAXException, IOException, MIDDParsingException, XACMLParsingException, MIDDException {
-        PolicySetType policyset = XACMLUtil.unmarshalPolicySetType(XACML3_POLICY_FILE);
-        nl.uva.sne.xacml.PDP pdp = new nl.uva.sne.xacml.PDP(policyset, null);
-        pdp.initialize();
-
-        return pdp;
-    }
-
-
-    public void turnOffLogger() {
-        LogManager.getLogManager().reset();
-        Logger globalLogger = Logger.getLogger(java.util.logging.Logger.GLOBAL_LOGGER_NAME);
-        globalLogger.setLevel(java.util.logging.Level.OFF);
-    }
-
-
-    /**
-     * Create a basic PDPConfig object from a set of PolicyFinderModule
-     *
-     * @param policyModules
-     * @return
-     */
-    private PDPConfig createPDPConfig(
-            Set<PolicyFinderModule> policyModules) {
-        AttributeFinder attributeFinder = new AttributeFinder();
-
-        List<AttributeFinderModule> attrModules = new ArrayList<AttributeFinderModule>();
-        attrModules.add(new CurrentEnvModule());
-        attrModules.add(new SelectorModule());
-        attributeFinder.setModules(attrModules);
-
-        PolicyFinder policyFinder = new PolicyFinder();
-        policyFinder.setModules(policyModules);
-
-//		ResourceFinder resourceFinder = new ResourceFinder();
-
-//		return new PDPConfig(attributeFinder, policyFinder, resourceFinder);
-        // do not use attribute finder for performance evaluation
-        return new PDPConfig(null, policyFinder, null);
-    }
 
     private void initGenerator() {
         generator = new RequestGenerator23();
