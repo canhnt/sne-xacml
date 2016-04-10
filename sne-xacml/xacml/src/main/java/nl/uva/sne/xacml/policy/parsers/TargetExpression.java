@@ -27,14 +27,11 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 import nl.uva.sne.midd.MIDDException;
-import nl.uva.sne.midd.builders.ConjunctiveBuilder;
 import nl.uva.sne.midd.builders.MIDDBuilder;
 import nl.uva.sne.midd.nodes.ExternalNode;
 import nl.uva.sne.midd.nodes.Node;
 import nl.uva.sne.xacml.AttributeMapper;
-import nl.uva.sne.xacml.builders.ServiceRegistry;
 import oasis.names.tc.xacml._3_0.core.schema.wd_17.AnyOfType;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  * TargetExpression: contains list of AnyOf expression combined by conjunctive operator

@@ -20,6 +20,8 @@
 
 package nl.uva.sne.midd.builders;
 
+import com.google.inject.Inject;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,7 +36,6 @@ import nl.uva.sne.midd.partition.Partition;
 import nl.uva.sne.midd.partition.PartitionBuilder;
 import nl.uva.sne.midd.util.EdgeUtils;
 import nl.uva.sne.midd.util.GenericUtils;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  * @author cngo
@@ -46,13 +47,9 @@ public class MIDDBuilderImpl implements MIDDBuilder {
 
     private final NodeFactory nodeFactory;
 
+    @Inject
     public MIDDBuilderImpl(final NodeFactory nodeFactory) {
         this.nodeFactory = nodeFactory;
-    }
-
-    @Override
-    public Node join(final Node midd1, final Node midd2) throws MIDDException {
-        throw new NotImplementedException();
     }
 
     @Override

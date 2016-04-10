@@ -30,9 +30,6 @@ import nl.uva.sne.midd.nodes.Node;
  */
 public interface MIDDBuilder {
 
-    @Deprecated
-    Node join(Node midd1, Node midd2) throws MIDDException;
-
     /**
      * Join two MIDD using conjunctive operator.
      *

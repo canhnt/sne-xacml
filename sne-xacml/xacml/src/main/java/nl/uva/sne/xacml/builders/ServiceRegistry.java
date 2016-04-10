@@ -26,9 +26,6 @@ import java.util.Map;
 
 import com.google.common.collect.ImmutableList;
 
-import nl.uva.sne.midd.builders.ConjunctiveBuilder;
-import nl.uva.sne.midd.builders.DisjunctiveBuilder;
-
 @Deprecated
 public class ServiceRegistry {
 
