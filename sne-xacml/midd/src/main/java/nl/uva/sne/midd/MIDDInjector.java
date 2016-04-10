@@ -18,31 +18,16 @@
  * MA 02110-1301 USA
  */
 
-package nl.uva.sne.xacml.policy.parsers;
+package nl.uva.sne.midd;
 
-import com.google.inject.Provider;
+import com.google.inject.AbstractModule;
 
-import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.builders.MIDDBuilder;
-import nl.uva.sne.midd.nodes.Node;
-import nl.uva.sne.xacml.AttributeMapper;
-import oasis.names.tc.xacml._3_0.core.schema.wd_17.RuleType;
+import nl.uva.sne.midd.builders.MIDDBuilderImpl;
 
-/**
- * @author cngo
- * @version $Id$
- * @since 2016-04-10
- */
-public class RuleParserFactoryImpl implements RuleParserFactory {
-    private Provider<MIDDBuilder> middBuilderProvider;
-
-    public RuleParserFactoryImpl(Provider<MIDDBuilder> middBuilderProvider) {
-        this.middBuilderProvider = middBuilderProvider;
-    }
-
+public class MIDDInjector extends AbstractModule {
     @Override
-    public RuleParser create(final Node condition, final RuleType rule, final AttributeMapper attrMapper) throws MIDDException {
-        return new RuleParser(middBuilderProvider.get(),
-                condition, rule, attrMapper);
+    protected void configure() {
+        bind(MIDDBuilder.class).to(MIDDBuilderImpl.class);
     }
 }

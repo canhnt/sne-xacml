@@ -29,7 +29,6 @@ import java.util.Map;
 
 import com.google.inject.Inject;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import nl.uva.sne.xacml.Decision;
