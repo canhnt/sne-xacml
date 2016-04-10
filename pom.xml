@@ -14,7 +14,7 @@
 
   <modules>
     <module>sne-xacml</module>
-    <module>demo</module>
+    <!--<module>demo</module>-->
   </modules>
 
   <organization>
