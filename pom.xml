@@ -8,8 +8,7 @@
   <packaging>pom</packaging>
 
   <name>SNE-XACML Engine</name>
-  <description>A high performance XACML PDP Engine using
-    Multi-data-types Interval Decision Diagrams</description>
+  <description>A high performance XACML PDP Engine using Multi-data-types Interval Decision Diagrams</description>
   <url>https://github.com/canhnt/sne-xacml</url>
   <inceptionYear>2012</inceptionYear>
 
@@ -45,6 +44,7 @@
     <hamcrest.version>1.3</hamcrest.version>
     <maven-release-plugin.version>2.5</maven-release-plugin.version>
     <guava.version>17.0</guava.version>
+    <guice.version>4.0</guice.version>
   </properties>
 
   <dependencies>
