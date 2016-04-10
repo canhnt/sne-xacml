@@ -24,10 +24,13 @@ import com.google.inject.AbstractModule;
 
 import nl.uva.sne.midd.builders.MIDDBuilder;
 import nl.uva.sne.midd.builders.MIDDBuilderImpl;
+import nl.uva.sne.midd.builders.MIDDNodeFactory;
+import nl.uva.sne.midd.nodes.NodeFactory;
 
 public class MIDDInjector extends AbstractModule {
     @Override
     protected void configure() {
         bind(MIDDBuilder.class).to(MIDDBuilderImpl.class);
+        bind(NodeFactory.class).to(MIDDNodeFactory.class);
     }
 }

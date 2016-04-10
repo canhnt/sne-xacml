@@ -23,9 +23,11 @@ package nl.uva.sne.xacml.parsers;
 
 import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.nodes.Node;
+import nl.uva.sne.xacml.AbstractXACMLTest;
 import nl.uva.sne.xacml.AttributeMapper;
 import nl.uva.sne.xacml.builders.ServiceRegistry;
 import nl.uva.sne.xacml.policy.parsers.MIDDParsingException;
+import nl.uva.sne.xacml.policy.parsers.PolicySetParserFactory;
 import nl.uva.sne.xacml.policy.parsers.TargetExpression;
 import nl.uva.sne.xacml.policy.parsers.TargetExpressionFactory;
 import nl.uva.sne.xacml.policy.parsers.XACMLParsingException;
@@ -49,13 +51,19 @@ import com.google.inject.Inject;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-public class TargetExpressionTest {
+public class TargetExpressionTest extends AbstractXACMLTest {
 
     //	private static final String SAMPLE_POLICY_FILE = "src/test/resources/xacml3-AnyOf.xml";
     private static final String SAMPLE_POLICY_FILE = "src/test/resources/xacml3-policyset-suppliers.xml";
 
-    @Inject
-    TargetExpressionFactory targetExpressionFactory;
+    private TargetExpressionFactory targetExpressionFactory;
+
+    @Before
+    @Override
+    public void setUp() {
+        super.setUp();
+        this.targetExpressionFactory = injector.getInstance(TargetExpressionFactory.class);
+    }
 
     private TargetType readTarget() throws ParserConfigurationException,
             SAXException, IOException, FileNotFoundException {

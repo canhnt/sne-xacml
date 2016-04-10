@@ -23,6 +23,8 @@ package nl.uva.sne.xacml;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 
 import nl.uva.sne.midd.MIDDInjector;
+import nl.uva.sne.midd.builders.MIDDNodeFactory;
+import nl.uva.sne.midd.nodes.NodeFactory;
 import nl.uva.sne.xacml.builders.MIDDCombiner;
 import nl.uva.sne.xacml.builders.MIDDCombinerFactory;
 import nl.uva.sne.xacml.builders.MIDDCombinerImpl;
@@ -49,6 +51,7 @@ public class XACMLInjector extends MIDDInjector {
     protected void configure() {
         super.configure();
 
+        bind(MIDDNodeFactory.class).to(XACMLNodeFactory.class);
         bind(XNodeFactory.class).to(XACMLNodeFactory.class);
 
         install(new FactoryModuleBuilder()

@@ -25,8 +25,10 @@ import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.edges.AbstractEdge;
 import nl.uva.sne.midd.nodes.Node;
 import nl.uva.sne.midd.nodes.internal.InternalNode;
+import nl.uva.sne.xacml.AbstractXACMLTest;
 import nl.uva.sne.xacml.AttributeMapper;
 import nl.uva.sne.xacml.builders.ServiceRegistry;
+import nl.uva.sne.xacml.policy.parsers.AnyOfExpressionFactory;
 import nl.uva.sne.xacml.policy.parsers.MIDDParsingException;
 import nl.uva.sne.xacml.policy.parsers.PolicyParser;
 import nl.uva.sne.xacml.policy.parsers.PolicyParserFactory;
@@ -50,7 +52,7 @@ import com.google.inject.Inject;
 
 import static org.junit.Assert.*;
 
-public class PolicyParserTest {
+public class PolicyParserTest extends AbstractXACMLTest {
 
 
 //	private static final String POLICY_FILE = "src/test/resources/xacml3-AnyOf.xml";
@@ -61,8 +63,14 @@ public class PolicyParserTest {
 
     private static final String POLICY_FILE_NULL = "src/test/resources/xacml3-null.xml";
 
-    @Inject
     private PolicyParserFactory policyParserFactory;
+
+    @Before
+    @Override
+    public void setUp(){
+        super.setUp();
+        this.policyParserFactory = injector.getInstance(PolicyParserFactory.class);
+    }
 
     @Test
     public void testParse() throws ParserConfigurationException, SAXException, IOException, MIDDException {
@@ -72,7 +80,7 @@ public class PolicyParserTest {
         assertNotNull(policy);
 
         AttributeMapper attrMapper = new AttributeMapper();
-        final PolicyParser parser = policyParserFactory.create(null, policy, attrMapper);
+        final PolicyParser parser = policyParserFactory.create(policy, attrMapper);
 
         try {
             Node root = parser.parse();

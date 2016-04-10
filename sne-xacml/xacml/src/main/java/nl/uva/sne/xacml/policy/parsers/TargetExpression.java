@@ -25,6 +25,7 @@ import java.util.List;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 
 import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.builders.MIDDBuilder;
@@ -50,20 +51,29 @@ public class TargetExpression {
 
     private AttributeMapper attrMapper = null;
 
-    @Inject
+
+    @AssistedInject
+    public TargetExpression(final MIDDBuilder middBuilder,
+                            @Assisted final AttributeMapper attrMapper) {
+        this(middBuilder, new ArrayList<AnyOfType>(), attrMapper);
+    }
+
+    @AssistedInject
     public TargetExpression(final MIDDBuilder middBuilder,
                             @Assisted final List<AnyOfType> lstAnyOf,
                             @Assisted final AttributeMapper attrMapper) {
         this.middBuilder = middBuilder;
 
-//		if (lstAnyOf == null || lstAnyOf.size() == 0)
-//			throw new IllegalArgumentException("lstAnyOf argument must not be null or empty");
+		if (lstAnyOf == null) {
+            throw new IllegalArgumentException("lstAnyOf argument must not be null or empty");
+        }
+
         if (attrMapper == null) {
             throw new IllegalArgumentException("AttributeMapper argument must not be null");
         }
 
-        if (lstAnyOf != null && lstAnyOf.size() > 0) {
-            this.lstAnyOf = new ArrayList<AnyOfType>(lstAnyOf);
+        if (lstAnyOf != null) {
+            this.lstAnyOf = new ArrayList<>(lstAnyOf);
         } else {
             this.lstAnyOf = null;
         }

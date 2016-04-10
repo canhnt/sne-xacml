@@ -25,6 +25,7 @@ import java.util.List;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,11 +66,17 @@ public class PolicyParser {
 
     private AttributeMapper attrMapper = null;
 
+    @AssistedInject
+    public PolicyParser(MIDDBuilder middBuilder,
+                        @Assisted PolicyType policy,
+                        @Assisted AttributeMapper attrMapper) throws MIDDException {
+        this(middBuilder, null, policy, attrMapper);
+    }
     /**
      * @param condition a MIDD that represents the target expression of the parents' policy.
      * @param policy    a XACML 3.0 policy element.
      */
-    @Inject
+    @AssistedInject
     public PolicyParser(MIDDBuilder middBuilder,
                         @Assisted Node condition,
                         @Assisted PolicyType policy,

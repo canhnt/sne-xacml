@@ -18,21 +18,26 @@
  * MA 02110-1301 USA
  */
 
-package nl.uva.sne.xacml.policy.parsers;
+package nl.uva.sne.xacml;
 
-import nl.uva.sne.midd.MIDDException;
-import nl.uva.sne.midd.nodes.Node;
-import nl.uva.sne.xacml.AttributeMapper;
-import nl.uva.sne.xacml.policy.finder.PolicyFinder;
-import oasis.names.tc.xacml._3_0.core.schema.wd_17.PolicyType;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+
+import org.junit.Before;
+
+import nl.uva.sne.xacml.builders.MIDDCombinerFactory;
 
 /**
  * @author cngo
  * @version $Id$
  * @since 2016-04-10
  */
-public interface PolicyParserFactory {
-    PolicyParser create(Node condition, PolicyType policy, AttributeMapper attrMapper) throws MIDDException;
+public abstract class AbstractXACMLTest {
 
-    PolicyParser create(PolicyType policy, AttributeMapper attrMapper) throws MIDDException;
+    protected Injector injector;
+
+    @Before
+    public void setUp() {
+        this.injector = Guice.createInjector(new XACMLInjector());
+    }
 }

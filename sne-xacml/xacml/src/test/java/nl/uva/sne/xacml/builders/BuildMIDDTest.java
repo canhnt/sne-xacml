@@ -27,14 +27,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.inject.Guice;
 import com.google.inject.Inject;
+import com.google.inject.Injector;
 
+import org.junit.Before;
 import org.junit.Test;
 
+import nl.uva.sne.xacml.AbstractXACMLTest;
 import nl.uva.sne.xacml.Decision;
 import nl.uva.sne.xacml.DecisionType;
 import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.Variable;
+import nl.uva.sne.xacml.XACMLInjector;
 import nl.uva.sne.xacml.algorithms.DenyOverridesAlg;
 import nl.uva.sne.xacml.algorithms.PermitOverridesAlg;
 import nl.uva.sne.midd.edges.DoubleEdge;
@@ -53,8 +58,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-public class BuildMIDDTest {
-    @Inject
+public class BuildMIDDTest extends AbstractXACMLTest {
+
     private MIDDCombinerFactory middCombinerFactory;
 
     private InternalXACMLNode<?> midd1;
@@ -64,6 +69,12 @@ public class BuildMIDDTest {
 //    private ObligationExpression oe2 = new ObligationExpression(DecisionType.Deny, new Obligation("O2"));
     private ObligationExpression oe3 = new ObligationExpression(DecisionType.Deny, new Obligation("O3"));
 //    private ObligationExpression oe4 = new ObligationExpression(DecisionType.Permit, new Obligation("O4"));
+
+    @Override
+    public void setUp() {
+        super.setUp();
+        this.middCombinerFactory = injector.getInstance(MIDDCombinerFactory.class);
+    }
 
     public void buildMIDD1() throws MIDDException {
 

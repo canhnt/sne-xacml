@@ -23,10 +23,13 @@ package nl.uva.sne.xacml.parsers;
 
 import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.nodes.Node;
+import nl.uva.sne.xacml.AbstractXACMLTest;
 import nl.uva.sne.xacml.AttributeMapper;
 import nl.uva.sne.xacml.policy.parsers.*;
 import nl.uva.sne.xacml.util.XACMLUtil;
 import oasis.names.tc.xacml._3_0.core.schema.wd_17.*;
+
+import org.junit.Before;
 import org.junit.Test;
 import org.xml.sax.SAXException;
 
@@ -43,12 +46,18 @@ import com.google.inject.Inject;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-public class AnyOfExpressionTest {
+public class AnyOfExpressionTest extends AbstractXACMLTest {
 
     private static final String SAMPLE_POLICY_FILE = "src/test/resources/xacml3-AnyOf.xml";
 
-    @Inject
     private AnyOfExpressionFactory anyOfExpressionFactory;
+
+    @Before
+    @Override
+    public void setUp(){
+        super.setUp();
+        this.anyOfExpressionFactory = injector.getInstance(AnyOfExpressionFactory.class);
+    }
 
     //@Test
     public void testListIntervals() throws FileNotFoundException, ParserConfigurationException, SAXException, IOException {

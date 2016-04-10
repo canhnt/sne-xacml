@@ -41,9 +41,9 @@ public interface PolicySetParserFactory {
      * @return
      * @throws MIDDException
      */
-    PolicySetParser create(Node condition, PolicySetType policyset,
-                           AttributeMapper attrMapper) throws MIDDException;
+    PolicySetParser create(Node condition, PolicySetType policyset, AttributeMapper attrMapper) throws MIDDException;
 
-    PolicySetParser create(Node condition, PolicySetType policyset,
-                           AttributeMapper attrMapper, PolicyFinder policyFinder) throws MIDDException;
+    PolicySetParser create(PolicySetType policyset, AttributeMapper attrMapper) throws MIDDException;
+
+    PolicySetParser create(Node condition, PolicySetType policyset, AttributeMapper attrMapper, PolicyFinder policyFinder) throws MIDDException;
 }

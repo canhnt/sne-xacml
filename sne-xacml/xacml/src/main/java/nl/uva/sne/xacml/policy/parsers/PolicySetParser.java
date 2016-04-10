@@ -27,6 +27,7 @@ import javax.xml.bind.JAXBElement;
 
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.assistedinject.AssistedInject;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,7 +58,8 @@ import oasis.names.tc.xacml._3_0.core.schema.wd_17.TargetType;
 public class PolicySetParser {
     private static final Logger log = LoggerFactory.getLogger(PolicySetParser.class);
 
-    private final MIDDBuilder middBuilder;
+    @Inject
+    private MIDDBuilder middBuilder;
 
     @Inject
     private MIDDCombinerFactory middCombinerFactory;
@@ -67,6 +69,9 @@ public class PolicySetParser {
 
     @Inject
     private PolicyParserFactory policyParserFactory;
+
+    @Inject
+    private PolicySetParserFactory policySetParserFactory;
 
     private PolicySetType policyset;
 
@@ -82,6 +87,12 @@ public class PolicySetParser {
      */
     private PolicyFinder policyFinder;
 
+    @AssistedInject
+    public PolicySetParser(@Assisted PolicySetType policyset,
+                           @Assisted AttributeMapper attrMapper) throws MIDDException {
+        this(null, policyset, attrMapper, null);
+    }
+
     /**
      * Brief constructor not to use policy finder. It does not support references to policies or policysets.
      *
@@ -89,26 +100,22 @@ public class PolicySetParser {
      * @param policyset
      * @param attrMapper
      */
-    @Inject
-    public PolicySetParser(MIDDBuilder middBuilder,
-                           @Assisted Node condition,
+    @AssistedInject
+    public PolicySetParser(@Assisted Node condition,
                            @Assisted PolicySetType policyset,
                            @Assisted AttributeMapper attrMapper) throws MIDDException {
-        this(middBuilder, condition, policyset, attrMapper, null);
+        this(condition, policyset, attrMapper, null);
     }
 
     /**
      * @param condition a MIDD that represents the target expression of the parents' policyset.
      * @param policyset    a XACML 3.0 policy element.
      */
-    @Inject
-    public PolicySetParser(MIDDBuilder middBuilder,
-                           @Assisted Node condition,
+    @AssistedInject
+    public PolicySetParser(@Assisted Node condition,
                            @Assisted PolicySetType policyset,
                            @Assisted AttributeMapper attrMapper,
                            @Assisted PolicyFinder policyFinder) throws MIDDException {
-
-        this.middBuilder = middBuilder;
 
         if (policyset == null) {
             throw new IllegalArgumentException("PolicySetType argument must not be null");
@@ -215,7 +222,7 @@ public class PolicySetParser {
         }
     }
 
-    private Node getTargetCondition() throws XACMLParsingException, MIDDException, MIDDParsingException {
+    private Node getTargetCondition() throws XACMLParsingException, MIDDException {
         TargetType target = policyset.getTarget();
 
         List<AnyOfType> lstAnyOf;
@@ -229,7 +236,7 @@ public class PolicySetParser {
         return te.parse();
     }
 
-    public Node parse() throws XACMLParsingException, MIDDException, MIDDParsingException {
+    public Node parse() throws XACMLParsingException, MIDDException {
         // Get a MIDD to represent the policy's target expression
 
         Node targetCondition = getTargetCondition();
@@ -264,7 +271,9 @@ public class PolicySetParser {
 
             } else if (obj instanceof PolicySetType) {
                 PolicySetType polset = (PolicySetType) obj;
-                PolicySetParser psParser = new PolicySetParser(middBuilder, condition, polset, attrMapper, policyFinder);
+                final PolicySetParser psParser = policyFinder == null ?
+                        policySetParserFactory.create(condition, polset, attrMapper) :
+                        policySetParserFactory.create(condition, polset, attrMapper, policyFinder);
 
                 // return the MIDD with XACML decisions at the external nodes
                 Node xacmlMIDD = psParser.parse();
