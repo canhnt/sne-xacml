@@ -32,12 +32,14 @@ import nl.uva.sne.midd.partition.Partition;
 import nl.uva.sne.midd.partition.PartitionBuilder;
 import nl.uva.sne.midd.util.EdgeUtils;
 import nl.uva.sne.midd.util.GenericUtils;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  * Join two MIDD using conjunctive operator.
  *
  * @author Canh Ngo
  */
+@Deprecated
 public class ConjunctiveBuilder implements MIDDBuilder {
     private static final Logger log = LoggerFactory.getLogger(ConjunctiveBuilder.class);
 
@@ -112,6 +114,16 @@ public class ConjunctiveBuilder implements MIDDBuilder {
                 }
             }
         }
+    }
+
+    @Override
+    public Node and(final Node midd1, final Node midd2) throws MIDDException {
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public Node or(final Node midd1, final Node midd2) throws MIDDException {
+        throw new NotImplementedException();
     }
 
     /**

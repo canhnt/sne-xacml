@@ -27,6 +27,7 @@ import nl.uva.sne.xacml.AttributeMapper;
 import nl.uva.sne.xacml.builders.ServiceRegistry;
 import nl.uva.sne.xacml.policy.parsers.MIDDParsingException;
 import nl.uva.sne.xacml.policy.parsers.TargetExpression;
+import nl.uva.sne.xacml.policy.parsers.TargetExpressionFactory;
 import nl.uva.sne.xacml.policy.parsers.XACMLParsingException;
 import nl.uva.sne.xacml.util.XACMLUtil;
 import oasis.names.tc.xacml._3_0.core.schema.wd_17.PolicyType;
@@ -43,6 +44,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
+import com.google.inject.Inject;
+
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -51,10 +54,8 @@ public class TargetExpressionTest {
     //	private static final String SAMPLE_POLICY_FILE = "src/test/resources/xacml3-AnyOf.xml";
     private static final String SAMPLE_POLICY_FILE = "src/test/resources/xacml3-policyset-suppliers.xml";
 
-    @Before
-    public void setUp() {
-        ServiceRegistry.init();
-    }
+    @Inject
+    TargetExpressionFactory targetExpressionFactory;
 
     private TargetType readTarget() throws ParserConfigurationException,
             SAXException, IOException, FileNotFoundException {
@@ -79,7 +80,7 @@ public class TargetExpressionTest {
         assertTrue(target.getAnyOf().size() > 0);
 
         AttributeMapper attrMapper = new AttributeMapper();
-        TargetExpression te = new TargetExpression(attrMapper);
+        final TargetExpression te = targetExpressionFactory.create(attrMapper);
         te.addAll(target.getAnyOf());
 
         Node root;

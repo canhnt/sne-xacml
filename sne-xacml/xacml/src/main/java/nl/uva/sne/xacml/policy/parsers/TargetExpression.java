@@ -23,13 +23,18 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
+
 import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.builders.ConjunctiveBuilder;
+import nl.uva.sne.midd.builders.MIDDBuilder;
 import nl.uva.sne.midd.nodes.ExternalNode;
 import nl.uva.sne.midd.nodes.Node;
 import nl.uva.sne.xacml.AttributeMapper;
 import nl.uva.sne.xacml.builders.ServiceRegistry;
 import oasis.names.tc.xacml._3_0.core.schema.wd_17.AnyOfType;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  * TargetExpression: contains list of AnyOf expression combined by conjunctive operator
@@ -39,20 +44,21 @@ import oasis.names.tc.xacml._3_0.core.schema.wd_17.AnyOfType;
  */
 public class TargetExpression {
 
+    @Inject
+    private AnyOfExpressionFactory anyOfExpressionFactory;
+
+    private final MIDDBuilder middBuilder;
+
     private List<AnyOfType> lstAnyOf;
 
     private AttributeMapper attrMapper = null;
 
-    public TargetExpression(AttributeMapper attrMapper) {
-        if (attrMapper == null) {
-            throw new IllegalArgumentException("AttributeMapper argument must not be null");
-        }
+    @Inject
+    public TargetExpression(final MIDDBuilder middBuilder,
+                            @Assisted final List<AnyOfType> lstAnyOf,
+                            @Assisted final AttributeMapper attrMapper) {
+        this.middBuilder = middBuilder;
 
-        this.lstAnyOf = new ArrayList<AnyOfType>();
-        this.attrMapper = attrMapper;
-    }
-
-    public TargetExpression(List<AnyOfType> lstAnyOf, AttributeMapper attrMapper) {
 //		if (lstAnyOf == null || lstAnyOf.size() == 0)
 //			throw new IllegalArgumentException("lstAnyOf argument must not be null or empty");
         if (attrMapper == null) {
@@ -92,14 +98,13 @@ public class TargetExpression {
 
         while (itAnyOf.hasNext()) {
             AnyOfType currentAnyOfExp = itAnyOf.next();
-            AnyOfExpression aoe = new AnyOfExpression(currentAnyOfExp, attrMapper);
+            final AnyOfExpression aoe = anyOfExpressionFactory.create(currentAnyOfExp, attrMapper);
 
             Node currentMIDD = aoe.parse();
 
             if (root != null) {
                 // Conjunctive join current AnyOf expressions
-                final ConjunctiveBuilder conjunctiveBuilder = (ConjunctiveBuilder) ServiceRegistry.getInstance().getService("CONJUNCTIVE");
-                root = conjunctiveBuilder.join(root, currentMIDD);
+                root = middBuilder.and(root, currentMIDD);
             } else {
                 root = currentMIDD;
             }

@@ -23,10 +23,14 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import nl.uva.sne.midd.MIDDException;
+import nl.uva.sne.midd.builders.MIDDBuilder;
 import nl.uva.sne.xacml.algorithms.CombiningAlgorithm;
 import nl.uva.sne.midd.builders.ConjunctiveBuilder;
 import nl.uva.sne.xacml.builders.MIDDCombiner;
@@ -34,6 +38,7 @@ import nl.uva.sne.midd.nodes.ExternalNode;
 import nl.uva.sne.midd.nodes.Node;
 import nl.uva.sne.midd.util.GenericUtils;
 import nl.uva.sne.xacml.AttributeMapper;
+import nl.uva.sne.xacml.builders.MIDDCombinerFactory;
 import nl.uva.sne.xacml.builders.ServiceRegistry;
 import nl.uva.sne.xacml.policy.parsers.util.CombiningAlgConverterUtil;
 import oasis.names.tc.xacml._3_0.core.schema.wd_17.AnyOfType;
@@ -43,6 +48,17 @@ import oasis.names.tc.xacml._3_0.core.schema.wd_17.TargetType;
 
 public class PolicyParser {
     private static final Logger log = LoggerFactory.getLogger(PolicySetParser.class);
+
+    private final MIDDBuilder middBuilder;
+
+    @Inject
+    private MIDDCombinerFactory middCombinerFactory;
+
+    @Inject
+    private TargetExpressionFactory targetExpressionFactory;
+
+    @Inject
+    private RuleParserFactory ruleParserFactory;
 
     private PolicyType policy;
 
@@ -54,7 +70,13 @@ public class PolicyParser {
      * @param condition a MIDD that represents the target expression of the parents' policy.
      * @param policy    a XACML 3.0 policy element.
      */
-    public PolicyParser(Node condition, PolicyType policy, AttributeMapper attrMapper) throws MIDDException {
+    @Inject
+    public PolicyParser(MIDDBuilder middBuilder,
+                        @Assisted Node condition,
+                        @Assisted PolicyType policy,
+                        @Assisted AttributeMapper attrMapper) throws MIDDException {
+        this.middBuilder = middBuilder;
+
         if (policy == null) {
             throw new IllegalArgumentException("PolicyType argument must not be null");
         }
@@ -77,7 +99,7 @@ public class PolicyParser {
                                           CombiningAlgorithm rca) throws MIDDException {
         log.debug("Combining policy {}", this.policy.getPolicyId());
 
-        MIDDCombiner combiner = new MIDDCombiner(rca);
+        final MIDDCombiner combiner = middCombinerFactory.create(rca);
 
         Iterator<Node> it = lstMIDDs.iterator();
         Node root = null;
@@ -138,7 +160,7 @@ public class PolicyParser {
             lstAnyOf = null;
         }
 
-        TargetExpression te = new TargetExpression(lstAnyOf, this.attrMapper);
+        final TargetExpression te = targetExpressionFactory.create(lstAnyOf, this.attrMapper);
         return te.parse();
     }
 
@@ -153,15 +175,14 @@ public class PolicyParser {
 
 
         // Conjunctive join it with the MIDD representing preconditions of the policy
-        final ConjunctiveBuilder conjunctiveBuilder = (ConjunctiveBuilder) ServiceRegistry.getInstance().getService("CONJUNCTIVE");
-        Node condition = conjunctiveBuilder.join(this.preCondition, targetCondition);
+        Node condition = middBuilder.and(this.preCondition, targetCondition);
 
         List<RuleType> rules = getRules();
 
         // Create MIDDs for rules inside the policy
         List<Node> lstMIDDs = new ArrayList<Node>();
         for (RuleType r : rules) {
-            RuleParser ruleParser = new RuleParser(condition, r, attrMapper);
+            final RuleParser ruleParser = ruleParserFactory.create(condition, r, attrMapper);
 
             // return the MIDD with XACML decisions at the external nodes
             Node xacmlMIDD = ruleParser.parse();

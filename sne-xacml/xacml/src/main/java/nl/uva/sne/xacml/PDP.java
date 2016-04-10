@@ -26,6 +26,8 @@ import nl.uva.sne.midd.Variable;
 import nl.uva.sne.midd.nodes.Node;
 import nl.uva.sne.midd.nodes.internal.InternalNode;
 import nl.uva.sne.xacml.nodes.internal.InternalXACMLNode;
+import nl.uva.sne.xacml.policy.parsers.PolicyParserFactory;
+import nl.uva.sne.xacml.policy.parsers.PolicySetParserFactory;
 import nl.uva.sne.xacml.util.EvaluationUtils;
 import nl.uva.sne.xacml.builders.ResponseTypeBuilder;
 import nl.uva.sne.xacml.policy.finder.PolicyFinder;
@@ -42,8 +44,16 @@ import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.inject.Inject;
+
 public class PDP {
     private static final Logger logger = LoggerFactory.getLogger(PDP.class);
+
+    @Inject
+    private PolicyParserFactory policyParserFactory;
+
+    @Inject
+    private PolicySetParserFactory policySetParserFactory;
 
     protected AttributeMapper attrMapper;
 
@@ -142,12 +152,12 @@ public class PDP {
     }
 
     private Node buildMIDD(PolicySetType policyset) throws MIDDParsingException, XACMLParsingException, MIDDException {
-        PolicySetParser parser = new PolicySetParser(null, policyset, this.attrMapper, policyFinder);
+        final PolicySetParser parser = policySetParserFactory.create(null, policyset, this.attrMapper, policyFinder);
         return parser.parse();
     }
 
     private Node buildMIDD(PolicyType policy) throws MIDDParsingException, XACMLParsingException, MIDDException {
-        PolicyParser parser = new PolicyParser(null, policy, this.attrMapper);
+        final PolicyParser parser = policyParserFactory.create(null, policy, this.attrMapper);
         return parser.parse();
     }
 

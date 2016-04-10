@@ -29,6 +29,7 @@ import nl.uva.sne.xacml.AttributeMapper;
 import nl.uva.sne.xacml.builders.ServiceRegistry;
 import nl.uva.sne.xacml.policy.parsers.MIDDParsingException;
 import nl.uva.sne.xacml.policy.parsers.PolicySetParser;
+import nl.uva.sne.xacml.policy.parsers.PolicySetParserFactory;
 import nl.uva.sne.xacml.policy.parsers.XACMLParsingException;
 import nl.uva.sne.xacml.util.XACMLUtil;
 import oasis.names.tc.xacml._3_0.core.schema.wd_17.PolicySetType;
@@ -44,25 +45,23 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.Stack;
 
+import com.google.inject.Inject;
+
 import static org.junit.Assert.*;
 
 public class PolicySetParserTest {
     //	private static final String POLICYSET_FILE = "src/test/resources/xacml3-policyset-sli.xml";
     private static final String POLICYSET_FILE = "../policies/sample-xacml3/continue-a-xacml3.xml";
 
-    @Before
-    public void setUp() {
-        ServiceRegistry.init();
-    }
+    @Inject
+    private PolicySetParserFactory policySetParserFactory;
 
     @Test
     public void testParse() throws ParserConfigurationException, SAXException, IOException, MIDDException {
         PolicySetType policySet = XACMLUtil.unmarshalPolicySetType(POLICYSET_FILE);
         assertNotNull(policySet);
 
-        AttributeMapper attrMapper = new AttributeMapper();
-        PolicySetParser parser = new PolicySetParser(null, policySet, attrMapper);
-
+        final PolicySetParser parser = policySetParserFactory.create(null, policySet, new AttributeMapper());
 
         try {
             Node root = parser.parse();

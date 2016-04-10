@@ -21,27 +21,33 @@
 
 package nl.uva.sne.xacml.policy.parsers;
 
-import nl.uva.sne.midd.builders.ConjunctiveBuilder;
-import nl.uva.sne.midd.builders.MIDDBuilder;
-import nl.uva.sne.xacml.DecisionType;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
+
 import nl.uva.sne.midd.MIDDException;
-import nl.uva.sne.midd.builders.DisjunctiveBuilder;
+import nl.uva.sne.midd.builders.MIDDBuilder;
 import nl.uva.sne.midd.edges.AbstractEdge;
 import nl.uva.sne.midd.interval.Interval;
-import nl.uva.sne.midd.nodes.Node;
 import nl.uva.sne.midd.nodes.ExternalNode;
+import nl.uva.sne.midd.nodes.Node;
 import nl.uva.sne.midd.nodes.internal.InternalNode;
-import nl.uva.sne.xacml.builders.ServiceRegistry;
+import nl.uva.sne.midd.util.EdgeUtils;
+import nl.uva.sne.xacml.AttributeMapper;
+import nl.uva.sne.xacml.DecisionType;
 import nl.uva.sne.xacml.builders.XNodeFactory;
 import nl.uva.sne.xacml.nodes.internal.State;
 import nl.uva.sne.xacml.nodes.internal.StateImpl;
-import nl.uva.sne.midd.util.EdgeUtils;
-import nl.uva.sne.xacml.util.NodeUtils;
-import nl.uva.sne.xacml.AttributeMapper;
 import oasis.names.tc.xacml._3_0.core.schema.wd_17.AllOfType;
 import oasis.names.tc.xacml._3_0.core.schema.wd_17.AnyOfType;
-
-import java.util.*;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  * AnyOfExpression class is to parse AnyOf XACML 3.0 element to return map of parsed intervals for each variable
@@ -56,6 +62,8 @@ import java.util.*;
  */
 public class AnyOfExpression {
 
+    private final MIDDBuilder middBuilder;
+
     private final XNodeFactory nodeFactory;
 
     private AnyOfType anyOf = null;
@@ -65,12 +73,13 @@ public class AnyOfExpression {
     // Store flags to indicate if an attribute is set 'MustBePresent' property
     private Map<String, Boolean> mapperMustBePresent = null;
 
-    public AnyOfExpression(final AnyOfType anyOf, final AttributeMapper attrMapper) {
-        this((XNodeFactory) ServiceRegistry.getInstance().getService(ServiceRegistry.NODE_FACTORY),
-                anyOf, attrMapper);
-    }
+    @Inject
+    public AnyOfExpression(final MIDDBuilder middBuilder,
+                           final XNodeFactory nodeFactory,
+                           @Assisted final AnyOfType anyOf,
+                           @Assisted final AttributeMapper attrMapper) {
+        this.middBuilder = middBuilder;
 
-    public AnyOfExpression(final XNodeFactory nodeFactory, final AnyOfType anyOf, final AttributeMapper attrMapper) {
         if (anyOf == null) {
             throw new IllegalArgumentException("Cannot parse a null AnyOf expression");
         }
@@ -202,8 +211,7 @@ public class AnyOfExpression {
                 root = n;
             } else {
                 // Join current MIDD with the new MIDD using disjunctive operation
-                final DisjunctiveBuilder disjunctiveBuilder = (DisjunctiveBuilder) ServiceRegistry.getInstance().getService("DISJUNCTIVE");
-                root = disjunctiveBuilder.join(root, n);
+                root = middBuilder.or(root, n);
             }
         }
 

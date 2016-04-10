@@ -22,6 +22,9 @@ package nl.uva.sne.xacml.builders;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,12 +58,9 @@ public class MIDDCombiner {
 
     private final XNodeFactory nodeFactory;
 
-    public MIDDCombiner(final CombiningAlgorithm algorithm) {
-        this((XNodeFactory) ServiceRegistry.getInstance().getService(ServiceRegistry.NODE_FACTORY),
-                algorithm);
-    }
-
-    public MIDDCombiner(final XNodeFactory nodeFactory, final CombiningAlgorithm algorithm) {
+    @Inject
+    public MIDDCombiner(final XNodeFactory nodeFactory,
+                        @Assisted final CombiningAlgorithm algorithm) {
         this.nodeFactory = nodeFactory;
         this.algo = algorithm;
     }

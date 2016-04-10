@@ -29,6 +29,7 @@ import com.google.common.collect.ImmutableList;
 import nl.uva.sne.midd.builders.ConjunctiveBuilder;
 import nl.uva.sne.midd.builders.DisjunctiveBuilder;
 
+@Deprecated
 public class ServiceRegistry {
 
 
@@ -44,12 +45,8 @@ public class ServiceRegistry {
 
     public static void init() {
         final XACMLNodeFactory nodeFactory = new XACMLNodeFactory();
-        final ConjunctiveBuilder conjunctiveBuilder = new ConjunctiveBuilder(nodeFactory);
-        final DisjunctiveBuilder disjunctiveBuilder = new DisjunctiveBuilder(nodeFactory);
 
         theInstance.registerService(NODE_FACTORY, nodeFactory);
-        theInstance.registerService("CONJUNCTIVE", conjunctiveBuilder);
-        theInstance.registerService("DISJUNCTIVE", disjunctiveBuilder);
     }
 
     private final Map<String, Object> services = new HashMap<>();

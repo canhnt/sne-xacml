@@ -18,38 +18,32 @@
  * MA 02110-1301 USA
  */
 
-package nl.uva.sne.midd.builders;
+package nl.uva.sne.xacml.policy.parsers;
 
 import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.nodes.Node;
+import nl.uva.sne.xacml.AttributeMapper;
+import nl.uva.sne.xacml.policy.finder.PolicyFinder;
+import oasis.names.tc.xacml._3_0.core.schema.wd_17.PolicySetType;
 
 /**
  * @author cngo
  * @version $Id$
- * @since 2016-03-13
+ * @since 2016-04-10
  */
-public interface MIDDBuilder {
-
-    @Deprecated
-    Node join(Node midd1, Node midd2) throws MIDDException;
-
+public interface PolicySetParserFactory {
     /**
-     * Join two MIDD using conjunctive operator.
+     * Brief constructor not to use policy finder. It does not support references to policies or policysets.
      *
-     * @param midd1
-     * @param midd2
+     * @param condition
+     * @param policyset
+     * @param attrMapper
      * @return
      * @throws MIDDException
      */
-    Node and(Node midd1, Node midd2) throws MIDDException;
+    PolicySetParser create(Node condition, PolicySetType policyset,
+                           AttributeMapper attrMapper) throws MIDDException;
 
-    /**
-     * Join two MIDD using disjunctive operator.
-     *
-     * @param midd1
-     * @param midd2
-     * @return
-     * @throws MIDDException
-     */
-    Node or(Node midd1, Node midd2) throws MIDDException;
+    PolicySetParser create(Node condition, PolicySetType policyset,
+                           AttributeMapper attrMapper, PolicyFinder policyFinder) throws MIDDException;
 }

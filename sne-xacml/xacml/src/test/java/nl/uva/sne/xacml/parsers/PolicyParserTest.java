@@ -29,6 +29,7 @@ import nl.uva.sne.xacml.AttributeMapper;
 import nl.uva.sne.xacml.builders.ServiceRegistry;
 import nl.uva.sne.xacml.policy.parsers.MIDDParsingException;
 import nl.uva.sne.xacml.policy.parsers.PolicyParser;
+import nl.uva.sne.xacml.policy.parsers.PolicyParserFactory;
 import nl.uva.sne.xacml.policy.parsers.XACMLParsingException;
 import nl.uva.sne.xacml.util.XACMLUtil;
 import oasis.names.tc.xacml._3_0.core.schema.wd_17.ObjectFactory;
@@ -45,6 +46,8 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.Stack;
 
+import com.google.inject.Inject;
+
 import static org.junit.Assert.*;
 
 public class PolicyParserTest {
@@ -58,10 +61,8 @@ public class PolicyParserTest {
 
     private static final String POLICY_FILE_NULL = "src/test/resources/xacml3-null.xml";
 
-    @Before
-    public void setUp() {
-        ServiceRegistry.init();
-    }
+    @Inject
+    private PolicyParserFactory policyParserFactory;
 
     @Test
     public void testParse() throws ParserConfigurationException, SAXException, IOException, MIDDException {
@@ -71,7 +72,7 @@ public class PolicyParserTest {
         assertNotNull(policy);
 
         AttributeMapper attrMapper = new AttributeMapper();
-        PolicyParser parser = new PolicyParser(null, policy, attrMapper);
+        final PolicyParser parser = policyParserFactory.create(null, policy, attrMapper);
 
         try {
             Node root = parser.parse();

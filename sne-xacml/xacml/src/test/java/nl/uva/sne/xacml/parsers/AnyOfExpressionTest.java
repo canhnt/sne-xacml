@@ -38,12 +38,17 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import com.google.inject.Inject;
+
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class AnyOfExpressionTest {
 
     private static final String SAMPLE_POLICY_FILE = "src/test/resources/xacml3-AnyOf.xml";
+
+    @Inject
+    private AnyOfExpressionFactory anyOfExpressionFactory;
 
     //@Test
     public void testListIntervals() throws FileNotFoundException, ParserConfigurationException, SAXException, IOException {
@@ -89,7 +94,7 @@ public class AnyOfExpressionTest {
         assertTrue(!lstAnyOf.isEmpty());
 
         AttributeMapper attrMapper = new AttributeMapper();
-        AnyOfExpression ae = new AnyOfExpression(lstAnyOf.get(0), attrMapper);
+        final AnyOfExpression ae = anyOfExpressionFactory.create(lstAnyOf.get(0), attrMapper);
 
         try {
             Node root = ae.parse();

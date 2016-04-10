@@ -18,38 +18,22 @@
  * MA 02110-1301 USA
  */
 
-package nl.uva.sne.midd.builders;
+package nl.uva.sne.xacml.builders;
 
-import nl.uva.sne.midd.MIDDException;
-import nl.uva.sne.midd.nodes.Node;
+import com.google.inject.Provider;
+
+import nl.uva.sne.xacml.algorithms.CombiningAlgorithm;
 
 /**
  * @author cngo
  * @version $Id$
- * @since 2016-03-13
+ * @since 2016-04-10
  */
-public interface MIDDBuilder {
+public class MIDDCombinerFactoryImpl implements MIDDCombinerFactory {
+    private Provider<XNodeFactory> xNodeFactoryProvider;
 
-    @Deprecated
-    Node join(Node midd1, Node midd2) throws MIDDException;
-
-    /**
-     * Join two MIDD using conjunctive operator.
-     *
-     * @param midd1
-     * @param midd2
-     * @return
-     * @throws MIDDException
-     */
-    Node and(Node midd1, Node midd2) throws MIDDException;
-
-    /**
-     * Join two MIDD using disjunctive operator.
-     *
-     * @param midd1
-     * @param midd2
-     * @return
-     * @throws MIDDException
-     */
-    Node or(Node midd1, Node midd2) throws MIDDException;
+    @Override
+    public MIDDCombiner create(final CombiningAlgorithm algorithm) {
+        return new MIDDCombiner(xNodeFactoryProvider.get(), algorithm);
+    }
 }

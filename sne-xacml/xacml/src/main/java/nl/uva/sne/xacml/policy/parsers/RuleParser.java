@@ -19,6 +19,7 @@
  */
 package nl.uva.sne.xacml.policy.parsers;
 
+import nl.uva.sne.midd.builders.MIDDBuilder;
 import nl.uva.sne.xacml.DecisionType;
 import nl.uva.sne.midd.MIDDException;
 import nl.uva.sne.midd.builders.ConjunctiveBuilder;
@@ -40,8 +41,16 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Stack;
 
+import com.google.inject.Inject;
+import com.google.inject.assistedinject.Assisted;
+
 public class RuleParser {
     private static final transient org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(RuleParser.class);
+
+    @Inject
+    private TargetExpressionFactory targetExpressionFactory;
+
+    private final MIDDBuilder middBuilder;
 
     private static DecisionType convertEffectType(EffectType effect) {
         switch (effect) {
@@ -91,7 +100,13 @@ public class RuleParser {
      * @param rule       A XACML 3.0 Rule element
      * @param attrMapper
      */
-    public RuleParser(Node condition, RuleType rule, AttributeMapper attrMapper) throws MIDDException {
+    @Inject
+    public RuleParser(MIDDBuilder middBuilder,
+                      @Assisted Node condition,
+                      @Assisted RuleType rule,
+                      @Assisted AttributeMapper attrMapper) throws MIDDException {
+        this.middBuilder = middBuilder;
+
         if (rule == null) {
             throw new IllegalArgumentException("RuleType argument must not be null");
         }
@@ -149,7 +164,7 @@ public class RuleParser {
             lstAnyOf = null;
         }
 
-        TargetExpression te = new TargetExpression(lstAnyOf, attrMapper);
+        final TargetExpression te = targetExpressionFactory.create(lstAnyOf, attrMapper);
         return te.parse();
     }
 
@@ -162,8 +177,7 @@ public class RuleParser {
         }
 
         // Conjunctive join it with the MIDD representing preconditions of the parents' policy
-        final ConjunctiveBuilder conjunctiveBuilder = (ConjunctiveBuilder) ServiceRegistry.getInstance().getService("CONJUNCTIVE");
-        Node midd = conjunctiveBuilder.join(this.preCondition, targetCondition);
+        Node midd = middBuilder.and(this.preCondition, targetCondition);
 
         ruleEffect = convertEffectType(rule.getEffect());
         List<ObligationExpression> oes = getObligationExpressions();

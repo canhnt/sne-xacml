@@ -27,6 +27,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.inject.Inject;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -53,6 +55,8 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 public class BuildMIDDTest {
+    @Inject
+    private MIDDCombinerFactory middCombinerFactory;
 
     private InternalXACMLNode<?> midd1;
     private InternalXACMLNode<?> midd2;
@@ -61,11 +65,6 @@ public class BuildMIDDTest {
 //    private ObligationExpression oe2 = new ObligationExpression(DecisionType.Deny, new Obligation("O2"));
     private ObligationExpression oe3 = new ObligationExpression(DecisionType.Deny, new Obligation("O3"));
 //    private ObligationExpression oe4 = new ObligationExpression(DecisionType.Permit, new Obligation("O4"));
-
-    @Before
-    public void setUp() {
-        ServiceRegistry.init();
-    }
 
     public void buildMIDD1() throws MIDDException {
 
@@ -200,7 +199,7 @@ public class BuildMIDDTest {
         buildMIDD1();
         buildMIDD2();
 
-        MIDDCombiner combiner = new MIDDCombiner(new PermitOverridesAlg());
+        final MIDDCombiner combiner = middCombinerFactory.create(new PermitOverridesAlg());
         Node root = combiner.combine(midd1, midd2);
 
         if (root instanceof InternalXACMLNode<?>) {
@@ -261,7 +260,7 @@ public class BuildMIDDTest {
         buildMIDD1();
         buildMIDD2();
 
-        MIDDCombiner combiner = new MIDDCombiner(new DenyOverridesAlg());
+        final MIDDCombiner combiner = middCombinerFactory.create(new DenyOverridesAlg());
         Node root = combiner.combine(midd1, midd2);
 
         if (root instanceof InternalXACMLNode<?>) {
